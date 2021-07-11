@@ -8,6 +8,7 @@ mobile
 https://xd.adobe.com/view/ffc17b94-a496-4fdc-82f3-8174730192a2-aa92/
 
 [technical issues]
+- IE support? bootstrap v4 or v5?
 - fading overflow
 - QR/barcode scanning
 
