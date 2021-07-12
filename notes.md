@@ -12,6 +12,19 @@ https://xd.adobe.com/view/ffc17b94-a496-4fdc-82f3-8174730192a2-aa92/
 - fading overflow
 - QR/barcode scanning
 
+[urls]
+url for step 1 - 3
+https://wwreservation.oceanpark.com/{ticket type}/{language}/index.html
+
+url for step 4
+https://wwreservation.oceanpark.com/{ticket type}/{language}/confirmation.html
+
+url for modify
+https://wwreservation.oceanpark.com/{ticket type}/{language}/index.html?r={reservation number}
+
+total pages (html files):
+3 ticket types x 3 languages + (index + confirmation) = 18 pages
+
 [inventory list]
 - reservation x 3
 - edm x 1 
