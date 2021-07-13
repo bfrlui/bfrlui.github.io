@@ -1,0 +1,50 @@
+$header-height: 46px;
+
+body {
+  margin: 0;
+}
+// mobile header
+header {
+  position: fixed;
+  background-color: #fff;
+  z-index: 99;
+}
+// layouts
+#steps, #form {
+  height: 100vh;
+}
+#form {
+  overflow: auto;
+}
+#steps {
+  background-image: url(https://dummyimage.com/1920x1200/e3e3e3/ababab);
+  background-size: cover;
+  background-position: center center;
+}
+
+// components
+// ticket type switch
+#ticket-type {
+  &-container {
+    width: 100%;
+    overflow-x: auto;
+    /*FireFox*/
+    scrollbar-width: none;
+    /*IE10+*/
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    &::-webkit-scrollbar {
+      /*Chrome, Safari, Edge*/
+      display: none;
+    }
+  }
+  &-switch {
+    min-width: 500px;
+  }
+}
+
+// responsive handling
+@media(max-width: 991px) {
+  #form {
+    padding-top: $header-height;
+  }
+}

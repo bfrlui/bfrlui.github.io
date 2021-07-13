@@ -1,0 +1,15 @@
+extends ../../pug/page
+
+block vars
+  - var currentLang = 'sc';
+
+block pageTitle
+  title Dated Ticket Holders
+
+block langSwitch
+  div
+    a(href="../en/index.pug") Eng
+    span |
+    a(href="../tc/index.pug") 繁體
+  
+block pageStyle
