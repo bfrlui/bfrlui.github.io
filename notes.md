@@ -25,6 +25,11 @@ https://wwreservation.oceanpark.com/{ticket type}/{language}/index.html?r={reser
 total pages (html files):
 3 ticket types x 3 languages + (index + confirmation) = 18 pages
 
+[layout]
+1920
+left=855
+right=1920-855=1065
+
 [inventory list]
 - reservation x 3
 - edm x 1 

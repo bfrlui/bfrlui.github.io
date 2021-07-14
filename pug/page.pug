@@ -22,7 +22,10 @@ html(lang='en')
     meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
     meta(name='description', content='')
     block pageTitle
-
+    // google fonts
+    //- link(rel='preconnect' href='https://fonts.googleapis.com')
+    //- link(rel='preconnect' href='https://fonts.gstatic.com' crossorigin)
+    //- link(href='https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;1,900&display=swap' rel='stylesheet')
     // bootstrap
     link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css")
     // theme css
@@ -33,18 +36,44 @@ html(lang='en')
 
   body
     main.container-fluid
+      header.d-lg-none
+        h2 mobile header
       .row
-        header.d-lg-none
-          h2 mobile header
-        section#steps.d-none.d-lg-block.col-lg-4.col-xl-5
+        section#steps.d-none.d-lg-block
           h2 steps
-        section#form.col-xs-12.col-lg-8.col-xl-7
-          h2 form
-          div(style="height:2000px")
-            // language
-            block langSwitch
-            // ticket type
-            include ticketTypeSwitch
+          // steps
+          include steps
+        section#form.col-xs-12
+          // language
+          include langSwitch
+          #form-layer
+            // step 1 form
+            #form-step1.form-step
+              div(style="background-color:#aaa;height:2000px")
+                h2 Step 1
+                // ticket type
+                include ticketTypeSwitch
+                p Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos voluptates sint commodi cupiditate officiis perferendis debitis amet aliquid ratione consequatur et autem, rem deleniti sapiente dolorem veritatis, cum quos unde.
+                p Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos voluptates sint commodi cupiditate officiis perferendis debitis amet aliquid ratione consequatur et autem, rem deleniti sapiente dolorem veritatis, cum quos unde.
+                p Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos voluptates sint commodi cupiditate officiis perferendis debitis amet aliquid ratione consequatur et autem, rem deleniti sapiente dolorem veritatis, cum quos unde.
+                p Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos voluptates sint commodi cupiditate officiis perferendis debitis amet aliquid ratione consequatur et autem, rem deleniti sapiente dolorem veritatis, cum quos unde.
+                p Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos voluptates sint commodi cupiditate officiis perferendis debitis amet aliquid ratione consequatur et autem, rem deleniti sapiente dolorem veritatis, cum quos unde.
+                p Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos voluptates sint commodi cupiditate officiis perferendis debitis amet aliquid ratione consequatur et autem, rem deleniti sapiente dolorem veritatis, cum quos unde.
+                p Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos voluptates sint commodi cupiditate officiis perferendis debitis amet aliquid ratione consequatur et autem, rem deleniti sapiente dolorem veritatis, cum quos unde.
+                a#agree-tnc.step-btn.btn.btn-lg.btn-primary.rounded-pill(href="#form-step2") I understand
+            // step 2 form
+            #form-step2.form-step.hidden
+              div(style="height:2000px;background-color:#c1c1c1;")
+                h2 Step 2
+                div
+                  label(for='customRange2') Guests
+                  input.custom-range#customRange2(type='range' min='1' max='4' value='1')
+            #form-step3.form-step.hidden
+              div(style="height:2000px;background-color:#c1c1c1;")
+                h2 Step 3
+            #form-step4.form-step.hidden
+              div(style="height:2000px;background-color:#c1c1c1;")
+                h2 Step 4
 
     // bootstrap
     script(src='https://code.jquery.com/jquery-3.5.1.slim.min.js')

@@ -1,13 +1,24 @@
 $header-height: 46px;
+$steps-section-width: 44.53125%;
+$ticket-type-min-width: 750px;
+// $form-margin-left: 12.67605633802817%;
+// $form-margin-right: 17.37089201877934%;
+$form-margin-top: 100px;
+$form-margin-left: 12.5%;
+$form-margin-right: 15.68075117370892%;
+$form-xs-margin-left: 20px;
+$form-xs-margin-right: 20px;
 
 body {
   margin: 0;
+  font-family: 'Montserrat', sans-serif;
 }
 // mobile header
 header {
+  z-index: 99;
+  width: 100%;
   position: fixed;
   background-color: #fff;
-  z-index: 99;
 }
 // layouts
 #steps, #form {
@@ -15,14 +26,42 @@ header {
 }
 #form {
   overflow: auto;
+  position: relative;
+  width: 100% - $steps-section-width;
+  &-layer {
+    position: relative;
+    margin-top: $form-margin-top;
+    margin-left: $form-margin-left;
+    margin-right: $form-margin-right;
+  }
 }
 #steps {
+  width: $steps-section-width;
   background-image: url(https://dummyimage.com/1920x1200/e3e3e3/ababab);
   background-size: cover;
   background-position: center center;
 }
+.form-step {
+  left: 0;
+  right: 0;
+  top: 0;
+  opacity: 1;
+  position: absolute;
+  backface-visibility: hidden;
+  transition: opacity 1s;
+  &.hidden {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
 
 // components
+// language switch
+#lang-switch {
+  top: 82px;
+  right: 70px;
+  position: absolute;
+}
 // ticket type switch
 #ticket-type {
   &-container {
@@ -38,13 +77,18 @@ header {
     }
   }
   &-switch {
-    min-width: 500px;
+    min-width: $ticket-type-min-width;
   }
 }
 
 // responsive handling
 @media(max-width: 991px) {
   #form {
+    width: 100%;
     padding-top: $header-height;
+    &-layer {
+      margin-left: $form-xs-margin-left;
+      margin-right: $form-xs-margin-right;
+    }
   }
 }
