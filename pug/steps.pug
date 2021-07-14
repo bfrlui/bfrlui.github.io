@@ -1,13 +1,5 @@
 ul.list-unstyled
-  li.active
-    h2
-      a(href="#form-step1") 1
-  li
-    h2
-      a(href="#form-step2") 2
-  li
-    h2
-      a(href="#form-step3") 3
-  li
-    h2
-      a(href="#form-step4") 4
+  each val in [1, 2, 3, 4]
+    li(class=(val == 1 ? 'active':null))
+      h2
+        a.badge.rounded-circle(href=`#form-step${val}`) #{val}

@@ -26,6 +26,8 @@ html(lang='en')
     //- link(rel='preconnect' href='https://fonts.googleapis.com')
     //- link(rel='preconnect' href='https://fonts.gstatic.com' crossorigin)
     //- link(href='https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;1,900&display=swap' rel='stylesheet')
+    // datepicker
+    link(rel='stylesheet' href='https://unpkg.com/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker3.min.css')
     // bootstrap
     link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css")
     // theme css
@@ -44,11 +46,11 @@ html(lang='en')
           // steps
           include steps
         section#form.col-xs-12
-          // language
-          include langSwitch
-          #form-layer
+          #form-step1.form-layer
+            // language
+            include langSwitch
             // step 1 form
-            #form-step1.form-step
+            .form-step
               div(style="background-color:#aaa;height:2000px")
                 h2 Step 1
                 // ticket type
@@ -61,23 +63,33 @@ html(lang='en')
                 p Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos voluptates sint commodi cupiditate officiis perferendis debitis amet aliquid ratione consequatur et autem, rem deleniti sapiente dolorem veritatis, cum quos unde.
                 p Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos voluptates sint commodi cupiditate officiis perferendis debitis amet aliquid ratione consequatur et autem, rem deleniti sapiente dolorem veritatis, cum quos unde.
                 a#agree-tnc.step-btn.btn.btn-lg.btn-primary.rounded-pill(href="#form-step2") I understand
+          #form-step2.form-layer.hidden
+            // language
+            include langSwitch
             // step 2 form
-            #form-step2.form-step.hidden
+            .form-step
               div(style="height:2000px;background-color:#c1c1c1;")
                 h2 Step 2
+                // number of guests
                 div
                   label(for='customRange2') Guests
                   input.custom-range#customRange2(type='range' min='1' max='4' value='1')
-            #form-step3.form-step.hidden
+                include calendar
+                // guest info
+                include guestInput
+            // step 3 form
+          #form-step3.form-layer.hidden
+            // language
+            include langSwitch
+            .form-step
               div(style="height:2000px;background-color:#c1c1c1;")
                 h2 Step 3
-            #form-step4.form-step.hidden
-              div(style="height:2000px;background-color:#c1c1c1;")
-                h2 Step 4
 
     // bootstrap
     script(src='https://code.jquery.com/jquery-3.5.1.slim.min.js')
     script(src='https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js')
+    // datepicker
+    script(src='https://unpkg.com/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js')
     // global script
     script(src="/js/index.js")
 

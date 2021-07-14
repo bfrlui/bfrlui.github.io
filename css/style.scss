@@ -6,8 +6,11 @@ $ticket-type-min-width: 750px;
 $form-margin-top: 100px;
 $form-margin-left: 12.5%;
 $form-margin-right: 15.68075117370892%;
+$form-xs-margin-top: $header-height;
 $form-xs-margin-left: 20px;
 $form-xs-margin-right: 20px;
+// colors
+$primary: #007bff;
 
 body {
   margin: 0;
@@ -24,34 +27,42 @@ header {
 #steps, #form {
   height: 100vh;
 }
+// form section (right)
 #form {
-  overflow: auto;
+  overflow: hidden;
   position: relative;
   width: 100% - $steps-section-width;
-  &-layer {
+  .form-layer {
+    overflow: auto;
     position: relative;
-    margin-top: $form-margin-top;
-    margin-left: $form-margin-left;
-    margin-right: $form-margin-right;
+    backface-visibility: hidden;
+    transition: opacity .7s;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    opacity: 1;
+    position: absolute;
+    &.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+    .form-step {
+      padding-top: $form-margin-top;
+      padding-left: $form-margin-left;
+      padding-right: $form-margin-right;
+    }
   }
 }
+// steps section (fixed on left)
 #steps {
   width: $steps-section-width;
   background-image: url(https://dummyimage.com/1920x1200/e3e3e3/ababab);
   background-size: cover;
   background-position: center center;
-}
-.form-step {
-  left: 0;
-  right: 0;
-  top: 0;
-  opacity: 1;
-  position: absolute;
-  backface-visibility: hidden;
-  transition: opacity 1s;
-  &.hidden {
-    opacity: 0;
-    visibility: hidden;
+  ul > li.active a {
+    color: #fff;
+    background-color: $primary;
   }
 }
 
@@ -80,15 +91,38 @@ header {
     min-width: $ticket-type-min-width;
   }
 }
+// form and input box
+form {
+  .input-label {
+    position: absolute;
+    padding-left: 1rem;
+    margin: 0;
+    transform: translateY(2rem);
+    font-size: 100%;
+    transition: transform .5s, font-size .5s;
+    &.focus {
+      font-size: 70%;
+      transform: translateY(1rem);
+    }
+  }
+  .form-control {
+    height: auto;    
+    padding-top: 2rem;
+    padding-bottom: 1rem;
+  }
+}
 
 // responsive handling
 @media(max-width: 991px) {
   #form {
     width: 100%;
-    padding-top: $header-height;
-    &-layer {
-      margin-left: $form-xs-margin-left;
-      margin-right: $form-xs-margin-right;
+    .form-layer {
+      margin-top: $header-height;
+      .form-step {
+        padding-top: 0;
+        padding-left: $form-xs-margin-left;
+        padding-right: $form-xs-margin-right;
+      }
     }
   }
 }
