@@ -1,55 +1,21 @@
-form.needs-validation(novalidate)
-  .col-xs-12.mb-3
-    h3 #{dict.registered[currentLang]} <span class="text-primary">#{dict.guest[currentLang]}</span>
-    label.input-label(for='guest1') #{dict.guestName[currentLang]}
-    input.form-control.form-control-lg.rounded-pill#guest1(type='text' value='' required)
-    small#guest1-help-text.form-text.text-muted.
-      Your password must be 8-20 characters long
-    .valid-feedback Looks good!
+//- form.needs-validation(name='guestForm' novalidate)
+script#guest-input-template(type='text/template')
+  .guest-input-group.d-none
+    .col-xs-12.mb-3
+      h3 #{dict.registered[currentLang]} <span class="text-primary">#{dict.guest[currentLang]}</span>
+      label.input-label(for='guest_Index-name') #{dict.guestName[currentLang]}
+      input.form-control.form-control-lg.rounded-pill.guest-text-input#guest_Index-name(name='guest_IndexName' type='text' value='')
+      small#guest_Index-name-help-text.form-text.text-muted.
+        Your password must be 8-20 characters long
+      .valid-feedback Looks good!
+    .col-xs-12.mb-3
+      label.input-label(for='guest_Index-ticket') #{dict.ticketBarcodeNumber[currentLang]}
+      input.form-control.form-control-lg.rounded-pill.guest-text-input#guest_Index-ticket(name='guest_IndexTicket' type='text' value='')
+      small#guest_Index-ticket-help-text.form-text.text-muted.
+        Your password must be 8-20 characters long
+      .valid-feedback Looks good!
 
-  .col-xs-12.mb-3
-    h3 #{dict.registered[currentLang]} <span class="text-primary">#{dict.guest[currentLang]}</span>
-    label.input-label(for='guest2') #{dict.guestName[currentLang]}
-    input.form-control.form-control-lg.rounded-pill#guest2(type='text' value='' required)
-    small#guest2-help-text.form-text.text-muted.
-      Your password must be 8-20 characters long
-    .valid-feedback Looks good!
+#fieldsets
 
-  .col-xs-12.mb-3
-    a.btn.btn-primary.rounded-pill(href="#") #{dict.verify[currentLang]}
-
-  //- 
-    .form-row
-      .col-md-6.mb-3
-        label(for='validationCustom03') City
-        input.form-control#validationCustom03(type='text' required)
-        .invalid-feedback Please provide a valid city.
-          
-      .col-md-3.mb-3
-        label(for='validationCustom04') State
-        select.custom-select#validationCustom04(required)
-          option(selected disabled value) Choose...
-          option ...
-        .invalid-feedback.
-          
-          Please select a valid state.
-          
-      .col-md-3.mb-3
-        label(for='validationCustom05') Zip
-        input.form-control#validationCustom05(type='text' required)
-        .invalid-feedback.
-          
-          Please provide a valid zip.
-          
-    .form-group
-      .form-check
-        input.form-check-input#invalidCheck(type='checkbox' required)
-        label.form-check-label(for='invalidCheck').
-          
-          Agree to terms and conditions
-          
-        .invalid-feedback.
-          
-          You must agree before submitting.
-        
-  button.btn.btn-primary.rounded-pill(type='submit') Submit form
+.col-xs-12.mb-3
+  a.btn.btn-primary.rounded-pill(href="#") #{dict.verify[currentLang]}

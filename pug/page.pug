@@ -40,50 +40,19 @@ html(lang='en')
     main.container-fluid
       header.d-lg-none
         h2 mobile header
+        include langSwitch
       .row
         section#steps.d-none.d-lg-block
           h2 steps
           // steps
           include steps
         section#form.col-xs-12
-          #form-step1.form-layer
-            // language
-            include langSwitch
-            // step 1 form
-            .form-step
-              div(style="background-color:#aaa;height:2000px")
-                h2 Step 1
-                // ticket type
-                include ticketTypeSwitch
-                p Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos voluptates sint commodi cupiditate officiis perferendis debitis amet aliquid ratione consequatur et autem, rem deleniti sapiente dolorem veritatis, cum quos unde.
-                p Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos voluptates sint commodi cupiditate officiis perferendis debitis amet aliquid ratione consequatur et autem, rem deleniti sapiente dolorem veritatis, cum quos unde.
-                p Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos voluptates sint commodi cupiditate officiis perferendis debitis amet aliquid ratione consequatur et autem, rem deleniti sapiente dolorem veritatis, cum quos unde.
-                p Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos voluptates sint commodi cupiditate officiis perferendis debitis amet aliquid ratione consequatur et autem, rem deleniti sapiente dolorem veritatis, cum quos unde.
-                p Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos voluptates sint commodi cupiditate officiis perferendis debitis amet aliquid ratione consequatur et autem, rem deleniti sapiente dolorem veritatis, cum quos unde.
-                p Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos voluptates sint commodi cupiditate officiis perferendis debitis amet aliquid ratione consequatur et autem, rem deleniti sapiente dolorem veritatis, cum quos unde.
-                p Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos voluptates sint commodi cupiditate officiis perferendis debitis amet aliquid ratione consequatur et autem, rem deleniti sapiente dolorem veritatis, cum quos unde.
-                a#agree-tnc.step-btn.btn.btn-lg.btn-primary.rounded-pill(href="#form-step2") I understand
-          #form-step2.form-layer.hidden
-            // language
-            include langSwitch
-            // step 2 form
-            .form-step
-              div(style="height:2000px;background-color:#c1c1c1;")
-                h2 Step 2
-                // number of guests
-                div
-                  label(for='customRange2') Guests
-                  input.custom-range#customRange2(type='range' min='1' max='4' value='1')
-                include calendar
-                // guest info
-                include guestInput
-            // step 3 form
-          #form-step3.form-layer.hidden
-            // language
-            include langSwitch
-            .form-step
-              div(style="height:2000px;background-color:#c1c1c1;")
-                h2 Step 3
+          // step 1 - TnC
+          include formStep1
+          // step 2 - Guest and Contact input
+          include formStep2
+          // step 3 form
+          include formStep3
 
     // bootstrap
     script(src='https://code.jquery.com/jquery-3.5.1.slim.min.js')

@@ -19,7 +19,8 @@ body {
 // mobile header
 header {
   z-index: 99;
-  width: 100%;
+  left: 0;
+  right: 0;
   position: fixed;
   background-color: #fff;
 }
@@ -68,22 +69,30 @@ header {
 
 // components
 // language switch
-#lang-switch {
-  top: 82px;
-  right: 70px;
+.lang-switch {
   position: absolute;
+  // for tablet and desktop
+  .form-layer & {
+    top: 82px;
+    right: 70px;
+  }
+  // for mobile
+  header & {
+    top: 16px;
+    right: 16px;
+  }
 }
 // ticket type switch
 #ticket-type {
   &-container {
     width: 100%;
     overflow-x: auto;
-    /*FireFox*/
+    // FireFox
     scrollbar-width: none;
-    /*IE10+*/
+    // IE10+
     -ms-overflow-style: -ms-autohiding-scrollbar;
     &::-webkit-scrollbar {
-      /*Chrome, Safari, Edge*/
+      // Chrome, Safari, Edge
       display: none;
     }
   }
@@ -99,7 +108,7 @@ form {
     margin: 0;
     transform: translateY(2rem);
     font-size: 100%;
-    transition: transform .5s, font-size .5s;
+    transition: transform .3s, font-size .3s;
     &.focus {
       font-size: 70%;
       transform: translateY(1rem);
@@ -111,6 +120,34 @@ form {
     padding-bottom: 1rem;
   }
 }
+// list style
+ul.list-unstyled.custom-disc {
+  li {
+    display: flex;
+    &:before {
+      content: '';
+      width: 10px;
+      height: 10px;
+      border: solid 3px $primary;
+      border-radius: 50%;
+      background-color: #fff;
+      margin-right: 10px;
+      flex-shrink: 0;
+      margin-top: 6px;
+    }
+  }
+}
+// time slots
+#time-slots {
+  display: flex;
+  flex-wrap: wrap;
+  .col {
+    // flex: 1 0 20%;
+    // -ms-flex: 1 0 20%;
+    flex-basis: 20%;
+    max-width: 20%;
+  }
+}
 
 // responsive handling
 @media(max-width: 991px) {
@@ -118,6 +155,9 @@ form {
     width: 100%;
     .form-layer {
       margin-top: $header-height;
+      .lang-switch {
+        display: none;
+      }
       .form-step {
         padding-top: 0;
         padding-left: $form-xs-margin-left;

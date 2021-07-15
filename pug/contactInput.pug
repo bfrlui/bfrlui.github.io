@@ -1,0 +1,37 @@
+h3 #{dict.contactPerson[currentLang]}
+.row.mb-3
+  .col
+    label.input-label(for='email') #{dict.email[currentLang]}
+    input#email.form-control.form-control-lg.rounded-pill(name='email' type='email' placeholder='' required)
+    //- small#email-help-text.form-text.text-muted
+  .col
+    label.input-label(for='confirm-email') #{dict.confirmEmail[currentLang]}
+    input#confirm-email.form-control.form-control-lg.rounded-pill(name='confirmEmail' type='email' placeholder='' required)
+    //- small#confirm-email-help-text.form-text.text-muted
+
+.col-xs-12.mb-3
+  label.input-label(for='contact-number') #{dict.contactNumber[currentLang]}
+  input.form-control.form-control-lg.rounded-pill.guest-text-input#contact-number(name='contactNumber' type='text' value='' required)
+
+.col-xs-12.mb-3
+  .form-check
+    input.form-check-input#health-declaration(name='healthDeclaration' type='checkbox' required)
+    label.form-check-label(for='health-declaration').
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga dignissimos architecto.
+
+.col-xs-12.mb-3
+  ul.list-unstyled.custom-disc
+    li Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga dignissimos architecto.consectetur adipisicing elit. Fuga dignissimos architecto.consectetur adipisicing elit. Fuga dignissimos architecto.
+    li Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga dignissimos architecto.
+    li Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga dignissimos architecto.
+    li Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga dignissimos architecto.
+    li Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga dignissimos architecto.
+
+h3 #{dict.signUpForNews[currentLang]}
+.col-xs-12.mb-3
+  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga dignissimos architecto.
+.col-xs-12.mb-3
+  .form-check
+    input.form-check-input#opt-in(name='optin' type='checkbox')
+    label.form-check-label(for='opt-in').
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga dignissimos architecto.

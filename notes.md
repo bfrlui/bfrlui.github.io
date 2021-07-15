@@ -32,4 +32,25 @@ right=1920-855=1065
 
 [inventory list]
 - reservation x 3
-- edm x 1 
+- edm x 1
+
+[component spec.]
+ticket type = 750x80
+button = 235x80
+checkbox = 24x24; border = 4; radius = 2
+list disc = 12x12; border = 4
+switch = 66x40; handler = 26.67x26.67
+page title = 80, black italic
+body text = 14, semi bold
+section title = 28, bold; section title > mb = 40
+calendar month = 22, bold
+calendar weekday = 12, medium
+calendar day = 18, bold
+input:focus label = 12, medium; v.space = 7
+input text/label = 18, medium
+input border = 4
+input padding = 29 40
+input:focus padding = 18 40
+input > help text / input = 20
+checkbox > label = 19
+list disc > text = 25
