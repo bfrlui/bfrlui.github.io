@@ -1,3 +1,4 @@
+@use "sass:math";
 $header-height: 46px;
 $steps-section-width: 44.53125%;
 $ticket-type-min-width: 750px;
@@ -6,9 +7,14 @@ $ticket-type-min-width: 750px;
 $form-margin-top: 100px;
 $form-margin-left: 12.5%;
 $form-margin-right: 15.68075117370892%;
+$form-margin-bottom: 120px;
 $form-xs-margin-top: $header-height;
 $form-xs-margin-left: 20px;
 $form-xs-margin-right: 20px;
+$form-xs-margin-bottom: $form-margin-bottom;
+$element-x-padding: 40px;
+$element-height: $element-x-padding * 2;
+$label-size: 12px;
 // colors
 $primary: #007bff;
 
@@ -49,16 +55,16 @@ header {
       visibility: hidden;
     }
     .form-step {
-      padding-top: $form-margin-top;
-      padding-left: $form-margin-left;
-      padding-right: $form-margin-right;
+      position: relative;
+      min-height: 100%;
+      padding: $form-margin-top $form-margin-right $form-margin-bottom $form-margin-left
     }
   }
 }
 // steps section (fixed on left)
 #steps {
   width: $steps-section-width;
-  background-image: url(https://dummyimage.com/1920x1200/e3e3e3/ababab);
+  background-image: url(https://dummyimage.com/1920x1200/aaa/ababab);
   background-size: cover;
   background-position: center center;
   ul > li.active a {
@@ -66,15 +72,56 @@ header {
     background-color: $primary;
   }
 }
+#footer {
+  position: absolute;
+  bottom: 0;
+}
 
 // components
+// steps list
+#steps-list {
+  margin-top: 100px;
+  margin-left: 70px;
+  li {
+    &:not(:last-child):after {
+      content: '';
+      height: 180px;
+      display: block;
+      width: 1px;
+      background-color: #fff;
+      margin-left: 24.5px;
+    }
+    .badge {
+      width: 50px;
+      height: 50px;
+      border: solid 2px #fff;
+      font-size: 12px;
+      padding-top: 16.5px;
+      padding-bottom: 16.5px;
+    }
+  }
+}
+// buttons
+.btn {
+  font-size: $label-size;
+  line-height: 1;
+  border: 0;
+  padding-left: $element-x-padding;
+  padding-right: $element-x-padding;
+  padding-top: math.div($element-height - $label-size, 2);
+  padding-bottom: math.div($element-height - $label-size, 2);
+  .icon {
+    margin-left: 32px;
+  }
+}
 // language switch
 .lang-switch {
   position: absolute;
   // for tablet and desktop
   .form-layer & {
-    top: 82px;
+    top: 86px;
     right: 70px;
+    z-index: 99;
   }
   // for mobile
   header & {

@@ -3,21 +3,21 @@
   include langSwitch
   // step 2 form
   .form-step
-    div(style="height:2000px;background-color:#c1c1c1;")
-      h2 Step 2
-      form.needs-validation(name='guestForm' novalidate)
-        // number of guests
-        div
-          label(for='guest-num') Guests
-          input.custom-range#guest-num(name='guestNum' type='range' min='1' max='4' value='1')
-        include calendar
-        // guest info
-        include guestInput
-        // contact info
-        include contactInput
-        // page navigation row
-        .row.align-items-center
-          .col
-            a.step-btn(href="#form-step1") < back
-          .col.text-right
-            a.step-btn.btn.btn-primary.rounded-pill(href="#form-step3") Submit form
+    h2 Step 2
+    form.needs-validation(name='guestForm' novalidate)
+      // number of guests
+      div
+        label(for='guest-num') Guests
+        input.custom-range#guest-num(name='guestNum' type='range' min='1' max='4' value='1')
+      include calendar
+      // guest info
+      include guestInput
+      // contact info
+      include contactInput
+      // page navigation row
+      .row.align-items-center
+        .col
+          a.step-btn(href="#form-step1") < back
+        .col.text-right
+          a.step-btn.btn.btn-primary.rounded-pill(href="#form-step3") Submit form
+    include footer
