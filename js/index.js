@@ -14,6 +14,11 @@ console.log(mode);
     $('.guest-input-group:not(.d-none)').find('input').attr('required','');
   }
 
+  // fill up the range with width on dragging
+  function rangeFill() {
+    $('#range-fill').css('width', 'calc((((100% - 7.4vh) / 3) * ' + (guestForm.guestNum.value - 1) + ') + 7.4vh)')
+  }
+
   window.addEventListener('load', function() {
     // datepicker initialzation
     $('#datepicker').datepicker({
@@ -31,6 +36,7 @@ console.log(mode);
       $(guestForm).children('#fieldsets').append(template.replace(/_Index/g, n));
     }
     renderGuestInput();
+    rangeFill();
 
     // steps and step buttons listener
     $('#steps a, .step-btn').on('click', function(e) {
@@ -56,9 +62,14 @@ console.log(mode);
     });
 
     // re-render guest input based on number of guests
-    $('#guest-num').on('change', function(e) {
-      renderGuestInput();
-    });
+    // and fill up the range on dragging
+    $('#guest-num')
+      .on('change', function(e) {
+        renderGuestInput();
+      })
+      .on('input', function(e) {
+        rangeFill();
+      });
 
     $('#form-submit').on('click',function(e) {
       guestForm.submit();
