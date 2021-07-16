@@ -142,9 +142,17 @@ header {
       // Chrome, Safari, Edge
       display: none;
     }
-  }
-  &-switch {
-    min-width: $ticket-type-min-width;
+    .btn-group {
+      padding: 4px;
+      background-color: #bebebe;
+      display: flex;
+      .btn {
+        font-size: 10px;
+        line-height: 1.2;
+        padding: 24px 0px;
+        white-space: nowrap;
+      }
+    }
   }
 }
 // form and input box
@@ -197,6 +205,11 @@ ul.list-unstyled.custom-disc {
 }
 
 // responsive handling
+@media(max-width: 767px) {
+  #ticket-type-container .btn-group {
+    min-width: $ticket-type-min-width;
+  }
+}
 @media(max-width: 991px) {
   #form {
     width: 100%;
