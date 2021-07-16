@@ -77,4 +77,12 @@ console.log(mode);
       }, false);
     });
   }, false);
+
+  // animation control of ticket type button
+  $('#ticket-type-container .btn').on('mouseover', function(e) {
+    $(this).parent('.btn-group').attr('hover', $(this).index());
+  });
+  $('#ticket-type-container .btn').on('mouseout', function(e) {
+    $(this).parent('.btn-group').removeAttr('hover');
+  });
 })();

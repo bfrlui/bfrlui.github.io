@@ -1,5 +1,8 @@
 #ticket-type-container
-  .btn-group.btn-group-lg.rounded-pill(role='group' aria-label='ticket type')
-    button.btn.btn-secondary.rounded-pill(type='button') !{dict.ticketTypeLeft[currentLang]}
-    button.btn.btn-secondary.rounded-pill(type='button') !{dict.ticketTypeMiddle[currentLang]}
-    button.btn.btn-secondary.rounded-pill(type='button') !{dict.ticketTypeRight[currentLang]}
+  .btn-group.rounded-pill(role='group' aria-label='ticket type' active=ticketType)
+    a.btn.rounded-pill(type='button' href=`../../DatedTicketHolders/${currentLang}/index.pug`)
+      span !{dict.ticketTypeLeft[currentLang]}
+    a.btn.rounded-pill(type='button' href=`../../OpenDatedTicketHolders/${currentLang}/index.pug`)
+      span !{dict.ticketTypeMiddle[currentLang]}
+    a.btn.rounded-pill.d-flex.justify-content-center.align-items-center(type='button')
+      span !{dict.ticketTypeRight[currentLang]}

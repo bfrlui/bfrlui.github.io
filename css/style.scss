@@ -1,7 +1,7 @@
 @use "sass:math";
 $header-height: 46px;
 $steps-section-width: 44.53125%;
-$ticket-type-min-width: 750px;
+$ticket-type-min-width: 502px;
 // $form-margin-left: 12.67605633802817%;
 // $form-margin-right: 17.37089201877934%;
 $form-margin-top: 100px;
@@ -14,13 +14,20 @@ $form-xs-margin-right: 20px;
 $form-xs-margin-bottom: $form-margin-bottom;
 $element-x-padding: 40px;
 $element-height: $element-x-padding * 2;
-$label-size: 12px;
+$input-label-size: 12px;
+$body-font-size: 14px;
 // colors
 $primary: #007bff;
 
 body {
   margin: 0;
   font-family: 'Montserrat', sans-serif;
+}
+a, button, .btn {
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  } 
 }
 // mobile header
 header {
@@ -103,13 +110,13 @@ header {
 }
 // buttons
 .btn {
-  font-size: $label-size;
+  font-size: $body-font-size;
   line-height: 1;
   border: 0;
   padding-left: $element-x-padding;
   padding-right: $element-x-padding;
-  padding-top: math.div($element-height - $label-size, 2);
-  padding-bottom: math.div($element-height - $label-size, 2);
+  padding-top: math.div($element-height - $body-font-size, 2);
+  padding-bottom: math.div($element-height - $body-font-size, 2);
   .icon {
     margin-left: 32px;
   }
@@ -147,10 +154,55 @@ header {
       background-color: #bebebe;
       display: flex;
       .btn {
-        font-size: 10px;
+        flex: 1;
         line-height: 1.2;
-        padding: 24px 0px;
+        padding: 20px 0px;
         white-space: nowrap;
+        > span {
+          position: relative;
+        }
+        &:first-child:before {
+          content: "";
+          width: 100%;
+          height: 100%;
+          display: block;
+          position: absolute;
+          top: 0;
+          border-radius: 50rem;
+          background-color: rgb(123, 123, 2);
+          transition: transform .5s;
+          backface-visibility: hidden;
+        }
+      }
+      &[active='0'] {
+        .btn:first-child:before {
+          transform: translateX(0%);
+        }
+      }
+      &[active='1'] {
+        .btn:first-child:before {
+          transform: translateX(100%);
+        }
+      }
+      &[active='2'] {
+        .btn:first-child:before {
+          transform: translateX(200%);
+        }
+      }
+      &[hover='0'] {
+        .btn:first-child:before {
+          transform: translateX(0%);
+        }
+      }
+      &[hover='1'] {
+        .btn:first-child:before {
+          transform: translateX(100%);
+        }
+      }
+      &[hover='2'] {
+        .btn:first-child:before {
+          transform: translateX(200%);
+        }
       }
     }
   }
@@ -224,5 +276,11 @@ ul.list-unstyled.custom-disc {
         padding-right: $form-xs-margin-right;
       }
     }
+  }
+}
+@media(max-width: 1199px) {
+  #form .form-layer .form-step {
+    padding-left: $form-xs-margin-left;
+    padding-right: $form-xs-margin-right;
   }
 }

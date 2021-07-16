@@ -1,3 +1,10 @@
-html
-  body
-    h1 open dated ticket
+extends ../../pug/page
+
+block vars
+  - var currentLang = 'en';
+  - var ticketType = 1;
+
+block pageTitle
+  title Open Dated Ticket Holders
+
+block pageStyle

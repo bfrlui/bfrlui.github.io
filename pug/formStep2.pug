@@ -1,3 +1,125 @@
+style.
+  #range-container {
+    display: flex;
+    align-items: center;
+    height: 80px;
+    border-radius: 50rem;
+    position: relative;
+  }
+  #range-fill {
+    position: absolute;
+    width:50%;
+    height: 100%;
+    background-color: red;
+    border-radius: 50rem;
+  }
+  input[type='range'] {
+    position: relative;
+    border-radius: 50rem;
+  }
+  input[type='range']::-webkit-slider-runnable-track {
+    border-radius: 50rem;
+    background: transparent;
+    height: 80px;
+  }
+  input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 82px;
+    width: 82px;
+    border-radius: 100%;
+    margin-top: -1px;
+  }
+  input[type='range']::-webkit-slider-thumb,
+  input[type='range']:focus::-webkit-slider-thumb {
+    outline: 0;
+    box-shadow: none;
+    /*box-shadow: -1000px -1px 0 1000px #43e5f7;*/
+  }
+
+  /** FF*/
+  input[type="range"]::-moz-range-progress {
+    background-color: #43e5f7; 
+  }
+  input[type="range"]::-moz-range-track {  
+    background-color: #9a905d;
+  }
+  /* IE*/
+  input[type="range"]::-ms-fill-lower {
+    background-color: #43e5f7; 
+  }
+  input[type="range"]::-ms-fill-upper {  
+    background-color: #9a905d;
+  }
+
+
+  /*  
+  input[type='range'] {
+    overflow: hidden;
+    width: 100%;
+    -webkit-appearance: none;
+    background-color: #9a905d;
+  }
+  
+  input[type='range']::-webkit-slider-runnable-track {
+    height: 10px;
+    -webkit-appearance: none;
+    background: transparent;
+    color: #13bba4;
+    margin-top: -1px;
+  }
+  
+  input[type='range']::-webkit-slider-thumb {
+    width: 10px;
+    -webkit-appearance: none;
+    height: 10px;
+    cursor: ew-resize;
+    background: #434343;
+    box-shadow: -100% 0 0 100% #43e5f7;
+  }
+  */
+  /*
+  #guest-num {
+    width: 100%;
+    height: 80px;
+    border-radius: 50rem;
+    -webkit-appearance: none;
+    background-color: #ccc;
+  }
+
+  #guest-num::-webkit-slider-runnable-track {
+    height: 80px;
+    -webkit-appearance: none;
+    background: transparent;
+    color: blue;
+    border-radius: 50rem;
+  }
+  #guest-num,
+  #guest-num:focus,
+  #guest-num:focus::-webkit-slider-thumb,
+  #guest-num:active::-webkit-slider-thumb {
+    outline: none;
+    box-shadow: none;
+  }
+  #guest-num::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border-radius: 100%;
+    background-color: #606670;
+    height: 82px;
+    width: 82px;
+    margin: -1px;
+    cursor: ew-resize;
+  }
+
+
+  #guest-num::-moz-range-thumb {
+    background: gray;
+  }
+
+  #guest-num::-ms-thumb {
+    background: gray;
+  }
+  */
+
 #form-step2.form-layer.hidden
   // language
   include langSwitch
@@ -6,9 +128,10 @@
     h2 Step 2
     form.needs-validation(name='guestForm' novalidate)
       // number of guests
-      div
-        label(for='guest-num') Guests
-        input.custom-range#guest-num(name='guestNum' type='range' min='1' max='4' value='1')
+      label(for='guest-num') Guests
+      #range-container
+        #range-fill
+        input#guest-num.custom-range(name='guestNum' type='range' min='1' max='4' value='1')
       include calendar
       // guest info
       include guestInput
