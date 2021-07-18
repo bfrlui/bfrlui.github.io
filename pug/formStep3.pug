@@ -7,46 +7,37 @@
         h2.mb-0 Step 3
       .col.text-right
         label.mb-0.mr-2(for='shuttle-bus-input') Shuttle Bus Service
-        #shuttle-bus-service.custom-control.custom-switch.d-inline
-          input.custom-control-input#shuttle-bus-input(type='checkbox')
+        #shuttle-bus-service.custom-control.custom-switch
+          input.custom-control-input#shuttle-bus-input(name='shuttleBusService' type='checkbox')
           label.custom-control-label(for='shuttle-bus-input')
     
-    div(style='width:100%;height:300px;background-color:grey;')
+    #time-slots-container
+      #time-slots-heading
+        a.prev(href='') &lt;
+        h5 Morning
+        a.next(href='') &gt;
       #time-slots
-        .col
-          a(href='#') 08:00
-        .col
-          a(href='#') 08:00
-        .col
-          a(href='#') 08:00
-        .col
-          a(href='#') 08:00
-        .col
-          a(href='#') 08:00
-        .col
-          a(href='#') 08:00
-        .col
-          a(href='#') 08:00
-        .col
-          a(href='#') 08:00
-        .col
-          a(href='#') 08:00
-        .col
-          a(href='#') 08:00
-        .col
-          a(href='#') 08:00
-        .col
-          a(href='#') 08:00
-        .col
-          a(href='#') 08:00
-        .col
-          a(href='#') 08:00
-        .col
-          a(href='#') 08:00
-        .col
-          a(href='#') 08:00
-        .col
-          a(href='#') 08:00
+        a.col(href='#' value='08:00') 08:00
+        a.col(href='#' value='09:00') 08:00
+        a.col(href='#' value='09:00') 08:00
+        a.col(href='#' value='09:00') 08:00
+        a.col(href='#' value='09:00') 08:00
+        a.col(href='#' value='09:00') 08:00
+        a.col(href='#' value='09:00') 08:00
+        a.col(href='#' value='09:00') 08:00
+        a.col(href='#' value='09:00') 08:00
+        a.col(href='#' value='09:00') 08:00
+        a.col(href='#' value='09:00') 08:00
+        a.col(href='#' value='09:00') 08:00
+        a.col(href='#' value='09:00') 08:00
+        a.col(href='#' value='09:00') 08:00
+        a.col(href='#' value='09:00') 08:00
+        a.col(href='#' value='09:00') 08:00
+        a.col(href='#' value='09:00') 08:00
+        a.col(href='#' value='09:00') 08:00
+        a.col(href='#' value='09:00') 08:00
+
+    input#shuttle-bus-timeslot(name='shuttleBusTimeSlot' type='hidden' value='')
 
     // page navigation row
     .row.align-items-center

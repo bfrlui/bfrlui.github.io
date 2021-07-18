@@ -3,18 +3,23 @@
   include langSwitch
   // step 1 form
   .form-step
-    //- div(style="background-color:#aaa;height:2000px")
-    h2 Step 1
+    h2.mb-5 !{dict.onlineReservation[currentLang]}
+    h5.mb-5 !{dict.step1Subtitle[currentLang]}
     // ticket type
     include ticketTypeSwitch
-    p Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos voluptates sint commodi cupiditate officiis perferendis debitis amet aliquid ratione consequatur et autem, rem deleniti sapiente dolorem veritatis, cum quos unde.
-    p Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos voluptates sint commodi cupiditate officiis perferendis debitis amet aliquid ratione consequatur et autem, rem deleniti sapiente dolorem veritatis, cum quos unde.
-    p Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos voluptates sint commodi cupiditate officiis perferendis debitis amet aliquid ratione consequatur et autem, rem deleniti sapiente dolorem veritatis, cum quos unde.
-    p Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos voluptates sint commodi cupiditate officiis perferendis debitis amet aliquid ratione consequatur et autem, rem deleniti sapiente dolorem veritatis, cum quos unde.
-    p Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos voluptates sint commodi cupiditate officiis perferendis debitis amet aliquid ratione consequatur et autem, rem deleniti sapiente dolorem veritatis, cum quos unde.
-    p Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos voluptates sint commodi cupiditate officiis perferendis debitis amet aliquid ratione consequatur et autem, rem deleniti sapiente dolorem veritatis, cum quos unde.
-    p Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos voluptates sint commodi cupiditate officiis perferendis debitis amet aliquid ratione consequatur et autem, rem deleniti sapiente dolorem veritatis, cum quos unde.
+    hr.block-space
+    h5.block-space Lorem ipsum, dolor sit amet consectetur adipisicing elit. 
+
+    .col-xs-12.block-space
+      ul.list-unstyled.custom-disc
+        li Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga dignissimos architecto.consectetur adipisicing elit. Fuga dignissimos architecto.consectetur adipisicing elit. Fuga dignissimos architecto.
+        li Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga dignissimos architecto.
+        li Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga dignissimos architecto.
+        li Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga dignissimos architecto.
+        li Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga dignissimos architecto.
+
     div
       a#agree-tnc.step-btn.btn.btn-lg.btn-primary.rounded-pill(href="#form-step2") I understand
         span.icon >
+    
     include footer

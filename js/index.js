@@ -16,7 +16,16 @@ console.log(mode);
 
   // fill up the range with width on dragging
   function rangeFill() {
-    $('#range-fill').css('width', 'calc((((100% - 7.4vh) / 3) * ' + (guestForm.guestNum.value - 1) + ') + 7.4vh)')
+    var isIE = /Trident|Edge/.test(window.navigator.userAgent);
+    var thumbSize = $(window).width() > 1366 ? '82px' : '60px';
+
+    // if (isIE) $('#range-container').css('height', '80px');
+
+    $('#range-fill').css('width',
+      guestForm.guestNum.value > 1
+        ? 'calc((((100% - ' + thumbSize + ') / 3) * ' + (guestForm.guestNum.value - 1) + ') + ' + thumbSize + ' - (' + thumbSize + ' / 2))'
+        : 0
+    );
   }
 
   window.addEventListener('load', function() {
@@ -46,10 +55,10 @@ console.log(mode);
       $('.form-layer').addClass('hidden');
       $(stepId).removeClass('hidden');
       // inactive old step
-      $('#steps ul > li').eq(currentStep-1).removeClass('active');
-      currentStep = Number(stepId.slice(-1));
+      $('#steps ul > li.active').removeClass('active');
       // active new step
-      $('#steps ul > li').eq(currentStep-1).addClass('active');
+      var currentStep = Number(stepId.slice(-1));
+      $('#steps ul > li[step="' + currentStep + '"]').addClass('active');
     });
 
     // input label movement based on input state
@@ -67,7 +76,7 @@ console.log(mode);
       .on('change', function(e) {
         renderGuestInput();
       })
-      .on('input', function(e) {
+      .on('input change', function(e) {
         rangeFill();
       });
 
@@ -96,4 +105,12 @@ console.log(mode);
   $('#ticket-type-container .btn').on('mouseout', function(e) {
     $(this).parent('.btn-group').removeAttr('hover');
   });
+
+  // timeslots
+  $('#time-slots .col').on('click', function(e) {
+    $(this).siblings('.active').removeClass('active');
+    $(this).addClass('active');
+    guestForm.shuttleBusTimeSlot.value = $(this).attr('value');
+    e.preventDefault();
+  })
 })();

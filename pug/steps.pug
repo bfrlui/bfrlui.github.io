@@ -1,6 +1,7 @@
 ul#steps-list.list-unstyled
   each val in [1, 2, 3]
-    li(class=(val == 1 ? 'active':null))
+    li(class=(val == 1 ? 'active':null) step=val)
       a.badge.rounded-circle(href=`#form-step${val}`) #{val}
+    li.divider
   li
     span.badge.rounded-circle.text-primary 4

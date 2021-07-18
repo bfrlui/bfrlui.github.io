@@ -1,8 +1,8 @@
-#ticket-type-container
+#ticket-type-container.block-space
   .btn-group.rounded-pill(role='group' aria-label='ticket type' active=ticketType)
     a.btn.rounded-pill(href=`../../DatedTicketHolders/${currentLang}/index.pug`)
-      span !{dict.ticketTypeLeft[currentLang]}
+      span !{dict.datedTicketsHolders[currentLang]}
     a.btn.rounded-pill(href=`../../OpenDatedTicketHolders/${currentLang}/index.pug`)
-      span !{dict.ticketTypeMiddle[currentLang]}
+      span !{dict.openDatedTicketsHolders[currentLang]}
     a.btn.rounded-pill.d-flex.justify-content-center.align-items-center
-      span !{dict.ticketTypeRight[currentLang]}
+      span !{dict.passHolders[currentLang]}

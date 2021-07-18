@@ -3,33 +3,37 @@
   include langSwitch
   // step 2 form
   .form-step
-    h2 Step 2
-    form.needs-validation(name='guestForm' novalidate)
-      // number of guests
-      label(for='guest-num') Guests
-      #range-container
-        #range-fill(value='1')
-        ul.list-unstyled.position-absolute
-          li &middot;
-          li &middot;
-          li &middot;
-          li &middot;
-        input#guest-num.custom-range(name='guestNum' type='range' min='1' max='4' value='1')
-      ul.list-unstyled
-        li 1
-        li 2
-        li 3
-        li 4
+    h2.mb-5 !{dict.datedTicketsHolders[currentLang]}
+    // alert message
+    #alert-message.mb-5
+      p Lorem ipsum dolor sit, amet consectetur adipisicing elit. In officia inventore cum fuga hic.
+      p Lorem ipsum dolor sit, amet consectetur adipisicing elit. In officia inventore cum fuga hic.
+    hr.mb-5
 
-      include calendar
-      // guest info
-      include guestInput
-      // contact info
-      include contactInput
-      // page navigation row
-      .row.align-items-center
-        .col
-          a.step-btn(href="#form-step1") < back
-        .col.text-right
-          a.step-btn.btn.btn-primary.rounded-pill(href="#form-step3") Submit form
+    // number of guests
+    label(for='guest-num') Guests
+    #range-container
+      #range-fill(value='1')
+      ul.list-unstyled.position-absolute
+        li &middot;
+        li &middot;
+        li &middot;
+        li &middot;
+      input#guest-num.custom-range(name='guestNum' type='range' min='1' max='4' value='1')
+    ul.list-unstyled
+      li 1
+      li 2
+      li 3
+      li 4
+    include calendar
+    // guest info
+    include guestInput
+    // contact info
+    include contactInput
+    // page navigation row
+    .row.align-items-center
+      .col
+        a.step-btn(href="#form-step1") < back
+      .col.text-right
+        a.step-btn.btn.btn-primary.rounded-pill(href="#form-step3") Submit form
     include footer

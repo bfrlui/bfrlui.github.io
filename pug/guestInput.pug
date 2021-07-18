@@ -3,14 +3,16 @@ script#guest-input-template(type='text/template')
   .guest-input-group.d-none
     .col-xs-12.mb-3
       h3 #{dict.registered[currentLang]} <span class="text-primary">#{dict.guest[currentLang]}</span>
-      label.input-label(for='guest_Index-name') #{dict.guestName[currentLang]}
-      input.form-control.form-control-lg.rounded-pill.guest-text-input#guest_Index-name(name='guest_IndexName' type='text' value='')
+      .position-relative
+        label.input-label(for='guest_Index-name') #{dict.guestName[currentLang]}
+        input.form-control.form-control-lg.rounded-pill.guest-text-input#guest_Index-name(name='guest_IndexName' type='text' value='')
       small#guest_Index-name-help-text.form-text.text-muted.
         Your password must be 8-20 characters long
       .valid-feedback Looks good!
     .col-xs-12.mb-3
-      label.input-label(for='guest_Index-ticket') #{dict.ticketBarcodeNumber[currentLang]}
-      input.form-control.form-control-lg.rounded-pill.guest-text-input#guest_Index-ticket(name='guest_IndexTicket' type='text' value='')
+      .position-relative
+        label.input-label(for='guest_Index-ticket') #{dict.ticketBarcodeNumber[currentLang]}
+        input.form-control.form-control-lg.rounded-pill.guest-text-input#guest_Index-ticket(name='guest_IndexTicket' type='text' value='')
       small#guest_Index-ticket-help-text.form-text.text-muted.
         Your password must be 8-20 characters long
       .valid-feedback Looks good!
