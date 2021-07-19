@@ -33,7 +33,7 @@ $step-sm-size: 24px;
 $list-item-indent: 20px;
 $switch-height: 40px;
 $switch-thumb-size: 26px;
-$block-space: $element-y-padding * 2;
+$block-space: $element-y-padding * 1.5;
 // colors
 $primary: #007bff;
 
@@ -100,6 +100,7 @@ header {
   background-size: cover;
   background-position: center center;
   padding: 100px 0;
+  z-index: 1;
   ul > li {
     display: inline-flex;  // fix for ie to remove extra space
   }
@@ -558,6 +559,26 @@ ul.list-unstyled.custom-disc {
         }
       }
     }
+  }
+}
+#fading-bg {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  height: 10vh;
+  width: 100%;
+  text-align: center;
+  margin: 0;
+  padding: 30px 0 30px 0;
+  background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, transparent),color-stop(1, white));
+}
+#verify-guest-container {
+  hr {
+    position: absolute;
+    width: 100%;
+    margin: auto 0;
+    top: 0;
+    bottom: 0;
   }
 }
 

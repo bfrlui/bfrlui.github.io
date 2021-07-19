@@ -2,7 +2,16 @@
   // language
   include langSwitch
   .form-step
-    .row.align-items-center
+    h2.block-space !{dict.onlineReservation[currentLang]}
+    h5.block-space !{dict.step1Subtitle[currentLang]}
+    // alert message
+    #alert-message.block-space
+      p Lorem ipsum dolor sit, amet consectetur adipisicing elit. In officia inventore cum fuga hic.
+      p Lorem ipsum dolor sit, amet consectetur adipisicing elit. In officia inventore cum fuga hic.
+
+    hr.block-space
+
+    .row.align-items-center.mb-4
       .col
         h2.mb-0 Step 3
       .col.text-right
@@ -37,6 +46,10 @@
         a.col(href='#' value='09:00') 08:00
         a.col(href='#' value='09:00') 08:00
 
+    small.text-right.d-block.mt-3.block-space
+      span.mr-4 Available
+      span.mr-3 Full
+
     input#shuttle-bus-timeslot(name='shuttleBusTimeSlot' type='hidden' value='')
 
     // page navigation row
@@ -44,5 +57,5 @@
       .col
         a.step-btn(href="#form-step2") < back
       .col.text-right
-        btn#form-submit.btn.btn-primary.rounded-pill Submit
+        a#form-submit.btn.btn-primary.rounded-pill(href='thankyou.pug') Submit
     include footer

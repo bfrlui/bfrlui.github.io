@@ -3,15 +3,19 @@
   include langSwitch
   // step 2 form
   .form-step
-    h2.mb-5 !{dict.datedTicketsHolders[currentLang]}
+    h2.block-space !{dict.datedTicketsHolders[currentLang]}
     // alert message
-    #alert-message.mb-5
+    #alert-message.block-space
       p Lorem ipsum dolor sit, amet consectetur adipisicing elit. In officia inventore cum fuga hic.
       p Lorem ipsum dolor sit, amet consectetur adipisicing elit. In officia inventore cum fuga hic.
-    hr.mb-5
+    hr.block-space
 
     // number of guests
-    label(for='guest-num') Guests
+    .d-flex.justify-content-between.mb-3
+      h3 #{dict.numberOfGuest[currentLang]}
+      h3
+        span#guest-num-value.mr-2 1
+        | #{dict.guest[currentLang]}
     #range-container
       #range-fill(value='1')
       ul.list-unstyled.position-absolute
@@ -20,11 +24,14 @@
         li &middot;
         li &middot;
       input#guest-num.custom-range(name='guestNum' type='range' min='1' max='4' value='1')
-    ul.list-unstyled
+    ul.list-unstyled.block-space
       li 1
       li 2
       li 3
       li 4
+
+    hr.block-space
+
     include calendar
     // guest info
     include guestInput

@@ -1,6 +1,10 @@
 #calendar
-  .d-flex.justify-content-between
+  .d-flex.justify-content-between.mb-3
     h3 #{dict.dateOfVisit[currentLang]}
-    h3#dateOfVisit xx/xx/xxxx
+    h3#dateOfVisit
   #datepicker(data-date='')
+  small.text-right.d-block.mt-3
+    span.mr-4 Available
+    span.mr-4 Uavailable
+    span.mr-3 Full
   input#my_hidden_input(name='dateOfVisit' type='hidden')

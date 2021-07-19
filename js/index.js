@@ -1,6 +1,7 @@
 var mode = "development";
 var currentStep = 1;
 var maxGuestNum = 4;
+var agreeTnC = false;
 console.log(mode);
 
 (function() {
@@ -26,6 +27,7 @@ console.log(mode);
         ? 'calc((((100% - ' + thumbSize + ') / 3) * ' + (guestForm.guestNum.value - 1) + ') + ' + thumbSize + ' - (' + thumbSize + ' / 2))'
         : 0
     );
+    $('#guest-num-value').text(guestForm.guestNum.value);
   }
 
   window.addEventListener('load', function() {
@@ -42,7 +44,7 @@ console.log(mode);
     // render guest inputs based on number of guests in the form
     var template = $('#guest-input-template').html();
     for (var n=0; n < maxGuestNum; n++) {
-      $(guestForm).children('#fieldsets').append(template.replace(/_Index/g, n));
+      $(guestForm).find('#fieldsets').append(template.replace(/_Index/g, n));
     }
     renderGuestInput();
     rangeFill();
@@ -50,6 +52,7 @@ console.log(mode);
     // steps and step buttons listener
     $('#steps a, .step-btn').on('click', function(e) {
       e.preventDefault();
+      if (!agreeTnC) return;
       var stepId = $(this).attr('href');
       if (stepId === '#form-step' + currentStep) return;
       $('.form-layer').addClass('hidden');
@@ -81,7 +84,8 @@ console.log(mode);
       });
 
     $('#form-submit').on('click',function(e) {
-      guestForm.submit();
+      // e.preventDefault();
+      // guestForm.submit();
     });
 
     // Fetch all the forms we want to apply custom Bootstrap validation styles to
@@ -112,5 +116,18 @@ console.log(mode);
     $(this).addClass('active');
     guestForm.shuttleBusTimeSlot.value = $(this).attr('value');
     e.preventDefault();
-  })
+  });
+
+  $('#form-step1').on('scroll', function(){
+    // console.log($(this).scrollTop()+' + '+ $(this).height()+' = '+ ($(this).scrollTop() + $(this).height())   +' _ '+ this.scrollHeight);
+    var isHidden = $(this).scrollTop() + $(this).height() > (this.scrollHeight - 250);
+    
+    $('#fading-bg').toggleClass('d-none', isHidden);
+  });
+  
+  // agreen tnc
+  $('#agree-tnc').on('click', function(e) {
+    agreeTnC = true;
+    $(this).addClass('d-none');
+  });
 })();

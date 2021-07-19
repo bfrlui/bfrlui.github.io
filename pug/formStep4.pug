@@ -1,0 +1,66 @@
+body
+  main.container-fluid
+    header.d-lg-none
+      h2 mobile header
+      include langSwitch
+    .row
+      section#steps.d-none.d-lg-block
+        // steps
+        include steps
+      section#form.col-xs-12
+        // step 4 - Thank You
+        #form-step4.form-layer
+          // language
+          include langSwitch
+          .form-step
+            h2.block-space !{dict.onlineReservation[currentLang]}
+            h5.block-space !{dict.step1Subtitle[currentLang]}
+            h3#email.block-space abc@mirumagency.com
+            hr.block-space
+
+            #qr-code.w-100.block-space(style='height: 400px;background-color: #ccc')
+            style.
+              #result-info td {
+                padding-top: 1rem;
+                padding-bottom: 1rem;
+              }
+              #result-info h5 {
+                margin: 0;
+              }
+              #result-info td {
+                border-top: 0;
+                border-bottom: 1px solid #dee2e6;
+              }
+
+            table#result-info.table.block-space
+              tbody
+                tr
+                  td
+                    h5
+                      | Date of Visit
+                      br
+                      small (DD/MM/YYYY)
+                  td
+                    h5 15/08/2021
+                tr
+                  td
+                    h5 Number of Guest
+                  td
+                    h5 2 Guests
+                tr
+                  td
+                    h5 Number of Guest
+                  td
+                    h5
+                      | Dated Ticket Holder
+                      br
+                      | 1234 5678 4554 4565 6785
+                      br
+                      | Tester 1
+
+            p.
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione itaque dicta aut assumenda, accusantium consequatur necessitatibus rem. Odio nisi eveniet temporibus placeat, quis aperiam delectus rem et libero qui non.
+            p.
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione itaque dicta aut assumenda, accusantium consequatur necessitatibus rem. Odio nisi eveniet temporibus placeat, quis aperiam delectus rem et libero qui non.
+
+            include footer

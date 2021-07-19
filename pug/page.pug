@@ -36,31 +36,32 @@ html(lang='en')
     //- individual page style
     block pageStyle
 
-  body
-    main.container-fluid
-      header.d-lg-none
-        h2 mobile header
-        include langSwitch
-      .row
-        section#steps.d-none.d-lg-block
-          // steps
-          include steps
-        section#form.col-xs-12
-          // step 1 - TnC
-          include formStep1
-          form.needs-validation(name='guestForm' novalidate)
-            // step 2 - Guest and Contact input
-            include formStep2
-            // step 3 form
-            include formStep3
+  block pageBody
+    body
+      main.container-fluid
+        header.d-lg-none
+          h2 mobile header
+          include langSwitch
+        .row
+          section#steps.d-none.d-lg-block
+            // steps
+            include steps
+          section#form.col-xs-12
+            // step 1 - TnC
+            include formStep1
+            form.needs-validation(name='guestForm' novalidate)
+              // step 2 - Guest and Contact input
+              include formStep2
+              // step 3 form
+              include formStep3
 
-    // bootstrap
-    script(src='https://code.jquery.com/jquery-3.5.1.slim.min.js')
-    script(src='https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js')
-    // datepicker
-    script(src='https://unpkg.com/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js')
-    // global script
-    script(src="/js/index.js")
+      // bootstrap
+      script(src='https://code.jquery.com/jquery-3.5.1.slim.min.js')
+      script(src='https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js')
+      // datepicker
+      script(src='https://unpkg.com/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js')
+      // global script
+      script(src="/js/index.js")
 
-    //- individaul page js
-    block pageJs
+      //- individaul page js
+      block pageJs
