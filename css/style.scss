@@ -100,6 +100,9 @@ header {
   background-size: cover;
   background-position: center center;
   padding: 100px 0;
+  ul > li {
+    display: inline-flex;  // fix for ie to remove extra space
+  }
   ul > li.active a {
     color: #fff;
     background-color: $primary;
