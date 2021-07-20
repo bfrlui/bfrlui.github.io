@@ -1,14 +1,19 @@
 @use "sass:math";
-$header-height: 46px;
+// $header-height: 133px;  // mobile only
+$header-height: 96px;  // mobile only
 $body-font-size: 14px;
 $steps-section-width: 44.53125%;
 $ticket-type-min-width: 502px;
+$section-title-size: 1.458vw;
+$section-sm-title-size: 18px;
+$text-large-size: 18px;
 $form-title-size: 4.1666vw;
+$form-sm-title-size: 37px;
 $form-margin-top: 100px;
 $form-margin-left: 12.5%;
 $form-margin-right: 15.68075117370892%;
 $form-margin-bottom: 170px;
-$form-xs-margin-top: $header-height;
+// $form-xs-margin-top: $header-height;
 $form-xs-margin-left: 20px;
 $form-xs-margin-right: 20px;
 $form-xs-margin-bottom: $form-margin-bottom;
@@ -28,18 +33,26 @@ $range-sm-thumb-size: $element-sm-height;
 $element-sm-max-height: $element-sm-height;
 $table-y-padding: 24px;
 $table-td-active-size: 60px;
+$table-sm-td-active-size: 40px;
 $step-size: 50px;
 $step-sm-size: 24px;
 $list-item-indent: 20px;
 $switch-height: 40px;
 $switch-thumb-size: 26px;
 $block-space: $element-y-padding * 1.5;
+$clander-title-size: 22px;
+
 // colors
 $primary: #007bff;
 
+// fonts
+@import url(./fonts.css);
+
+// layouts
 body {
   margin: 0;
   font-size: $body-font-size;
+  font-weight: 500;
   font-family: 'Montserrat', sans-serif;
 }
 a, button, .btn, input, .form-control {
@@ -48,20 +61,16 @@ a, button, .btn, input, .form-control {
     box-shadow: none;
   } 
 }
-// mobile header
-header {
-  z-index: 99;
-  left: 0;
-  right: 0;
-  position: fixed;
-  background-color: #fff;
-}
-// layouts
-.block-space {
-  margin-bottom: $block-space !important;
+.btn {
+  font-weight: 900;
+  font-style: italic;
 }
 #steps, #form {
   height: 100vh;
+}
+.section-title {
+  font-size: $section-title-size;
+  font-weight: 700;
 }
 // form section (right)
 #form {
@@ -70,6 +79,7 @@ header {
   width: 100% - $steps-section-width;
   .form-layer {
     overflow: auto;
+    overflow-x: hidden;
     position: relative;
     backface-visibility: hidden;
     transition: opacity .7s;
@@ -84,8 +94,11 @@ header {
       visibility: hidden;
     }
     .form-step {
-      > h2 {
+      > h1 {
         font-size: $form-title-size;
+        font-weight: 900;
+        font-style: italic;
+        line-height: 1.05;
       }
       position: relative;
       min-height: 100%;
@@ -101,10 +114,18 @@ header {
   background-position: center center;
   padding: 100px 0;
   z-index: 1;
+  &.disabled {
+    a {
+      pointer-events: none;
+    }
+  }
   ul > li {
     display: inline-flex;  // fix for ie to remove extra space
+    .badge {
+      color: $primary;
+    }
   }
-  ul > li.active a {
+  ul > li.active .badge {
     color: #fff;
     background-color: $primary;
   }
@@ -119,6 +140,47 @@ header {
 }
 
 // components
+// mobile header
+header {
+  padding: 20px;
+  padding-bottom: 10px;
+}
+header, .mobile-steps {
+  z-index: 99;
+  background-color: #fff;
+}
+.mobile-steps {
+  display: flex;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  padding: 16px 20px;
+  &.sticky {
+    box-shadow: 0px 2px 1px rgb(0 0 0 / 10%);
+  }
+  > li.active .badge {
+    color: #fff;
+    background-color: $primary;
+  }
+  &.disabled .badge {
+    pointer-events: none;
+  }
+  .badge {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+    line-height: 1;
+    padding: 8px;
+    border-radius: 100%;
+    background-color: #ccc;
+  }
+  .divider {
+    flex-grow: 1;
+    border-bottom: 1px solid #000;
+    height: 1px;
+    margin: auto;
+  }
+}
 // steps list
 #steps-list {
   // margin-top: 10.51vh;
@@ -136,8 +198,6 @@ header {
       background-color: #fff;
     }
     .badge {
-      // width: 4.63vh;
-      // height: 4.63vh;
       width: $step-size;
       height: $step-size;
       border: solid 2px #fff;
@@ -173,15 +233,14 @@ header {
     z-index: 99;
   }
   // for mobile
-  header & {
-    top: 16px;
-    right: 16px;
+  .form-layer header & {
+    top: 27px;
+    right: 20px;
   }
 }
 // ticket type switch
 #ticket-type {
   &-container {
-    width: 100%;
     overflow-x: auto;
     // FireFox
     scrollbar-width: none;
@@ -554,8 +613,8 @@ ul.list-unstyled.custom-disc {
         }
         .datepicker-switch {
           pointer-events: none;
-          padding-top: $table-y-padding * 2;
-          padding-bottom: $table-y-padding;
+          padding-top: 35px;
+          padding-bottom: 10px;
         }
       }
     }
@@ -571,6 +630,7 @@ ul.list-unstyled.custom-disc {
   margin: 0;
   padding: 30px 0 30px 0;
   background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, transparent),color-stop(1, white));
+  background-image: -ms-linear-gradient(top, transparent 0%, white 100%);
 }
 #verify-guest-container {
   hr {
@@ -582,18 +642,60 @@ ul.list-unstyled.custom-disc {
   }
 }
 
+// helpers
+.block-space {
+  margin-bottom: $block-space !important;
+}
+.font-weight-black {
+  font-weight: 900;
+}
+
 // responsive handling
+@media(min-width: 768px) {
+  #footer {
+    p {
+      font-size: 16px;
+    }
+  }
+  .text-large {
+    font-size: $text-large-size;
+  }
+  #datepicker {
+    .datepicker-inline {
+      .datepicker-switch {
+        font-size: $clander-title-size;
+      }
+    }
+  }  
+}
 @media(max-width: 767px) {
-  #ticket-type-container .btn-group {
-    min-width: $ticket-type-min-width;
+  .btn {
+    font-size: 10px;
+  }
+  #ticket-type-container {
+    margin-right: -$form-xs-margin-right;
+    .btn-group {
+      min-width: $ticket-type-min-width;
+    }
+  }
+  #datepicker .datepicker-inline .datepicker-days table {
+    td.day {
+      &.active,
+      &:hover {
+        &:before {
+          width: $table-sm-td-active-size;
+          height: $table-sm-td-active-size;
+        }
+      }
+    }
   }
 }
 @media(max-width: 991px) {
   #form {
     width: 100%;
     .form-layer {
-      margin-top: $header-height;
-      .lang-switch {
+      // margin-top: $header-height;
+      > .lang-switch {
         display: none;
       }
       .form-step {
@@ -605,9 +707,17 @@ ul.list-unstyled.custom-disc {
   }
 }
 @media(max-width: 1199px) {
+  .section-title {
+    font-size: $section-sm-title-size;
+  }
   #form .form-layer .form-step, #footer {
     padding-left: $form-xs-margin-left;
     padding-right: $form-xs-margin-right;
+  }
+  #form .form-layer .form-step {
+    > h1 {
+      font-size: $form-sm-title-size;
+    }
   }
 }
 @media (max-width:1366px) {

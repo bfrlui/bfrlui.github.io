@@ -1,21 +1,21 @@
 body
   main.container-fluid
-    header.d-lg-none
-      h2 mobile header
-      include langSwitch
     .row
-      section#steps.d-none.d-lg-block
-        // steps
-        include steps
+      // steps
+      include steps
       section#form.col-xs-12
         // step 4 - Thank You
-        #form-step4.form-layer
-          // language
+        #form-step4.form-layer.active
+          // language switch for tablet and desktop
           include langSwitch
+
+          // mobile header
+          include mobileHeader
+
           .form-step
-            h2.block-space !{dict.onlineReservation[currentLang]}
+            h1.block-space !{dict.onlineReservation[currentLang]}
             h5.block-space !{dict.step1Subtitle[currentLang]}
-            h3#email.block-space abc@mirumagency.com
+            h3#email.section-title.block-space abc@mirumagency.com
             hr.block-space
 
             #qr-code.w-100.block-space(style='height: 400px;background-color: #ccc')

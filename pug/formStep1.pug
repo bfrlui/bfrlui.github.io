@@ -1,14 +1,18 @@
-#form-step1.form-layer
-  // language
+#form-step1.form-layer.active
+  // language switch for tablet and desktop
   include langSwitch
+
+  // mobile header
+  include mobileHeader
+
   // step 1 form
   .form-step
-    h2.block-space !{dict.onlineReservation[currentLang]}
-    h5.block-space !{dict.step1Subtitle[currentLang]}
+    h1.block-space !{dict.onlineReservation[currentLang]}
+    .text-large.font-weight-bold.block-space !{dict.step1Subtitle[currentLang]}
     // ticket type
     include ticketTypeSwitch
     hr.block-space
-    h5.block-space Lorem ipsum, dolor sit amet consectetur adipisicing elit. 
+    .text-large.font-weight-bold.block-space Lorem ipsum, dolor sit amet consectetur adipisicing elit. 
 
     .col-xs-12.block-space
       ul.list-unstyled.custom-disc

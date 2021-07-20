@@ -22,10 +22,6 @@ html(lang='en')
     meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
     meta(name='description', content='')
     block pageTitle
-    // google fonts
-    //- link(rel='preconnect' href='https://fonts.googleapis.com')
-    //- link(rel='preconnect' href='https://fonts.gstatic.com' crossorigin)
-    //- link(href='https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;1,900&display=swap' rel='stylesheet')
     // datepicker
     link(rel='stylesheet' href='https://unpkg.com/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker3.min.css')
     // bootstrap
@@ -39,13 +35,13 @@ html(lang='en')
   block pageBody
     body
       main.container-fluid
-        header.d-lg-none
-          h2 mobile header
-          include langSwitch
+        //- 
+          header.d-lg-none
+            h2 mobile header
+            include langSwitch
         .row
-          section#steps.d-none.d-lg-block
-            // steps
-            include steps
+          // steps
+          include steps
           section#form.col-xs-12
             // step 1 - TnC
             include formStep1

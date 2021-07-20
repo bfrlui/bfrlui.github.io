@@ -1,10 +1,10 @@
-h3.mb-4 #{dict.contactPerson[currentLang]}
+h3.section-title.mb-4 #{dict.contactPerson[currentLang]}
 .row.mb-3
-  .col.position-relative
+  .mb-md-0.mb-3.col-12.col-md-6.position-relative
     label.input-label(for='email') #{dict.email[currentLang]}
     input#email.form-control.form-control-lg.rounded-pill(name='email' type='email' placeholder='' required)
     //- small#email-help-text.form-text.text-muted
-  .col.position-relative
+  .col-12.col-md-6.position-relative
     label.input-label(for='confirm-email') #{dict.confirmEmail[currentLang]}
     input#confirm-email.form-control.form-control-lg.rounded-pill(name='confirmEmail' type='email' placeholder='' required)
     //- small#confirm-email-help-text.form-text.text-muted
@@ -29,7 +29,7 @@ h3.mb-4 #{dict.contactPerson[currentLang]}
 
 hr.my-4
 
-h3.mb-4 #{dict.signUpForNews[currentLang]}
+h3.section-title.mb-4 #{dict.signUpForNews[currentLang]}
 .col-xs-12.mb-3
   Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga dignissimos architecto.
 .col-xs-12.mb-3

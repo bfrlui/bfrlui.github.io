@@ -2,6 +2,7 @@ var mode = "development";
 var currentStep = 1;
 var maxGuestNum = 4;
 var agreeTnC = false;
+var $stepsEl = null;
 console.log(mode);
 
 (function() {
@@ -50,18 +51,22 @@ console.log(mode);
     rangeFill();
 
     // steps and step buttons listener
-    $('#steps a, .step-btn').on('click', function(e) {
+    $('.step-btn').on('click', function(e) {
       e.preventDefault();
       if (!agreeTnC) return;
       var stepId = $(this).attr('href');
       if (stepId === '#form-step' + currentStep) return;
-      $('.form-layer').addClass('hidden');
-      $(stepId).removeClass('hidden');
+      $('.form-layer').addClass('hidden').removeClass('active');
+      $(stepId).removeClass('hidden').addClass('active');
       // inactive old step
       $('#steps ul > li.active').removeClass('active');
+      $('.mobile-steps > li.active').removeClass('active');
       // active new step
       var currentStep = Number(stepId.slice(-1));
       $('#steps ul > li[step="' + currentStep + '"]').addClass('active');
+      $('.mobile-steps > li[step="' + currentStep + '"]').addClass('active');
+      // get the current active element for mobile
+      $stepsEl = $('.form-layer.active .mobile-steps');
     });
 
     // input label movement based on input state
@@ -118,8 +123,16 @@ console.log(mode);
     e.preventDefault();
   });
 
-  $('#form-step1').on('scroll', function(){
-    // console.log($(this).scrollTop()+' + '+ $(this).height()+' = '+ ($(this).scrollTop() + $(this).height())   +' _ '+ this.scrollHeight);
+  // mobile only: show bottom shadow of sticky steps when scroll down
+  if ($(window).width() < 992) {
+    $stepsEl = $('.form-layer.active .mobile-steps');
+    $('.form-layer').on('scroll', function() {
+      $stepsEl.toggleClass('sticky', $stepsEl[0].offsetTop > 96)
+    });
+  }
+
+  // tnc scrolling handling
+  $('#form-step1').on('scroll', function() {
     var isHidden = $(this).scrollTop() + $(this).height() > (this.scrollHeight - 250);
     
     $('#fading-bg').toggleClass('d-none', isHidden);
@@ -128,6 +141,7 @@ console.log(mode);
   // agreen tnc
   $('#agree-tnc').on('click', function(e) {
     agreeTnC = true;
+    $('#steps, .mobile-steps').removeClass('disabled');
     $(this).addClass('d-none');
   });
 })();

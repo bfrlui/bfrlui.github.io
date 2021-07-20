@@ -1,8 +1,13 @@
 #form-step3.form-layer.hidden
   // language
   include langSwitch
+
+  // mobile header
+  include mobileHeader
+
+  // step 3 form
   .form-step
-    h2.block-space !{dict.onlineReservation[currentLang]}
+    h1.block-space !{dict.onlineReservation[currentLang]}
     h5.block-space !{dict.step1Subtitle[currentLang]}
     // alert message
     #alert-message.block-space
@@ -13,7 +18,7 @@
 
     .row.align-items-center.mb-4
       .col
-        h2.mb-0 Step 3
+        h3.section-title.mb-0 Step 3
       .col.text-right
         label.mb-0.mr-2(for='shuttle-bus-input') Shuttle Bus Service
         #shuttle-bus-service.custom-control.custom-switch
