@@ -17,10 +17,10 @@
     hr.block-space
 
     .row.align-items-center.mb-4
-      .col
+      .col-5
         h3.section-title.mb-0 Step 3
-      .col.text-right
-        label.mb-0.mr-2(for='shuttle-bus-input') Shuttle Bus Service
+      .col-7.d-flex.align-items-center
+        label.text-right.flex-grow-1.mb-0.mr-2(for='shuttle-bus-input') Shuttle Bus Service
         #shuttle-bus-service.custom-control.custom-switch
           input.custom-control-input#shuttle-bus-input(name='shuttleBusService' type='checkbox')
           label.custom-control-label(for='shuttle-bus-input')
@@ -51,9 +51,13 @@
         a.col(href='#' value='09:00') 08:00
         a.col(href='#' value='09:00') 08:00
 
-    small.text-right.d-block.mt-3.block-space
-      span.mr-4 Available
-      span.mr-3 Full
+    .text-right.mt-2.block-space
+      span.mr-4
+        small.mr-1 ●
+        | Available
+      span.mr-3
+        small.mr-1.font-weight-bold —
+        | Full
 
     input#shuttle-bus-timeslot(name='shuttleBusTimeSlot' type='hidden' value='')
 

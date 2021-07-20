@@ -14,49 +14,35 @@ body
 
           .form-step
             h1.block-space !{dict.onlineReservation[currentLang]}
-            h5.block-space !{dict.step1Subtitle[currentLang]}
+            .text-large.font-weight-bold.block-space !{dict.step1Subtitle[currentLang]}
             h3#email.section-title.block-space abc@mirumagency.com
             hr.block-space
 
             #qr-code.w-100.block-space(style='height: 400px;background-color: #ccc')
-            style.
-              #result-info td {
-                padding-top: 1rem;
-                padding-bottom: 1rem;
-              }
-              #result-info h5 {
-                margin: 0;
-              }
-              #result-info td {
-                border-top: 0;
-                border-bottom: 1px solid #dee2e6;
-              }
 
             table#result-info.table.block-space
               tbody
                 tr
                   td
-                    h5
-                      | Date of Visit
-                      br
-                      small (DD/MM/YYYY)
+                    | Date of Visit
+                    br
+                    small (DD/MM/YYYY)
                   td
-                    h5 15/08/2021
+                    | 15/08/2021
                 tr
                   td
-                    h5 Number of Guest
+                    | Number of Guest
                   td
-                    h5 2 Guests
+                    | 2 Guests
                 tr
                   td
-                    h5 Number of Guest
+                    | Number of Guest
                   td
-                    h5
-                      | Dated Ticket Holder
-                      br
-                      | 1234 5678 4554 4565 6785
-                      br
-                      | Tester 1
+                    | Dated Ticket Holder
+                    br
+                    | 1234 5678 4554 4565 6785
+                    br
+                    | Tester 1
 
             p.
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione itaque dicta aut assumenda, accusantium consequatur necessitatibus rem. Odio nisi eveniet temporibus placeat, quis aperiam delectus rem et libero qui non.

@@ -31,7 +31,8 @@ $range-thumb-size: $element-height;
 $element-max-height: $element-height;
 $range-sm-thumb-size: $element-sm-height;
 $element-sm-max-height: $element-sm-height;
-$table-y-padding: 24px;
+$table-y-padding: 20px;
+$table-sm-y-padding: 10px;
 $table-td-active-size: 60px;
 $table-sm-td-active-size: 40px;
 $step-size: 50px;
@@ -54,6 +55,12 @@ body {
   font-size: $body-font-size;
   font-weight: 500;
   font-family: 'Montserrat', sans-serif;
+  transition: opacity 1.2s;
+  opacity: 1;
+  &.loading {
+    pointer-events: none;
+    opacity: 0;
+  }
 }
 a, button, .btn, input, .form-control {
   &:focus {
@@ -228,7 +235,7 @@ header, .mobile-steps {
   position: absolute;
   // for tablet and desktop
   .form-layer & {
-    top: 86px;
+    top: 81px;
     right: 70px;
     z-index: 99;
   }
@@ -641,6 +648,13 @@ ul.list-unstyled.custom-disc {
     bottom: 0;
   }
 }
+#result-info td {
+  font-weight: bold;
+  width: 50%;
+  padding: 1rem 1rem 1rem 0;
+  border-top: 0;
+  border-bottom: 1px solid #dee2e6;
+}
 
 // helpers
 .block-space {
@@ -657,6 +671,7 @@ ul.list-unstyled.custom-disc {
       font-size: 16px;
     }
   }
+  #result-info td,
   .text-large {
     font-size: $text-large-size;
   }
@@ -678,7 +693,15 @@ ul.list-unstyled.custom-disc {
       min-width: $ticket-type-min-width;
     }
   }
+  #time-slots-container #time-slots .col {
+    flex-basis: 25%;
+    max-width: 25%;
+  }
   #datepicker .datepicker-inline .datepicker-days table {
+    th.dow, td {
+      padding-top: $table-sm-y-padding;
+      padding-bottom: $table-sm-y-padding;
+    }
     td.day {
       &.active,
       &:hover {

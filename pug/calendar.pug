@@ -3,8 +3,15 @@
     h3.section-title #{dict.dateOfVisit[currentLang]}
     h3#dateOfVisit.section-title
   #datepicker(data-date='')
-  small.text-right.d-block.mt-3
-    span.mr-4 Available
-    span.mr-4 Uavailable
-    span.mr-3 Full
+  .text-right.mt-2
+    span.mr-4
+      small ●
+      small.mr-1 ●
+      | Available
+    span.mr-4
+      small.mr-1 ●
+      | Uavailable
+    span.mr-3
+      small.mr-1.font-weight-bold —
+      | Full
   input#my_hidden_input(name='dateOfVisit' type='hidden')

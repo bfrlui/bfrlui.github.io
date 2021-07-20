@@ -144,4 +144,9 @@ console.log(mode);
     $('#steps, .mobile-steps').removeClass('disabled');
     $(this).addClass('d-none');
   });
+
+  // loading completed
+  setTimeout(function(e) {
+    $('body').removeClass('loading');
+  },1000);
 })();
