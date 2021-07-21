@@ -33,8 +33,13 @@ console.log(mode);
 
   window.addEventListener('load', function() {
     // datepicker initialzation
+    // reference: https://github.com/uxsolutions/bootstrap-datepicker
     $('#datepicker').datepicker({
-      format: 'dd/mm/yyyy'
+      format: 'dd/mm/yyyy',
+      templates: {
+        leftArrow: '<i class="icon nav-arrow-left"></i>',
+        rightArrow: '<i class="icon nav-arrow-right"></i>'
+      }
     });
     $('#datepicker').on('changeDate', function() {
       var datePicked = $('#datepicker').datepicker('getFormattedDate');

@@ -4,9 +4,11 @@ script#guest-input-template(type='text/template')
     hr.my-4
     .col-xs-12.mb-3
       .d-flex.justify-content-between.align-items-center.mb-4
-        h3.section-title.mb-0 #{dict.registered[currentLang]} <span class="text-primary">#{dict.guest[currentLang]}</span>
-        small
-          a(href) #{dict.remove[currentLang]}
+        h3.section-title.mb-0 #{dict.registered[currentLang]}
+          span.text-primary.ml-1 #{dict.guest[currentLang]}
+        a(href='#')
+          i.icon.trash.mr-2
+          | #{dict.remove[currentLang]}
       .position-relative
         label.input-label(for='guest_Index-name') #{dict.guestName[currentLang]}
         input.form-control.form-control-lg.rounded-pill.guest-text-input#guest_Index-name(name='guest_IndexName' type='text' value='')
@@ -17,6 +19,8 @@ script#guest-input-template(type='text/template')
       .position-relative
         label.input-label(for='guest_Index-ticket') #{dict.ticketBarcodeNumber[currentLang]}
         input.form-control.form-control-lg.rounded-pill.guest-text-input#guest_Index-ticket(name='guest_IndexTicket' type='text' value='')
+        a(href)
+          i.icon.question
       small.d-block.mt-3
         a(href) Buy Tickets?
       //- 

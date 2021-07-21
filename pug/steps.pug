@@ -1,4 +1,8 @@
 section#steps.d-none.d-lg-block.disabled
+  #logo-layer
+    //- img.img-fluid(src='/img/logoDesktop.png')
+    h4 logo
+    #tagline An All-Weather Water World
   ul#steps-list.list-unstyled
     each val in [1, 2, 3]
       li(class=((val == currentStep || val == 1 && !currentStep) ? 'active' : null) step=val)
