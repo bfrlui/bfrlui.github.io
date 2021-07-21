@@ -1,0 +1,56 @@
+style.
+  #mobile-artworks-layer,
+  #artworks-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    z-index: -1;
+  }
+  #mobile-artworks-layer {
+    top: -156px;
+  }
+  #artworks-layer > img {
+    position: absolute;
+  }
+  #artworks-layer > img:nth-child(3) {
+    width: 15.625vw;
+    top: 1696px;
+    right: -8.49vw;
+  }
+  #form-step2 #artworks-layer > img:nth-child(3) {
+    top: 1990px;
+  }
+  #artworks-layer > img:nth-child(2) {
+    width: 21.875vw;
+    top: 1100px;
+    right: 43.906vw;
+  }
+  #form-step2 #artworks-layer > img:nth-child(2) {
+    top: 860px;
+  }
+  #artworks-layer > img:first-child {
+    transform: rotateZ(-29deg);
+    width: 18.646vw;
+    right: 6.51vw;
+    top: -30.781vw;
+  }
+  #mobile-artworks-layer > img:first-child {
+    width: 22.133vw;
+    position: absolute;
+    transform: rotateZ(-51deg);
+    right: 4.533vw;
+    top: -8.267vw;
+    z-index: -1;
+  }
+
+#mobile-artworks-layer.d-lg-none
+  img(src='/img/artwork1.png')
+
+#artworks-layer.d-none.d-lg-block
+  img(src='/img/artwork1.png')
+  if (Global.currentStep < 3)
+    img(src='/img/artwork2.png')
+    img(src='/img/artwork3.png')

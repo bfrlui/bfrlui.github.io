@@ -1,3 +1,5 @@
+- Global.currentStep = 3;
+
 #form-step3.form-layer.hidden
   // language
   include langSwitch
@@ -7,6 +9,8 @@
 
   // step 3 form
   .form-step
+    include artworks
+
     h1.block-space !{dict.onlineReservation[currentLang]}
     h5.block-space !{dict.step1Subtitle[currentLang]}
     // alert message
@@ -27,9 +31,11 @@
     
     #time-slots-container
       #time-slots-heading
-        a.prev(href='') &lt;
+        a.prev(href='')
+          i.icon.nav-arrow-left
         h5 Morning
-        a.next(href='') &gt;
+        a.next(href='')
+          i.icon.nav-arrow-right
       #time-slots
         a.col(href='#' value='08:00') 08:00
         a.col(href='#' value='09:00') 08:00
@@ -51,7 +57,7 @@
         a.col(href='#' value='09:00') 08:00
         a.col(href='#' value='09:00') 08:00
 
-    .text-right.mt-2.block-space
+    .text-right.mt-2
       span.mr-4
         small.mr-1 ●
         | Available
@@ -62,9 +68,11 @@
     input#shuttle-bus-timeslot(name='shuttleBusTimeSlot' type='hidden' value='')
 
     // page navigation row
-    .row.align-items-center
+    .row.align-items-center.mt-5
       .col
-        a.step-btn(href="#form-step2") < back
+        a.step-btn(href="#form-step2")
+          img.icon.mr-2(src='/img/btnBack.png')
+          | back
       .col.text-right
         a#form-submit.btn.btn-primary.rounded-pill(href='thankyou.pug') Submit
           img.icon(src='/img/btnArrow.png')

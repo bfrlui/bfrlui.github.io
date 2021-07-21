@@ -7,6 +7,8 @@
 
   // step 2 form
   .form-step
+    include artworks
+
     if (ticketType == 0)
       h1.block-space !{dict.datedTicketsHolders[currentLang]}
     if (ticketType == 1)
@@ -47,9 +49,11 @@
     // contact info
     include contactInput
     // page navigation row
-    .row.align-items-center
+    .row.align-items-center.mt-5
       .col
-        a.step-btn(href="#form-step1") < back
+        a.step-btn(href="#form-step1")
+          img.icon.mr-2(src='/img/btnBack.png')
+          | back
       .col.text-right
         a.step-btn.btn.btn-primary.rounded-pill(href="#form-step3") Submit
           img.icon(src='/img/btnArrow.png')
