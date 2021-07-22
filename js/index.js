@@ -173,5 +173,5 @@ console.log(mode);
   // loading completed
   setTimeout(function(e) {
     $('body').removeClass('loading');
-  },1000);
+  },500);
 })();

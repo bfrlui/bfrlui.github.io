@@ -8,11 +8,11 @@ script#guest-input-template(type='text/template')
           span.text-primary.ml-1 #{dict.guest[currentLang]}
         a(href='#')
           i.icon.trash.mr-2
-          | #{dict.remove[currentLang]}
+          span.text-orange #{dict.remove[currentLang]}
       .position-relative
         label.input-label(for='guest_Index-name') #{dict.guestName[currentLang]}
         input.form-control.form-control-lg.rounded-pill.guest-text-input#guest_Index-name(name='guest_IndexName' type='text' value='')
-      small#guest_Index-name-help-text.form-text.text-muted.mt-3.
+      small#guest_Index-name-help-text.form-text.mt-3.
         Your password must be 8-20 characters long
       .valid-feedback Looks good!
     .col-xs-12.mb-3
@@ -22,7 +22,7 @@ script#guest-input-template(type='text/template')
         a(href)
           i.icon.question
       small.d-block.mt-3
-        a(href) Buy Tickets?
+        a.buy-ticket(href) Buy Tickets?
       //- 
         small#guest_Index-ticket-help-text.form-text.text-muted.
           Your password must be 8-20 characters long
@@ -33,4 +33,4 @@ script#guest-input-template(type='text/template')
 
 #verify-guest-container.col-xs-12.my-4.text-center.position-relative
   hr
-  a.btn.btn-primary.rounded-pill.position-relative(href="#") #{dict.verify[currentLang]}
+  a.btn.btn-primary.rounded-pill.position-relative(href="#" type='button') #{dict.verify[currentLang]}

@@ -15,8 +15,12 @@
     h5.block-space !{dict.step1Subtitle[currentLang]}
     // alert message
     #alert-message.block-space
-      p Lorem ipsum dolor sit, amet consectetur adipisicing elit. In officia inventore cum fuga hic.
-      p Lorem ipsum dolor sit, amet consectetur adipisicing elit. In officia inventore cum fuga hic.
+      p
+        i.icon.exclamation
+        | Lorem ipsum dolor sit, amet consectetur adipisicing elit. In officia inventore cum fuga hic.
+      p
+        i.icon.exclamation
+        | Lorem ipsum dolor sit, amet consectetur adipisicing elit. In officia inventore cum fuga hic.
 
     hr.block-space
 
@@ -71,9 +75,9 @@
     .row.align-items-center.mt-5
       .col
         a.step-btn(href="#form-step2")
-          img.icon.mr-2(src='/img/btnBack.png')
+          img.icon.mr-2(src='../../img/btnBack.png')
           | back
       .col.text-right
-        a#form-submit.btn.btn-primary.rounded-pill(href='thankyou.pug') Submit
-          img.icon(src='/img/btnArrow.png')
+        a#form-submit.btn.btn-primary.rounded-pill(href='thankyou.pug' type='button') Submit
+          img.icon(src='../../img/btnArrow.png')
     include footer

@@ -10,21 +10,27 @@
     include artworks
 
     if (ticketType == 0)
-      h1.block-space !{dict.datedTicketsHolders[currentLang]}
+      h1.block-space.text-blue Dated
+        br
+        | Ticket <span class="text-cyan">Holder</span>
     if (ticketType == 1)
       h1.block-space !{dict.openDatedTicketsHolders[currentLang]}
     if (ticketType == 2)
       h1.block-space !{dict.passHolders[currentLang]}
     // alert message
     #alert-message.block-space
-      p Lorem ipsum dolor sit, amet consectetur adipisicing elit. In officia inventore cum fuga hic.
-      p Lorem ipsum dolor sit, amet consectetur adipisicing elit. In officia inventore cum fuga hic.
+      p
+        i.icon.exclamation
+        | Lorem ipsum dolor sit, amet consectetur adipisicing elit. In officia inventore cum fuga hic.
+      p
+        i.icon.exclamation
+        | Lorem ipsum dolor sit, amet consectetur adipisicing elit. In officia inventore cum fuga hic.
     hr.block-space
 
     // number of guests
     .d-flex.justify-content-between.mb-3
       h3.section-title #{dict.numberOfGuest[currentLang]}
-      h3.section-title
+      h3.section-title.text-cyan
         span#guest-num-value.mr-2 1
         | #{dict.guest[currentLang]}
     #range-container
@@ -52,10 +58,10 @@
     .row.align-items-center.mt-5
       .col
         a.step-btn(href="#form-step1")
-          img.icon.mr-2(src='/img/btnBack.png')
+          img.icon.mr-2(src='../../img/btnBack.png')
           | back
       .col.text-right
-        a.step-btn.btn.btn-primary.rounded-pill(href="#form-step3") Submit
-          img.icon(src='/img/btnArrow.png')
+        a.step-btn.btn.btn-primary.rounded-pill(href="#form-step3" type='button') Submit
+          img.icon(src='../../img/btnArrow.png')
 
     include footer

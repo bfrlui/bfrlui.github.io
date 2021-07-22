@@ -44,7 +44,15 @@ $block-space: $element-y-padding * 1.5;
 $clander-title-size: 22px;
 
 // colors
-$primary: #007bff;
+$blue: #0066B8;
+$cyan: #0489B6;
+$yellow: #FDED2B;
+$red: #FF585D;
+$orange: #FF840A;
+$text: #253B56;
+$gray: #8E9CA9;
+$light-gray: #CBCBCE;
+$lighter-blue: #E6EFF8;
 
 // fonts
 @import url(./fonts.css);
@@ -57,9 +65,16 @@ body {
   font-family: 'Montserrat', sans-serif;
   transition: opacity 1.2s;
   opacity: 1;
+  color: $text;
   &.loading {
     pointer-events: none;
     opacity: 0;
+  }
+}
+a {
+  color: $blue;
+  &:hover {
+    text-decoration: none;
   }
 }
 a, button, .btn, input, .form-control {
@@ -71,6 +86,9 @@ a, button, .btn, input, .form-control {
 .btn {
   font-weight: 900;
   font-style: italic;
+  &[type='button'] {
+    background-color: $orange;
+  }
 }
 #steps, #form {
   height: 100vh;
@@ -117,7 +135,7 @@ a, button, .btn, input, .form-control {
 #steps {
   position: relative;
   width: $steps-section-width;
-  background-image: url(/img/waterPark.jpg);
+  background-image: url(../img/waterPark.jpg);
   background-size: cover;
   background-position: center center;
   padding: 100px 0;
@@ -151,13 +169,12 @@ a, button, .btn, input, .form-control {
     position: relative;
     > li {
       display: inline-flex;  // fix for ie to remove extra space
-      .badge {
-        color: $primary;
+      a {
+        color: #fff;
       }
     }
     > li.active .badge {
-      color: #fff;
-      background-color: $primary;
+      background-color: $blue;
     }
   }
 }
@@ -168,6 +185,7 @@ a, button, .btn, input, .form-control {
   padding-right: $form-margin-right;
   left: 0;
   right: 0;
+  opacity: .8;
 }
 
 // components
@@ -192,7 +210,7 @@ header, .mobile-steps {
   }
   > li.active .badge {
     color: #fff;
-    background-color: $primary;
+    background-color: $blue;
   }
   &.disabled .badge {
     pointer-events: none;
@@ -257,6 +275,9 @@ header, .mobile-steps {
 // language switch
 .lang-switch {
   position: absolute;
+  a {
+    color: $text;
+  }
   // for tablet and desktop
   .form-layer & {
     top: 81px;
@@ -283,13 +304,14 @@ header, .mobile-steps {
     }
     .btn-group {
       padding: 4px;
-      background-color: #bebebe;
+      background-color: $lighter-blue;
       display: flex;
       .btn {
         flex: 1;
         line-height: 1.2;
         max-height: calc(#{$element-max-height} - 8px);
         white-space: nowrap;
+        color: $light-gray;
         > span {
           position: relative;
         }
@@ -302,10 +324,22 @@ header, .mobile-steps {
           top: 0;
           left: 0;
           border-radius: 50rem;
-          background-color: rgb(123, 123, 2);
+          background-color: $yellow;
           transition: transform .5s;
           backface-visibility: hidden;
         }
+      }
+      &:not([hover]) {
+        &[active='0'] > .btn:nth-child(1),
+        &[active='1'] > .btn:nth-child(2),
+        &[active='2'] > .btn:nth-child(3) {
+          color: $text;
+        }
+      }
+      &[hover='0'] > .btn:nth-child(1),
+      &[hover='1'] > .btn:nth-child(2),
+      &[hover='2'] > .btn:nth-child(3) {
+        color: $text;
       }
       &[active='0'] {
         .btn:first-child:before {
@@ -352,6 +386,7 @@ form {
     bottom: 0;
     display: flex;
     align-items: center;
+    color: $gray;
     transition: transform .3s, font-size .3s;
     &.focus {
       font-size: 70%;
@@ -371,7 +406,10 @@ form {
       width: 24px;
       height: 24px;
       border-width: $element-border-width;
-      border-color: blue !important;
+      border-color: $blue !important;
+    }
+    &:checked~.custom-control-label:before {
+      background-color: $blue;
     }
     + .custom-control-label:after {
       width: 20px;
@@ -392,7 +430,8 @@ form {
   }
   input.form-control {
     height: auto;
-    border: $element-border-width solid blue;
+    border: $element-border-width solid;
+    border-color: $blue !important;
     padding-left: $element-x-padding;
     padding-right: $element-x-padding;
     padding-top: $input-y-padding;
@@ -400,6 +439,7 @@ form {
     max-height: $element-max-height;
     font-size: $input-font-size;
     line-height: 1;
+    color: $text;
   }
   .guest-input-group {
     input + a {
@@ -415,6 +455,10 @@ form {
         margin: auto;
       }
     }
+    a.buy-ticket {
+      color: $orange;
+      text-decoration: underline;
+    }
   }
   .custom-switch {
     padding-left: 66px;
@@ -429,7 +473,7 @@ form {
         height: $switch-height;
         border-radius: 50rem;
         border: 0;
-        background-color: #ddd;
+        background-color: $lighter-blue;
         outline: 0 !important;
         border: 0 !important;
         box-shadow: none !important;
@@ -440,10 +484,15 @@ form {
         width: $switch-thumb-size;
         height: $switch-thumb-size;
         border-radius: 50%;
+        background-color: $orange;
       }
     }
     .custom-control-input:checked {
+      ~ .custom-control-label:before {
+        background-color: $blue;
+      }
       ~ .custom-control-label:after {
+        background-color: $yellow;
         transform: translateX(75%);
       }
     }
@@ -458,7 +507,7 @@ ul.list-unstyled.custom-disc {
       content: '';
       width: 10px;
       height: 10px;
-      border: solid 3px $primary;
+      border: solid 3px $blue;
       border-radius: 50%;
       background-color: #fff;
       margin-right: 28px;
@@ -471,7 +520,7 @@ ul.list-unstyled.custom-disc {
 #time-slots-container {
   width: 100%;
   min-height: 300px;
-  border: 4px solid blue;
+  border: 4px solid $lighter-blue;
   border-radius: 25px;
   padding-top: $element-y-padding * 2;
   padding-bottom: $element-y-padding;
@@ -501,6 +550,7 @@ ul.list-unstyled.custom-disc {
       text-align: center;
       padding-top: $element-y-padding;
       padding-bottom: $element-y-padding;
+      color: $text;
       &:before {
         content: "";
         width: $table-td-active-size;
@@ -520,7 +570,7 @@ ul.list-unstyled.custom-disc {
       }
       &:hover, &.active {
         &:before {
-          background-color: #9e9e92;
+          background-color: $yellow;
         }
       }
       &:hover {
@@ -535,12 +585,12 @@ ul.list-unstyled.custom-disc {
   max-height: $element-max-height;
   border-radius: 50rem;
   position: relative;
-  background-color: #ccc;
+  background-color: $lighter-blue;
   #range-fill {
     position: absolute;
     top: 0;
     height: 100%;
-    background-color: blue;
+    background-color: $blue;
     border-top-left-radius: 25rem;
     border-bottom-left-radius: 25rem;
   }
@@ -563,9 +613,9 @@ ul.list-unstyled.custom-disc {
     max-width: $element-max-height;
     border-radius: 100%;
     margin-top: -2px;
+    background-color: $yellow;
     background-position: center center;
-    // background-image: url("data:image/png;base64,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");
-    background-image: url("/img/btnRange.png");
+    background-image: url(../img/btnRange.png);
     background-repeat: no-repeat;
   }
   > .list-unstyled li {
@@ -605,9 +655,9 @@ ul.list-unstyled.custom-disc {
     height: $range-thumb-size + 2px;
     width: $range-thumb-size + 2px;
     border-radius: 100%;
-    // background: purple;
+    background-color: $yellow;
     background-position: center center;
-    background-image: url("/img/btnRange.png");
+    background-image: url(../img/btnRange.png);
     background-repeat: no-repeat;
     cursor: pointer;
     border: 0;
@@ -621,12 +671,16 @@ ul.list-unstyled.custom-disc {
   .datepicker-inline {
     width: 100%;
     background-color: #fff;
-    border: $element-border-width solid #000;
+    border: $element-border-width solid $lighter-blue;
     border-radius: 25px;
     .datepicker-days {
       padding-bottom: $table-y-padding;
       table {
         width: 100%;
+        th.dow:first-child,
+        td.day:first-child {
+          color: $red;
+        }
         th.dow, td {
           padding-top: $table-y-padding;
           padding-bottom: $table-y-padding;
@@ -644,7 +698,7 @@ ul.list-unstyled.custom-disc {
               content: "";
               width: $table-td-active-size;
               height: $table-td-active-size;
-              background-color: #9e9e92;
+              background-color: $yellow;
               display: inline-block;
               position: absolute;
               top: 0;
@@ -693,12 +747,17 @@ ul.list-unstyled.custom-disc {
     bottom: 0;
   }
 }
-#result-info td {
-  font-weight: bold;
-  width: 50%;
-  padding: 1rem 1rem 1rem 0;
-  border-top: 0;
-  border-bottom: 1px solid #dee2e6;
+#result-info {
+  td {
+    font-weight: bold;
+    width: 50%;
+    padding: 1rem 1rem 1rem 0;
+    border-top: 0;
+    border-bottom: 1px solid #dee2e6;
+  }
+  td:nth-child(2) {
+    color: $blue;
+  }
 }
 #qr-text-layer,
 #qr-code-layer {
@@ -711,8 +770,16 @@ ul.list-unstyled.custom-disc {
   flex-direction: column;
   justify-content: space-between;
   padding: 20px;
-  *:last-child {
-    font-size: 0.7292vw;
+  color: #fff;
+  .text-large {
+    text-align: right;
+    color: rgba(255,255,255,.5);
+    #reservation-number {
+      color: #fff;
+    }
+  }
+  > *:last-child {
+    font-size: 10px;
     width: 56.666%;
   }
 }
@@ -733,17 +800,74 @@ i.icon {
   background-repeat: no-repeat;
   display: inline-block;
   vertical-align: middle;
+  background-size: contain;
+  flex-shrink: 0;
+  &.exclamation {
+    background-image: url(../img/alert.png);
+  }
   &.question {
-    background-image: url(/img/question.png);
+    background-image: url(../img/question.png);
   }
   &.trash {
-    background-image: url(/img/trash.png);
+    background-image: url(../img/trash.png);
   }
   &.nav-arrow-left {
-    background-image: url(/img/navArrowLeft.png);
+    background-image: url(../img/navArrowLeft.png);
   }
   &.nav-arrow-right {
-    background-image: url(/img/navArrowRight.png);
+    background-image: url(../img/navArrowRight.png);
+  }
+}
+#alert-message {
+  p {
+    display: flex;
+    align-items: start;
+    color: $red;
+  }
+  i.icon {
+    width: 32px;
+    height: 32px;
+    margin-right: 16px;
+  }
+}
+#mobile-artworks-layer,
+#artworks-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  z-index: -1;
+}
+#artworks-layer > img {
+  position: absolute;
+}
+#artworks-layer > img:nth-child(3) {
+  width: 15.625vw;
+  top: 1496px;
+  right: -8.49vw;
+}
+#form-step2 #artworks-layer > img:nth-child(3) {
+  top: 1990px;
+}
+#artworks-layer > img:nth-child(2) {
+  width: 21.875vw;
+  top: 890px;
+  right: 43.906vw;
+}
+#form-step2 #artworks-layer > img:nth-child(2) {
+  top: 860px;
+}
+#artworks-layer > img:first-child {
+  transform: rotateZ(-29deg);
+  width: 18.646vw;
+  right: 6.51vw;
+  top: -30.781vw;
+}
+#tnc {
+  li:not(:last-child) {
+    margin-bottom: 1rem;
   }
 }
 
@@ -754,6 +878,21 @@ i.icon {
 .font-weight-black {
   font-weight: 900;
 }
+.text-blue {
+  color: $blue !important;
+}
+.text-cyan {
+  color: $cyan !important;
+}
+.text-red {
+  color: $red !important;
+}
+.text-light-gray {
+  color: $light-gray !important;
+}
+.text-orange {
+  color: $orange !important;
+}
 
 // responsive handling
 @media(min-width: 768px) {
@@ -761,6 +900,9 @@ i.icon {
     p {
       font-size: 16px;
     }
+  }
+  #qr-pcard {
+    display: none;
   }
   #result-info td,
   .text-large {
@@ -777,6 +919,20 @@ i.icon {
 @media(max-width: 767px) {
   .btn {
     font-size: 10px;
+  }
+  #qr-text-layer {
+    > *:last-child {
+      font-size: inherit;
+      width: 100%;
+    }
+  }
+  #qr-code-layer {
+    > #qr-bg {
+      width: 43.75%;
+    }
+  }
+  #qr-hcard {
+    display: none;
   }
   #ticket-type-container {
     margin-right: -$form-xs-margin-right;
@@ -818,6 +974,28 @@ i.icon {
         padding-right: $form-xs-margin-right;
       }
     }
+  }
+  #artworks-layer {
+    top: -156px;
+  }
+  #artworks-layer > img:first-child {
+    width: 22.133vw;
+    transform: rotateZ(-51deg);
+    right: 4.533vw;
+    top: -8.267vw;
+  }
+  #artworks-layer > img:nth-child(2) {
+    width: 53.333vw;
+    top: 1010px;
+    // top: 123.153vh;
+    right: 80.8vw;
+    transform: rotateY(-180deg);
+  }
+  #artworks-layer > img:nth-child(3) {
+    width: 40.053vw;
+    top: 1530px;
+    // top: 205.665vh;
+    right: -19.467vw;
   }
 }
 @media(max-width: 1199px) {

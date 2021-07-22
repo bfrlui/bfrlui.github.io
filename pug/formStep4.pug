@@ -19,21 +19,22 @@ body
 
             h1.block-space !{dict.onlineReservation[currentLang]}
             .text-large.font-weight-bold.block-space !{dict.step1Subtitle[currentLang]}
-            h3#email.section-title.block-space abc@mirumagency.com
+            h3#email.text-orange.section-title.block-space abc@mirumagency.com
             hr.block-space
 
             .w-100.block-space.position-relative
               #qr-code-layer
                 #qr-bg
-                  img.w-100.img-fluid(src='/img/sampleQR.png')
+                  img.w-100.img-fluid(src='../../img/sampleQR.png')
               #qr-text-layer
-                .text-large.font-weight-bold.text-right
+                .text-large.font-weight-bold
                   | !{dict.reservationNumber[currentLang]}
                   br
-                  span.text-white#reservation-number 12345654
-                .text-white
+                  #reservation-number 12345654
+                div
                   | Lorem ipsum, dolor sit amet consectetur adipisicing elit. Pariatur, natus! Itaque, quas autem sequi incidunt obcaecati eveniet 
-              img.img-fluid(src='/img/hcard.png')
+              img#qr-hcard.img-fluid(src='../../img/hcard.png')
+              img#qr-pcard.img-fluid(src='../../img/pcard.png')
 
 
             table#result-info.table.block-space
