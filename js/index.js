@@ -3,10 +3,29 @@ var currentStep = 1;
 var maxGuestNum = 4;
 var agreeTnC = false;
 var $stepsEl = null;
+var isSmallViewport = false;
+var isMediumViewport = false;
 console.log(mode);
 
 (function() {
   'use strict';
+
+  function getViewport() {
+    // bootstrap layout definition
+    isSmallViewport = $(window).width() < 768;
+    isMediumViewport = $(window).width() < 992;
+  }
+
+  // mobile sticky menu setup
+  function mobileStickyMenu() {
+    getViewport();
+    if (isMediumViewport) {
+      $stepsEl = $('.form-layer.active .mobile-steps');
+      $('.form-layer').on('scroll', function() {
+        $stepsEl.toggleClass('sticky', $stepsEl[0].offsetTop > 96)
+      });
+    }
+  }
 
   // hide removed guest for user to restore it
   function renderGuestInput() {
@@ -112,6 +131,9 @@ console.log(mode);
     });
   }, false);
 
+  // setup mobile menu based on viewport
+  mobileStickyMenu();
+
   // animation control of ticket type button
   $('#ticket-type-container .btn').on('mouseover', function(e) {
     $(this).parent('.btn-group').attr('hover', $(this).index());
@@ -129,16 +151,14 @@ console.log(mode);
   });
 
   // mobile only: show bottom shadow of sticky steps when scroll down
-  if ($(window).width() < 992) {
-    $stepsEl = $('.form-layer.active .mobile-steps');
-    $('.form-layer').on('scroll', function() {
-      $stepsEl.toggleClass('sticky', $stepsEl[0].offsetTop > 96)
-    });
-  }
+  $(window).on('resize', function(e) {
+    $('.form-layer').off('scroll');
+    mobileStickyMenu();
+  });
 
   // tnc scrolling handling
   $('#form-step1').on('scroll', function() {
-    var isHidden = $(this).scrollTop() + $(this).height() > (this.scrollHeight - 250);
+    var isHidden = $(this).scrollTop() + $(this).height() > (this.scrollHeight - 298);  // 128 (btn row height) + 170 (reserved footer height)
     
     $('#fading-bg').toggleClass('d-none', isHidden);
   });
