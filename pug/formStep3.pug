@@ -11,24 +11,24 @@
   .form-step
     include artworks
 
-    h1.block-space !{dict.onlineReservation[currentLang]}
-    h5.block-space !{dict.step1Subtitle[currentLang]}
+    h1.block-space.text-blue Shuttle Bus <span class="text-cyan">Service</span>
+    h5.block-space !{dict.tncLine1[currentLang]}
     // alert message
     #alert-message.block-space
       p
         i.icon.exclamation
-        | Lorem ipsum dolor sit, amet consectetur adipisicing elit. In officia inventore cum fuga hic.
+        | !{dict.importantNotice1[currentLang]}
       p
         i.icon.exclamation
-        | Lorem ipsum dolor sit, amet consectetur adipisicing elit. In officia inventore cum fuga hic.
+        | !{dict.importantNotice2[currentLang]}
 
     hr.block-space
 
     .row.align-items-center.mb-4
       .col-5
-        h3.section-title.mb-0 Step 3
+        h3.section-title.mb-0 #{dict.availableTimeslots[currentLang]}
       .col-7.d-flex.align-items-center
-        label.text-right.flex-grow-1.mb-0.mr-2(for='shuttle-bus-input') Shuttle Bus Service
+        label.text-right.flex-grow-1.mb-0.mr-2(for='shuttle-bus-input') #{dict.shuttleBusService[currentLang]}
         #shuttle-bus-service.custom-control.custom-switch
           input.custom-control-input#shuttle-bus-input(name='shuttleBusService' type='checkbox')
           label.custom-control-label(for='shuttle-bus-input')
@@ -64,10 +64,10 @@
     .text-right.mt-2
       span.mr-4
         small.mr-1 ●
-        | Available
+        | #{dict.available[currentLang]}
       span.mr-3
         small.mr-1.font-weight-bold —
-        | Full
+        | #{dict.full[currentLang]}
 
     input#shuttle-bus-timeslot(name='shuttleBusTimeSlot' type='hidden' value='')
 
@@ -76,8 +76,8 @@
       .col
         a.step-btn(href="#form-step2")
           img.icon.mr-2(src='../../img/btnBack.png')
-          | back
+          | #{dict.editYourInformation[currentLang]}
       .col.text-right
-        a#form-submit.btn.btn-primary.rounded-pill(href='thankyou.pug' type='button') Submit
+        a#form-submit.btn.btn-primary.rounded-pill(href='thankyou.pug' type='button') #{dict.submit[currentLang]}
           img.icon(src='../../img/btnArrow.png')
     include footer

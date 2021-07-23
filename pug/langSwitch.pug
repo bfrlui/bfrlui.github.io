@@ -1,10 +1,11 @@
 .lang-switch
   if (currentLang == 'en')
-    a(href="../tc/index.pug") 繁體
+    //- a(href="../tc/index.pug") 繁體
+    a(href="") 繁體
   if (currentLang == 'tc' || currentLang == 'sc')
     a(href="../en/index.pug") Eng
   span.mx-3 |
   if (currentLang == 'en' || currentLang == 'tc')
-    a(href="../sc/index.pug") 简体
+    a(href="") 简体
   if (currentLang == 'sc')
     a(href="../tc/index.pug") 繁體

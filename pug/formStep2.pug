@@ -21,10 +21,10 @@
     #alert-message.block-space
       p
         i.icon.exclamation
-        | Lorem ipsum dolor sit, amet consectetur adipisicing elit. In officia inventore cum fuga hic.
+        | !{dict.importantNotice1[currentLang]}
       p
         i.icon.exclamation
-        | Lorem ipsum dolor sit, amet consectetur adipisicing elit. In officia inventore cum fuga hic.
+        | !{dict.importantNotice2[currentLang]}
     hr.block-space
 
     // number of guests
@@ -59,9 +59,9 @@
       .col
         a.step-btn(href="#form-step1")
           img.icon.mr-2(src='../../img/btnBack.png')
-          | back
+          | #{dict.changeTicketType[currentLang]}
       .col.text-right
-        a.step-btn.btn.btn-primary.rounded-pill(href="#form-step3" type='button') Submit
+        a.step-btn.btn.btn-primary.rounded-pill(href="#form-step3" type='button') #{dict.submit[currentLang]}
           img.icon(src='../../img/btnArrow.png')
 
     include footer

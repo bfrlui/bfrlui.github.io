@@ -7,11 +7,11 @@
     span.mr-4
       small ●
       small.mr-1.text-red ●
-      | Available
+      | #{dict.available[currentLang]}
     span.mr-4
       small.mr-1.text-light-gray ●
-      | Uavailable
+      | #{dict.notAvailable[currentLang]}
     span.mr-3
       small.mr-1.font-weight-bold —
-      | Full
+      | #{dict.full[currentLang]}
   input#my_hidden_input(name='dateOfVisit' type='hidden')

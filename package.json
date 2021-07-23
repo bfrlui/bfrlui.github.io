@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.pug",
   "scripts": {
-    "build": "parcel build index.pug",
-    "start": "parcel index.pug"
+    "build": "parcel build DatedTicketHolders/en/index.pug --public-url ./",
+    "start": "parcel index.pug",
+    "pug": "pug DatedTicketHolders/en/index.pug --debug -o ./debug"
   },
   "author": "",
   "license": "ISC",

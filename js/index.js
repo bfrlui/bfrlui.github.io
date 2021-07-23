@@ -68,7 +68,7 @@ console.log(mode);
 
     // render guest inputs based on number of guests in the form
     var template = $('#guest-input-template').html();
-    for (var n=0; n < maxGuestNum; n++) {
+    for (var n=1; n <= maxGuestNum; n++) {
       $(guestForm).find('#fieldsets').append(template.replace(/_Index/g, n));
     }
     renderGuestInput();
@@ -83,12 +83,14 @@ console.log(mode);
       $('.form-layer').addClass('hidden').removeClass('active');
       $(stepId).removeClass('hidden').addClass('active');
       // inactive old step
-      $('#steps ul > li.active').removeClass('active');
-      $('.mobile-steps > li.active').removeClass('active');
+      $('#steps ul > li').removeClass('active');
+      $('.mobile-steps > li').removeClass('active');
       // active new step
       var currentStep = Number(stepId.slice(-1));
-      $('#steps ul > li[step="' + currentStep + '"]').addClass('active');
-      $('.mobile-steps > li[step="' + currentStep + '"]').addClass('active');
+      for (var x=1; x <= currentStep; x++) {
+        $('#steps ul > li[step="' + x + '"]').addClass('active');
+        $('.mobile-steps > li[step="' + x + '"]').addClass('active');
+      }
       // get the current active element for mobile
       $stepsEl = $('.form-layer.active .mobile-steps');
     });

@@ -1,39 +1,34 @@
 h3.section-title.mb-4 #{dict.contactPerson[currentLang]}
 .row.mb-3
   .mb-md-0.mb-3.col-12.col-md-6.position-relative
-    label.input-label(for='email') #{dict.email[currentLang]}
+    label.input-label(for='email') #{dict.email[currentLang]}<span class="text-red">*</span>
     input#email.form-control.form-control-lg.rounded-pill(name='email' type='email' placeholder='' required)
     //- small#email-help-text.form-text.text-muted
   .col-12.col-md-6.position-relative
-    label.input-label(for='confirm-email') #{dict.confirmEmail[currentLang]}
+    label.input-label(for='confirm-email') #{dict.confirmEmail[currentLang]}<span class="text-red">*</span>
     input#confirm-email.form-control.form-control-lg.rounded-pill(name='confirmEmail' type='email' placeholder='' required)
     //- small#confirm-email-help-text.form-text.text-muted
 
 .col-xs-12.mb-4.position-relative
-  label.input-label(for='contact-number') #{dict.contactNumber[currentLang]}
+  label.input-label(for='contact-number') #{dict.contactNumber[currentLang]}<span class="text-red">*</span>
   input.form-control.form-control-lg.rounded-pill.guest-text-input#contact-number(name='contactNumber' type='text' value='' required)
 
 .col-xs-12.mb-4
   .custom-control.custom-checkbox
     input.custom-control-input#health-declaration(name='healthDeclaration' type='checkbox' required)
     label.custom-control-label(for='health-declaration').
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga dignissimos architecto.
+      !{dict.healthDeclarationLine1[currentLang]}
 
 .col-xs-12.block-space
-  ul.list-unstyled.custom-disc
-    li Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga dignissimos architecto.consectetur adipisicing elit. Fuga dignissimos architecto.consectetur adipisicing elit. Fuga dignissimos architecto.
-    li Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga dignissimos architecto.
-    li Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga dignissimos architecto.
-    li Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga dignissimos architecto.
-    li Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga dignissimos architecto.
+  div !{dict.healthDeclaration[currentLang]}
 
 hr.my-4
 
-h3.section-title.mb-4 #{dict.signUpForNews[currentLang]}
+h3.section-title.mb-4 #{dict.optinTitle[currentLang]}
 .col-xs-12.mb-3
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga dignissimos architecto.
+  | !{dict.optinDesc[currentLang]}
 .col-xs-12
   .custom-control.custom-checkbox
     input.custom-control-input#opt-in(name='optin' type='checkbox')
     label.custom-control-label(for='opt-in').
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga dignissimos architecto.
+      !{dict.optinCheckbox[currentLang]}
