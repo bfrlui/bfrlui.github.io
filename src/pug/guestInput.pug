@@ -1,0 +1,39 @@
+//- form.needs-validation(name='guestForm' novalidate)
+script#guest-input-template(type='text/template')
+  .guest-input-group.d-none
+    hr.my-4
+    .d-flex.justify-content-between.align-items-center.mb-4
+      h3.section-title.mb-0 #{dict.registered[currentLang]}
+        span.text-blue.ml-1 #{dict.guest[currentLang]} <span>_Index</span>
+      // rmove button
+      a.remove-guest(href='#')
+        i.icon.trash.mr-2
+        span.text-orange #{dict.remove[currentLang]}
+    // name
+    .col-xs-12.mb-3.field-container
+      .position-relative
+        label.input-label(for='guest_Index-name') #{dict.fullName[currentLang]}<span class="text-red">*</span>
+        input.form-control.form-control-lg.rounded-pill.guest-text-input#guest_Index-name(name='guest_IndexName' type='text' value='' autocomplete="off")
+      small#guest_Index-name-help-text.form-text.mt-3 #{dict.fullNameDesc[currentLang]}
+      .invalid-feedback.my-3 #{dict.errName[currentLang]}
+    // ticket number
+    .col-xs-12.mb-3.field-container
+      .position-relative
+        label.input-label(for='guest_Index-ticket') #{dict.ticketBarcodeNumber[currentLang]}<span class="text-red">*</span>
+        input.form-control.form-control-lg.rounded-pill.guest-text-input#guest_Index-ticket(name='guest_IndexTicket' type='text' value='' autocomplete="off")
+        a(href)
+          i.icon.question
+      .invalid-feedback.my-3 #{dict.errTicket[currentLang]}
+      small.d-block.mt-3
+        a.buy-ticket(href) #{dict.buyTickets[currentLang]}
+      //- 
+        small#guest_Index-ticket-help-text.form-text.text-muted.
+          Your password must be 8-20 characters long
+        .valid-feedback Looks good!
+
+// guest input sets
+#fieldsets
+
+#verify-guest-container.col-xs-12.my-4.text-center.position-relative
+  hr
+  a.btn.btn-primary.rounded-pill.position-relative(href="#" type='button') #{dict.verify[currentLang]}

@@ -1,0 +1,10 @@
+.lang-switch
+  if (currentLang == 'en')
+    a(href="../tc/index.html") 繁體
+  if (currentLang == 'tc' || currentLang == 'sc')
+    a(href="../en/index.html") Eng
+  span.mx-3 |
+  if (currentLang == 'en' || currentLang == 'tc')
+    a(href="../sc/index.html") 简体
+  if (currentLang == 'sc')
+    a(href="../tc/index.html") 繁體

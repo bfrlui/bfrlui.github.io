@@ -50,3 +50,6 @@ artworks/
 package-lock.json
 .vscode
 documents/
+public/css/style.css
+public/css/*.map
+public/*/*/*.html
