@@ -1,0 +1,27 @@
+extends ../../../pug/page
+
+block vars
+  -
+    var currentLang = 'sc';
+    var ticketType = 0;
+    var currentStep = 4;
+
+block pageTitle
+  title 指定日期门票持有人
+
+block pageBody
+  include ../../../pug/formStep4
+
+  block pageJs
+    // bootstrap
+    script(src='https://code.jquery.com/jquery-3.5.1.slim.min.js')
+    script(src='https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js')
+
+    script.
+      // mobile only: show bottom shadow of sticky steps when scroll down
+      if ($(window).width() < 768) {
+        $stepsEl = $('.form-layer.active .mobile-steps');
+        $('.form-layer').on('scroll', function() {
+          $stepsEl.toggleClass('sticky', $stepsEl[0].offsetTop > 96)
+        });
+      }

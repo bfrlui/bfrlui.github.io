@@ -1,6 +1,7 @@
 #calendar
   .d-flex.justify-content-between.mb-3
     h3.section-title #{dict.dateOfVisit[currentLang]}
+      small.ml-lg-2.d-block.d-lg-inline #{dict.dateFormat[currentLang]}
     h3#dateOfVisit.section-title
   #datepicker(data-date='')
   .text-right.mt-2

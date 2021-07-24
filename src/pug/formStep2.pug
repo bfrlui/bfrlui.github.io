@@ -9,14 +9,14 @@
   .form-step
     include artworks
 
+    // form title
     if (ticketType == 0)
-      h1.block-space.text-blue Dated
-        br
-        | Ticket <span class="text-cyan">Holder</span>
+      h1.block-space.text-blue !{dict.datedTicketsHolders[currentLang]}
     if (ticketType == 1)
       h1.block-space !{dict.openDatedTicketsHolders[currentLang]}
     if (ticketType == 2)
       h1.block-space !{dict.passHolders[currentLang]}
+
     // alert message
     #alert-message.block-space
       p

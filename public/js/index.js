@@ -151,8 +151,22 @@ console.log(mode);
   window.addEventListener('load', function() {
     // datepicker initialzation
     // reference: https://github.com/uxsolutions/bootstrap-datepicker
+    $.fn.datepicker.dates['tc'] = {
+      days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      daysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+      daysMin: ["日", "一", "二", "三", "四", "五", "六"],
+      months: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
+      monthsShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+      today: "Today",
+      clear: "Clear",
+      format: "mm/dd/yyyy",
+      titleFormat: "yyyy年MM", /* Leverages same syntax as 'format' */
+      weekStart: 0
+    };
+  
     $('#datepicker').datepicker({
       format: 'dd/mm/yyyy',
+      language: 'tc',
       templates: {
         leftArrow: '<i class="icon nav-arrow-left"></i>',
         rightArrow: '<i class="icon nav-arrow-right"></i>'
@@ -190,6 +204,10 @@ console.log(mode);
     // events setup
     // -------------------------------------------
 
+    $('#shuttle-bus-input').on('click', function(e) {
+      $('#shuttle-bus-service-label').attr('require-service', this.checked ? 'yes' : 'no');
+    });
+
     // remove guest by clicking trash
     $('.remove-guest').on('click', function(e) {
       e.preventDefault();
@@ -200,6 +218,13 @@ console.log(mode);
       // $guest.appendTo('#fieldsets');
       renderGuestInput();
       rangeFill();
+    });
+
+    $('#datepicker').on('changeMonth', function() {
+      // intentionally delay as here is on before trigger
+      setTimeout(function() {
+        $('#datepicker table td').wrapInner('<label class="position-relative m-0"></label>');
+      },100);
     });
 
     $('#datepicker').on('changeDate', function() {

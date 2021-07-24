@@ -11,7 +11,7 @@
   .form-step
     include artworks
 
-    h1.block-space.text-blue Shuttle Bus <span class="text-cyan">Service</span>
+    h1.block-space.text-blue !{dict.headShuttleBusService[currentLang]}
     h5.block-space !{dict.tncLine1[currentLang]}
     // alert message
     #alert-message.block-space
@@ -24,11 +24,12 @@
 
     hr.block-space
 
+    // require service switch
     .row.align-items-center.mb-4
-      .col-5
+      .col-5.pr-0
         h3.section-title.mb-0 #{dict.availableTimeslots[currentLang]}
-      .col-7.d-flex.align-items-center
-        label.text-right.flex-grow-1.mb-0.mr-2(for='shuttle-bus-input') #{dict.shuttleBusService[currentLang]}
+      .col-7.d-flex.align-items-center.pl-0
+        label#shuttle-bus-service-label.text-right.flex-grow-1.mb-0.mr-2(for='shuttle-bus-input' require-service='no') <span>#{dict.shuttleBusService[currentLang]}</span><span>#{dict.shuttleBusServiceNotRequired[currentLang]}</span>
         #shuttle-bus-service.custom-control.custom-switch
           input.custom-control-input#shuttle-bus-input(name='shuttleBusService' type='checkbox')
           label.custom-control-label(for='shuttle-bus-input')
@@ -37,7 +38,7 @@
       #time-slots-heading
         a.prev(href='')
           i.icon.nav-arrow-left
-        h5 Morning
+        h5 #{dict.morning[currentLang]}
         a.next(href='')
           i.icon.nav-arrow-right
       #time-slots

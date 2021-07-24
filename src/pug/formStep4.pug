@@ -43,7 +43,7 @@ body
                   td
                     | #{dict.dateOfVisit[currentLang]}
                     br
-                    small (DD/MM/YYYY)
+                    small #{dict.dateFormat[currentLang]}
                   td
                     | 15/08/2021
                 tr
@@ -71,7 +71,6 @@ body
                   td
                     | 08:00 AM
 
-            p !{dict.thankYouReminder1[currentLang]}
-            p !{dict.thankYouReminder2[currentLang]}
+            p !{dict.thankYouReminder[currentLang]}
 
             include footer
