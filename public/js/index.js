@@ -1,11 +1,9 @@
-var mode = "development";
+var env = "development";
 var currentStep = 1;
 var maxGuestNum = 4;
 var agreeTnC = false;
-var $stepsEl = null;
-var isSmallViewport = false;
-var isMediumViewport = false;
-console.log(mode);
+var mode = 'new';
+console.log(env);
 
 (function() {
   'use strict';
@@ -51,20 +49,51 @@ console.log(mode);
     }
   }
 
-  function getViewport() {
-    // bootstrap layout definition
-    isSmallViewport = $(window).width() < 768;
-    isMediumViewport = $(window).width() < 992;
-  }
+  function loadShuttleBusTimeSlots() {
+    var template = '<a class="col" href="#" value="_time_">_time_</a>';
+    var el = null;
+    var data = [
+      { time: '08:00', isFull: false },
+      { time: '08:00', isFull: false },
+      { time: '08:00', isFull: false },
+      { time: '08:00', isFull: false },
+      { time: '08:00', isFull: false },
+      { time: '08:00', isFull: false },
+      { time: '08:00', isFull: false },
+      { time: '08:00', isFull: false },
+      { time: '08:00', isFull: false },
+      { time: '08:00', isFull: false },
+      { time: '08:00', isFull: false },
+      { time: '08:00', isFull: false },
+      { time: '08:00', isFull: false },
+      { time: '08:00', isFull: false },
+      { time: '11:59', isFull: false },
+      { time: '12:00', isFull: false },
+      { time: '16:00', isFull: false },
+      { time: '17:00', isFull: false },
+      { time: '17:00', isFull: false },
+      { time: '17:00', isFull: false },
+      { time: '17:00', isFull: false },
+      { time: '17:00', isFull: false },
+      { time: '17:00', isFull: false },
+      { time: '17:00', isFull: false },
+      { time: '17:00', isFull: false },
+      { time: '17:00', isFull: false },
+      { time: '17:00', isFull: false },
+      { time: '17:00', isFull: false },
+      { time: '17:00', isFull: false },
+      { time: '18:00', isFull: false },
+      { time: '21:00', isFull: false }
+    ]
 
-  // mobile sticky menu setup
-  function mobileStickyMenu() {
-    getViewport();
-    if (isMediumViewport) {
-      $stepsEl = $('.form-layer.active .mobile-steps');
-      $('.form-layer').on('scroll', function() {
-        $stepsEl.toggleClass('sticky', $stepsEl[0].offsetTop > 96)
-      });
+    $('#time-slots-pm, #time-slots-am').empty();
+    for(var x=0; x < data.length; x++) {
+      el = template.replace(/_time_/g, data[x].time);
+      if (data[x].time >= '12:00') {
+        $('#time-slots-pm').append(el);
+      } else {
+        $('#time-slots-am').append(el);
+      }
     }
   }
 
@@ -151,7 +180,7 @@ console.log(mode);
   window.addEventListener('load', function() {
     // datepicker initialzation
     // reference: https://github.com/uxsolutions/bootstrap-datepicker
-    $.fn.datepicker.dates['tc'] = {
+    var datepickerTCnSC = {
       days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
       daysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
       daysMin: ["日", "一", "二", "三", "四", "五", "六"],
@@ -163,10 +192,13 @@ console.log(mode);
       titleFormat: "yyyy年MM", /* Leverages same syntax as 'format' */
       weekStart: 0
     };
+
+    $.fn.datepicker.dates['tc'] = datepickerTCnSC;
+    $.fn.datepicker.dates['sc'] = datepickerTCnSC;
   
     $('#datepicker').datepicker({
       format: 'dd/mm/yyyy',
-      language: 'tc',
+      language: $('html').attr('lang'),
       templates: {
         leftArrow: '<i class="icon nav-arrow-left"></i>',
         rightArrow: '<i class="icon nav-arrow-right"></i>'
@@ -200,6 +232,9 @@ console.log(mode);
     // resolve yellow selector over the text (day value)
     $('#datepicker table td').wrapInner('<label class="position-relative m-0"></label>');
 
+    // set active form for modify mode
+    // todo: handle modify
+
     // -------------------------------------------
     // events setup
     // -------------------------------------------
@@ -228,9 +263,9 @@ console.log(mode);
     });
 
     $('#datepicker').on('changeDate', function() {
-      var datePicked = $('#datepicker').datepicker('getFormattedDate');
-      $('#my_hidden_input').val(datePicked);
-      $('#dateOfVisit').text(datePicked);
+      guestForm.dateOfVisit.value = $('#datepicker').datepicker('getFormattedDate');
+      $('#dateOfVisit').text(guestForm.dateOfVisit.value);
+      $('#date-of-visit-input').removeClass('is-invalid');
       $('#datepicker table td').wrapInner('<label class="position-relative m-0"></label>');
     });
 
@@ -279,14 +314,14 @@ console.log(mode);
 
     // mobile only: show bottom shadow of sticky steps when scroll down
     $(window).on('resize', function(e) {
-      $('.form-layer').off('scroll');
+      $('.form-layer').off('scroll.mobileStickyMenu');
       mobileStickyMenu();
     });
 
     // tnc scrolling handling
     $('#form-step1').on('scroll', function() {
-      var isHidden = $(this).scrollTop() + $(this).height() > (this.scrollHeight - 298);  // 128 (btn row height) + 170 (reserved footer height)
-      
+      var scrollTop = $(this).scrollTop();
+      var isHidden = scrollTop + $(this).height() > (this.scrollHeight - 298);  // 128 (btn row height) + 170 (reserved footer height)
       $('#fading-bg').toggleClass('d-none', isHidden);
     });
     
@@ -309,7 +344,10 @@ console.log(mode);
       if (currentStep > 1 && nextStep > currentStep) {
         var isValidForm = formValidation['step' + currentStep]();
         $('#check-error').toggleClass('d-none', isValidForm);
-        if (!isValidForm) {
+        if (!isValidForm && env == 'production') {
+          if(this.id === 'step2-submit') {
+            $('#form-step2')[0].scrollTo(0, 99999);
+          }
           return;
         }
       }
@@ -326,6 +364,11 @@ console.log(mode);
         $('#steps ul > li[step="' + x + '"]').addClass('active');
         $('.mobile-steps > li[step="' + x + '"]').addClass('active');
       }
+
+      if (currentStep == 3) {
+        loadShuttleBusTimeSlots();
+      }
+
       // get the current active element for mobile
       $stepsEl = $('.form-layer.active .mobile-steps');
     });
@@ -343,6 +386,22 @@ console.log(mode);
         this.value = this.value.replace(/[_~`!@#$%\^&*()+=\-\[\]\\';,/{}|\\":<>\?]/g, '');
       }
     });  
+
+    // shuttle bus time slots navigation
+    $('#time-slots-heading a').on('click', function(e) {
+      e.preventDefault();
+      var slot = ['am', 'pm'];
+      var current = $('#time-slots-container').attr('time-slot');
+      var newSlot = 0;
+      var inc = this.id == 'time-slot-next' ? 1 : -1
+
+      newSlot = slot.indexOf(current) + inc;
+      // recycling the slot
+      if (newSlot > slot.length) newSlot = 0;
+      if (newSlot < 0) newSlot = slot.length - 1;
+
+      $('#time-slots-container').attr('time-slot', slot[newSlot]);
+    });
 
     // loading completed
     setTimeout(function(e) {

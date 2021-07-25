@@ -34,33 +34,16 @@
           input.custom-control-input#shuttle-bus-input(name='shuttleBusService' type='checkbox')
           label.custom-control-label(for='shuttle-bus-input')
     
-    #time-slots-container
+    #time-slots-container(time-slot='am')
       #time-slots-heading
-        a.prev(href='')
+        a#time-slots-prev(href='')
           i.icon.nav-arrow-left
-        h5 #{dict.morning[currentLang]}
-        a.next(href='')
+        h5#heading-am #{dict.morning[currentLang]}
+        h5#heading-pm #{dict.afternoon[currentLang]}
+        a#times-slots-next(href='')
           i.icon.nav-arrow-right
-      #time-slots
-        a.col(href='#' value='08:00') 08:00
-        a.col(href='#' value='09:00') 08:00
-        a.col(href='#' value='09:00') 08:00
-        a.col(href='#' value='09:00') 08:00
-        a.col(href='#' value='09:00') 08:00
-        a.col(href='#' value='09:00') 08:00
-        a.col(href='#' value='09:00') 08:00
-        a.col(href='#' value='09:00') 08:00
-        a.col(href='#' value='09:00') 08:00
-        a.col(href='#' value='09:00') 08:00
-        a.col(href='#' value='09:00') 08:00
-        a.col(href='#' value='09:00') 08:00
-        a.col(href='#' value='09:00') 08:00
-        a.col(href='#' value='09:00') 08:00
-        a.col(href='#' value='09:00') 08:00
-        a.col(href='#' value='09:00') 08:00
-        a.col(href='#' value='09:00') 08:00
-        a.col(href='#' value='09:00') 08:00
-        a.col(href='#' value='09:00') 08:00
+      #time-slots-am.time-slots
+      #time-slots-pm.time-slots
 
     .text-right.mt-2
       span.mr-4
@@ -79,6 +62,6 @@
           img.icon.mr-2(src='../../img/btnBack.png')
           | #{dict.editYourInformation[currentLang]}
       .col-5.text-right.pl-0
-        a#form-submit.btn.btn-primary.rounded-pill.step-btn(href='#form-step4' type='button') #{dict.submit[currentLang]}
+        a#form-submit.btn.btn-primary.rounded-pill(href='thankyou.html' type='button') #{dict.submit[currentLang]}
           img.icon(src='../../img/btnArrow.png')
     include footer

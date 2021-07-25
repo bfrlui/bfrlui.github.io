@@ -1,0 +1,20 @@
+extends formStep4
+
+block Headline
+  h1.block-space.text-blue !{dict.yourReservation[currentLang]}
+
+block Message
+  .text-large.font-weight-bold.block-space !{dict.modifyMessage[currentLang]}
+
+block ButtonsRow
+  // buttons for modify mode
+  .row.align-items-center.mt-5
+    .col.text-right
+      a#modify.btn.btn-primary.rounded-pill(href='' type='button') #{dict.modify[currentLang]}
+        img.icon(src='../../img/btnArrow.png')
+    .col
+      a.btn.btn-primary.rounded-pill(href='' type='button' data-toggle='modal' data-target='#confirm-cancel-modal') #{dict.cancel[currentLang]}
+        img.icon(src='../../img/btnArrow.png')
+
+block Modal
+  include modal

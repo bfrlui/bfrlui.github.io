@@ -1,3 +1,4 @@
+//- this is page template for all pages
 //- Global instance for all pages
 -
   var Global = {
@@ -8,7 +9,9 @@
     uid: function() {
       return Math.floor(new Date().valueOf() * Math.random());
     },
-    currentStep: 0
+    currentStep: 0,
+    isNewReservation: true,
+    entryPageName: 'index.html'
   }
 
 include language
@@ -16,7 +19,7 @@ include language
 block vars
 
 doctype html
-html(lang='en')
+html(lang=currentLang)
   head
     meta(charset='utf-8')
     meta(http-equiv='cache-control, pragma', content='no-cache')
@@ -37,8 +40,9 @@ html(lang='en')
     body.loading
       main.container-fluid
         .row
-          // steps
+          // section steps
           include steps
+          // section form
           section#form.col-xs-12
             // step 1 - TnC
             include formStep1
@@ -54,6 +58,7 @@ html(lang='en')
       // datepicker
       script(src='https://unpkg.com/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js')
       // global script
+      script(src="../../js/mobile.js")
       script(src="../../js/index.js")
 
       //- individaul page js

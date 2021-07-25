@@ -1,0 +1,27 @@
+.modal.fade#confirm-cancel-modal(tabindex='-1' aria-labelledby='confirm-cancel-modal-label' aria-hidden='true')
+  .modal-dialog.modal-dialog-centered
+    .modal-content(body='confirm-cancel-body')
+      // confirm cancel message
+      #confirm-cancel-body.modal-body.text-center
+        h3.mt-4.text-blue #{dict.cancel[currentLang]}
+        .text-large #{dict.cancelMessage[currentLang]}
+        .mb-4
+          a.btn.btn-primary.rounded-pill(href type='button')
+            | #{dict.yes[currentLang]}
+            img.icon(src='../../img/btnArrow.png')
+          a.btn.btn-primary.rounded-pill(href type='button' data-dismiss='modal')
+            | #{dict.no[currentLang]}
+            img.icon(src='../../img/btnArrow.png')
+        a.modal-close(href data-dismiss="modal" aria-label="Close")
+          img.img-fluid(src='../../img/btnClose.png')
+      // canceled message
+      #canceled-body.modal-body.text-center
+        h3.mt-3.text-blue #{dict.thankYou[currentLang]}
+        .text-large.mb-3 #{dict.canceledMessage[currentLang]}
+        p.text-left.px-3 !{dict.canceledMarketingMessage[currentLang]}
+        .mb-3
+          a.btn.btn-primary.rounded-pill.m-0(href=`https://www.oceanpark.com.hk/${currentLang}` type='button')
+            | #{dict.homePage[currentLang]}
+            img.icon(src='../../img/btnArrow.png')
+        a.modal-close(href data-dismiss="modal" aria-label="Close")
+          img.img-fluid(src='../../img/btnClose.png')

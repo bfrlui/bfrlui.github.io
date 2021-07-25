@@ -1,3 +1,4 @@
+//- this is content template for: thank you page and modify reservation page
 - Global.currentStep = 4;
 
 body
@@ -17,8 +18,10 @@ body
           .form-step
             include artworks
 
-            h1.block-space.text-blue !{dict.thankYou[currentLang]}
-            .text-large.font-weight-bold.block-space !{dict.thankYouMessage[currentLang]}
+            block Headline
+
+            block Message
+
             h3#email.text-orange.section-title.block-space abc@mirumagency.com
             hr.block-space
 
@@ -73,4 +76,8 @@ body
 
             p !{dict.thankYouReminder[currentLang]}
 
+            block ButtonsRow
+
             include footer
+
+            block Modal

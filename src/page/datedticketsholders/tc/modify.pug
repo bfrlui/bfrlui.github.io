@@ -1,11 +1,16 @@
 extends ../../../pug/page
 
 block vars
+  include ../../../pug/modifyVars
   -
     var currentLang = 'tc';
     var ticketType = 0;
 
 block pageTitle
   title 指定日期門票持有人
-  
-block pageStyle
+
+block pageBody
+  include ../../../pug/modifyContent
+
+  block pageJs
+    include ../../../pug/modifyJs

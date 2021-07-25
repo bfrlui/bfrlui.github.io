@@ -15,4 +15,5 @@
     span.mr-3
       small.mr-1.font-weight-bold —
       | #{dict.full[currentLang]}
-  input#my_hidden_input(name='dateOfVisit' type='hidden')
+  input#date-of-visit-input(name='dateOfVisit' type='hidden' required)
+  .invalid-feedback.my-3 #{dict.errDateOfVisit[currentLang]}

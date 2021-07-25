@@ -88,6 +88,7 @@ a, button, .btn, input, .form-control {
   font-style: italic;
   &[type='button'] {
     background-color: $orange !important;
+    -webkit-appearance: none;
   }
 }
 #steps, #form {
@@ -124,6 +125,7 @@ a, button, .btn, input, .form-control {
         font-weight: 900;
         font-style: italic;
         line-height: 1.05;
+        margin-top: $element-y-padding;
       }
       position: relative;
       min-height: 100%;
@@ -193,18 +195,22 @@ a, button, .btn, input, .form-control {
 header {
   padding: 20px;
   padding-bottom: 10px;
-}
-header, .mobile-steps {
   z-index: 99;
-  // background-color: #fff;
+}
+.mobile-steps {
+  z-index: 999;
 }
 .mobile-steps {
   display: flex;
   justify-content: space-between;
-  position: sticky;
-  top: 0;
+  position: position;
+  top: 81px;
+  left: 0;
+  right: 0;
   padding: 16px 20px;
   &.sticky {
+    position: fixed;
+    top: 0;
     background-color: #fff;
     box-shadow: 0px 2px 1px rgba(0,0,0,.1);
   }
@@ -583,6 +589,16 @@ ul.list-unstyled.custom-disc {
   border-radius: 25px;
   padding-top: $element-y-padding * 2;
   padding-bottom: $element-y-padding;
+  &[time-slot=am] {
+    #heading-pm, #time-slots-pm {
+      display: none;
+    }
+  }
+  &[time-slot=pm] {
+    #heading-am, #time-slots-am {
+      display: none;
+    }
+  }
   #time-slots-heading {
     display: flex;
     justify-content: space-between;
@@ -592,13 +608,13 @@ ul.list-unstyled.custom-disc {
       margin: 0;
       text-align: center;
     }
-    .prev, .next {
+    a {
       width: 20%;
       text-align: center;
       padding: 0 15px;
     }
   }
-  #time-slots {
+  .time-slots {
     display: flex;
     flex-wrap: wrap;
     padding: 0 15px;
@@ -726,6 +742,15 @@ ul.list-unstyled.custom-disc {
   }
 }
 // calendar
+#calendar {
+  #date-of-visit-input {
+    &.is-invalid {
+      + .invalid-feedback {
+        display: block;
+      }
+    }
+  }
+}
 #datepicker {
   .datepicker-inline {
     width: 100%;
@@ -793,7 +818,7 @@ ul.list-unstyled.custom-disc {
   text-align: center;
   margin: 0;
   padding: 30px 0 30px 0;
-  background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, transparent),color-stop(1, white));
+  background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, rgba(255,255,255,0)),color-stop(1, rgba(255,255,255,1)));
   background-image: -ms-linear-gradient(top, transparent 0%, white 100%);
 }
 #verify-guest-container {
@@ -933,6 +958,43 @@ i.icon {
     margin-bottom: 1rem;
   }
 }
+.modal-dialog {
+  max-width: 53.125vw;
+  .modal-content {
+    border-radius: 30px;
+    border: $element-border-width solid $blue;
+    height: 47.872vh;
+    &[body=confirm-cancel-body] {
+      #canceled-body {
+        display: none;
+      }
+    }
+    &[body=canceled-body] {
+      #confirm-cancel-body {
+        display: none;
+      }
+    }
+    .modal-body {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      h3 {
+        font-size: 2.917vw;
+        font-weight: 900;
+      }
+      .btn:first-child {
+        margin-right: 40px;
+      }
+      .modal-close {
+        position: absolute;
+        top: 9%;
+        right: 7%;
+        width: 9.804%;
+        display: block;
+      }
+    }
+  }
+}
 
 // helpers
 .block-space {
@@ -983,6 +1045,17 @@ i.icon {
   }  
 }
 @media(max-width: 767px) {
+  .modal-dialog {
+    max-width: inherit;
+    .modal-content {
+      height: 67.872vh;
+      .modal-body {
+        h3 {
+          font-size: 30px;
+        }
+      }
+    }
+  }
   .btn {
     font-size: 10px;
   }
@@ -1006,9 +1079,11 @@ i.icon {
       min-width: $ticket-type-min-width;
     }
   }
-  #time-slots-container #time-slots .col {
-    flex-basis: 25%;
-    max-width: 25%;
+  #time-slots-container {
+    #time-slots .col {
+      flex-basis: 25%;
+      max-width: 25%;
+    }
   }
   #datepicker .datepicker-inline .datepicker-days table {
     th.dow, td {
@@ -1023,6 +1098,14 @@ i.icon {
           height: $table-sm-td-active-size;
         }
       }
+    }
+  }
+}
+@media (min-width:768px) and (max-width: 991px) {
+  .modal-dialog {
+    max-width: 77.125vw;
+    .modal-content {
+      height: 63.872vh;
     }
   }
 }
