@@ -11,11 +11,17 @@
 
     // form title
     if (ticketType == 0)
-      h1.block-space.text-blue !{dict.datedTicketsHolders[currentLang]}
+      h1.form-title.block-space.text-blue
+        span !{dict.datedTicketsHolders[currentLang]}
+        span !{dict.modifyYourReservation[currentLang]}
     if (ticketType == 1)
-      h1.block-space !{dict.openDatedTicketsHolders[currentLang]}
+      h1.form-title.block-space
+        span !{dict.openDatedTicketsHolders[currentLang]}
+        span !{dict.modifyYourReservation[currentLang]}
     if (ticketType == 2)
-      h1.block-space !{dict.passHolders[currentLang]}
+      h1.form-title.block-space
+        span !{dict.passHolders[currentLang]}
+        span !{dict.modifyYourReservation[currentLang]}
 
     // alert message
     #alert-message.block-space

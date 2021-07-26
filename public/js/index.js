@@ -49,6 +49,13 @@ console.log(env);
     }
   }
 
+  function getUrlParameter(name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    var results = regex.exec(location.search);
+    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+  };
+
   function loadShuttleBusTimeSlots() {
     var template = '<a class="col" href="#" value="_time_">_time_</a>';
     var el = null;
@@ -233,7 +240,23 @@ console.log(env);
     $('#datepicker table td').wrapInner('<label class="position-relative m-0"></label>');
 
     // set active form for modify mode
-    // todo: handle modify
+    var reservationNumber = getUrlParameter('r');
+    console.log(reservationNumber);
+    // skip tnc and directly goto input form
+    if (reservationNumber) {
+      mode = 'modify';
+      currentStep = 2;
+      $('.form-layer').addClass('hidden').removeClass('active');
+      $('#form-step' + currentStep).removeClass('hidden').addClass('active');
+      // append reservation number to each language link
+      $('.lang-switch > a').each(function(i, el) {
+        el.href = el.href + '?r=' + reservationNumber;
+      });
+      // todo: call api to load reservation data
+    }
+
+    // set mode for the app
+    $('main').attr('mode', mode);
 
     // -------------------------------------------
     // events setup
@@ -335,7 +358,7 @@ console.log(env);
     // steps and step buttons listener
     $('.step-btn').on('click', function(e) {
       e.preventDefault();
-      if (!agreeTnC) return;
+      if (!agreeTnC && mode == 'new') return;
       var stepId = $(this).attr('href');
       if (stepId === '#form-step' + currentStep) return;
       var nextStep = Number(stepId.slice(-1));
