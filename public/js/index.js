@@ -104,6 +104,13 @@ console.log(env);
     }
   }
 
+  function labelAutoFocus() {
+    $('.input-label').each(function(i, el) {
+      var $el = $(el);
+      $el.toggleClass('focus', $el.next('input').val() != '');
+    });
+  }
+
   // hide removed guest for user to restore it
   function renderGuestInput() {
     var $availGuest = $('.guest-input-group:lt(' + guestForm.guestNum.value + ')');
@@ -113,46 +120,40 @@ console.log(env);
     if (guestForm.guest1Name.value === '') {
       guestForm.guest1Name.value = guestForm.guest2Name.value;
       guestForm.guest2Name.value = '';
-      if (guestForm.guest1Name.value) {
-        $('label[for=guest1-name]').addClass('focus');
-      }
     }
     if (guestForm.guest2Name.value === '') {
       guestForm.guest2Name.value = guestForm.guest3Name.value;
       guestForm.guest3Name.value = '';
-      if (guestForm.guest2Name.value) {
-        $('label[for=guest2-name]').addClass('focus');
-      }
     }
     if (guestForm.guest3Name.value === '') {
       guestForm.guest3Name.value = guestForm.guest4Name.value;
       guestForm.guest4Name.value = '';
-      if (guestForm.guest3Name.value) {
-        $('label[for=guest3-name]').addClass('focus');
-      }
     }
     if (guestForm.guest1Ticket.value === '') {
       guestForm.guest1Ticket.value = guestForm.guest2Ticket.value;
       guestForm.guest2Ticket.value = '';
-      if (guestForm.guest1Ticket.value) {
-        $('label[for=guest1-ticket]').addClass('focus');
-      }
     }
     if (guestForm.guest2Ticket.value === '') {
       guestForm.guest2Ticket.value = guestForm.guest3Ticket.value;
       guestForm.guest3Ticket.value = '';
-      if (guestForm.guest2Ticket.value) {
-        $('label[for=guest2-ticket]').addClass('focus');
-      }
     }
     if (guestForm.guest3Ticket.value === '') {
       guestForm.guest3Ticket.value = guestForm.guest4Ticket.value;
       guestForm.guest4Ticket.value = ''
-      if (guestForm.guest3Ticket.value) {
-        $('label[for=guest3-ticket]').addClass('focus');
-      }
     }
 
+    // change state of ticket number and show / hide "buy ticket"
+    $availGuest.each(function(i, el) {
+      var $el = $(el);
+      var x = i + 1;
+      if (/9999999999999999|●●●● ●●●● ●●●● ●●●●/.test(guestForm['guest' + x + 'Ticket'].value)) {
+        $el.find('input[id*="ticket"]').attr('disabled', true).val('●●●● ●●●● ●●●● ●●●●');
+      } else {
+        $el.find('input[id*="ticket"]').removeAttr('disabled');
+      }
+      $el.find('.buy-ticket').toggleClass('d-none', guestForm['guest' + x + 'Ticket'].value != '' && guestForm['guest' + x + 'Name'].value != '');
+    });
+    
     // show / hide the first guest remove button
     $availGuest.eq(0).find('.remove-guest').toggleClass('d-none', guestForm.guestNum.value == 1);
 
@@ -163,25 +164,47 @@ console.log(env);
     // hide unavailable guest input
     $unavailGuest.addClass('d-none');
     // reset unavailable guest state and its value
-    $unavailGuest.find('input').removeAttr('required').removeClass('is-invalid').val('');
+    $unavailGuest.find('input').removeAttr('required disabled').removeClass('is-invalid').val('');
     $unavailGuest.find('label').removeClass('focus');
     // reset unavailable guest field state for error message
     $unavailGuest.find('.field-container').removeClass('is-invalid');
+
+    labelAutoFocus();
   }
 
   // fill up the range with width on dragging
   function rangeFill() {
-    var isIE = /Trident|Edge/.test(window.navigator.userAgent);
-    var thumbSize = $(window).width() > 1366 ? '82px' : '60px';
+    // var isIE = /Trident|Edge/.test(window.navigator.userAgent);
+    // var thumbSize = $(window).width() > 1366 ? '82px' : '60px';
 
-    // if (isIE) $('#range-container').css('height', '80px');
+    // $('#range-fill').css('width',
+    //   guestForm.guestNum.value > 1
+    //     ? 'calc((((100% - ' + thumbSize + ') / 3) * ' + (guestForm.guestNum.value - 1) + ') + ' + thumbSize + ' - (' + thumbSize + ' / 2))'
+    //     : 0
+    // );
+    $('#range-fill').attr('value',guestForm.guestNum.value);
 
-    $('#range-fill').css('width',
-      guestForm.guestNum.value > 1
-        ? 'calc((((100% - ' + thumbSize + ') / 3) * ' + (guestForm.guestNum.value - 1) + ') + ' + thumbSize + ' - (' + thumbSize + ' / 2))'
-        : 0
-    );
     $('#guest-num-value').text(guestForm.guestNum.value);
+  }
+
+  function renderModifyData(data) {
+    guestForm.guestNum.value = data.guest.length;
+    guestForm.dateOfVisit.value = data.dateOfVisit;
+    guestForm.email.value = data.email;
+    guestForm.confirmEmail.value = data.email;
+    guestForm.contactNumber.value = data.contactNumber;
+    for (var x=0; x < data.guest.length; x++) {
+      guestForm['guest' + (x+1) + 'Name'].value = data.guest[x].name;
+      guestForm['guest' + (x+1) + 'Ticket'].value = data.guest[x].ticketNumber;
+    }
+
+    // render data
+    rangeFill();
+    renderGuestInput();
+    $('#dateOfVisit').text(guestForm.dateOfVisit.value);
+    $('#datepicker').datepicker('update', data.dateOfVisit);
+    $('#datepicker table td').wrapInner('<label class="position-relative m-0"></label>');
+    // todo: call api to get available dates
   }
 
   window.addEventListener('load', function() {
@@ -253,6 +276,19 @@ console.log(env);
         el.href = el.href + '?r=' + reservationNumber;
       });
       // todo: call api to load reservation data
+      setTimeout(function() {
+        var data = {
+          dateOfVisit: '20/7/2021',
+          contactNumber: '12345678',
+          email: 'abc@mirumagency.com',
+          shuttleBusService: '21:00',
+          guest: [
+            { name: 'tester #1', ticketNumber: '9999999999999999' },
+            { name: 'tester #2', ticketNumber: '9999999999999999' }
+          ]
+        }
+        renderModifyData(data)
+      }, 3000);
     }
 
     // set mode for the app

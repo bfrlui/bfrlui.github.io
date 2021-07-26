@@ -466,6 +466,11 @@ form {
     &[disabled] {
       border-color: #D1E3F2 !important;
       background-color: #D1E3F2;
+      pointer-events: none;
+      color: $gray;
+      + a {
+        display: none;
+      }
     }
   }
   // custom field group for input text and number
@@ -504,6 +509,7 @@ form {
   }
   .guest-input-group {
     a.buy-ticket {
+      font-size: 80%;
       color: $orange;
       text-decoration: underline;
     }
@@ -664,10 +670,16 @@ ul.list-unstyled.custom-disc {
   #range-fill {
     position: absolute;
     top: 0;
+    width: 0;
     height: 100%;
     background-color: $blue;
     border-top-left-radius: 25rem;
     border-bottom-left-radius: 25rem;
+    @for $i from 2 through 4 {
+      &[value="#{$i}"] {
+        width: calc((((100% - #{$range-thumb-size}) / 3) * (#{$i} - 1)) + #{$range-thumb-size} - (#{$range-thumb-size} / 2));
+      }
+    }
   }
   input[type='range'] {
     position: relative;
@@ -1007,6 +1019,7 @@ main {
     }
   }
   &[mode=modify] {
+    .mobile-steps,
     #steps-list {
       display: none;
     }
@@ -1108,7 +1121,7 @@ main {
     }
   }
   #time-slots-container {
-    #time-slots .col {
+    .time-slots .col {
       flex-basis: 25%;
       max-width: 25%;
     }
@@ -1216,6 +1229,13 @@ main {
   #range-container {
     height: $range-sm-thumb-size;
     max-height: $element-sm-max-height;
+    #range-fill {
+      @for $i from 2 through 4 {
+        &[value="#{$i}"] {
+          width: calc((((100% - #{$range-sm-thumb-size}) / 3) * (#{$i} - 1)) + #{$range-sm-thumb-size} - (#{$range-sm-thumb-size} / 2));
+        }
+      }
+    }
     input[type='range']::-webkit-slider-runnable-track {
       height: $range-sm-thumb-size;
       max-height: $element-sm-max-height;
