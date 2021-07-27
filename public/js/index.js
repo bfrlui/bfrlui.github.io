@@ -96,12 +96,32 @@ console.log(env);
     $('#time-slots-pm, #time-slots-am').empty();
     for(var x=0; x < data.length; x++) {
       el = template.replace(/_time_/g, data[x].time);
+      // set active if value loaded in modify mode
+      if (guestForm.shuttleBusService.checked && guestForm.shuttleBusTimeSlot.value == data[x].time) {
+        el = el.replace('col', 'col active');
+        // better ux to show selected time slot if afternoon
+        if (guestForm.shuttleBusTimeSlot.value >= '12:00') {
+          $('#shuttle-bus-service').attr('time-slot', 'pm');
+        }
+      }
       if (data[x].time >= '12:00') {
         $('#time-slots-pm').append(el);
       } else {
         $('#time-slots-am').append(el);
       }
     }
+
+    // set state of service for ui appearance 
+    $('#shuttle-bus-service').attr('require-service', guestForm.shuttleBusService.checked ? 'yes' : 'no');
+
+    // setup event
+    $('.time-slots .col').on('click', function(e) {
+      e.preventDefault();
+      if (!guestForm.shuttleBusService.checked) return;
+      $(this).siblings('.active').removeClass('active');
+      $(this).addClass('active');
+      guestForm.shuttleBusTimeSlot.value = $(this).attr('value');
+    });
   }
 
   function labelAutoFocus() {
@@ -193,6 +213,8 @@ console.log(env);
     guestForm.email.value = data.email;
     guestForm.confirmEmail.value = data.email;
     guestForm.contactNumber.value = data.contactNumber;
+    guestForm.shuttleBusTimeSlot.value = data.shuttleBusTimeSlot;
+    guestForm.shuttleBusService.checked = data.shuttleBusService;
     for (var x=0; x < data.guest.length; x++) {
       guestForm['guest' + (x+1) + 'Name'].value = data.guest[x].name;
       guestForm['guest' + (x+1) + 'Ticket'].value = data.guest[x].ticketNumber;
@@ -281,13 +303,15 @@ console.log(env);
           dateOfVisit: '20/7/2021',
           contactNumber: '12345678',
           email: 'abc@mirumagency.com',
-          shuttleBusService: '21:00',
+          shuttleBusTimeSlot: '11:59',
+          shuttleBusService: false,
           guest: [
             { name: 'tester #1', ticketNumber: '9999999999999999' },
             { name: 'tester #2', ticketNumber: '9999999999999999' }
           ]
         }
         renderModifyData(data)
+        $('body').removeClass('loading');
       }, 3000);
     }
 
@@ -299,7 +323,9 @@ console.log(env);
     // -------------------------------------------
 
     $('#shuttle-bus-input').on('click', function(e) {
-      $('#shuttle-bus-service-label').attr('require-service', this.checked ? 'yes' : 'no');
+      $('#shuttle-bus-service').attr('require-service', this.checked ? 'yes' : 'no');
+      // remove selected time slot
+      $('.time-slots .col.active').removeClass('active');
     });
 
     // remove guest by clicking trash
@@ -352,6 +378,7 @@ console.log(env);
 
     $('#form-submit').on('click',function(e) {
       // e.preventDefault();
+      // sessionStorage.setItem('opwwModifyReservation', 'true');
       // guestForm.submit();
     });
 
@@ -361,14 +388,6 @@ console.log(env);
     });
     $('#ticket-type-container .btn').on('mouseout', function(e) {
       $(this).parent('.btn-group').removeAttr('hover');
-    });
-
-    // timeslots
-    $('#time-slots .col').on('click', function(e) {
-      $(this).siblings('.active').removeClass('active');
-      $(this).addClass('active');
-      guestForm.shuttleBusTimeSlot.value = $(this).attr('value');
-      e.preventDefault();
     });
 
     // mobile only: show bottom shadow of sticky steps when scroll down
@@ -450,7 +469,7 @@ console.log(env);
     $('#time-slots-heading a').on('click', function(e) {
       e.preventDefault();
       var slot = ['am', 'pm'];
-      var current = $('#time-slots-container').attr('time-slot');
+      var current = $('#shuttle-bus-service').attr('time-slot');
       var newSlot = 0;
       var inc = this.id == 'time-slot-next' ? 1 : -1
 
@@ -459,7 +478,7 @@ console.log(env);
       if (newSlot > slot.length) newSlot = 0;
       if (newSlot < 0) newSlot = slot.length - 1;
 
-      $('#time-slots-container').attr('time-slot', slot[newSlot]);
+      $('#shuttle-bus-service').attr('time-slot', slot[newSlot]);
     });
 
     // loading completed

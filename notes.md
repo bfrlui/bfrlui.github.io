@@ -2,8 +2,8 @@
 - dirty form
 - qr code scanning for mobile
 - edm
-- timeslot selection
-- timeslot modify
+- captch
+- api
 
 [shared docs]
 https://drive.google.com/drive/folders/1ftnbRtD_Zl2gXoDCNC7zi8mccPXQ1IFK?usp=sharing

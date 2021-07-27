@@ -24,26 +24,27 @@
 
     hr.block-space
 
-    // require service switch
-    .row.align-items-center.mb-4
-      .col-5.pr-0
-        h3.section-title.mb-0 #{dict.availableTimeslots[currentLang]}
-      .col-7.d-flex.align-items-center.pl-0
-        label#shuttle-bus-service-label.text-right.flex-grow-1.mb-0.mr-2(for='shuttle-bus-input' require-service='no') <span>#{dict.shuttleBusService[currentLang]}</span><span>#{dict.shuttleBusServiceNotRequired[currentLang]}</span>
-        #shuttle-bus-service.custom-control.custom-switch
-          input.custom-control-input#shuttle-bus-input(name='shuttleBusService' type='checkbox')
-          label.custom-control-label(for='shuttle-bus-input')
-    
-    #time-slots-container(time-slot='am')
-      #time-slots-heading
-        a#time-slots-prev(href='')
-          i.icon.nav-arrow-left
-        h5#heading-am #{dict.morning[currentLang]}
-        h5#heading-pm #{dict.afternoon[currentLang]}
-        a#times-slots-next(href='')
-          i.icon.nav-arrow-right
-      #time-slots-am.time-slots
-      #time-slots-pm.time-slots
+    #shuttle-bus-service(time-slot='am')
+      // require service switch
+      .row.align-items-center.mb-4
+        .col-5.pr-0
+          h3.section-title.mb-0 #{dict.availableTimeslots[currentLang]}
+        .col-7.d-flex.align-items-center.pl-0
+          label#shuttle-bus-service-label.text-right.flex-grow-1.mb-0.mr-2(for='shuttle-bus-input' require-service='no') <span>#{dict.shuttleBusService[currentLang]}</span><span>#{dict.shuttleBusServiceNotRequired[currentLang]}</span>
+          .custom-control.custom-switch
+            input.custom-control-input#shuttle-bus-input(name='shuttleBusService' type='checkbox')
+            label.custom-control-label(for='shuttle-bus-input')
+      // time slots      
+      #time-slots-container
+        #time-slots-heading
+          a#time-slots-prev(href='')
+            i.icon.nav-arrow-left
+          h5#heading-am #{dict.morning[currentLang]}
+          h5#heading-pm #{dict.afternoon[currentLang]}
+          a#times-slots-next(href='')
+            i.icon.nav-arrow-right
+        #time-slots-am.time-slots
+        #time-slots-pm.time-slots
 
     .text-right.mt-2
       span.mr-4
