@@ -61,14 +61,15 @@ div(role='article' aria-roledescription='email' lang='en' style='text-size-adjus
           table(role='presentation' style='width:100%;max-width:600px;border:none;border-spacing:0;text-align:left;font-family:Arial,sans-serif;font-size:14px;line-height:22px;')
             tbody
               tr
-                td(style="padding:0;background-color:#ffffff;border-bottom:1px solid #000000")
-                  table(role='presentation' style='width:100%;max-width:600px;border:none;border-spacing:0;text-align:left;font-family:Arial,sans-serif;font-size:16px;line-height:22px;')
+                td(style="padding:0;background-color:#ffffff;")
+                  img(src='https://raydesign-cdn.github.io/img/emailHeader.png' alt='Logo' style='width:100%;max-width:600;border:none;text-decoration:none;color:#ffffff;')
+                  //- table(role='presentation' style='width:100%;max-width:600px;border:none;border-spacing:0;text-align:left;font-family:Arial,sans-serif;font-size:16px;line-height:22px;')
                     tbody
                       tr
-                        td(style='padding:44px 30px;text-align:left;')
+                        //- td(style='padding:44px 30px;text-align:left;')
                           img(src='https://raydesign-cdn.github.io/img/logoMobile.png' width='232' alt='Logo' style='max-width:232px;height:auto;border:none;text-decoration:none;color:#ffffff;')
-                        td(style='padding:40px 30px 30px 30px;text-align:center;font-size:24px;font-weight:bold;')
-                          img(src='http://localhost:8080/img/artwork-email.png' width='165' alt='Logo' style='max-width:165px;height:auto;border:none;text-decoration:none;color:#ffffff;')
+                        //- td(style='padding:40px 30px 30px 30px;text-align:center;font-size:24px;font-weight:bold;position:relative')
+                          img(src='http://localhost:8080/img/emailHeader.png' alt='Logo' style='width:100%;max-width:600;border:none;text-decoration:none;color:#ffffff;')
               //- content line 1
               tr
                 td(style='padding:30px;background-color:#ffffff;')
@@ -78,9 +79,10 @@ div(role='article' aria-roledescription='email' lang='en' style='text-size-adjus
                     | Your reservation is successful. Please find your registered information as below.
               //- qr code
               tr
-                //- td(style='padding:30px;font-size:24px;line-height:28px;font-weight:bold;background:url(https://raydesign-cdn.github.io/img/hcard.png)')
-                td(style='padding:30px;font-size:24px;line-height:28px;font-weight:bold;background-color:#ffffff;')
-                  img(src='https://raydesign-cdn.github.io/img/hcard.png' width='495' alt style='width:100%;height:auto;border:none;background-color:#ffffff;')
+                td(style='text-align:center;padding:30px;height:346px;font-size:24px;line-height:28px;font-weight:bold;background-color:#ffffff;background:url(https://raydesign-cdn.github.io/img/hcard540.png) 26px 26px no-repeat')
+                  img(src='https://raydesign-cdn.github.io/img/sampleQR.png' alt style='width:100px;height:auto;border:none;background-color:#ffffff;')
+                //- td(style='padding:30px;font-size:24px;line-height:28px;font-weight:bold;background-color:#ffffff;')
+                  //- img(src='https://raydesign-cdn.github.io/img/hcard.png' width='495' alt style='width:100%;height:auto;border:none;background-color:#ffffff;')
               //- detail info
               tr
                 td(style='padding:20px 30px;background-color:#ffffff;')
@@ -103,16 +105,15 @@ div(role='article' aria-roledescription='email' lang='en' style='text-size-adjus
                         td(style='width:50%;padding:0;font-size:14px;line-height:20px;font-weight:bold;color:#0066B8;')
                           | king.yip@mirumagency.com
               tr
-                td(style='padding:0px 30px;font-size:0;background-color:#ffffff;border-bottom:1px solid #E6EFF8;')
+                td(style='padding:0px 30px;font-size:0;background-color:#ffffff;')
+                  div(style="width: 100%; height: 1px; background-color: #E6EFF8;")
               tr
                 td(align='center' style='padding:30px 0;background-color:#ffffff;')
                   p(style='margin:0;')
-                    a(href='modify.html?r=12345' style='background: #FF840A; text-decoration: none; padding: 33px 40px; color: #ffffff; border-radius: 50px; display:inline-block; mso-padding-alt:0;text-underline-color:#ff3884')
-                      // [if mso]><i style="letter-spacing: 25px;mso-font-width:-100%;mso-text-raise:20pt">&nbsp;</i><![endif]
+                    a(href='modify.html?r=12345' style='background-color: #FF840A; text-decoration: none; padding: 33px 40px; color: #ffffff; border-radius: 50px; display:inline-block;')
                       span(style='mso-text-raise:10pt;font-weight:bold;line-height:1;font-style:italic;margin-right:33px;') MANAGE YOUR RESERVATION
                       span
                         img(src='https://raydesign-cdn.github.io/img/btnArrow.png')
-                      // [if mso]><i style="letter-spacing: 25px;mso-font-width:-100%">&nbsp;</i><![endif]
               tr
                 td(style='padding:30px;background-color:#ffffff;')
                   p(style='margin:0;color:#707070;font-size:12px;')
