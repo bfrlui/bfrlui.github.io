@@ -53,3 +53,4 @@ documents/
 public/css/style.css
 public/css/*.map
 public/*/*/*.html
+!public/*/*/confirmation.html
