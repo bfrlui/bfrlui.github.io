@@ -61,3 +61,95 @@ input:focus padding = 18 40
 input > help text / input = 20
 checkbox > label = 19
 list disc > text = 25
+
+[api spec]
+Notification
+request:
+/api/{ticket type}/notification
+response:
+{
+  "success": true,
+  "notification": [
+    "The Exclusive Offer to Hong Kong Residents from Monday to Thursday is not applicable from Friday to Sunday and all public holidays. Please ensure the admission ticket is valid on your selected visit date upon reservation.",
+    "Online reservation is not required for the guests holding the tickets with designated visiting date but they must submit the Health Declaration Form at the entrance."
+  ]
+}
+
+Date of visit
+request:
+/api/{ticket type}/timeslots/{number of guests}
+response:
+{
+  "success": true,
+  "data": [
+    {
+      "date": "2020-06-01",
+      "available": false,
+      "full": false
+    },
+    {
+      "date": "2020-06-02",
+      "available": false,
+      "full": true
+    }
+  ]
+}
+
+Ticket verification
+request:
+/api/{ticket type}/verify/{ticket number}
+response:
+{
+  "success": true,
+}
+
+Shuttle Bus Service
+request:
+/api/{ticket type}/shuttleBusService/{visit date}/{number of guests}
+response:
+{
+  "success": true,
+  "data": [
+    {
+      "time": "10:00",
+      "available": true,
+      "full": false
+    },
+    {
+      "time": "14:30",
+      "available": true,
+      "full": true
+    }
+  ]
+}
+
+Submit reservation
+/{ticket type}/{language}/index.html?guestNum={number of guest}&dateOfVisit={visit date}&guest1Name={guest 1 name}&guest1Ticket={guest 1 ticket number}&guest2Name={guest 2 name}&guest2Ticket={guest 2 ticket number}&guest3Name={guest 3 name}&guest3Ticket={guest 3 ticket number}&guest4Name={guest 4 name}&guest4Ticket={guest 4 ticket number}&email={email address}&confirmEmail={confirm email address}&contactNumber={contact number}&healthDeclaration=on&optin=on&shuttleBusService=on&shuttleBusTimeSlot={time}&modify=on&reservationNumber={reservation number}
+
+where "optin", "shuttleBusService" and "modify" are optional parameters that will not be existed if off
+where "reservationNumber" is only existed if "modify=on"
+
+Modify reservation
+request:
+/api/{ticket type}/modify/{reservation number}
+response:
+{
+  "success": true,
+  "dateOfVisit": "20/7/2021",
+  "contactNumber": "12345678",
+  "email": "abc@mirumagency.com",
+  shuttleBusTimeSlot: "11:59",
+  shuttleBusService: true,
+  guest: [
+    { "name": "tester #1", "ticketNumber": "1234567890123456" },
+    { "name": "tester #2", "ticketNumber": "1234567890123456" }
+  ]
+}
+
+Cancel reservation
+request:
+/api/{ticket type}/cancel/{reservation number}
+response:
+{
+  "success": true
+}
