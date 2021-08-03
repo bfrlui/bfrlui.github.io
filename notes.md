@@ -126,7 +126,7 @@ response:
 Submit reservation
 /{ticket type}/{language}/index.html?guestNum={number of guest}&dateOfVisit={visit date}&guest1Name={guest 1 name}&guest1Ticket={guest 1 ticket number}&guest2Name={guest 2 name}&guest2Ticket={guest 2 ticket number}&guest3Name={guest 3 name}&guest3Ticket={guest 3 ticket number}&guest4Name={guest 4 name}&guest4Ticket={guest 4 ticket number}&email={email address}&confirmEmail={confirm email address}&contactNumber={contact number}&healthDeclaration=on&optin=on&shuttleBusService=on&shuttleBusTimeSlot={time}&modify=on&reservationNumber={reservation number}
 
-where "optin", "shuttleBusService" and "modify" are optional parameters that will not be existed if off
+where "optin", "shuttleBusService" and "modify" are optional properties that will not be existed if off
 where "reservationNumber" is only existed if "modify=on"
 
 Modify reservation

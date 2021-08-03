@@ -113,6 +113,7 @@ a, button, .btn, input, .form-control {
     bottom: 0;
     opacity: 1;
     position: absolute;
+    z-index: 0;
     &.hidden {
       opacity: 0;
       visibility: hidden;
