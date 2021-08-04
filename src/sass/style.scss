@@ -82,6 +82,7 @@ a, button, .btn, input, .form-control {
   } 
 }
 .btn {
+  min-width: 100px;
   font-weight: 900;
   font-style: italic;
   &[type='button'] {
@@ -841,9 +842,6 @@ ul.list-unstyled.custom-disc {
 }
 // verify guest button
 #verify-guest-container {
-  .btn {
-    min-width: 100px;
-  }
   hr {
     position: absolute;
     width: 100%;
@@ -1016,6 +1014,36 @@ i.icon {
     }
   }
 }
+#reader-page {
+  .step-btn {
+    pointer-events: none;
+  }
+  #reader {
+    width: 100%;
+    min-height: 55vh;
+    background-color: $lighter-blue;
+    text-align: center;
+    border-radius: 20px;
+    > * {
+      border-radius: 20px;
+    }
+  }
+  #camera-message {
+    &[index='1'] {
+      > :not(:nth-child(1)) {
+        display: none;
+      }
+    }
+    &[index='2'] {
+      > :not(:nth-child(2)) {
+        display: none;
+      }
+    }
+  }
+  .form-step {
+    margin-top: 20px;
+  }
+}
 
 // app mode handling
 main {
@@ -1108,7 +1136,7 @@ main {
     }
   }
   .btn {
-    font-size: 10px;
+    font-size: 13px;
   }
   #qr-text-layer {
     > *:last-child {

@@ -3,6 +3,7 @@ var currentStep = 1;
 var maxGuestNum = 4;
 var agreeTnC = false;
 var mode = 'new';
+var currentLang =$('html').attr('lang');
 console.log(env);
 
 (function() {
@@ -250,7 +251,7 @@ console.log(env);
   
     $('#datepicker').datepicker({
       format: 'dd/mm/yyyy',
-      language: $('html').attr('lang'),
+      language: currentLang,
       templates: {
         leftArrow: '<i class="icon nav-arrow-left"></i>',
         rightArrow: '<i class="icon nav-arrow-right"></i>'
