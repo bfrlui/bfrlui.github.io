@@ -1,7 +1,6 @@
 [outstanding items]
 - dirty form
 - qr code scanning for mobile
-- edm
 - captch
 - api
 

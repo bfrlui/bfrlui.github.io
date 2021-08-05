@@ -1024,11 +1024,23 @@ i.icon {
     background-color: $lighter-blue;
     text-align: center;
     border-radius: 20px;
+    z-index: 0;
     > * {
       border-radius: 20px;
     }
   }
   #camera-message {
+    transform: translateY(40px);
+    padding: 0px 50px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    &[index='0'] {
+      > * {
+        display: none;
+      }
+    }
     &[index='1'] {
       > :not(:nth-child(1)) {
         display: none;

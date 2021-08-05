@@ -12,14 +12,14 @@ script#guest-input-template(type='text/template')
     .col-xs-12.mb-3.field-container
       .position-relative
         label.input-label(for='guest_Index-name') #{dict.fullName[currentLang]}<span class="text-red">*</span>
-        input.form-control.form-control-lg.rounded-pill.guest-text-input#guest_Index-name(name='guest_IndexName' type='text' value='' autocomplete="off")
+        input.form-control.form-control-lg.rounded-pill.guest-text-input#guest_Index-name(name='guest_IndexName' type='text' value='' autocomplete="off" maxlength='50')
       small#guest_Index-name-help-text.form-text.mt-3 #{dict.fullNameDesc[currentLang]}
       .invalid-feedback.my-3 #{dict.errName[currentLang]}
     // ticket number
     .col-xs-12.mb-3.field-container
       .position-relative
         label.input-label(for='guest_Index-ticket') #{dict.ticketBarcodeNumber[currentLang]}<span class="text-red">*</span>
-        input.form-control.form-control-lg.rounded-pill.guest-text-input#guest_Index-ticket(name='guest_IndexTicket' type='text' value='' autocomplete="off")
+        input.form-control.form-control-lg.rounded-pill.guest-text-input#guest_Index-ticket(name='guest_IndexTicket' type='text' value='' autocomplete="off" maxlength='16')
         a.code-reader(href)
           i.icon.question
       .invalid-feedback.my-3 #{dict.errTicket[currentLang]}

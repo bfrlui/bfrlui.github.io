@@ -27,9 +27,9 @@
     #shuttle-bus-service(time-slot='am')
       // require service switch
       .row.align-items-center.mb-4
-        .col-5.pr-0
+        .col-4.pr-0
           h3.section-title.mb-0 #{dict.availableTimeslots[currentLang]}
-        .col-7.d-flex.align-items-center.pl-0
+        .col-8.d-flex.align-items-center.pl-0
           label#shuttle-bus-service-label.text-right.flex-grow-1.mb-0.mr-2(for='shuttle-bus-input' require-service='no') <span>#{dict.shuttleBusService[currentLang]}</span><span>#{dict.shuttleBusServiceNotRequired[currentLang]}</span>
           .custom-control.custom-switch
             input.custom-control-input#shuttle-bus-input(name='shuttleBusService' type='checkbox')
