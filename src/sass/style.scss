@@ -795,7 +795,7 @@ ul.list-unstyled.custom-disc {
             background-color: inherit;
           }
           &.active,
-          &:hover {
+          &:not(.disabled):hover {
             background: none;
             &:before {
               content: "";
@@ -813,6 +813,29 @@ ul.list-unstyled.custom-disc {
               max-width: 60px;
               max-height: 60px;
             }
+          }
+          &.disabled {
+            color: $light-gray;
+          }
+          &.full.disabled {
+            color: $text;
+            label:before {
+              content: '';
+              position: absolute;
+              left: -3px;
+              right: -3px;
+              height: 1px;
+              background-color: $text;
+              display: inline-block;
+              top: 9px;
+            }
+          }
+          &.old, &.new {
+            padding: 0;
+            height: 0;
+            line-height: 0;
+            visibility: hidden;
+            pointer-events: none;
           }
         }
         .prev, .next {

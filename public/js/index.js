@@ -9,6 +9,34 @@ console.log(env);
 (function() {
   'use strict';
 
+  // convert yyyy-mm-dd to dd/mm/yyyy
+  var dateFormat = function(date) {
+    var dateStr = date.split('-');
+    return dateStr[2] + '/' + dateStr[1] + '/' + dateStr[0];
+  }
+
+  var api = function(url) {
+    var defer = $.Deferred();
+    $.ajax({
+        url: url,
+        method: "GET",
+        dataType: 'JSON',
+        contentType: 'application/json; charset=UTF-8'
+      })
+      .done(function(resp) {
+        if (resp.success) {
+          var availDate = resp.data;
+          defer.resolve(resp.data);
+        } else {
+          // handle not success from backend return
+        }
+      })
+      .fail(function(jqXHR, textStatus, errorThrown) {
+        // handle ajax error
+      });
+    return defer;
+  }
+
   var formValidation = {
     step2: function step2Validation() {
       var $formStep2 = $('#form-step2');
@@ -249,13 +277,34 @@ console.log(env);
     $.fn.datepicker.dates['tc'] = datepickerTCnSC;
     $.fn.datepicker.dates['sc'] = datepickerTCnSC;
   
-    $('#datepicker').datepicker({
-      format: 'dd/mm/yyyy',
-      language: currentLang,
-      templates: {
-        leftArrow: '<i class="icon nav-arrow-left"></i>',
-        rightArrow: '<i class="icon nav-arrow-right"></i>'
-      }
+    api('/data/timeslots.json').then(function(data) {
+      console.log(data)
+      $('#datepicker').datepicker({
+        // startDate: dateFormat(data[0].date),
+        // endDate: dateFormat(data[data.length-1].date),
+        startDate: '07/08/2021',
+        endDate: '27/08/2021',
+        format: 'dd/mm/yyyy',
+        language: currentLang,
+        templates: {
+          leftArrow: '<i class="icon nav-arrow-left"></i>',
+          rightArrow: '<i class="icon nav-arrow-right"></i>'
+        },
+        beforeShowDay: function(date) {
+          var dataDate = null;
+          for(var i=0; i < data.length; i++) {
+            dataDate = data[i].date.split('-');
+            dataDate = new Date(dataDate[0], Number(dataDate[1]) - 1, dataDate[2]);
+            if (date.toString() == dataDate.toString()) {
+              if (data[i].full) return { enabled: false, classes: 'full' };
+              return data[i].available;
+            }
+          }
+          return false;
+        }
+      });
+      // resolve yellow selector over the text (day value)
+      $('#datepicker table td').wrapInner('<label class="position-relative m-0"></label>');
     });
 
     // render guest inputs based on number of guests in the form
@@ -281,9 +330,6 @@ console.log(env);
 
     // setup mobile menu based on viewport
     mobileStickyMenu();
-
-    // resolve yellow selector over the text (day value)
-    $('#datepicker table td').wrapInner('<label class="position-relative m-0"></label>');
 
     // set active form for modify mode
     var reservationNumber = getUrlParameter('r');

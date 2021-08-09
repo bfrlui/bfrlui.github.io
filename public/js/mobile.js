@@ -75,19 +75,20 @@ var html5QrCode = null;
 
   mobileStickyMenu();
 
-  if (isMediumViewport) {
-    $('#form-step2').on('click', '.code-reader', function(e) {
-      e.preventDefault();
-      var index = $(this).closest('.guest-input-group').index() + 1;
-      $('#form-step2, #reader-page').toggleClass('d-none');
-      $('#reader-page').removeClass('hidden').scrollTop(0,0);
-      scanner(index);
-    });
-    $('#cancel-scan').on('click', function(e) {
-      e.preventDefault();
-      stopScan();
-    });
-  }
+  // disabled scan function
+  // if (isMediumViewport) {
+  //   $('#form-step2').on('click', '.code-reader', function(e) {
+  //     e.preventDefault();
+  //     var index = $(this).closest('.guest-input-group').index() + 1;
+  //     $('#form-step2, #reader-page').toggleClass('d-none');
+  //     $('#reader-page').removeClass('hidden').scrollTop(0,0);
+  //     scanner(index);
+  //   });
+  //   $('#cancel-scan').on('click', function(e) {
+  //     e.preventDefault();
+  //     stopScan();
+  //   });
+  // }
 
   window.mobileStickyMenu = mobileStickyMenu;
 })();
