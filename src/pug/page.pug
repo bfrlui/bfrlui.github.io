@@ -38,8 +38,8 @@ html(lang=currentLang)
     block pageStyle
 
   block pageBody
-    body.loading
-      main.container-fluid(mode='new')
+    body
+      main.container-fluid(mode)
         .row
           // section steps
           include steps

@@ -6,7 +6,8 @@ section#steps.d-none.d-lg-block.disabled
     ul#steps-list.list-unstyled
       each val in [1, 2, 3]
         li(class=((val == currentStep || val == 1 && !currentStep || currentStep == 4) ? 'active' : null) step=val)
-          a.step-btn.badge.rounded-circle(href=`#form-step${val}`) #{val}
+          //- a.step-btn.badge.rounded-circle(href=`#form-step${val}`) #{val}
+          span.badge.rounded-circle #{val}
         li.divider
       li(class=(currentStep == 4 ? 'active' : null))
         span.badge.rounded-circle.text-white 4

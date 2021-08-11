@@ -171,7 +171,7 @@ a, button, .btn, input, .form-control {
     position: relative;
     > li {
       display: inline-flex;  // fix for ie to remove extra space
-      a {
+      .badge {
         color: #fff;
       }
     }
@@ -198,7 +198,7 @@ header {
   z-index: 99;
 }
 .mobile-steps {
-  display: flex;
+  display: none;
   justify-content: space-between;
   top: 81px;
   left: 0;
@@ -243,6 +243,7 @@ header {
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
+  display: none;
   li {
     &.divider {
       width: 1px;
@@ -424,7 +425,7 @@ form {
       border-color: $blue !important;
     }
     &:checked~.custom-control-label:before {
-      background-color: $blue;
+      background-color: #fff;
     }
     &.is-invalid {
       + .custom-control-label:before {
@@ -448,7 +449,15 @@ form {
       }
     }
     &:checked~.custom-control-label:after {
-      background-size: 14px;
+      // background-size: 14px;
+      content: "";
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      left: -17px;
+      top: 11px;
+      background: $orange;
+      border-radius: 1px;
     }
   }
   // general input style
@@ -944,7 +953,7 @@ i.icon {
     background-image: url(../img/navArrowRight.png);
   }
 }
-#alert-message {
+.alert-message {
   p {
     display: flex;
     align-items: start;
@@ -1090,12 +1099,12 @@ main {
         }
       }
     }
-  }
-  &[mode=modify] {
     .mobile-steps,
     #steps-list {
-      display: none;
+      display: flex;
     }
+  }
+  &[mode=modify] {
     #form-step2 {
       .form-title {
         > span:first-child {

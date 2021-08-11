@@ -1,13 +1,26 @@
-var env = "development";
+var env = location.hostname == 'localhost' ? 'dev' : 'prd';
 var currentStep = 1;
 var maxGuestNum = 4;
 var agreeTnC = false;
 var mode = 'new';
 var currentLang =$('html').attr('lang');
-console.log(env);
+// 0 = dated, 1 = opendated, 2 = pass
+var ticketType = '';
 
 (function() {
   'use strict';
+
+  var apiUrl = {
+    visitDate: function(ticketType, guestNum) { 
+      return env == 'dev' ? '/data/timeslots.json' : '/api/' + ticketType + '/timeslots/' + guestNum
+    },
+    verify: function(ticketType, ticketNumber) {
+      return env == 'dev' ? '/data/verify.json' : '/api/' + ticketType + '/verify/' + ticketNumber
+    },
+    shuttle: function(ticketType, visitDate) {
+      return env == 'dev' ? '/data/shuttle.json' : '/api/' + ticketType + '/shuttleBusService/' + visitDate + '/' + guestNum
+    }
+  }
 
   // convert yyyy-mm-dd to dd/mm/yyyy
   var dateFormat = function(date) {
@@ -25,8 +38,7 @@ console.log(env);
       })
       .done(function(resp) {
         if (resp.success) {
-          var availDate = resp.data;
-          defer.resolve(resp.data);
+          defer.resolve(resp);
         } else {
           // handle not success from backend return
         }
@@ -259,6 +271,16 @@ console.log(env);
   }
 
   window.addEventListener('load', function() {
+    // determine ticket type
+    ticketType = $('#ticket-type-container .btn-group').attr('active');
+    switch (ticketType) {
+      case '0': ticketType = 'dated'; break;
+      case '1': ticketType = 'opendated'; break;
+      case '2': ticketType = 'pass'; break;
+      default:
+        console.error('unhandled ticket type: ' + ticketType);
+    }
+
     // datepicker initialzation
     // reference: https://github.com/uxsolutions/bootstrap-datepicker
     var datepickerTCnSC = {
@@ -277,13 +299,11 @@ console.log(env);
     $.fn.datepicker.dates['tc'] = datepickerTCnSC;
     $.fn.datepicker.dates['sc'] = datepickerTCnSC;
   
-    api('/data/timeslots.json').then(function(data) {
-      console.log(data)
+    api(apiUrl.visitDate('dated', 1)).then(function(resp) {
+      var data = resp.data;
       $('#datepicker').datepicker({
-        // startDate: dateFormat(data[0].date),
-        // endDate: dateFormat(data[data.length-1].date),
-        startDate: '07/08/2021',
-        endDate: '27/08/2021',
+        startDate: dateFormat(data[0].date),
+        endDate: dateFormat(data[data.length-1].date),
         format: 'dd/mm/yyyy',
         language: currentLang,
         templates: {
@@ -338,8 +358,6 @@ console.log(env);
     if (reservationNumber) {
       mode = 'modify';
       currentStep = 2;
-      $('.form-layer').addClass('hidden').removeClass('active');
-      $('#form-step' + currentStep).removeClass('hidden').addClass('active');
       // append reservation number to each language link
       $('.lang-switch > a').each(function(i, el) {
         el.href = el.href + '?r=' + reservationNumber;
@@ -358,9 +376,13 @@ console.log(env);
           ]
         }
         renderModifyData(data)
-        $('body').removeClass('loading');
       }, 3000);
+    } else {
+      mode = 'new';
+      currentStep = 1;
     }
+    $('.form-layer').addClass('hidden').removeClass('active');
+    $('#form-step' + currentStep).removeClass('hidden').addClass('active');
 
     // set mode for the app
     $('main').attr('mode', mode);
@@ -451,16 +473,16 @@ console.log(env);
     });
     
     // agreen tnc
-    $('#agree-tnc').on('click', function(e) {
-      agreeTnC = true;
-      $('#steps, .mobile-steps').removeClass('disabled');
-      $(this).addClass('d-none');
-    });
+    // $('#agree-tnc').on('click', function(e) {
+    //   agreeTnC = true;
+    //   $('#steps, .mobile-steps').removeClass('disabled');
+    //   $(this).addClass('d-none');
+    // });
 
     // steps and step buttons listener
     $('.step-btn').on('click', function(e) {
       e.preventDefault();
-      if (!agreeTnC && mode == 'new') return;
+      // if (!agreeTnC && mode == 'new') return;
       var stepId = $(this).attr('href');
       if (stepId === '#form-step' + currentStep) return;
       var nextStep = Number(stepId.slice(-1));
@@ -469,8 +491,8 @@ console.log(env);
       if (currentStep > 1 && nextStep > currentStep) {
         var isValidForm = formValidation['step' + currentStep]();
         $('#check-error').toggleClass('d-none', isValidForm);
-        if (!isValidForm && env == 'production') {
-          if(this.id === 'step2-submit') {
+        if (!isValidForm && env == 'prd') {
+          if (this.id === 'step2-submit') {
             $('#form-step2')[0].scrollTo(0, 99999);
           }
           return;
@@ -529,9 +551,9 @@ console.log(env);
     });
 
     // loading completed
-    setTimeout(function(e) {
-      $('body').removeClass('loading');
-    },500);
+    // setTimeout(function(e) {
+    //   $('body').removeClass('loading');
+    // },500);
 
   }, false);
 })();
