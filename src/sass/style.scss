@@ -695,9 +695,9 @@ ul.list-unstyled.custom-disc {
     background-color: $blue;
     border-top-left-radius: 25rem;
     border-bottom-left-radius: 25rem;
-    @for $i from 2 through 4 {
+    @for $i from 2 through 8 {
       &[value="#{$i}"] {
-        width: calc((((100% - #{$range-thumb-size}) / 3) * (#{$i} - 1)) + #{$range-thumb-size} - (#{$range-thumb-size} / 2));
+        width: calc((((100% - #{$range-thumb-size}) / 7) * (#{$i} - 1)) + #{$range-thumb-size} - (#{$range-thumb-size} / 2));
       }
     }
   }
@@ -741,7 +741,7 @@ ul.list-unstyled.custom-disc {
       margin-left: calc((#{$range-thumb-size} / 2) - 3px);
     }
     li:nth-child(n+2) {
-      margin-left: calc(((100% - #{$range-thumb-size}) / 3) - 10px);
+      margin-left: calc(((100% - #{$range-thumb-size}) / 7) - 9px);
     }
   }
   // ie
@@ -1312,9 +1312,9 @@ main {
     height: $range-sm-thumb-size;
     max-height: $element-sm-max-height;
     #range-fill {
-      @for $i from 2 through 4 {
+      @for $i from 2 through 8 {
         &[value="#{$i}"] {
-          width: calc((((100% - #{$range-sm-thumb-size}) / 3) * (#{$i} - 1)) + #{$range-sm-thumb-size} - (#{$range-sm-thumb-size} / 2));
+          width: calc((((100% - #{$range-sm-thumb-size}) / 7) * (#{$i} - 1)) + #{$range-sm-thumb-size} - (#{$range-sm-thumb-size} / 2));
         }
       }
     }
@@ -1334,7 +1334,7 @@ main {
         margin-left: calc((#{$range-sm-thumb-size} / 2) - 3px);
       }
       li:nth-child(n+2) {
-        margin-left: calc(((100% - #{$range-sm-thumb-size}) / 3) - 10px);
+        margin-left: calc(((100% - #{$range-sm-thumb-size}) / 7) - 9px);
       }
     }
     .custom-range::-ms-thumb {

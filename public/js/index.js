@@ -1,6 +1,6 @@
 var env = location.hostname == 'localhost' ? 'dev' : 'prd';
 var currentStep = 1;
-var maxGuestNum = 4;
+var maxGuestNum = 8;
 var agreeTnC = false;
 var mode = 'new';
 var currentLang =$('html').attr('lang');
@@ -10,15 +10,19 @@ var ticketType = '';
 (function() {
   'use strict';
 
+  
   var apiUrl = {
     visitDate: function(ticketType, guestNum) { 
-      return env == 'dev' ? '/data/timeslots.json' : '/api/' + ticketType + '/timeslots/' + guestNum
+      var apiVisitDate = '/api/' + ticketType + '/timeslots/' + guestNum;
+      return env == 'dev' ? '/data/timeslots' + guestNum + '.json' : apiVisitDate
     },
     verify: function(ticketType, ticketNumber) {
-      return env == 'dev' ? '/data/verify.json' : '/api/' + ticketType + '/verify/' + ticketNumber
+      var apiVerify = '/api/' + ticketType + '/verify/' + ticketNumber;
+      return env == 'dev' ? '/data/verify.json' : apiVerify
     },
     shuttle: function(ticketType, visitDate) {
-      return env == 'dev' ? '/data/shuttle.json' : '/api/' + ticketType + '/shuttleBusService/' + visitDate + '/' + guestNum
+      var apiShuttle = '/api/' + ticketType + '/shuttleBusService/' + visitDate + '/' + guestNum;
+      return env == 'dev' ? '/data/shuttle.json' : apiShuttle
     }
   }
 
@@ -178,29 +182,15 @@ var ticketType = '';
     var $unavailGuest = $('.guest-input-group:gt(' + (guestForm.guestNum.value - 1) + ')');
 
     // re-order the guest info
-    if (guestForm.guest1Name.value === '') {
-      guestForm.guest1Name.value = guestForm.guest2Name.value;
-      guestForm.guest2Name.value = '';
-    }
-    if (guestForm.guest2Name.value === '') {
-      guestForm.guest2Name.value = guestForm.guest3Name.value;
-      guestForm.guest3Name.value = '';
-    }
-    if (guestForm.guest3Name.value === '') {
-      guestForm.guest3Name.value = guestForm.guest4Name.value;
-      guestForm.guest4Name.value = '';
-    }
-    if (guestForm.guest1Ticket.value === '') {
-      guestForm.guest1Ticket.value = guestForm.guest2Ticket.value;
-      guestForm.guest2Ticket.value = '';
-    }
-    if (guestForm.guest2Ticket.value === '') {
-      guestForm.guest2Ticket.value = guestForm.guest3Ticket.value;
-      guestForm.guest3Ticket.value = '';
-    }
-    if (guestForm.guest3Ticket.value === '') {
-      guestForm.guest3Ticket.value = guestForm.guest4Ticket.value;
-      guestForm.guest4Ticket.value = ''
+    for(var i=1; i < maxGuestNum; i++) {
+      if (guestForm['guest' + i + 'Name'].value === '') {
+        guestForm['guest' + i + 'Name'].value = guestForm['guest' + (i + 1) + 'Name'].value;
+        guestForm['guest' + (i + 1) + 'Name'].value = '';
+      }
+      if (guestForm['guest' + i + 'Ticket'].value === '') {
+        guestForm['guest' + i + 'Ticket'].value = guestForm['guest' + (i + 1) + 'Ticket'].value;
+        guestForm['guest' + (i + 1) + 'Ticket'].value = '';
+      }
     }
 
     // change state of ticket number and show / hide "buy ticket"
@@ -270,6 +260,39 @@ var ticketType = '';
     // todo: call api to get available dates
   }
 
+  function renderCalendar() {
+    api(apiUrl.visitDate('dated', guestForm.guestNum.value)).then(function(resp) {
+      var data = resp.data;
+      $('#datepicker').datepicker('destroy');
+      $('#datepicker').datepicker({
+        startDate: dateFormat(data[0].date),
+        endDate: dateFormat(data[data.length-1].date),
+        format: 'dd/mm/yyyy',
+        language: currentLang,
+        templates: {
+          leftArrow: '<i class="icon nav-arrow-left"></i>',
+          rightArrow: '<i class="icon nav-arrow-right"></i>'
+        },
+        beforeShowDay: function(date) {
+          var dataDate = null;
+          for(var i=0; i < data.length; i++) {
+            dataDate = data[i].date.split('-');
+            dataDate = new Date(dataDate[0], Number(dataDate[1]) - 1, dataDate[2]);
+            if (date.toString() == dataDate.toString()) {
+              if (data[i].full) return { enabled: false, classes: 'full' };
+              return data[i].available;
+            }
+          }
+          return false;
+        }
+      });
+      guestForm.dateOfVisit.value = '';
+      $('#dateOfVisit').text(guestForm.dateOfVisit.value);
+      // resolve yellow selector over the text (day value)
+      $('#datepicker table td').wrapInner('<label class="position-relative m-0"></label>');
+    });
+  }
+
   window.addEventListener('load', function() {
     // determine ticket type
     ticketType = $('#ticket-type-container .btn-group').attr('active');
@@ -295,37 +318,9 @@ var ticketType = '';
       titleFormat: "yyyy年MM", /* Leverages same syntax as 'format' */
       weekStart: 0
     };
-
     $.fn.datepicker.dates['tc'] = datepickerTCnSC;
     $.fn.datepicker.dates['sc'] = datepickerTCnSC;
-  
-    api(apiUrl.visitDate('dated', 1)).then(function(resp) {
-      var data = resp.data;
-      $('#datepicker').datepicker({
-        startDate: dateFormat(data[0].date),
-        endDate: dateFormat(data[data.length-1].date),
-        format: 'dd/mm/yyyy',
-        language: currentLang,
-        templates: {
-          leftArrow: '<i class="icon nav-arrow-left"></i>',
-          rightArrow: '<i class="icon nav-arrow-right"></i>'
-        },
-        beforeShowDay: function(date) {
-          var dataDate = null;
-          for(var i=0; i < data.length; i++) {
-            dataDate = data[i].date.split('-');
-            dataDate = new Date(dataDate[0], Number(dataDate[1]) - 1, dataDate[2]);
-            if (date.toString() == dataDate.toString()) {
-              if (data[i].full) return { enabled: false, classes: 'full' };
-              return data[i].available;
-            }
-          }
-          return false;
-        }
-      });
-      // resolve yellow selector over the text (day value)
-      $('#datepicker table td').wrapInner('<label class="position-relative m-0"></label>');
-    });
+    renderCalendar();
 
     // render guest inputs based on number of guests in the form
     var template = $('#guest-input-template').html();
@@ -334,19 +329,6 @@ var ticketType = '';
     }
     renderGuestInput();
     rangeFill();
-
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    // var forms = document.getElementsByClassName('needs-validation');
-    // Loop over them and prevent submission
-    // var validation = Array.prototype.filter.call(forms, function(form) {
-    //   form.addEventListener('submit', function(event) {
-    //     if (form.checkValidity() === false) {
-    //       event.preventDefault();
-    //       event.stopPropagation();
-    //     }
-    //     form.classList.add('was-validated');
-    //   }, false);
-    // });
 
     // setup mobile menu based on viewport
     mobileStickyMenu();
@@ -371,8 +353,8 @@ var ticketType = '';
           shuttleBusTimeSlot: '11:59',
           shuttleBusService: false,
           guest: [
-            { name: 'tester #1', ticketNumber: '9999999999999999' },
-            { name: 'tester #2', ticketNumber: '9999999999999999' }
+            { name: 'tester one', ticketNumber: '9999999999999999' },
+            { name: 'tester two', ticketNumber: '9999999999999999' }
           ]
         }
         renderModifyData(data)
@@ -439,6 +421,7 @@ var ticketType = '';
         if (guestForm.guestNum.value < maxGuestNum) {
           $('.guest-input-group').eq(guestForm.guestNum.value).find('input').val('');
         }
+        renderCalendar();
         renderGuestInput();
       })
       .on('input change', function(e) {
