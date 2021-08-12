@@ -44,7 +44,9 @@
           a#times-slots-next(href='')
             i.icon.nav-arrow-right
         #time-slots-am.time-slots
+          p.d-none.mx-auto #{dict.noAvailableTimeslots[currentLang]}
         #time-slots-pm.time-slots
+          p.d-none.mx-auto #{dict.noAvailableTimeslots[currentLang]}
 
     .text-right.mt-2
       span.mr-4

@@ -1,0 +1,30 @@
+{
+  "success": true,
+  "data": [
+    {
+      "time": "08:00",
+      "available": true,
+      "full": false
+    },
+    {
+      "time": "09:00",
+      "available": false,
+      "full": false
+    },
+    {
+      "time": "09:30",
+      "available": false,
+      "full": true
+    },
+    {
+      "time": "10:00",
+      "available": true,
+      "full": false
+    },
+    {
+      "time": "11:00",
+      "available": true,
+      "full": false
+    }
+  ]
+}

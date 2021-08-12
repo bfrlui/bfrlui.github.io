@@ -494,8 +494,20 @@ form {
       .form-text {
         display: none;
       }
-      .invalid-feedback {
-        display: block;
+      &:not([errIndex]) {
+        .invalid-feedback {
+          display: block;
+        }
+      }
+      &[errindex='1'] {
+        .invalid-feedback:nth-child(1) {
+          display: block;
+        }
+      }
+      &[errindex='2'] {
+        .invalid-feedback:nth-child(2) {
+          display: block;
+        }
       }
     }
     input {

@@ -12,16 +12,18 @@ var ticketType = '';
 
   
   var apiUrl = {
-    visitDate: function(ticketType, guestNum) { 
+    visitDate: function(guestNum) { 
       var apiVisitDate = '/api/' + ticketType + '/timeslots/' + guestNum;
       return env == 'dev' ? '/data/timeslots' + guestNum + '.json' : apiVisitDate
     },
-    verify: function(ticketType, ticketNumber) {
-      var apiVerify = '/api/' + ticketType + '/verify/' + ticketNumber;
+    verify: function(ticketNumber, visitDate) {
+      var apiVerify = '/api/' + ticketType + '/verify/' + ticketNumber + '/' + visitDate;
       return env == 'dev' ? '/data/verify.json' : apiVerify
     },
-    shuttle: function(ticketType, visitDate) {
-      var apiShuttle = '/api/' + ticketType + '/shuttleBusService/' + visitDate + '/' + guestNum;
+    shuttle: function(visitDate, guestNum) {
+      var date = visitDate.split('/');
+      date = date[2] + '-' + date[1] + '-' + date[0];
+      var apiShuttle = '/api/' + ticketType + '/shuttleBusService/' + date + '/' + guestNum;
       return env == 'dev' ? '/data/shuttle.json' : apiShuttle
     }
   }
@@ -32,7 +34,7 @@ var ticketType = '';
     return dateStr[2] + '/' + dateStr[1] + '/' + dateStr[0];
   }
 
-  var api = function(url) {
+  var api = function(url, options) {
     var defer = $.Deferred();
     $.ajax({
         url: url,
@@ -41,11 +43,7 @@ var ticketType = '';
         contentType: 'application/json; charset=UTF-8'
       })
       .done(function(resp) {
-        if (resp.success) {
-          defer.resolve(resp);
-        } else {
-          // handle not success from backend return
-        }
+        defer.resolve(resp, options);
       })
       .fail(function(jqXHR, textStatus, errorThrown) {
         // handle ajax error
@@ -79,6 +77,11 @@ var ticketType = '';
         if (e.id === 'email' && e.value && !isValidEmail(e.value)) {
           $([e, $field[0]]).addClass('is-invalid');
         }
+
+        // set error index if more than one error messages
+        if ($field.find('.invalid-feedback').length > 1) {
+          $field.attr('errindex', 1);
+        }
       });
 
       // fields cross checking
@@ -104,68 +107,41 @@ var ticketType = '';
   function loadShuttleBusTimeSlots() {
     var template = '<a class="col" href="#" value="_time_">_time_</a>';
     var el = null;
-    var data = [
-      { time: '08:00', isFull: false },
-      { time: '08:00', isFull: false },
-      { time: '08:00', isFull: false },
-      { time: '08:00', isFull: false },
-      { time: '08:00', isFull: false },
-      { time: '08:00', isFull: false },
-      { time: '08:00', isFull: false },
-      { time: '08:00', isFull: false },
-      { time: '08:00', isFull: false },
-      { time: '08:00', isFull: false },
-      { time: '08:00', isFull: false },
-      { time: '08:00', isFull: false },
-      { time: '08:00', isFull: false },
-      { time: '08:00', isFull: false },
-      { time: '11:59', isFull: false },
-      { time: '12:00', isFull: false },
-      { time: '16:00', isFull: false },
-      { time: '17:00', isFull: false },
-      { time: '17:00', isFull: false },
-      { time: '17:00', isFull: false },
-      { time: '17:00', isFull: false },
-      { time: '17:00', isFull: false },
-      { time: '17:00', isFull: false },
-      { time: '17:00', isFull: false },
-      { time: '17:00', isFull: false },
-      { time: '17:00', isFull: false },
-      { time: '17:00', isFull: false },
-      { time: '17:00', isFull: false },
-      { time: '17:00', isFull: false },
-      { time: '18:00', isFull: false },
-      { time: '21:00', isFull: false }
-    ]
 
-    $('#time-slots-pm, #time-slots-am').empty();
-    for(var x=0; x < data.length; x++) {
-      el = template.replace(/_time_/g, data[x].time);
-      // set active if value loaded in modify mode
-      if (guestForm.shuttleBusService.checked && guestForm.shuttleBusTimeSlot.value == data[x].time) {
-        el = el.replace('col', 'col active');
-        // better ux to show selected time slot if afternoon
-        if (guestForm.shuttleBusTimeSlot.value >= '12:00') {
-          $('#shuttle-bus-service').attr('time-slot', 'pm');
+    api(apiUrl.shuttle(guestForm.dateOfVisit.value, guestForm.guestNum.value)).then(function(resp) {
+      var data = resp.data;
+      $('#time-slots-pm a, #time-slots-am a').remove();
+      for(var x=0; x < data.length; x++) {
+        el = template.replace(/_time_/g, data[x].time);
+        // set active if value loaded in modify mode
+        if (guestForm.shuttleBusService.checked && guestForm.shuttleBusTimeSlot.value == data[x].time) {
+          el = el.replace('col', 'col active');
+          // better ux to show selected time slot if afternoon
+          if (guestForm.shuttleBusTimeSlot.value >= '12:00') {
+            $('#shuttle-bus-service').attr('time-slot', 'pm');
+          }
+        }
+        if (data[x].time >= '12:00') {
+          $('#time-slots-pm').append(el);
+        } else {
+          $('#time-slots-am').append(el);
         }
       }
-      if (data[x].time >= '12:00') {
-        $('#time-slots-pm').append(el);
-      } else {
-        $('#time-slots-am').append(el);
-      }
-    }
-
-    // set state of service for ui appearance 
-    $('#shuttle-bus-service').attr('require-service', guestForm.shuttleBusService.checked ? 'yes' : 'no');
-
-    // setup event
-    $('.time-slots .col').on('click', function(e) {
-      e.preventDefault();
-      if (!guestForm.shuttleBusService.checked) return;
-      $(this).siblings('.active').removeClass('active');
-      $(this).addClass('active');
-      guestForm.shuttleBusTimeSlot.value = $(this).attr('value');
+  
+      // set state of service for ui appearance 
+      $('#shuttle-bus-service').attr('require-service', guestForm.shuttleBusService.checked ? 'yes' : 'no');
+      // show message if no available timeslots
+      $('#time-slots-pm p').toggleClass('d-none', $('#time-slots-pm a').length > 0);
+      $('#time-slots-am p').toggleClass('d-none', $('#time-slots-am a').length > 0);
+  
+      // setup event
+      $('.time-slots .col').on('click', function(e) {
+        e.preventDefault();
+        if (!guestForm.shuttleBusService.checked) return;
+        $(this).siblings('.active').removeClass('active');
+        $(this).addClass('active');
+        guestForm.shuttleBusTimeSlot.value = $(this).attr('value');
+      });
     });
   }
 
@@ -211,6 +187,9 @@ var ticketType = '';
     // show availabe guest input and make it required
     $availGuest.removeClass('d-none');
     $availGuest.find('input').attr('required','');
+    // reset error state
+    $availGuest.find('.field-container').removeAttr('errindex').removeClass('is-invalid');
+    $availGuest.find('input').removeClass('is-invalid');
 
     // hide unavailable guest input
     $unavailGuest.addClass('d-none');
@@ -218,7 +197,9 @@ var ticketType = '';
     $unavailGuest.find('input').removeAttr('required disabled').removeClass('is-invalid').val('');
     $unavailGuest.find('label').removeClass('focus');
     // reset unavailable guest field state for error message
-    $unavailGuest.find('.field-container').removeClass('is-invalid');
+    $unavailGuest.find('.field-container').removeClass('is-invalid').removeAttr('errindex');
+    // reset verify message
+    $('#verify-message, #verify-message span').addClass('d-none');
 
     labelAutoFocus();
   }
@@ -261,7 +242,8 @@ var ticketType = '';
   }
 
   function renderCalendar() {
-    api(apiUrl.visitDate('dated', guestForm.guestNum.value)).then(function(resp) {
+    if (ticketType == 'dated') return;
+    api(apiUrl.visitDate(guestForm.guestNum.value)).then(function(resp) {
       var data = resp.data;
       $('#datepicker').datepicker('destroy');
       $('#datepicker').datepicker({
@@ -275,14 +257,17 @@ var ticketType = '';
         },
         beforeShowDay: function(date) {
           var dataDate = null;
+          // match calendar date with dates from api
           for(var i=0; i < data.length; i++) {
             dataDate = data[i].date.split('-');
             dataDate = new Date(dataDate[0], Number(dataDate[1]) - 1, dataDate[2]);
             if (date.toString() == dataDate.toString()) {
+              // return 'full' class for the date styling and disable selection
               if (data[i].full) return { enabled: false, classes: 'full' };
               return data[i].available;
             }
           }
+          // other calendar dates are not selectable
           return false;
         }
       });
@@ -304,23 +289,25 @@ var ticketType = '';
         console.error('unhandled ticket type: ' + ticketType);
     }
 
-    // datepicker initialzation
-    // reference: https://github.com/uxsolutions/bootstrap-datepicker
-    var datepickerTCnSC = {
-      days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-      daysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-      daysMin: ["日", "一", "二", "三", "四", "五", "六"],
-      months: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
-      monthsShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-      today: "Today",
-      clear: "Clear",
-      format: "mm/dd/yyyy",
-      titleFormat: "yyyy年MM", /* Leverages same syntax as 'format' */
-      weekStart: 0
-    };
-    $.fn.datepicker.dates['tc'] = datepickerTCnSC;
-    $.fn.datepicker.dates['sc'] = datepickerTCnSC;
-    renderCalendar();
+    if (ticketType != 'dated') {
+      // datepicker initialzation
+      // reference: https://github.com/uxsolutions/bootstrap-datepicker
+      var datepickerTCnSC = {
+        days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+        daysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+        daysMin: ["日", "一", "二", "三", "四", "五", "六"],
+        months: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
+        monthsShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        today: "Today",
+        clear: "Clear",
+        format: "mm/dd/yyyy",
+        titleFormat: "yyyy年MM", /* Leverages same syntax as 'format' */
+        weekStart: 0
+      };
+      $.fn.datepicker.dates['tc'] = datepickerTCnSC;
+      $.fn.datepicker.dates['sc'] = datepickerTCnSC;
+      renderCalendar();
+    }
 
     // render guest inputs based on number of guests in the form
     var template = $('#guest-input-template').html();
@@ -372,6 +359,49 @@ var ticketType = '';
     // -------------------------------------------
     // events setup
     // -------------------------------------------
+
+    $('#verify').on('click', function(e) {
+      e.preventDefault();
+      var hasError = false;
+      var visitDate = ticketType == 'dated' ? null : guestForm.dateOfVisit.value;
+      if (visitDate == '') {
+        $('#verify-message').removeClass('d-none').find('span:first-child').removeClass('d-none');
+        return;
+      }
+
+      $('#verify-message').addClass('d-none').find('span').addClass('d-none');
+      for(var i=1; i <= Number(guestForm.guestNum.value); i++) {
+        if (guestForm['guest' + i + 'Ticket'].value) {
+          api(apiUrl.verify(guestForm['guest' + i + 'Ticket'].value, visitDate), i-1).then(function (resp, guestIndex) {
+            if (resp.success) {
+              $('.guest-input-group').eq(guestIndex)
+                .find('.ticket-number').removeClass('is-invalid').removeAttr('errindex')
+                .find('input').removeClass('is-invalid');
+            } else {
+              hasError = true;
+              // highlight field has error
+              $('.guest-input-group').eq(guestIndex)
+                .find('.ticket-number').addClass('is-invalid').attr('errindex', 2)
+                .find('input').addClass('is-invalid');
+            }
+          });
+        } else {
+            hasError = true;
+              // show alert message under the button
+            $('#verify-message').removeClass('d-none').find('span:nth-child(2)').removeClass('d-none');
+            // highlight field has an error
+            $('.guest-input-group').eq(i-1)
+            .find('.ticket-number').addClass('is-invalid').attr('errindex', 1)
+            .find('input').addClass('is-invalid')
+        }
+      }
+      if (hasError) {
+        // show alert message under the button
+        $('#verify-message').removeClass('d-none').find('span:nth-child(2)').removeClass('d-none');
+      } else {
+        $('#verify-message').removeClass('d-none').find('span:nth-child(3)').removeClass('d-none');
+      }
+    });
 
     $('#shuttle-bus-input').on('click', function(e) {
       $('#shuttle-bus-service').attr('require-service', this.checked ? 'yes' : 'no');
@@ -429,9 +459,9 @@ var ticketType = '';
       });
 
     $('#form-submit').on('click',function(e) {
-      // e.preventDefault();
+      e.preventDefault();
       // sessionStorage.setItem('opwwModifyReservation', 'true');
-      // guestForm.submit();
+      guestForm.submit();
     });
 
     // animation control of ticket type button

@@ -1,0 +1,18 @@
+extends ../../../pug/page
+
+block vars
+  -
+    var currentLang = 'en';
+    var ticketType = 1;
+    var currentStep = 4;
+
+block pageTitle
+  title Open Dated Tickets Holders
+
+block pageBody
+  include ../../../pug/thankYouContent
+
+  block pageJs
+    // bootstrap
+    script(src='https://code.jquery.com/jquery-3.5.1.slim.min.js')
+    script(src='https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js')

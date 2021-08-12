@@ -1,7 +1,6 @@
 //- form.needs-validation(name='guestForm' novalidate)
 script#guest-input-template(type='text/template')
   .guest-input-group.d-none
-    hr.my-4
     .d-flex.justify-content-between.align-items-center.mb-4
       h3.section-title.mb-0 !{dict.registeredGuest[currentLang]} <span class='text-blue'>_Index</span>
       // rmove button
@@ -16,13 +15,15 @@ script#guest-input-template(type='text/template')
       small#guest_Index-name-help-text.form-text.mt-3 #{dict.fullNameDesc[currentLang]}
       .invalid-feedback.my-3 #{dict.errName[currentLang]}
     // ticket number
-    .col-xs-12.mb-3.field-container
+    .col-xs-12.mb-3.field-container.ticket-number
       .position-relative
         label.input-label(for='guest_Index-ticket') #{dict.ticketBarcodeNumber[currentLang]}<span class="text-red">*</span>
         input.form-control.form-control-lg.rounded-pill.guest-text-input#guest_Index-ticket(name='guest_IndexTicket' type='text' value='' autocomplete="off" maxlength='16')
         a.code-reader(href)
           i.icon.question
-      .invalid-feedback.my-3 #{dict.errTicket[currentLang]}
+      div
+        .invalid-feedback.my-3 #{dict.errTicket[currentLang]}
+        .invalid-feedback.my-3 #{dict.errTicketInvalid[currentLang]}
       .mt-3
         a.buy-ticket(href) #{dict.buyTickets[currentLang]}
       //- 
@@ -35,4 +36,8 @@ script#guest-input-template(type='text/template')
 
 #verify-guest-container.col-xs-12.my-4.text-center.position-relative
   hr
-  a.btn.btn-primary.rounded-pill.position-relative(href="#" type='button') #{dict.verify[currentLang]}
+  a#verify.btn.btn-primary.rounded-pill.position-relative(href="#" type='button') #{dict.verify[currentLang]}
+p#verify-message.text-center.text-red.mt-3.d-none
+  span.d-none #{dict.errDateOfVisit[currentLang]}
+  span.d-none #{dict.errVerify[currentLang]}
+  span.d-none.text-cyan #{dict.verifySuccess[currentLang]}
