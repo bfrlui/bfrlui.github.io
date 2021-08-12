@@ -1,0 +1,114 @@
+  /*generated with Input range slider CSS style generator (version 20210711)
+  https://toughengineer.github.io/demo/slider-styler*/
+  input[type=range].styled-slider {
+    height: 82px;
+    -webkit-appearance: none;
+    --value:4;
+    --min:1;
+    --max:8;
+    position: relative;
+    border-radius: 50rem;
+    height: calc(100% + 2px);
+  }
+
+  /*progress support*/
+  input[type=range].styled-slider.slider-progress {
+    --range: calc(var(--max) - var(--min));
+    --ratio: calc((var(--value) - var(--min)) / var(--range));
+    --sx: calc(0.5 * 82px + var(--ratio) * (100% - 82px));
+  }
+
+  input[type=range].styled-slider:focus {
+    outline: none;
+  }
+
+  /*webkit*/
+  input[type=range].styled-slider::-webkit-slider-thumb {
+    width: 82px;
+    height: 82px;
+    border-radius: 50px;
+    background: #007cf8;
+    background: $yellow url(../img/btnRange.png) center center no-repeat;
+  //   background-color: $yellow;
+  //   background-position: center center;
+  //   background-image: url(../img/btnRange.png);
+  //   background-repeat: no-repeat;
+
+    border: none;
+    box-shadow: 0 0 2px black;
+    margin-top: calc(max((82px - 1px - 1px) * 0.5,0px) - 82px * 0.5);
+    -webkit-appearance: none;
+  }
+
+  input[type=range].styled-slider::-webkit-slider-runnable-track {
+    height: 82px;
+    border-radius: 50px;
+    background: #efefef;
+    border: 0;
+    box-shadow: none;
+  }
+
+  input[type=range].styled-slider.slider-progress::-webkit-slider-runnable-track {
+    background: linear-gradient(#007cf8,#007cf8) 0/var(--sx) 100% no-repeat, #efefef;
+  }
+
+  /*mozilla*/
+  input[type=range].styled-slider::-moz-range-thumb {
+    width: 82px;
+    height: 82px;
+    border-radius: 50px;
+    background: #007cf8;
+    border: none;
+    box-shadow: 0 0 2px black;
+  }
+
+  input[type=range].styled-slider::-moz-range-track {
+    height: 80px;
+    border-radius: 50px;
+    background: #efefef;
+    border: 0;
+    box-shadow: none;
+  }
+
+  input[type=range].styled-slider.slider-progress::-moz-range-track {
+    background: linear-gradient(#007cf8,#007cf8) 0/var(--sx) 100% no-repeat, #efefef;
+  }
+
+  /*ms*/
+  input[type=range].styled-slider::-ms-fill-upper {
+    background: transparent;
+    border-color: transparent;
+  }
+
+  input[type=range].styled-slider::-ms-fill-lower {
+    background: transparent;
+    border-color: transparent;
+  }
+
+  input[type=range].styled-slider::-ms-thumb {
+    width: 82px;
+    height: 82px;
+    border-radius: 50px;
+    background: #007cf8;
+    border: none;
+    box-shadow: 0 0 2px black;
+    margin-top: 0;
+    box-sizing: border-box;
+  }
+
+  input[type=range].styled-slider::-ms-track {
+    height: 82px;
+    border-radius: 50px;
+    background: #efefef;
+    border: 0;
+    box-shadow: none;
+    box-sizing: border-box;
+  }
+
+  input[type=range].styled-slider.slider-progress::-ms-fill-lower {
+    height: 80px;
+    border-radius: 50px 0 0 50px;
+    margin: -1px 0 -1px -1px;
+    background: #007cf8;
+    border: 0;
+  }

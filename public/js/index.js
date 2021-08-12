@@ -20,10 +20,13 @@ var ticketType = '';
       var apiVerify = '/api/' + ticketType + '/verify/' + ticketNumber + '/' + visitDate;
       return env == 'dev' ? '/data/verify.json' : apiVerify
     },
-    shuttle: function(visitDate, guestNum) {
-      var date = visitDate.split('/');
-      date = date[2] + '-' + date[1] + '-' + date[0];
-      var apiShuttle = '/api/' + ticketType + '/shuttleBusService/' + date + '/' + guestNum;
+    shuttle: function(guestNum, visitDate) {
+      var date = '';
+      if (visitDate) {
+        date = visitDate.split('/');
+        date = date[2] + '-' + date[1] + '-' + date[0] + '/';
+      }
+      var apiShuttle = '/api/' + ticketType + '/shuttleBusService/' + date + guestNum;
       return env == 'dev' ? '/data/shuttle.json' : apiShuttle
     }
   }
@@ -108,7 +111,7 @@ var ticketType = '';
     var template = '<a class="col" href="#" value="_time_">_time_</a>';
     var el = null;
 
-    api(apiUrl.shuttle(guestForm.dateOfVisit.value, guestForm.guestNum.value)).then(function(resp) {
+    api(apiUrl.shuttle(guestForm.guestNum.value, ticketType == 'dated' ? null : guestForm.dateOfVisit.value)).then(function(resp) {
       var data = resp.data;
       $('#time-slots-pm a, #time-slots-am a').remove();
       for(var x=0; x < data.length; x++) {
@@ -207,13 +210,13 @@ var ticketType = '';
   // fill up the range with width on dragging
   function rangeFill() {
     // var isIE = /Trident|Edge/.test(window.navigator.userAgent);
-    // var thumbSize = $(window).width() > 1366 ? '82px' : '60px';
+    var thumbSize = $(window).width() > 1440 ? '82px' : '58px';
 
-    // $('#range-fill').css('width',
-    //   guestForm.guestNum.value > 1
-    //     ? 'calc((((100% - ' + thumbSize + ') / 3) * ' + (guestForm.guestNum.value - 1) + ') + ' + thumbSize + ' - (' + thumbSize + ' / 2))'
-    //     : 0
-    // );
+    $('#range-fill').css('width',
+      guestForm.guestNum.value > 1
+        ? 'calc((((100% - ' + thumbSize + ') / ' + (maxGuestNum - 1) + ') * ' + (guestForm.guestNum.value - 1) + ') + ' + thumbSize + ' - (' + thumbSize + ' / 2))'
+        : 0
+    );
     $('#range-fill').attr('value',guestForm.guestNum.value);
 
     $('#guest-num-value').text(guestForm.guestNum.value);
@@ -310,10 +313,15 @@ var ticketType = '';
     }
 
     // render guest inputs based on number of guests in the form
+    maxGuestNum = $('#range-container').attr('max-guests');
+    maxGuestNum = Number(isNaN(maxGuestNum) ? 8 : maxGuestNum);
+    guestForm.guestNum.value = $('#range-container').attr('preset') || 1;
+    if (guestForm.guestNum.value > maxGuestNum) guestForm.guestNum.value = maxGuestNum;
     var template = $('#guest-input-template').html();
     for (var n=1; n <= maxGuestNum; n++) {
       $(guestForm).find('#fieldsets').append(template.replace(/_Index/g, n));
     }
+    $('#guest-num').attr('max', maxGuestNum);
     renderGuestInput();
     rangeFill();
 
@@ -363,6 +371,7 @@ var ticketType = '';
     $('#verify').on('click', function(e) {
       e.preventDefault();
       var hasError = false;
+      var dfd = [];
       var visitDate = ticketType == 'dated' ? null : guestForm.dateOfVisit.value;
       if (visitDate == '') {
         $('#verify-message').removeClass('d-none').find('span:first-child').removeClass('d-none');
@@ -372,22 +381,24 @@ var ticketType = '';
       $('#verify-message').addClass('d-none').find('span').addClass('d-none');
       for(var i=1; i <= Number(guestForm.guestNum.value); i++) {
         if (guestForm['guest' + i + 'Ticket'].value) {
-          api(apiUrl.verify(guestForm['guest' + i + 'Ticket'].value, visitDate), i-1).then(function (resp, guestIndex) {
-            if (resp.success) {
-              $('.guest-input-group').eq(guestIndex)
-                .find('.ticket-number').removeClass('is-invalid').removeAttr('errindex')
-                .find('input').removeClass('is-invalid');
-            } else {
-              hasError = true;
-              // highlight field has error
-              $('.guest-input-group').eq(guestIndex)
-                .find('.ticket-number').addClass('is-invalid').attr('errindex', 2)
-                .find('input').addClass('is-invalid');
-            }
-          });
+          dfd.push(
+            api(apiUrl.verify(guestForm['guest' + i + 'Ticket'].value, visitDate), i-1).then(function (resp, guestIndex) {
+              if (resp.success) {
+                $('.guest-input-group').eq(guestIndex)
+                  .find('.ticket-number').removeClass('is-invalid').removeAttr('errindex')
+                  .find('input').removeClass('is-invalid');
+              } else {
+                hasError = true;
+                // highlight field has error
+                $('.guest-input-group').eq(guestIndex)
+                  .find('.ticket-number').addClass('is-invalid').attr('errindex', 2)
+                  .find('input').addClass('is-invalid');
+              }
+            })
+          );
         } else {
             hasError = true;
-              // show alert message under the button
+            // show alert message under the button
             $('#verify-message').removeClass('d-none').find('span:nth-child(2)').removeClass('d-none');
             // highlight field has an error
             $('.guest-input-group').eq(i-1)
@@ -395,12 +406,14 @@ var ticketType = '';
             .find('input').addClass('is-invalid')
         }
       }
-      if (hasError) {
-        // show alert message under the button
-        $('#verify-message').removeClass('d-none').find('span:nth-child(2)').removeClass('d-none');
-      } else {
-        $('#verify-message').removeClass('d-none').find('span:nth-child(3)').removeClass('d-none');
-      }
+      $.when.apply($, dfd).done(function() {
+        if (hasError) {
+          // show alert message under the button
+          $('#verify-message').removeClass('d-none').find('span:nth-child(2)').removeClass('d-none');
+        } else {
+          $('#verify-message').removeClass('d-none').find('span:nth-child(3)').removeClass('d-none');
+        }
+      });
     });
 
     $('#shuttle-bus-input').on('click', function(e) {
@@ -562,11 +575,6 @@ var ticketType = '';
 
       $('#shuttle-bus-service').attr('time-slot', slot[newSlot]);
     });
-
-    // loading completed
-    // setTimeout(function(e) {
-    //   $('body').removeClass('loading');
-    // },500);
 
   }, false);
 })();

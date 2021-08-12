@@ -64,10 +64,6 @@ body {
   transition: opacity 1.2s;
   opacity: 1;
   color: $text;
-  &.loading {
-    pointer-events: none;
-    opacity: 0;
-  }
 }
 a {
   color: $blue;
@@ -707,9 +703,19 @@ ul.list-unstyled.custom-disc {
     background-color: $blue;
     border-top-left-radius: 25rem;
     border-bottom-left-radius: 25rem;
-    @for $i from 2 through 8 {
-      &[value="#{$i}"] {
-        width: calc((((100% - #{$range-thumb-size}) / 7) * (#{$i} - 1)) + #{$range-thumb-size} - (#{$range-thumb-size} / 2));
+    // @for $i from 2 through 8 {
+    //   &[value="#{$i}"] {
+    //     width: calc((((100% - #{$range-thumb-size}) / 7) * (#{$i} - 1)) + #{$range-thumb-size} - (#{$range-thumb-size} / 2));
+    //   }
+    // }
+  }
+  @for $i from 1 through 7 {
+    &[max-guests="#{$i}"] {
+      @for $x from $i+1 through 8 {
+        ul > li:nth-child(#{$x}),
+        + ul > li:nth-child(#{$x}) {
+          display: none;
+        }
       }
     }
   }
@@ -749,12 +755,14 @@ ul.list-unstyled.custom-disc {
     margin: 0;
     width: 100%;
     align-items: center;
-    li:first-child {
-      margin-left: calc((#{$range-thumb-size} / 2) - 3px);
-    }
-    li:nth-child(n+2) {
-      margin-left: calc(((100% - #{$range-thumb-size}) / 7) - 9px);
-    }
+    justify-content: space-between;
+    padding: 0 ($range-thumb-size / 2 - 2px);
+    // li:first-child {
+    //   margin-left: calc((#{$range-thumb-size} / 2) - 3px);
+    // }
+    // li:nth-child(n+2) {
+    //   margin-left: calc(((100% - #{$range-thumb-size}) / 7) - 9px);
+    // }
   }
   // ie
   .custom-range::-ms-track {
@@ -1342,13 +1350,17 @@ main {
     }
     > .list-unstyled,
     ~ .list-unstyled {
-      li:first-child {
-        margin-left: calc((#{$range-sm-thumb-size} / 2) - 3px);
-      }
-      li:nth-child(n+2) {
-        margin-left: calc(((100% - #{$range-sm-thumb-size}) / 7) - 9px);
-      }
+      padding: 0 ($range-sm-thumb-size / 2 - 2px);
     }
+    // > .list-unstyled,
+    // ~ .list-unstyled {
+    //   li:first-child {
+    //     margin-left: calc((#{$range-sm-thumb-size} / 2) - 3px);
+    //   }
+    //   li:nth-child(n+2) {
+    //     margin-left: calc(((100% - #{$range-sm-thumb-size}) / 7) - 9px);
+    //   }
+    // }
     .custom-range::-ms-thumb {
       height: $range-sm-thumb-size + 2px;
       width: $range-sm-thumb-size + 2px;

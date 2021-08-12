@@ -40,8 +40,8 @@
       h3.section-title.text-cyan
         span#guest-num-value.mr-2 1
         | #{dict.guest[currentLang]}
-    #range-container
-      #range-fill(value='1')
+    #range-container(max-guests='8' preset='4')
+      #range-fill
       ul.list-unstyled.position-absolute
         li &middot;
         li &middot;
@@ -51,8 +51,8 @@
         li &middot;
         li &middot;
         li &middot;
-      input#guest-num.custom-range(name='guestNum' type='range' min='1' max='8' value='4')
-    ul.list-unstyled.block-space.mt-2.ml-1
+      input#guest-num.custom-range.styled-slider.slider-progress(name='guestNum' type='range' min='1' value='1')
+    ul.list-unstyled.block-space.mt-2
       li 1
       li 2
       li 3
