@@ -17,15 +17,18 @@ var ticketType = '';
       return env == 'dev' ? '/data/timeslots' + guestNum + '.json' : apiVisitDate
     },
     verify: function(ticketNumber, visitDate) {
-      var apiVerify = '/api/' + ticketType + '/verify/' + ticketNumber + '/' + visitDate;
+      var date = '';
+      if (visitDate) {
+        date = visitDate.split('/');
+        date = '/' + date[2] + '-' + date[1] + '-' + date[0];
+      }
+      var apiVerify = '/api/' + ticketType + '/verify/' + ticketNumber + date;
       return env == 'dev' ? '/data/verify.json' : apiVerify
     },
     shuttle: function(guestNum, visitDate) {
       var date = '';
-      if (visitDate) {
-        date = visitDate.split('/');
-        date = date[2] + '-' + date[1] + '-' + date[0] + '/';
-      }
+      date = visitDate.split('/');
+      date = date[2] + '-' + date[1] + '-' + date[0] + '/';
       var apiShuttle = '/api/' + ticketType + '/shuttleBusService/' + date + guestNum;
       return env == 'dev' ? '/data/shuttle.json' : apiShuttle
     }
@@ -111,7 +114,7 @@ var ticketType = '';
     var template = '<a class="col" href="#" value="_time_">_time_</a>';
     var el = null;
 
-    api(apiUrl.shuttle(guestForm.guestNum.value, ticketType == 'dated' ? null : guestForm.dateOfVisit.value)).then(function(resp) {
+    api(apiUrl.shuttle(guestForm.guestNum.value, guestForm.dateOfVisit.value)).then(function(resp) {
       var data = resp.data;
       $('#time-slots-pm a, #time-slots-am a').remove();
       for(var x=0; x < data.length; x++) {
@@ -245,7 +248,6 @@ var ticketType = '';
   }
 
   function renderCalendar() {
-    if (ticketType == 'dated') return;
     api(apiUrl.visitDate(guestForm.guestNum.value)).then(function(resp) {
       var data = resp.data;
       $('#datepicker').datepicker('destroy');
@@ -292,26 +294,6 @@ var ticketType = '';
         console.error('unhandled ticket type: ' + ticketType);
     }
 
-    if (ticketType != 'dated') {
-      // datepicker initialzation
-      // reference: https://github.com/uxsolutions/bootstrap-datepicker
-      var datepickerTCnSC = {
-        days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-        daysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-        daysMin: ["日", "一", "二", "三", "四", "五", "六"],
-        months: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
-        monthsShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-        today: "Today",
-        clear: "Clear",
-        format: "mm/dd/yyyy",
-        titleFormat: "yyyy年MM", /* Leverages same syntax as 'format' */
-        weekStart: 0
-      };
-      $.fn.datepicker.dates['tc'] = datepickerTCnSC;
-      $.fn.datepicker.dates['sc'] = datepickerTCnSC;
-      renderCalendar();
-    }
-
     // render guest inputs based on number of guests in the form
     maxGuestNum = $('#range-container').attr('max-guests');
     maxGuestNum = Number(isNaN(maxGuestNum) ? 8 : maxGuestNum);
@@ -324,6 +306,24 @@ var ticketType = '';
     $('#guest-num').attr('max', maxGuestNum);
     renderGuestInput();
     rangeFill();
+
+    // datepicker initialzation
+    // reference: https://github.com/uxsolutions/bootstrap-datepicker
+    var datepickerTCnSC = {
+      days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      daysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+      daysMin: ["日", "一", "二", "三", "四", "五", "六"],
+      months: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
+      monthsShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+      today: "Today",
+      clear: "Clear",
+      format: "mm/dd/yyyy",
+      titleFormat: "yyyy年MM", /* Leverages same syntax as 'format' */
+      weekStart: 0
+    };
+    $.fn.datepicker.dates['tc'] = datepickerTCnSC;
+    $.fn.datepicker.dates['sc'] = datepickerTCnSC;
+    renderCalendar();
 
     // setup mobile menu based on viewport
     mobileStickyMenu();
@@ -382,7 +382,7 @@ var ticketType = '';
       for(var i=1; i <= Number(guestForm.guestNum.value); i++) {
         if (guestForm['guest' + i + 'Ticket'].value) {
           dfd.push(
-            api(apiUrl.verify(guestForm['guest' + i + 'Ticket'].value, visitDate), i-1).then(function (resp, guestIndex) {
+            api(apiUrl.verify(guestForm['guest' + i + 'Ticket'].value, ticketType == 'dated' ? null : visitDate), i-1).then(function (resp, guestIndex) {
               if (resp.success) {
                 $('.guest-input-group').eq(guestIndex)
                   .find('.ticket-number').removeClass('is-invalid').removeAttr('errindex')

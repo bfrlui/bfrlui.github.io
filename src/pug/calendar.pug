@@ -1,21 +1,20 @@
-if (ticketType > 0)
-  #calendar
-    .d-flex.justify-content-between.mb-3
-      h3.section-title #{dict.dateOfVisit[currentLang]}
-        small.ml-lg-2.d-block.d-lg-inline #{dict.dateFormat[currentLang]}
-      h3#dateOfVisit.section-title
-    #datepicker(data-date='')
-    .text-right.mt-2
-      span.mr-4
-        small ●
-        small.mr-1.text-red ●
-        | #{dict.available[currentLang]}
-      span.mr-4
-        small.mr-1.text-light-gray ●
-        | #{dict.notAvailable[currentLang]}
-      span.mr-3
-        small.mr-1.font-weight-bold —
-        | #{dict.full[currentLang]}
-    input#date-of-visit-input(name='dateOfVisit' type='hidden' required)
-    .invalid-feedback.my-3 #{dict.errDateOfVisit[currentLang]}
-    hr.my-4
+#calendar
+  .d-flex.justify-content-between.mb-3
+    h3.section-title #{dict.dateOfVisit[currentLang]}
+      small.ml-lg-2.d-block.d-lg-inline #{dict.dateFormat[currentLang]}
+    h3#dateOfVisit.section-title
+  #datepicker(data-date='')
+  .text-right.mt-2
+    span.mr-4
+      small ●
+      small.mr-1.text-red ●
+      | #{dict.available[currentLang]}
+    span.mr-4
+      small.mr-1.text-light-gray ●
+      | #{dict.notAvailable[currentLang]}
+    span.mr-3
+      small.mr-1.font-weight-bold —
+      | #{dict.full[currentLang]}
+  input#date-of-visit-input(name='dateOfVisit' type='hidden' required)
+  .invalid-feedback.my-3 #{dict.errDateOfVisit[currentLang]}
+  hr.my-4

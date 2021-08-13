@@ -31,47 +31,47 @@ var html5QrCode = null;
     $('#camera-message').attr('index', 1);
   }
 
-  function scanner(index) {
-    var reader = document.getElementById("reader"); 
-    var qrcodeValue = document.getElementById("qrcode-value"); 
+  // function scanner(index) {
+  //   var reader = document.getElementById("reader"); 
+  //   var qrcodeValue = document.getElementById("qrcode-value"); 
     
-    // This method will trigger user permissions
-    Html5Qrcode.getCameras().then(devices => {
-      /**
-       * devices would be an array of objects of type:
-       * { id: "id", label: "label" }
-       */
-      if (devices && devices.length) {
-        var cameraId = devices[0].id;
-        html5QrCode = new Html5Qrcode(/* element id */ "reader");
-        $('#camera-message').attr('index', 0);
-        html5QrCode.start(
-          { facingMode: "environment" }, // using back camera
-          {
-            fps: 10,    // Optional frame per seconds for qr code scanning
-            qrbox: 250  // Optional if you want bounded box UI
-          },
-          // success
-          function(qrMessage) {
-            guestForm['guest' + index + 'Ticket'].value = qrMessage;
-            $('.input-label[for=guest' + index + '-ticket]').addClass('focus');
-            stopScan();
-          },
-          // failure
-          function(error) {
-            // console.log(error);
-          },
-          ).catch(err => {
-            // Start failed, handle it.
-            console.warn(err);
-            $('#camera-message').attr('index', 2);
-          });
-      }
-    }).catch(err => {
-      console.warn(err);
-      $('#camera-message').attr('index', 2);
-    });
-  }
+  //   // This method will trigger user permissions
+  //   Html5Qrcode.getCameras().then(devices => {
+  //     /**
+  //      * devices would be an array of objects of type:
+  //      * { id: "id", label: "label" }
+  //      */
+  //     if (devices && devices.length) {
+  //       var cameraId = devices[0].id;
+  //       html5QrCode = new Html5Qrcode(/* element id */ "reader");
+  //       $('#camera-message').attr('index', 0);
+  //       html5QrCode.start(
+  //         { facingMode: "environment" }, // using back camera
+  //         {
+  //           fps: 10,    // Optional frame per seconds for qr code scanning
+  //           qrbox: 250  // Optional if you want bounded box UI
+  //         },
+  //         // success
+  //         function(qrMessage) {
+  //           guestForm['guest' + index + 'Ticket'].value = qrMessage;
+  //           $('.input-label[for=guest' + index + '-ticket]').addClass('focus');
+  //           stopScan();
+  //         },
+  //         // failure
+  //         function(error) {
+  //           // console.log(error);
+  //         },
+  //         ).catch(err => {
+  //           // Start failed, handle it.
+  //           console.warn(err);
+  //           $('#camera-message').attr('index', 2);
+  //         });
+  //     }
+  //   }).catch(err => {
+  //     console.warn(err);
+  //     $('#camera-message').attr('index', 2);
+  //   });
+  // }
 
   mobileStickyMenu();
 

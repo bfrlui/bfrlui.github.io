@@ -809,8 +809,7 @@ ul.list-unstyled.custom-disc {
       padding-bottom: $table-y-padding;
       table {
         width: 100%;
-        th.dow:first-child,
-        td.day:first-child {
+        th.dow:first-child {
           color: $red;
         }
         th.dow, td {
@@ -819,9 +818,14 @@ ul.list-unstyled.custom-disc {
         }
         td.day {
           position: relative;
+          color: $text;
           &.active {
             color: inherit;
             background-color: inherit;
+          }
+          &:first-child,
+          &.active:first-child {
+            color: $red;
           }
           &.active,
           &:not(.disabled):hover {
