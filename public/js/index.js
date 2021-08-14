@@ -4,12 +4,33 @@ var maxGuestNum = 8;
 var agreeTnC = false;
 var mode = 'new';
 var currentLang =$('html').attr('lang');
+var mtCaptchaLang = { en: 'en', tc: 'zh-hk', sc: 'zh' }
 // 0 = dated, 1 = opendated, 2 = pass
 var ticketType = '';
 
+// Configuration to construct the captcha widget. Sitekey is a Mandatory Parameter 
+var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPublic-l2MBtzMdK", "lang": mtCaptchaLang[currentLang] };
+(function () {
+  var mt_service = document.createElement("script");
+  mt_service.async = true;
+  mt_service.src =
+    "https://service.mtcaptcha.com/mtcv1/client/mtcaptcha.min.js";
+  (
+    document.getElementsByTagName("head")[0] ||
+    document.getElementsByTagName("body")[0]
+  ).appendChild(mt_service);
+  var mt_service2 = document.createElement("script");
+  mt_service2.async = true;
+  mt_service2.src =
+    "https://service2.mtcaptcha.com/mtcv1/client/mtcaptcha2.min.js";
+  (
+    document.getElementsByTagName("head")[0] ||
+    document.getElementsByTagName("body")[0]
+  ).appendChild(mt_service2);
+})();
+
 (function() {
   'use strict';
-
   
   var apiUrl = {
     visitDate: function(guestNum) { 
@@ -58,7 +79,7 @@ var ticketType = '';
   }
 
   var formValidation = {
-    step2: function step2Validation() {
+    step2: function () {
       var $formStep2 = $('#form-step2');
       var isValidEmail = function(mail) {
         var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -92,14 +113,21 @@ var ticketType = '';
 
       // fields cross checking
       if (guestForm.email.value != guestForm.confirmEmail.value) {
-        var $input = $('input[type=email]').addClass('is-invalid');
+        var $input = $('input[type=email]:eq(1)').addClass('is-invalid');
         $input.closest('.field-container').addClass('is-invalid')
       }
-
+      // contact number
+      if (guestForm.contactNumber.value.length < 8) {
+        $('#contact-number').addClass('is-invalid').closest('.field-container').addClass('is-invalid');
+      }
+      // mtcaptcha
+      var mtState = mtcaptcha.getStatus();
+      $('#captcha').toggleClass('is-invalid', !mtState.isVerified);
+      
       return $formStep2.find('.is-invalid').length === 0;
     },
-    step3: function step3Validation() {
-      return false;
+    step3: function () {
+      return true;
     }
   }
 
@@ -507,7 +535,8 @@ var ticketType = '';
       if (currentStep > 1 && nextStep > currentStep) {
         var isValidForm = formValidation['step' + currentStep]();
         $('#check-error').toggleClass('d-none', isValidForm);
-        if (!isValidForm && env == 'prd') {
+        if (!isValidForm && env != 'dev') {
+          // scroll to bottom to see alert message
           if (this.id === 'step2-submit') {
             $('#form-step2')[0].scrollTo(0, 99999);
           }
@@ -566,5 +595,10 @@ var ticketType = '';
       $('#shuttle-bus-service').attr('time-slot', slot[newSlot]);
     });
 
+    $('#contact-number').on('keyup', function(e) {
+      if (this.value.length > 8) {
+        this.value = this.value.slice(0, 8);
+      }
+    });
   }, false);
 })();

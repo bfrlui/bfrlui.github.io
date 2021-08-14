@@ -128,6 +128,19 @@ a, button, .btn, input, .form-control {
       padding: $form-margin-top $form-margin-right $form-margin-bottom $form-margin-left
     }
   }
+  .invalid-feedback {
+    font-size: 100%;
+  }
+  #captcha {
+    p {
+      display: none;
+    }
+    &.is-invalid {
+      p {
+        display: block;
+      }
+    }
+  }
 }
 // steps section (fixed on left)
 #steps {
@@ -528,7 +541,6 @@ form {
   }
   .guest-input-group {
     a.buy-ticket {
-      font-size: 80%;
       color: $orange;
       text-decoration: underline;
     }

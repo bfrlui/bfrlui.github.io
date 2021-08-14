@@ -1,8 +1,26 @@
+[mtcaptcha]
+MTCaptcha: https://admin.mtcaptcha.com/login
+Email : op.mhk@mirumagency.com
+PW : M83Xwb2x
+ 
+dev-adq2ud2y-wwreservation.oceanpark.com
+MTPublic-l2MBtzMdK
+
+wwreservation.oceanpark.com.hk
+MTPublic-K5c0cwAEA
+
+Private Key for UAT site:
+MTPrivat-l2MBtzMdK-VQIOuOGRZwBCDRUv5qp9qJgRYk9pvJTNGB74SYBqRGKkiUBuPA
+
+private key for PROD site:
+MTPrivat-K5c0cwAEA-hbNM4qytMNdqPv31YLy8Eczm2nH5AKnwfHzJkCYRFQfkK9Rr6A
+
+form submit field:
+mtcaptcha-verifiedtoken
+
 [outstanding items]
-- dirty form
-- qr code scanning for mobile
 - captch
-- api
+- cancel api
 
 [shared docs]
 https://drive.google.com/drive/folders/1ftnbRtD_Zl2gXoDCNC7zi8mccPXQ1IFK?usp=sharing

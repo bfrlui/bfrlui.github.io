@@ -72,6 +72,13 @@
     include guestInput
     // contact info
     include contactInput
+    // mtcaptcha
+    #captcha.mt-3
+      .mtcaptcha
+      p.text-red #{dict.errCaptcha[currentLang]}
+      input(name='verifiedToken' type='hidden' value='')
+      
+
     // page navigation row
     .row.align-items-center.mt-5
       .col
