@@ -227,7 +227,6 @@ var ticketType = '';
 
   function renderModifyData(data) {
     guestForm.guestNum.value = data.guest.length;
-    guestForm.dateOfVisit.value = data.dateOfVisit;
     guestForm.email.value = data.email;
     guestForm.confirmEmail.value = data.email;
     guestForm.contactNumber.value = data.contactNumber;
@@ -239,48 +238,52 @@ var ticketType = '';
     }
 
     // render data
-    rangeFill();
-    renderGuestInput();
-    $('#dateOfVisit').text(guestForm.dateOfVisit.value);
-    $('#datepicker').datepicker('update', data.dateOfVisit);
-    $('#datepicker table td').wrapInner('<label class="position-relative m-0"></label>');
-    // todo: call api to get available dates
-  }
-
-  function renderCalendar() {
     api(apiUrl.visitDate(guestForm.guestNum.value)).then(function(resp) {
-      var data = resp.data;
-      $('#datepicker').datepicker('destroy');
-      $('#datepicker').datepicker({
-        startDate: dateFormat(data[0].date),
-        endDate: dateFormat(data[data.length-1].date),
-        format: 'dd/mm/yyyy',
-        language: currentLang,
-        templates: {
-          leftArrow: '<i class="icon nav-arrow-left"></i>',
-          rightArrow: '<i class="icon nav-arrow-right"></i>'
-        },
-        beforeShowDay: function(date) {
-          var dataDate = null;
-          // match calendar date with dates from api
-          for(var i=0; i < data.length; i++) {
-            dataDate = data[i].date.split('-');
-            dataDate = new Date(dataDate[0], Number(dataDate[1]) - 1, dataDate[2]);
-            if (date.toString() == dataDate.toString()) {
-              // return 'full' class for the date styling and disable selection
-              if (data[i].full) return { enabled: false, classes: 'full' };
-              return data[i].available;
-            }
-          }
-          // other calendar dates are not selectable
-          return false;
-        }
-      });
-      guestForm.dateOfVisit.value = '';
+      renderCalendar(resp);
+      // update selected date
+      guestForm.dateOfVisit.value = data.dateOfVisit;
+      $('#datepicker').datepicker('update', data.dateOfVisit);
       $('#dateOfVisit').text(guestForm.dateOfVisit.value);
       // resolve yellow selector over the text (day value)
       $('#datepicker table td').wrapInner('<label class="position-relative m-0"></label>');
     });
+    rangeFill();
+    renderGuestInput();
+  }
+
+  function renderCalendar(resp) {
+    var data = resp.data;
+    $('#datepicker').datepicker('destroy');
+    $('#datepicker').datepicker({
+      startDate: dateFormat(data[0].date),
+      endDate: dateFormat(data[data.length-1].date),
+      format: 'dd/mm/yyyy',
+      language: currentLang,
+      templates: {
+        leftArrow: '<i class="icon nav-arrow-left"></i>',
+        rightArrow: '<i class="icon nav-arrow-right"></i>'
+      },
+      beforeShowDay: function(date) {
+        var dataDate = null;
+        // match calendar date with dates from api
+        for(var i=0; i < data.length; i++) {
+          dataDate = data[i].date.split('-');
+          dataDate = new Date(dataDate[0], Number(dataDate[1]) - 1, dataDate[2]);
+          if (date.toString() == dataDate.toString()) {
+            // return 'full' class for the date styling and disable selection
+            if (data[i].full) return { enabled: false, classes: 'full' };
+            return data[i].available;
+          }
+        }
+        // other calendar dates are not selectable
+        return false;
+      }
+    });
+    // clear visit date on each rendering
+    guestForm.dateOfVisit.value = '';
+    $('#dateOfVisit').text(guestForm.dateOfVisit.value);
+    // resolve yellow selector over the text (day value)
+    $('#datepicker table td').wrapInner('<label class="position-relative m-0"></label>');
   }
 
   window.addEventListener('load', function() {
@@ -323,14 +326,12 @@ var ticketType = '';
     };
     $.fn.datepicker.dates['tc'] = datepickerTCnSC;
     $.fn.datepicker.dates['sc'] = datepickerTCnSC;
-    renderCalendar();
 
     // setup mobile menu based on viewport
     mobileStickyMenu();
 
     // set active form for modify mode
     var reservationNumber = getUrlParameter('r');
-    console.log(reservationNumber);
     // skip tnc and directly goto input form
     if (reservationNumber) {
       mode = 'modify';
@@ -339,24 +340,12 @@ var ticketType = '';
       $('.lang-switch > a').each(function(i, el) {
         el.href = el.href + '?r=' + reservationNumber;
       });
-      // todo: call api to load reservation data
-      setTimeout(function() {
-        var data = {
-          dateOfVisit: '20/7/2021',
-          contactNumber: '12345678',
-          email: 'abc@mirumagency.com',
-          shuttleBusTimeSlot: '11:59',
-          shuttleBusService: false,
-          guest: [
-            { name: 'tester one', ticketNumber: '9999999999999999' },
-            { name: 'tester two', ticketNumber: '9999999999999999' }
-          ]
-        }
-        renderModifyData(data)
-      }, 3000);
+      var data = JSON.parse($('#reservationJson').html());
+      renderModifyData(data);
     } else {
       mode = 'new';
       currentStep = 1;
+      api(apiUrl.visitDate(guestForm.guestNum.value)).then(function(resp) {renderCalendar(resp)});
     }
     $('.form-layer').addClass('hidden').removeClass('active');
     $('#form-step' + currentStep).removeClass('hidden').addClass('active');
@@ -432,6 +421,7 @@ var ticketType = '';
       // $guest.appendTo('#fieldsets');
       renderGuestInput();
       rangeFill();
+      api(apiUrl.visitDate(guestForm.guestNum.value)).then(function(resp) {renderCalendar(resp)});
     });
 
     $('#datepicker').on('changeMonth', function() {
@@ -464,7 +454,7 @@ var ticketType = '';
         if (guestForm.guestNum.value < maxGuestNum) {
           $('.guest-input-group').eq(guestForm.guestNum.value).find('input').val('');
         }
-        renderCalendar();
+        api(apiUrl.visitDate(guestForm.guestNum.value)).then(function(resp) {renderCalendar(resp)});
         renderGuestInput();
       })
       .on('input change', function(e) {

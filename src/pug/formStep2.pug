@@ -1,5 +1,8 @@
 //- include ticketScanner.pug
 #form-step2.form-layer.hidden
+  #reservationJson.d-none
+    | { "dateOfVisit": "15/8/2021", "contactNumber": "12345678", "email": "abc@mirumagency.com", "shuttleBusTimeSlot": "11:59", "shuttleBusService": false, "guest": [ { "name": "tester one", "ticketNumber": "9999999999999999" }, { "name": "tester two", "ticketNumber": "9999999999999999" } ] }
+
   // language switch for tablet and desktop
   include langSwitch
 
