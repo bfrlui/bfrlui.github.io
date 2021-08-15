@@ -74,6 +74,8 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
       })
       .fail(function(jqXHR, textStatus, errorThrown) {
         // handle ajax error
+        console.warn('ajax error: ' + textStatus);
+        alert('System or network error! Please check and try again later.');
       });
     return defer;
   }
@@ -131,6 +133,11 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
     }
   }
 
+  function apiFail(resp) {
+    console.warn('api error: ' + JSON.stringify(resp));
+    alert('System error! Please try again later.');
+  }
+
   function getUrlParameter(name) {
     name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
     var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
@@ -143,6 +150,10 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
     var el = null;
 
     api(apiUrl.shuttle(guestForm.guestNum.value, guestForm.dateOfVisit.value)).then(function(resp) {
+      if (!resp.success) {
+        apiFail(resp);
+        return;
+      }
       var data = resp.data;
       $('#time-slots-pm a, #time-slots-am a').remove();
       for(var x=0; x < data.length; x++) {
@@ -253,7 +264,14 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
     $('#guest-num-value').text(guestForm.guestNum.value);
   }
 
-  function renderModifyData(data) {
+  function renderModifyData() {
+    var data = $('#reservationJson').html();
+    if (!data) {
+      console.warn('modify parse json error: ' + JSON.stringify(data));
+      alert('System error! Please try again later.');
+      location = 'index.html';  // back to new mode
+    }
+    data = JSON.parse(data);
     guestForm.guestNum.value = data.guest.length;
     guestForm.email.value = data.email;
     guestForm.confirmEmail.value = data.email;
@@ -280,6 +298,10 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
   }
 
   function renderCalendar(resp) {
+    if (!resp.success) {
+      apiFail(resp);
+      return;
+    }
     var data = resp.data;
     $('#datepicker').datepicker('destroy');
     $('#datepicker').datepicker({
@@ -368,8 +390,7 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
       $('.lang-switch > a').each(function(i, el) {
         el.href = el.href + '?r=' + reservationNumber;
       });
-      var data = JSON.parse($('#reservationJson').html());
-      renderModifyData(data);
+      renderModifyData();
     } else {
       mode = 'new';
       currentStep = 1;
