@@ -5,13 +5,15 @@
       #confirm-cancel-body.modal-body.text-center
         h3.mt-4.text-blue #{dict.cancel[currentLang]}
         .text-large #{dict.cancelMessage[currentLang]}
-        .mb-4
-          a.btn.btn-primary.rounded-pill(href type='button')
+        form.mb-4(name='cancelForm' novalidate)
+          button.btn.btn-primary.rounded-pill(href type='submit')
             | #{dict.yes[currentLang]}
             img.icon(src='../../img/btnArrow.png')
           a.btn.btn-primary.rounded-pill(href type='button' data-dismiss='modal')
             | #{dict.no[currentLang]}
             img.icon(src='../../img/btnArrow.png')
+          input(name='reservationNumber' type='hidden' value='' required)
+          input(name='confirmedCancel' type='hidden' value='on' required)
         a.modal-close(href data-dismiss="modal" aria-label="Close")
           img.img-fluid(src='../../img/btnClose.png')
       // canceled message

@@ -1,24 +1,28 @@
 (function() {
   'use strict';
 
-  var reservationNumber = 'ABCDE1234567890';
+  function getUrlParameter(name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    var results = regex.exec(location.search);
+    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+  };
+  
+  var reservationNumber = getUrlParameter('r');
+  var canceled = getUrlParameter('canceled') == 'true';
 
-  // modify reservation
-  $('#modify').on('click', function(e) {
-    e.preventDefault();
-    window.location = './index.html?r=' + reservationNumber;
-  });
-
-  // confirm to cancel
-  $('#confirm-cancel-body a:first-child').on('click', function(e) {
-    e.preventDefault();
-    var $modal = $(this).closest('.modal');
-    
-    $modal.removeClass('show');
-    // todo: call api to cancel
-    setTimeout(function() {
-      $modal.find('.modal-content').attr('body', 'canceled-body');
-      $modal.addClass('show');
-    },500);
-  })
+  if (canceled) {
+    var $modal = $('.modal');
+    $modal.find('.modal-content').attr('body', 'canceled-body');
+    $modal.modal('show');
+  } else if (reservationNumber) {
+    cancelForm.reservationNumber.value = reservationNumber;
+    $('a#modify').attr('href', 'index.html?r=' + reservationNumber);
+    $('.lang-switch > a').each(function(i, el) {
+      el.href = el.href + '?r=' + reservationNumber;
+    });
+  } else {
+    // redirect to index page if neither modify nor canceled
+    window.location = 'index.html';
+  }
 })();

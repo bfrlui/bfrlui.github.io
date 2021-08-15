@@ -81,6 +81,7 @@ a, button, .btn, input, .form-control {
   min-width: 100px;
   font-weight: 900;
   font-style: italic;
+  &[type='submit'],
   &[type='button'] {
     background-color: $orange !important;
     -webkit-appearance: none;
