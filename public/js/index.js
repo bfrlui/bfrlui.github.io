@@ -146,7 +146,7 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
   };
 
   function loadShuttleBusTimeSlots() {
-    var template = '<a class="col" href="#" value="_time_">_time_</a>';
+    var template = '<a class="_classes_" href="#" value="_time_">_time_</a>';
     var el = null;
 
     api(apiUrl.shuttle(guestForm.guestNum.value, guestForm.dateOfVisit.value)).then(function(resp) {
@@ -155,22 +155,26 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
         return;
       }
       var data = resp.data;
+      var classes = '';
       $('#time-slots-pm a, #time-slots-am a').remove();
       for(var x=0; x < data.length; x++) {
+        classes = 'col';
         el = template.replace(/_time_/g, data[x].time);
-        // set active if value loaded in modify mode
+        // set active if selected previously
         if (guestForm.shuttleBusService.checked && guestForm.shuttleBusTimeSlot.value == data[x].time) {
-          el = el.replace('col', 'col active');
+          classes += ' active';
           // better ux to show selected time slot if afternoon
           if (guestForm.shuttleBusTimeSlot.value >= '12:00') {
             $('#shuttle-bus-service').attr('time-slot', 'pm');
           }
         }
-        if (data[x].time >= '12:00') {
-          $('#time-slots-pm').append(el);
-        } else {
-          $('#time-slots-am').append(el);
+        if (!data[x].available) {
+          classes += ' disabled';
         }
+        if (data[x].full) {
+          classes += ' full';
+        }
+        $('#time-slots-' + (data[x].time >= '12:00' ? 'pm' : 'am')).append(el.replace(/_classes_/, classes));
       }
   
       // set state of service for ui appearance 
@@ -183,7 +187,7 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
       $('.time-slots .col').on('click', function(e) {
         e.preventDefault();
         if (!guestForm.shuttleBusService.checked) return;
-        $(this).siblings('.active').removeClass('active');
+        $('#time-slots-container .col.active').removeClass('active');
         $(this).addClass('active');
         guestForm.shuttleBusTimeSlot.value = $(this).attr('value');
       });
@@ -411,6 +415,7 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
       var hasError = false;
       var dfd = [];
       var visitDate = ticketType == 'dated' ? null : guestForm.dateOfVisit.value;
+      // not to verify if visit date is not yet selected and ticket type is not 'dated'
       if (visitDate == '') {
         $('#verify-message').removeClass('d-none').find('span:first-child').removeClass('d-none');
         return;
@@ -420,7 +425,7 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
       for(var i=1; i <= Number(guestForm.guestNum.value); i++) {
         if (guestForm['guest' + i + 'Ticket'].value) {
           dfd.push(
-            api(apiUrl.verify(guestForm['guest' + i + 'Ticket'].value, ticketType == 'dated' ? null : visitDate), i-1).then(function (resp, guestIndex) {
+            api(apiUrl.verify(guestForm['guest' + i + 'Ticket'].value, visitDate), i-1).then(function (resp, guestIndex) {
               if (resp.success) {
                 $('.guest-input-group').eq(guestIndex)
                   .find('.ticket-number').removeClass('is-invalid').removeAttr('errindex')
@@ -458,6 +463,7 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
       $('#shuttle-bus-service').attr('require-service', this.checked ? 'yes' : 'no');
       // remove selected time slot
       $('.time-slots .col.active').removeClass('active');
+      guestForm.shuttleBusTimeSlot.value = '';
     });
 
     // remove guest by clicking trash

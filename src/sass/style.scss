@@ -665,12 +665,32 @@ ul.list-unstyled.custom-disc {
     }
   }
   &[require-service=yes] {
-    #time-slots-container .time-slots .col {
-      color: $text;
-      pointer-events: auto;
-      &:hover, &.active {
-        &:before {
-          background-color: $yellow;
+    #time-slots-container .time-slots {
+      .col {
+        &:not(.disabled):not(.full) {
+          color: $text;
+          pointer-events: auto;
+          &:hover, &.active {
+            &:before {
+              background-color: $yellow;
+            }
+          }
+        }
+        &.disabled {
+          color: $light-gray;
+          pointer-events: none;
+        }
+        &.full {
+          color: $text;
+          &:after {
+            content: '';
+            position: absolute;
+            left: 25px;
+            right: 25px;
+            height: 1px;
+            background-color: #253B56;
+            display: inline-block;
+            top: 30px;          }
         }
       }
     }

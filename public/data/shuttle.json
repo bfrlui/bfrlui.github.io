@@ -9,7 +9,7 @@
     {
       "time": "09:00",
       "available": false,
-      "full": false
+      "full": true
     },
     {
       "time": "09:30",
@@ -23,6 +23,11 @@
     },
     {
       "time": "11:00",
+      "available": true,
+      "full": false
+    },
+    {
+      "time": "12:00",
       "available": true,
       "full": false
     }
