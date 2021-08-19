@@ -129,7 +129,9 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
       return $formStep2.find('.is-invalid').length === 0;
     },
     step3: function () {
-      return true;
+      var shuttleBusServiceError = guestForm.shuttleBusService.checked && !guestForm.shuttleBusTimeSlot.value;
+      $('#shuttle-bus-service').toggleClass('is-invalid', shuttleBusServiceError);
+      return !shuttleBusServiceError;
     }
   }
 
@@ -519,7 +521,9 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
     $('#form-submit').on('click',function(e) {
       e.preventDefault();
       // sessionStorage.setItem('opwwModifyReservation', 'true');
-      guestForm.submit();
+      if (formValidation.step3()) {
+        guestForm.submit();
+      }
     });
 
     // animation control of ticket type button

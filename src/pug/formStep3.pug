@@ -52,10 +52,11 @@
       span.mr-4
         small.mr-1 ●
         | #{dict.available[currentLang]}
-      span.mr-3
-        small.mr-1.font-weight-bold —
-        | #{dict.full[currentLang]}
-
+      if (ticketType > 0)
+        span.mr-3
+          small.mr-1.font-weight-bold —
+          | #{dict.full[currentLang]}
+    .invalid-feedback.mt-2 #{dict.errShuttleBusService[currentLang]}
     input#shuttle-bus-timeslot(name='shuttleBusTimeSlot' type='hidden' value='')
 
     // page navigation row
@@ -65,6 +66,6 @@
           img.icon.mr-2(src='../../img/btnBack.png')
           | #{dict.editYourInformation[currentLang]}
       .col-5.text-right.pl-0
-        a#form-submit.btn.btn-primary.rounded-pill(href='thankyou.html' type='button') #{dict.submit[currentLang]}
+        a#form-submit.btn.btn-primary.rounded-pill(href='' type='button') #{dict.submit[currentLang]}
           img.icon(src='../../img/btnArrow.png')
     include footer

@@ -505,7 +505,8 @@ form {
         display: none;
       }
       &:not([errIndex]) {
-        .invalid-feedback {
+        .invalid-feedback,
+        ~ .invalid-feedback {
           display: block;
         }
       }
