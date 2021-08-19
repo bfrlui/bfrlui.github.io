@@ -31,6 +31,8 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
 
 (function() {
   'use strict';
+
+  guestForm.reset();
   
   var apiUrl = {
     visitDate: function(guestNum) { 
@@ -416,7 +418,8 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
       e.preventDefault();
       var hasError = false;
       var dfd = [];
-      var visitDate = ticketType == 'dated' ? null : guestForm.dateOfVisit.value;
+      // var visitDate = ticketType == 'dated' ? null : guestForm.dateOfVisit.value;
+      var visitDate = guestForm.dateOfVisit.value;
       // not to verify if visit date is not yet selected and ticket type is not 'dated'
       if (visitDate == '') {
         $('#verify-message').removeClass('d-none').find('span:first-child').removeClass('d-none');
