@@ -19,6 +19,7 @@ script#guest-input-template(type='text/template')
       .position-relative
         label.input-label(for='guest_Index-ticket') #{dict.ticketBarcodeNumber[currentLang]}<span class="text-red">*</span>
         input.form-control.form-control-lg.rounded-pill.guest-text-input#guest_Index-ticket(name='guest_IndexTicket' type='text' value='' autocomplete="off" maxlength='16')
+      //- 
         a.code-reader(href)
           i.icon.question
       div

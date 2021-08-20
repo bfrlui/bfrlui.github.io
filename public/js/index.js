@@ -45,7 +45,7 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
         date = visitDate.split('/');
         date = '/' + date[2] + '-' + date[1] + '-' + date[0];
       }
-      var apiVerify = '/api/' + ticketType + '/verify/' + ticketNumber + date;
+      var apiVerify = '/api/' + ticketType + '/verify/' + ticketNumber.replace('maskTicket', '') + date;
       return env == 'dev' ? '/data/verify.json' : apiVerify
     },
     shuttle: function(guestNum, visitDate) {
@@ -231,8 +231,9 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
     $availGuest.each(function(i, el) {
       var $el = $(el);
       var x = i + 1;
-      if (/9999999999999999|●●●● ●●●● ●●●● ●●●●/.test(guestForm['guest' + x + 'Ticket'].value)) {
-        $el.find('input[id*="ticket"]').attr('disabled', true).val('●●●● ●●●● ●●●● ●●●●');
+      if (/maskTicket/.test(guestForm['guest' + x + 'Ticket'].value)) {
+        // $el.find('input[id*="ticket"]').attr('disabled', true).val('●●●● ●●●● ●●●● ●●●●');
+        $el.find('input[id*="ticket"]').attr('disabled', true).attr('type', 'password');
       } else {
         $el.find('input[id*="ticket"]').removeAttr('disabled');
       }
@@ -279,6 +280,7 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
 
   function renderModifyData() {
     var data = $('#reservationJson').html();
+    var uidPrefix = 'maskTicket';
     if (!data) {
       console.warn('modify parse json error: ' + JSON.stringify(data));
       alert('System error! Please try again later.');
@@ -293,7 +295,7 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
     guestForm.shuttleBusService.checked = data.shuttleBusService;
     for (var x=0; x < data.guest.length; x++) {
       guestForm['guest' + (x+1) + 'Name'].value = data.guest[x].name;
-      guestForm['guest' + (x+1) + 'Ticket'].value = data.guest[x].ticketNumber;
+      guestForm['guest' + (x+1) + 'Ticket'].value = uidPrefix + data.guest[x].ticketNumber;
     }
 
     // render data

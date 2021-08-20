@@ -1,3 +1,6 @@
+[mirum testing]
+https://op-ww-reg.mirumhk.com/dated/modify/WW6185cdfb75836/tc?r=WW6185cdfb75836
+
 [mtcaptcha]
 MTCaptcha: https://admin.mtcaptcha.com/login
 Email : op.mhk@mirumagency.com
