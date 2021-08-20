@@ -774,12 +774,14 @@ ul.list-unstyled.custom-disc {
     border-radius: 50rem;
     height: calc(100% + 2px);
   }
+  input[type='range']::-moz-range-track,
   input[type='range']::-webkit-slider-runnable-track {
     border-radius: 50rem;
     background: transparent;
     height: $range-thumb-size;
     max-height: $element-max-height;
   }
+  input[type='range']::-moz-range-thumb,
   input[type='range']::-webkit-slider-thumb {
     -webkit-appearance: none;
     height: $range-thumb-size + 2px;
@@ -1392,10 +1394,12 @@ main {
         }
       }
     }
+    input[type='range']::-moz-range-track,
     input[type='range']::-webkit-slider-runnable-track {
       height: $range-sm-thumb-size;
       max-height: $element-sm-max-height;
     }
+    input[type='range']::-moz-range-thumb,
     input[type='range']::-webkit-slider-thumb {
       height: $range-sm-thumb-size + 2px;
       width: $range-sm-thumb-size + 2px;
