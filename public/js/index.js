@@ -232,8 +232,7 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
       var $el = $(el);
       var x = i + 1;
       if (/maskTicket/.test(guestForm['guest' + x + 'Ticket'].value)) {
-        // $el.find('input[id*="ticket"]').attr('disabled', true).val('●●●● ●●●● ●●●● ●●●●');
-        $el.find('input[id*="ticket"]').attr('disabled', true).attr('type', 'password');
+        $el.find('input[id*="ticket"]').attr('disabled', true);
       } else {
         $el.find('input[id*="ticket"]').removeAttr('disabled');
       }
