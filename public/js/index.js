@@ -232,9 +232,9 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
       var $el = $(el);
       var x = i + 1;
       if (/maskTicket/.test(guestForm['guest' + x + 'Ticket'].value)) {
-        $el.find('input[id*="ticket"]').attr('disabled', true);
+        $el.find('input[id*="ticket"]').attr('readonly', true).attr('type', 'password');
       } else {
-        $el.find('input[id*="ticket"]').removeAttr('disabled');
+        $el.find('input[id*="ticket"]').removeAttr('readonly').attr('type', 'text');
       }
       $el.find('.buy-ticket').toggleClass('d-none', guestForm['guest' + x + 'Ticket'].value != '' && guestForm['guest' + x + 'Name'].value != '');
     });
@@ -535,6 +535,9 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
       e.preventDefault();
       // sessionStorage.setItem('opwwModifyReservation', 'true');
       if (formValidation.step3()) {
+        for (var x=1; x <= guestForm.guestNum.value; x++) {
+          guestForm['guest' + x + 'Ticket'].value = guestForm['guest' + x + 'Ticket'].value.replace('maskTicket', '');
+        }
         guestForm.submit();
       }
     });
