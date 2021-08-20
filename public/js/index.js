@@ -150,6 +150,8 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
   };
 
   function loadShuttleBusTimeSlots() {
+    if (!guestForm.shuttleBusService.checked) return;
+
     var template = '<a class="_classes_" href="#" value="_time_">_time_</a>';
     var el = null;
 
@@ -164,8 +166,11 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
       for(var x=0; x < data.length; x++) {
         classes = 'col';
         el = template.replace(/_time_/g, data[x].time);
+        // reset selected timeslot if already full or not available at this moment
+        if (guestForm.shuttleBusService.checked && guestForm.shuttleBusTimeSlot.value == data[x].time && (!data[x].available || data[x].full)) {
+          guestForm.shuttleBusTimeSlot.value = '';
         // set active if selected previously
-        if (guestForm.shuttleBusService.checked && guestForm.shuttleBusTimeSlot.value == data[x].time) {
+        } else if (guestForm.shuttleBusService.checked && guestForm.shuttleBusTimeSlot.value == data[x].time) {
           classes += ' active';
           // better ux to show selected time slot if afternoon
           if (guestForm.shuttleBusTimeSlot.value >= '12:00') {
@@ -468,7 +473,11 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
       $('#shuttle-bus-service').attr('require-service', this.checked ? 'yes' : 'no');
       // remove selected time slot
       $('.time-slots .col.active').removeClass('active');
+      if (!this.checked) {
+        $('#shuttle-bus-service').removeClass('is-invalid');
+      }
       guestForm.shuttleBusTimeSlot.value = '';
+      loadShuttleBusTimeSlots();
     });
 
     // remove guest by clicking trash

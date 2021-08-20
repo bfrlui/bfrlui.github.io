@@ -8,13 +8,13 @@
   include mobileHeader
 
   // step 3 form
-  .form-step
+  .form-step.d-flex.flex-column
     include artworks
 
     h1.block-space.text-blue !{dict.headShuttleBusService[currentLang]}
     h5.block-space !{dict.tncLine1[currentLang]}
     // alert message
-    .alert-message.block-space
+    .alert-message
       p
         i.icon.exclamation
         | !{dict.importantNotice1[currentLang]}
@@ -22,45 +22,45 @@
         i.icon.exclamation
         | !{dict.importantNotice2[currentLang]}
 
-    hr.block-space
+    hr.block-space.w-100
 
-    #shuttle-bus-service(time-slot='am')
-      // require service switch
-      .row.align-items-center.mb-4
-        .col-4.pr-0
-          h3.section-title.mb-0 #{dict.availableTimeslots[currentLang]}
-        .col-8.d-flex.align-items-center.pl-0
-          label#shuttle-bus-service-label.text-right.flex-grow-1.mb-0.mr-2(for='shuttle-bus-input' require-service='no') <span>#{dict.shuttleBusService[currentLang]}</span><span>#{dict.shuttleBusServiceNotRequired[currentLang]}</span>
-          .custom-control.custom-switch
-            input.custom-control-input#shuttle-bus-input(name='shuttleBusService' type='checkbox')
-            label.custom-control-label(for='shuttle-bus-input')
-      // time slots      
-      #time-slots-container
-        #time-slots-heading
-          a#time-slots-prev(href='')
-            i.icon.nav-arrow-left
-          h5#heading-am #{dict.morning[currentLang]}
-          h5#heading-pm #{dict.afternoon[currentLang]}
-          a#times-slots-next(href='')
-            i.icon.nav-arrow-right
-        #time-slots-am.time-slots
-          p.d-none.mx-auto #{dict.noAvailableTimeslots[currentLang]}
-        #time-slots-pm.time-slots
-          p.d-none.mx-auto #{dict.noAvailableTimeslots[currentLang]}
-
-    .text-right.mt-2
-      span.mr-4
-        small.mr-1 ●
-        | #{dict.available[currentLang]}
-      if (ticketType > 0)
-        span.mr-3
-          small.mr-1.font-weight-bold —
-          | #{dict.full[currentLang]}
-    .invalid-feedback.mt-2 #{dict.errShuttleBusService[currentLang]}
-    input#shuttle-bus-timeslot(name='shuttleBusTimeSlot' type='hidden' value='')
+    .mb-5
+      #shuttle-bus-service(time-slot='am' require-service='no')
+        // require service switch
+        .row.align-items-center.mb-4
+          .col-4.pr-0
+            h3.section-title.mb-0 #{dict.availableTimeslots[currentLang]}
+          .col-8.d-flex.align-items-center.pl-0
+            label#shuttle-bus-service-label.text-right.flex-grow-1.mb-0.mr-2(for='shuttle-bus-input' require-service='no') <span>#{dict.shuttleBusService[currentLang]}</span><span>#{dict.shuttleBusServiceNotRequired[currentLang]}</span>
+            .custom-control.custom-switch
+              input.custom-control-input#shuttle-bus-input(name='shuttleBusService' type='checkbox')
+              label.custom-control-label(for='shuttle-bus-input')
+        // time slots
+        #time-slots-container
+          #time-slots-heading
+            a#time-slots-prev(href='')
+              i.icon.nav-arrow-left
+            h5#heading-am #{dict.morning[currentLang]}
+            h5#heading-pm #{dict.afternoon[currentLang]}
+            a#times-slots-next(href='')
+              i.icon.nav-arrow-right
+          #time-slots-am.time-slots
+            p.d-none.mx-auto #{dict.noAvailableTimeslots[currentLang]}
+          #time-slots-pm.time-slots
+            p.d-none.mx-auto #{dict.noAvailableTimeslots[currentLang]}
+        #time-slots-legend.text-right.mt-2
+          span.mr-4
+            small.mr-1 ●
+            | #{dict.available[currentLang]}
+          if (ticketType > 0)
+            span.mr-3
+              small.mr-1.font-weight-bold —
+              | #{dict.full[currentLang]}
+      .invalid-feedback.mt-2 #{dict.errShuttleBusService[currentLang]}
+      input#shuttle-bus-timeslot(name='shuttleBusTimeSlot' type='hidden' value='')
 
     // page navigation row
-    .row.align-items-center.mt-5
+    .row.align-items-center.mt-auto
       .col-7.pr-0
         a.text-dark.step-btn(href="#form-step2")
           img.icon.mr-2(src='../../img/btnBack.png')
