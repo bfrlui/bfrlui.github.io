@@ -39,12 +39,12 @@ html(lang=currentLang)
 
   block pageBody
     body
-      main.container-fluid(mode)
-        .row
+      main.container-fluid.px-0(mode)
+        .d-flex
           // section steps
           include steps
           // section form
-          section#form.col-xs-12
+          section#form
             // step 1 - TnC
             include formStep1
             form.needs-validation(name='guestForm' novalidate)

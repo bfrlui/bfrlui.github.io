@@ -454,9 +454,6 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
     $.fn.datepicker.dates['tc'] = datepickerTCnSC;
     $.fn.datepicker.dates['sc'] = datepickerTCnSC;
 
-    // setup mobile menu based on viewport
-    mobileStickyMenu();
-
     // set active form for modify mode
     var reservationNumber = getUrlParameter('r');
     // skip tnc and directly goto input form
@@ -478,6 +475,9 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
 
     // set mode for the app
     $('main').attr('mode', mode);
+
+    // setup mobile menu based on viewport
+    mobileStickyMenu();
 
     // -------------------------------------------
     // events setup
@@ -622,13 +622,12 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
               mtcaptchaInit();
             }
           }
-
-          // get the current active element for $stepEl in mobile.js
-          $stepsEl = $('.form-layer.active .mobile-steps');
         });
       } else {
         gotoPage(stepId);
       }
+      // get the current active element for $stepEl in mobile.js
+      $stepsEl = $('.form-layer.active .mobile-steps');
     });
     
     // only accept alphabets for name (remove numbers and special chars)

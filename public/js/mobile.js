@@ -73,8 +73,6 @@ var html5QrCode = null;
   //   });
   // }
 
-  mobileStickyMenu();
-
   // disabled scan function
   // if (isMediumViewport) {
   //   $('#form-step2').on('click', '.code-reader', function(e) {

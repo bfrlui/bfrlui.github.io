@@ -203,14 +203,15 @@ a, button, .btn, input, .form-control {
 // components
 // mobile header
 header {
+  position: relative;
   padding: 20px;
   padding-bottom: 10px;
   z-index: 99;
 }
 .mobile-steps {
+  position: relative;
   display: none;
   justify-content: space-between;
-  top: 81px;
   left: 0;
   right: 0;
   padding: 16px 20px;
