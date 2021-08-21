@@ -7,27 +7,8 @@ var currentLang =$('html').attr('lang');
 var mtCaptchaLang = { en: 'en', tc: 'zh-hk', sc: 'zh' }
 // 0 = dated, 1 = opendated, 2 = pass
 var ticketType = '';
-
 // Configuration to construct the captcha widget. Sitekey is a Mandatory Parameter 
 var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPublic-l2MBtzMdK", "lang": mtCaptchaLang[currentLang] };
-(function () {
-  var mt_service = document.createElement("script");
-  mt_service.async = true;
-  mt_service.src =
-    "https://service.mtcaptcha.com/mtcv1/client/mtcaptcha.min.js";
-  (
-    document.getElementsByTagName("head")[0] ||
-    document.getElementsByTagName("body")[0]
-  ).appendChild(mt_service);
-  var mt_service2 = document.createElement("script");
-  mt_service2.async = true;
-  mt_service2.src =
-    "https://service2.mtcaptcha.com/mtcv1/client/mtcaptcha2.min.js";
-  (
-    document.getElementsByTagName("head")[0] ||
-    document.getElementsByTagName("body")[0]
-  ).appendChild(mt_service2);
-})();
 
 (function() {
   'use strict';
@@ -64,7 +45,7 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
   }
 
   var api = function(url, options) {
-    var defer = $.Deferred();
+    var $defer = $.Deferred();
     $.ajax({
         url: url,
         method: "GET",
@@ -72,18 +53,18 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
         contentType: 'application/json; charset=UTF-8'
       })
       .done(function(resp) {
-        defer.resolve(resp, options);
+        $defer.resolve(resp, options);
       })
       .fail(function(jqXHR, textStatus, errorThrown) {
         // handle ajax error
         console.warn('ajax error: ' + textStatus);
         alert('System or network error! Please check and try again later.');
       });
-    return defer;
+    return $defer;
   }
 
   var formValidation = {
-    step2: function () {
+    step2: function() {
       var $formStep2 = $('#form-step2');
       var isValidEmail = function(mail) {
         var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -124,17 +105,36 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
       if (guestForm.contactNumber.value.length < 8) {
         $('#contact-number').addClass('is-invalid').closest('.field-container').addClass('is-invalid');
       }
-      // mtcaptcha
-      var mtState = mtcaptcha.getStatus();
-      $('#captcha').toggleClass('is-invalid', !mtState.isVerified);
-      
-      return $formStep2.find('.is-invalid').length === 0;
+      return $formStep2.find('.is-invalid').length > 0 ? $.Deferred().resolve(false) : verifyTickets();
     },
     step3: function () {
       var shuttleBusServiceError = guestForm.shuttleBusService.checked && !guestForm.shuttleBusTimeSlot.value;
+      var mtState = mtcaptcha.getStatus();
+
+      $('#captcha').toggleClass('is-invalid', !mtState.isVerified);
       $('#shuttle-bus-service').toggleClass('is-invalid', shuttleBusServiceError);
-      return !shuttleBusServiceError;
+
+      return !shuttleBusServiceError && mtState.isVerified;
     }
+  }
+
+  function mtcaptchaInit() {
+    var mt_service = document.createElement("script");
+    mt_service.async = true;
+    mt_service.src =
+      "https://service.mtcaptcha.com/mtcv1/client/mtcaptcha.min.js";
+    (
+      document.getElementsByTagName("head")[0] ||
+      document.getElementsByTagName("body")[0]
+    ).appendChild(mt_service);
+    var mt_service2 = document.createElement("script");
+    mt_service2.async = true;
+    mt_service2.src =
+      "https://service2.mtcaptcha.com/mtcv1/client/mtcaptcha2.min.js";
+    (
+      document.getElementsByTagName("head")[0] ||
+      document.getElementsByTagName("body")[0]
+    ).appendChild(mt_service2);
   }
 
   function apiFail(resp) {
@@ -311,6 +311,69 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
     renderGuestInput();
   }
 
+  function verifyTickets() {
+    var hasError = false;
+    var dfd = [];
+    var $defer = $.Deferred();
+    // reset message before verify
+    $('#verify-message').addClass('d-none').find('span').addClass('d-none');
+    // loop to call api
+    for(var i=1; i <= Number(guestForm.guestNum.value); i++) {
+      if (guestForm['guest' + i + 'Ticket'].value) {
+        dfd.push(
+          api(apiUrl.verify(guestForm['guest' + i + 'Ticket'].value, guestForm.dateOfVisit.value), i-1).then(function (resp, guestIndex) {
+            if (resp.success) {
+              $('.guest-input-group').eq(guestIndex)
+                .find('.ticket-number').removeClass('is-invalid').removeAttr('errindex')
+                .find('input').removeClass('is-invalid');
+            } else {
+              hasError = true;
+              // highlight field has error
+              $('.guest-input-group').eq(guestIndex)
+                .find('.ticket-number').addClass('is-invalid').attr('errindex', 2)
+                .find('input').addClass('is-invalid');
+            }
+          })
+        );
+      } else {
+        hasError = true;
+        // show alert message under the button
+        $('#verify-message').removeClass('d-none').find('span:nth-child(2)').removeClass('d-none');
+        // highlight field has an error
+        $('.guest-input-group').eq(i-1)
+        .find('.ticket-number').addClass('is-invalid').attr('errindex', 1)
+        .find('input').addClass('is-invalid')
+      }
+    }
+    // all calls done and check if error to show message
+    $.when.apply($, dfd).done(function() {
+      if (hasError) {
+        // show alert message under the button
+        $('#verify-message').removeClass('d-none').find('span:nth-child(2)').removeClass('d-none');
+      } else {
+        $('#verify-message').removeClass('d-none').find('span:nth-child(3)').removeClass('d-none');
+      }
+      $defer.resolve(!hasError);
+    });
+    return $defer;
+  }
+
+  function gotoPage(stepId) {
+    var nextStep = Number(stepId.slice(-1));
+    // switch to next step page
+    currentStep = nextStep;
+    $('.form-layer').addClass('hidden').removeClass('active');
+    $(stepId).removeClass('hidden').addClass('active');
+    // reset all active
+    $('#steps ul > li').removeClass('active');
+    $('.mobile-steps > li').removeClass('active');
+    // active steps to current
+    for (var x=1; x <= currentStep; x++) {
+      $('#steps ul > li[step="' + x + '"]').addClass('active');
+      $('.mobile-steps > li[step="' + x + '"]').addClass('active');
+    }
+  }
+
   function renderCalendar(resp) {
     if (!resp.success) {
       apiFail(resp);
@@ -422,52 +485,12 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
 
     $('#verify').on('click', function(e) {
       e.preventDefault();
-      var hasError = false;
-      var dfd = [];
-      // var visitDate = ticketType == 'dated' ? null : guestForm.dateOfVisit.value;
-      var visitDate = guestForm.dateOfVisit.value;
       // not to verify if visit date is not yet selected and ticket type is not 'dated'
-      if (visitDate == '') {
+      if (guestForm.dateOfVisit.value == '') {
         $('#verify-message').removeClass('d-none').find('span:first-child').removeClass('d-none');
-        return;
+      } else {
+        verifyTickets();
       }
-
-      $('#verify-message').addClass('d-none').find('span').addClass('d-none');
-      for(var i=1; i <= Number(guestForm.guestNum.value); i++) {
-        if (guestForm['guest' + i + 'Ticket'].value) {
-          dfd.push(
-            api(apiUrl.verify(guestForm['guest' + i + 'Ticket'].value, visitDate), i-1).then(function (resp, guestIndex) {
-              if (resp.success) {
-                $('.guest-input-group').eq(guestIndex)
-                  .find('.ticket-number').removeClass('is-invalid').removeAttr('errindex')
-                  .find('input').removeClass('is-invalid');
-              } else {
-                hasError = true;
-                // highlight field has error
-                $('.guest-input-group').eq(guestIndex)
-                  .find('.ticket-number').addClass('is-invalid').attr('errindex', 2)
-                  .find('input').addClass('is-invalid');
-              }
-            })
-          );
-        } else {
-            hasError = true;
-            // show alert message under the button
-            $('#verify-message').removeClass('d-none').find('span:nth-child(2)').removeClass('d-none');
-            // highlight field has an error
-            $('.guest-input-group').eq(i-1)
-            .find('.ticket-number').addClass('is-invalid').attr('errindex', 1)
-            .find('input').addClass('is-invalid')
-        }
-      }
-      $.when.apply($, dfd).done(function() {
-        if (hasError) {
-          // show alert message under the button
-          $('#verify-message').removeClass('d-none').find('span:nth-child(2)').removeClass('d-none');
-        } else {
-          $('#verify-message').removeClass('d-none').find('span:nth-child(3)').removeClass('d-none');
-        }
-      });
     });
 
     $('#shuttle-bus-input').on('click', function(e) {
@@ -573,43 +596,39 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
     // steps and step buttons listener
     $('.step-btn').on('click', function(e) {
       e.preventDefault();
-      // if (!agreeTnC && mode == 'new') return;
+
+      var self = this;
       var stepId = $(this).attr('href');
       if (stepId === '#form-step' + currentStep) return;
       var nextStep = Number(stepId.slice(-1));
 
       // validation before next step
       if (currentStep > 1 && nextStep > currentStep) {
-        var isValidForm = formValidation['step' + currentStep]();
-        $('#check-error').toggleClass('d-none', isValidForm);
-        if (!isValidForm && env != 'dev') {
-          // scroll to bottom to see alert message
-          if (this.id === 'step2-submit') {
-            $('#form-step2')[0].scrollTo(0, 99999);
+        formValidation['step' + currentStep]().done(function(isValidForm) {
+          $('#check-error').toggleClass('d-none', isValidForm);
+          if (!isValidForm && env != 'dev') {
+            // scroll to bottom to see alert message
+            if (self.id === 'step2-submit') {
+              $('#form-step2')[0].scrollTo(0, 99999);
+            }
+            return;
           }
-          return;
-        }
-      }
+          
+          gotoPage(stepId);
 
-      // switch to next step page
-      currentStep = nextStep;
-      $('.form-layer').addClass('hidden').removeClass('active');
-      $(stepId).removeClass('hidden').addClass('active');
-      // reset all active
-      $('#steps ul > li').removeClass('active');
-      $('.mobile-steps > li').removeClass('active');
-      // active steps to current
-      for (var x=1; x <= currentStep; x++) {
-        $('#steps ul > li[step="' + x + '"]').addClass('active');
-        $('.mobile-steps > li[step="' + x + '"]').addClass('active');
-      }
+          if (currentStep == 3) {
+            loadShuttleBusTimeSlots();
+            if ($('#captcha .mtcaptcha').html() == '') {
+              mtcaptchaInit();
+            }
+          }
 
-      if (currentStep == 3) {
-        loadShuttleBusTimeSlots();
+          // get the current active element for $stepEl in mobile.js
+          $stepsEl = $('.form-layer.active .mobile-steps');
+        });
+      } else {
+        gotoPage(stepId);
       }
-
-      // get the current active element for mobile
-      $stepsEl = $('.form-layer.active .mobile-steps');
     });
     
     // only accept alphabets for name (remove numbers and special chars)

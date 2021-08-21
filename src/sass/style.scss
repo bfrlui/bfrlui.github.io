@@ -441,9 +441,9 @@ form {
       + .custom-control-label:before {
         border-color: $red !important;
       }
-      &:checked~.custom-control-label:before {
-        background-color: $red;
-      }
+      // &:checked~.custom-control-label:before {
+      //   background-color: $red;
+      // }
     }
     + .custom-control-label:after {
       width: 20px;

@@ -72,12 +72,6 @@
     include guestInput
     // contact info
     include contactInput
-    // mtcaptcha
-    #captcha.mt-3
-      .mtcaptcha
-      p.text-red #{dict.errCaptcha[currentLang]}
-      input(name='verifiedToken' type='hidden' value='')
-      
 
     // page navigation row
     .row.align-items-center.mt-5
@@ -86,7 +80,7 @@
           img.icon.mr-2(src='../../img/btnBack.png')
           | #{dict.changeTicketType[currentLang]}
       .col-5.text-right
-        a#step2-submit.step-btn.btn.btn-primary.rounded-pill(href="#form-step3" type='button') #{dict.submit[currentLang]}
+        a#step2-submit.step-btn.btn.btn-primary.rounded-pill(href="#form-step3" type='button') #{dict.next[currentLang]}
           img.icon(src='../../img/btnArrow.png')
     
     #check-error.row.d-none.mt-4

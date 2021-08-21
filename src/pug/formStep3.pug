@@ -59,8 +59,16 @@
       .invalid-feedback.mt-2 #{dict.errShuttleBusService[currentLang]}
       input#shuttle-bus-timeslot(name='shuttleBusTimeSlot' type='hidden' value='')
 
+    hr.block-space.w-100
+    
+    // mtcaptcha
+    #captcha.mt-auto
+      .mtcaptcha
+      p.text-red #{dict.errCaptcha[currentLang]}
+      input(name='verifiedToken' type='hidden' value='')
+
     // page navigation row
-    .row.align-items-center.mt-auto
+    .row.align-items-center.mt-5
       .col-7.pr-0
         a.text-dark.step-btn(href="#form-step2")
           img.icon.mr-2(src='../../img/btnBack.png')
