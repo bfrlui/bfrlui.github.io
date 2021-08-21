@@ -1300,10 +1300,12 @@ main {
   //     min-width: $ticket-type-min-width;
   //   }
   // }
-  #time-slots-container {
-    .time-slots .col {
-      flex-basis: 25%;
-      max-width: 25%;
+  #shuttle-bus-service {
+    #time-slots-container {
+      .time-slots .col {
+        flex-basis: 25%;
+        max-width: 25%;
+      }
     }
   }
   #datepicker .datepicker-inline .datepicker-days table {
@@ -1313,7 +1315,7 @@ main {
     }
     td.day {
       &.active,
-      &:hover {
+      &:not(.disabled):hover {
         &:before {
           width: $table-sm-td-active-size;
           height: $table-sm-td-active-size;
