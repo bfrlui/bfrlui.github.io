@@ -59,6 +59,7 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
         // handle ajax error
         console.warn('ajax error: ' + textStatus);
         alert('System or network error! Please check and try again later.');
+        $('[in-progress]').removeAttr('in-progress').removeClass('disabled');
       });
     return $defer;
   }
@@ -353,6 +354,7 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
       } else {
         $('#verify-message').removeClass('d-none').find('span:nth-child(3)').removeClass('d-none');
       }
+      $('[in-progress]').removeAttr('in-progress').removeClass('disabled');
       $defer.resolve(!hasError);
     });
     return $defer;
@@ -489,6 +491,8 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
       if (guestForm.dateOfVisit.value == '') {
         $('#verify-message').removeClass('d-none').find('span:first-child').removeClass('d-none');
       } else {
+        $(this).attr('in-progress', 'true').addClass('disabled');
+        console.log(this.getAttribute('in-progress'));
         verifyTickets();
       }
     });

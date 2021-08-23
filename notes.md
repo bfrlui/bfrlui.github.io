@@ -1,5 +1,6 @@
 [mirum testing]
 https://op-ww-reg.mirumhk.com/dated/modify/WW6185cdfb75836/tc?r=WW6185cdfb75836
+https://op-ww-reg.mirumhk.com/opendated/manage/WW1886cc5f18739/tc
 
 [mtcaptcha]
 MTCaptcha: https://admin.mtcaptcha.com/login

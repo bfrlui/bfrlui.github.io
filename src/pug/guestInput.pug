@@ -18,7 +18,7 @@ script#guest-input-template(type='text/template')
     .col-xs-12.mb-3.field-container.ticket-number
       .position-relative
         label.input-label(for='guest_Index-ticket') #{dict.ticketBarcodeNumber[currentLang]}<span class="text-red">*</span>
-        input.form-control.form-control-lg.rounded-pill.guest-text-input#guest_Index-ticket(name='guest_IndexTicket' type='text' value='' autocomplete="off" maxlength='16')
+        input.form-control.form-control-lg.rounded-pill.guest-text-input#guest_Index-ticket(name='guest_IndexTicket' type='text' value='' autocomplete="off" maxlength='24')
         .mask ●●●● ●●●● ●●●● ●●●●
       //- 
         a.code-reader(href)
@@ -27,7 +27,7 @@ script#guest-input-template(type='text/template')
         .invalid-feedback.my-3 #{dict.errTicket[currentLang]}
         .invalid-feedback.my-3 #{dict.errTicketInvalid[currentLang]}
       .mt-3
-        a.buy-ticket(href) #{dict.buyTickets[currentLang]}
+        a.buy-ticket(href=dict.buyTicketsLink[ticketType][currentLang] target='_blank') #{dict.buyTickets[currentLang]}
       //- 
         small#guest_Index-ticket-help-text.form-text.text-muted.
           Your password must be 8-20 characters long
@@ -38,7 +38,11 @@ script#guest-input-template(type='text/template')
 
 #verify-guest-container.col-xs-12.my-4.text-center.position-relative
   hr
-  a#verify.btn.btn-primary.rounded-pill.position-relative(href="#" type='button') #{dict.verify[currentLang]}
+  a#verify.btn.btn-primary.rounded-pill.position-relative(href="#" type='button')
+    span #{dict.verify[currentLang]}
+    .spinner-border(role='status')
+      span.sr-only Loading...
+
 p#verify-message.text-center.text-red.mt-3.d-none
   span.d-none #{dict.errDateOfVisit[currentLang]}
   span.d-none #{dict.errVerify[currentLang]}

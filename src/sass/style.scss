@@ -497,7 +497,7 @@ form {
     padding-top: $input-y-padding;
     padding-bottom: $input-y-padding;
     max-height: $element-max-height;
-    font-size: $input-font-size;
+    font-size: 16px;
     line-height: 1;
     color: $text;
     box-shadow: none !important;
@@ -980,6 +980,21 @@ ul.list-unstyled.custom-disc {
     top: 0;
     bottom: 0;
   }
+  #verify {
+    .spinner-border {
+      display: none;
+    }
+    &[in-progress] {
+      > span {
+        display: none;
+      }
+      .spinner-border {
+        display: inline-block;
+        width: 1rem;
+        height: 1rem;
+      }
+    }
+  }
 }
 #result-info {
   td {
@@ -1266,6 +1281,12 @@ main {
     }
   }  
 }
+@media(min-width: 1680px) {
+  .alert-message {
+    width: 34vw;
+    max-width: 830px;
+  }
+}
 @media(max-width: 767px) {
   .modal-dialog {
     max-width: inherit;
@@ -1401,7 +1422,7 @@ main {
       padding-left: $element-sm-x-padding;
       padding-right: $element-sm-x-padding;
       max-height: $element-sm-max-height;
-      font-size: $input-sm-font-size;
+      // font-size: $input-sm-font-size;
     }
     .ticket-number  input[readonly] + .mask {
       bottom: 14px;
