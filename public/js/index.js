@@ -197,13 +197,20 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
       $('#time-slots-am p').toggleClass('d-none', $('#time-slots-am a').length > 0);
   
       // setup event
-      $('.time-slots .col').on('click', function(e) {
-        e.preventDefault();
-        if (!guestForm.shuttleBusService.checked) return;
-        $('#time-slots-container .col.active').removeClass('active');
-        $(this).addClass('active');
-        guestForm.shuttleBusTimeSlot.value = $(this).attr('value');
-      });
+      $('.time-slots .col')
+        .on('click', function(e) {
+          e.preventDefault();
+          if (!guestForm.shuttleBusService.checked) return;
+          $('#time-slots-container .col.active').removeClass('active');
+          $(this).addClass('active');
+          guestForm.shuttleBusTimeSlot.value = $(this).attr('value');
+        })
+        .on('mouseover', function(e) {
+          $(this).addClass('hover');
+        })
+        .on('mouseleave', function(e) {
+          $(this).removeClass('hover');
+        });
     });
   }
 
@@ -442,6 +449,13 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
     $('#dateOfVisit').text(guestForm.dateOfVisit.value);
     // resolve yellow selector over the text (day value)
     $('#datepicker table td').wrapInner('<label class="position-relative m-0"></label>');
+    $('#datepicker')
+      .on('mouseover', '.day:not(.disabled)', function(e) {
+        $(this).addClass('hover');
+      })
+      .on('mouseleave', '.day:not(.disabled)', function(e) {
+        $(this).removeClass('hover');
+      });
   }
 
   window.addEventListener('load', function() {

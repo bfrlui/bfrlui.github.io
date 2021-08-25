@@ -694,7 +694,7 @@ ul.list-unstyled.custom-disc {
         &:not(.disabled):not(.full) {
           color: $text;
           pointer-events: auto;
-          &:hover, &.active {
+          &.hover, &.active {
             &:before {
               background-color: $yellow;
             }
@@ -907,8 +907,11 @@ ul.list-unstyled.custom-disc {
           &.active:first-child {
             color: $red;
           }
+          &:hover {
+            background: none;
+          }
           &.active,
-          &:not(.disabled):hover {
+          &.hover:not(.disabled) {
             background: none;
             &:before {
               content: "";
