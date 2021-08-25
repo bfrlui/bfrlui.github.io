@@ -106,6 +106,9 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
       if (guestForm.contactNumber.value.length < 8) {
         $('#contact-number').addClass('is-invalid').closest('.field-container').addClass('is-invalid');
       }
+
+      checkTicketDuplication();
+
       return $formStep2.find('.is-invalid').length > 0 ? $.Deferred().resolve(false) : verifyTickets();
     },
     step3: function () {
@@ -312,40 +315,66 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
     renderGuestInput();
   }
 
+  function checkTicketDuplication() {
+    var isFound = false;
+    for (var x=1; x < guestForm.guestNum.value; x++) {
+      if (guestForm['guest' + x + 'Ticket'].value) {
+        for (var i=x+1; i <= guestForm.guestNum.value; i++) {
+          if (guestForm['guest' + x + 'Ticket'].value == guestForm['guest' + i + 'Ticket'].value) {
+            isFound = true;
+            $('.guest-input-group').eq(i-1).find('.ticket-number')
+            .attr('errindex', 3).addClass('is-invalid')
+            .find('input').addClass('is-invalid');
+          }
+        }
+      }
+    }
+
+    return isFound;
+  }
+  
   function verifyTickets() {
     var hasError = false;
     var dfd = [];
     var $defer = $.Deferred();
     // reset message before verify
     $('#verify-message').addClass('d-none').find('span').addClass('d-none');
-    // loop to call api
-    for(var i=1; i <= Number(guestForm.guestNum.value); i++) {
-      if (guestForm['guest' + i + 'Ticket'].value) {
-        dfd.push(
-          api(apiUrl.verify(guestForm['guest' + i + 'Ticket'].value, guestForm.dateOfVisit.value), i-1).then(function (resp, guestIndex) {
-            if (resp.success) {
-              $('.guest-input-group').eq(guestIndex)
-                .find('.ticket-number').removeClass('is-invalid').removeAttr('errindex')
-                .find('input').removeClass('is-invalid');
-            } else {
-              hasError = true;
-              // highlight field has error
-              $('.guest-input-group').eq(guestIndex)
-                .find('.ticket-number').addClass('is-invalid').attr('errindex', 2)
-                .find('input').addClass('is-invalid');
-            }
-          })
-        );
-      } else {
-        hasError = true;
-        // show alert message under the button
-        $('#verify-message').removeClass('d-none').find('span:nth-child(2)').removeClass('d-none');
-        // highlight field has an error
-        $('.guest-input-group').eq(i-1)
-        .find('.ticket-number').addClass('is-invalid').attr('errindex', 1)
-        .find('input').addClass('is-invalid')
+    $('.ticket-number').removeClass('is-invalid').find('input').removeClass('is-invalid');
+
+    // before call api, ensure no duplication
+    if (!checkTicketDuplication()) {
+      // loop to call api
+      for(var i=1; i <= Number(guestForm.guestNum.value); i++) {
+        if (guestForm['guest' + i + 'Ticket'].value) {
+          dfd.push(
+            api(apiUrl.verify(guestForm['guest' + i + 'Ticket'].value, guestForm.dateOfVisit.value), i-1).then(function (resp, guestIndex) {
+              if (resp.success) {
+                $('.guest-input-group').eq(guestIndex)
+                  .find('.ticket-number').removeClass('is-invalid').removeAttr('errindex')
+                  .find('input').removeClass('is-invalid');
+              } else {
+                hasError = true;
+                // highlight field has error
+                $('.guest-input-group').eq(guestIndex)
+                  .find('.ticket-number').addClass('is-invalid').attr('errindex', 2)
+                  .find('input').addClass('is-invalid');
+              }
+            })
+          );
+        } else {
+          hasError = true;
+          // show alert message under the button
+          $('#verify-message').removeClass('d-none').find('span:nth-child(2)').removeClass('d-none');
+          // highlight field has an error
+          $('.guest-input-group').eq(i-1)
+          .find('.ticket-number').addClass('is-invalid').attr('errindex', 1)
+          .find('input').addClass('is-invalid')
+        }
       }
+    } else {
+      hasError = true;
     }
+
     // all calls done and check if error to show message
     $.when.apply($, dfd).done(function() {
       if (hasError) {

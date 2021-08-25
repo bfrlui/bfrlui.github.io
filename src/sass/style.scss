@@ -538,6 +538,11 @@ form {
           display: block;
         }
       }
+      &[errindex='3'] {
+        .invalid-feedback:nth-child(3) {
+          display: block;
+        }
+      }
     }
     input {
       &.is-invalid {

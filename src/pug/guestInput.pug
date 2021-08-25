@@ -26,6 +26,7 @@ script#guest-input-template(type='text/template')
       div
         .invalid-feedback.my-3 #{dict.errTicket[currentLang]}
         .invalid-feedback.my-3 #{dict.errTicketInvalid[currentLang]}
+        .invalid-feedback.my-3 #{dict.errTicketDuplicated[currentLang]}
       .mt-3
         a.buy-ticket(href=dict.buyTicketsLink[ticketType][currentLang] target='_blank') #{dict.buyTickets[currentLang]}
       //- 
