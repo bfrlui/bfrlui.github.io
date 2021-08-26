@@ -154,6 +154,8 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
   };
 
   function loadShuttleBusTimeSlots() {
+    // set state of service for ui appearance 
+    $('#shuttle-bus-service').attr('require-service', guestForm.shuttleBusService.checked ? 'yes' : 'no');
     if (!guestForm.shuttleBusService.checked) return;
 
     var template = '<a class="_classes_" href="#" value="_time_">_time_</a>';
@@ -190,8 +192,6 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
         $('#time-slots-' + (data[x].time >= '12:00' ? 'pm' : 'am')).append(el.replace(/_classes_/, classes));
       }
   
-      // set state of service for ui appearance 
-      $('#shuttle-bus-service').attr('require-service', guestForm.shuttleBusService.checked ? 'yes' : 'no');
       // show message if no available timeslots
       $('#time-slots-pm p').toggleClass('d-none', $('#time-slots-pm a').length > 0);
       $('#time-slots-am p').toggleClass('d-none', $('#time-slots-am a').length > 0);
@@ -320,6 +320,7 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
     });
     rangeFill();
     renderGuestInput();
+    loadShuttleBusTimeSlots();
   }
 
   function checkTicketDuplication() {

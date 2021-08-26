@@ -78,7 +78,7 @@ a, button, .btn, input, .form-control {
   } 
 }
 .btn {
-  min-width: 100px;
+  min-width: 125px;
   font-weight: 900;
   font-style: italic;
   &[type='submit'],
@@ -1415,6 +1415,7 @@ main {
 }
 @media (max-width:1439px) {
   .btn {
+    min-width: 100px;
     padding: 0 $element-sm-x-padding - 4px;
     height: $element-sm-height;
     max-height: $element-sm-max-height;
