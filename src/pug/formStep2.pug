@@ -14,18 +14,16 @@
     include artworks
 
     // form title
-    if (ticketType == 0)
-      h1.form-title.block-space.text-blue
+    h1.form-title.block-space.text-blue
+      if (ticketType == 0)
         span !{dict.datedTicketsHolders[currentLang]}
-        span !{dict.modifyYourReservation[currentLang]}
-    if (ticketType == 1)
-      h1.form-title.block-space
+        span !{dict.modifyYourReservation[currentLang].replace('_ticket_', dict.datedTicketsHoldersLabel[currentLang])}
+      if (ticketType == 1)
         span !{dict.openDatedTicketsHolders[currentLang]}
-        span !{dict.modifyYourReservation[currentLang]}
-    if (ticketType == 2)
-      h1.form-title.block-space
+        span !{dict.modifyYourReservation[currentLang].replace('_ticket_', dict.openDatedTicketsHoldersLabel[currentLang])}
+      if (ticketType == 2)
         span !{dict.passHolders[currentLang]}
-        span !{dict.modifyYourReservation[currentLang]}
+        span !{dict.modifyYourReservation[currentLang].replace('_ticket_', dict.passHoldersLabel[currentLang])}
 
     // alert message
     .alert-message.block-space

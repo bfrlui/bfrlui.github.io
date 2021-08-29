@@ -4,7 +4,7 @@
       small.ml-lg-2.d-block.d-lg-inline #{dict.dateFormat[currentLang]}
     h3#dateOfVisit.section-title
   #datepicker(data-date='')
-  .text-right.mt-2
+  .text-right.mt-2.d-flex.justify-content-end.flex-wrap
     span.mr-4
       small ●
       small.mr-1.text-red ●
@@ -13,7 +13,7 @@
       small.mr-1.text-light-gray ●
       | #{dict.notAvailable[currentLang]}
     if (ticketType > 0)
-      span.mr-3
+      span.mr-4
         small.mr-1.font-weight-bold —
         | #{dict.full[currentLang]}
   input#date-of-visit-input(name='dateOfVisit' type='hidden' required)

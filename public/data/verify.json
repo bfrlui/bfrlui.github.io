@@ -1,3 +1,8 @@
 {
-  "success": false
+  "success": false,
+  "message": {
+    "en": "Ticket type is not match",
+    "tc": "Ticket type is not match (tc)",
+    "sc": "Ticket type is not match (sc)"
+  }
 }

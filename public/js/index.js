@@ -13,6 +13,8 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
 (function() {
   'use strict';
 
+  var reservationNumber = '';
+  
   guestForm.reset();
   
   var apiUrl = {
@@ -20,13 +22,16 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
       var apiVisitDate = '/api/' + ticketType + '/timeslots/' + guestNum;
       return env == 'dev' ? '/data/timeslots' + guestNum + '.json' : apiVisitDate
     },
-    verify: function(ticketNumber, visitDate) {
+    verify: function(ticketNumber, visitDate, reservationNum) {
       var date = '';
       if (visitDate) {
         date = visitDate.split('/');
         date = '/' + date[2] + '-' + date[1] + '-' + date[0];
       }
-      var apiVerify = '/api/' + ticketType + '/verify/' + ticketNumber.replace('maskTicket', '') + date;
+      if (reservationNum) {
+        reservationNum = '/' + reservationNum;
+      }
+      var apiVerify = '/api/' + ticketType + '/verify/' + ticketNumber.replace('maskTicket', '') + date + reservationNum;
       return env == 'dev' ? '/data/verify.json' : apiVerify
     },
     shuttle: function(guestNum, visitDate) {
@@ -355,7 +360,7 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
       for(var i=1; i <= Number(guestForm.guestNum.value); i++) {
         if (guestForm['guest' + i + 'Ticket'].value) {
           dfd.push(
-            api(apiUrl.verify(guestForm['guest' + i + 'Ticket'].value, guestForm.dateOfVisit.value), i-1).then(function (resp, guestIndex) {
+            api(apiUrl.verify(guestForm['guest' + i + 'Ticket'].value, guestForm.dateOfVisit.value, reservationNumber), i-1).then(function (resp, guestIndex) {
               if (resp.success) {
                 $('.guest-input-group').eq(guestIndex)
                   .find('.ticket-number').removeClass('is-invalid').removeAttr('errindex')
@@ -366,6 +371,9 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
                 $('.guest-input-group').eq(guestIndex)
                   .find('.ticket-number').addClass('is-invalid').attr('errindex', 2)
                   .find('input').addClass('is-invalid');
+                if (resp.message && resp.message[currentLang]) {
+                  $('.guest-input-group').eq(guestIndex).find('.ticket-number .invalid-feedback:eq(1)').text(resp.message[currentLang]);
+                }
               }
             })
           );
@@ -501,7 +509,7 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
     $.fn.datepicker.dates['sc'] = datepickerTCnSC;
 
     // set active form for modify mode
-    var reservationNumber = getUrlParameter('r');
+    reservationNumber = getUrlParameter('r') || '';
     // skip tnc and directly goto input form
     if (reservationNumber) {
       mode = 'modify';
@@ -536,7 +544,6 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
         $('#verify-message').removeClass('d-none').find('span:first-child').removeClass('d-none');
       } else {
         $(this).attr('in-progress', 'true').addClass('disabled');
-        console.log(this.getAttribute('in-progress'));
         verifyTickets();
       }
     });
