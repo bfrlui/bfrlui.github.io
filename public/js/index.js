@@ -14,8 +14,7 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
   'use strict';
 
   var reservationNumber = '';
-  
-  guestForm.reset();
+  var shuttleLoaded = false;
   
   var apiUrl = {
     visitDate: function(guestNum) { 
@@ -178,11 +177,14 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
         classes = 'col';
         el = template.replace(/_time_/g, data[x].time);
         // reset selected timeslot if already full or not available at this moment
-        if (guestForm.shuttleBusService.checked && guestForm.shuttleBusTimeSlot.value == data[x].time && (!data[x].available || data[x].full)) {
-          guestForm.shuttleBusTimeSlot.value = '';
+        // if (guestForm.shuttleBusService.checked && guestForm.shuttleBusTimeSlot.value == data[x].time && (!data[x].available || data[x].full)) {
+        //   guestForm.shuttleBusTimeSlot.value = '';
         // set active if selected previously
-        } else if (guestForm.shuttleBusService.checked && guestForm.shuttleBusTimeSlot.value == data[x].time) {
+        // } else if (guestForm.shuttleBusService.checked && guestForm.shuttleBusTimeSlot.value == data[x].time) {
+        // auto select available timeslot when not yet selected by guest
+        if (data[x].available && !guestForm.shuttleBusTimeSlot.value) {
           classes += ' active';
+          guestForm.shuttleBusTimeSlot.value = data[x].time;
           // better ux to show selected time slot if afternoon
           if (guestForm.shuttleBusTimeSlot.value >= '12:00') {
             $('#shuttle-bus-service').attr('time-slot', 'pm');
@@ -216,6 +218,8 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
         .on('mouseleave', function(e) {
           $(this).removeClass('hover');
         });
+
+      shuttleLoaded = true;
     });
   }
 
@@ -306,8 +310,12 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
     guestForm.email.value = data.email;
     guestForm.confirmEmail.value = data.email;
     guestForm.contactNumber.value = data.contactNumber;
-    guestForm.shuttleBusTimeSlot.value = data.shuttleBusTimeSlot;
-    guestForm.shuttleBusService.checked = data.shuttleBusService;
+    // guestForm.shuttleBusTimeSlot.value = data.shuttleBusTimeSlot;
+    // guestForm.shuttleBusService.checked = data.shuttleBusService;
+    // ignored previous selection in modify mode, force to select again unconditionally
+    // must empty and set to checked to auto select earliest available timeslot for guest
+    guestForm.shuttleBusTimeSlot.value = '';
+    guestForm.shuttleBusService.checked = true;
     for (var x=0; x < data.guest.length; x++) {
       guestForm['guest' + (x+1) + 'Name'].value = data.guest[x].name;
       guestForm['guest' + (x+1) + 'Ticket'].value = uidPrefix + data.guest[x].ticketNumber;
@@ -325,7 +333,7 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
     });
     rangeFill();
     renderGuestInput();
-    loadShuttleBusTimeSlots();
+    // loadShuttleBusTimeSlots();
   }
 
   function checkTicketDuplication() {
@@ -333,7 +341,7 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
     for (var x=1; x < guestForm.guestNum.value; x++) {
       if (guestForm['guest' + x + 'Ticket'].value) {
         for (var i=x+1; i <= guestForm.guestNum.value; i++) {
-          if (guestForm['guest' + x + 'Ticket'].value == guestForm['guest' + i + 'Ticket'].value) {
+          if (guestForm['guest' + x + 'Ticket'].value.replace('maskTicket', '') == guestForm['guest' + i + 'Ticket'].value.replace('maskTicket', '')) {
             isFound = true;
             $('.guest-input-group').eq(i-1).find('.ticket-number')
             .attr('errindex', 3).addClass('is-invalid')
@@ -467,7 +475,9 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
       });
   }
 
-  window.addEventListener('load', function() {
+  $(window).on("DOMContentLoaded, pageshow", function() {
+    guestForm.reset();
+
     // determine ticket type
     ticketType = $('#ticket-type-container .btn-group').attr('active');
     switch (ticketType) {
@@ -551,12 +561,12 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
     $('#shuttle-bus-input').on('click', function(e) {
       $('#shuttle-bus-service').attr('require-service', this.checked ? 'yes' : 'no');
       // remove selected time slot
-      $('.time-slots .col.active').removeClass('active');
+      // $('.time-slots .col.active').removeClass('active');
       if (!this.checked) {
         $('#shuttle-bus-service').removeClass('is-invalid');
       }
-      guestForm.shuttleBusTimeSlot.value = '';
-      loadShuttleBusTimeSlots();
+      // guestForm.shuttleBusTimeSlot.value = '';
+      // loadShuttleBusTimeSlots();
     });
 
     // remove guest by clicking trash
@@ -616,6 +626,7 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
         for (var x=1; x <= guestForm.guestNum.value; x++) {
           guestForm['guest' + x + 'Ticket'].value = guestForm['guest' + x + 'Ticket'].value.replace('maskTicket', '');
         }
+        if (!guestForm.shuttleBusService.checked) guestForm.shuttleBusTimeSlot.value = '';
         guestForm.submit();
       }
     });
@@ -672,7 +683,7 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
           gotoPage(stepId);
 
           if (currentStep == 3) {
-            loadShuttleBusTimeSlots();
+            if (!shuttleLoaded) loadShuttleBusTimeSlots();
             if ($('#captcha .mtcaptcha').html() == '') {
               mtcaptchaInit();
             }
@@ -720,5 +731,5 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
         this.value = this.value.slice(0, 8);
       }
     });
-  }, false);
+  });
 })();

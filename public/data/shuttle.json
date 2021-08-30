@@ -3,7 +3,7 @@
   "data": [
     {
       "time": "08:00",
-      "available": true,
+      "available": false,
       "full": false
     },
     {
@@ -18,7 +18,7 @@
     },
     {
       "time": "10:00",
-      "available": true,
+      "available": false,
       "full": false
     },
     {
