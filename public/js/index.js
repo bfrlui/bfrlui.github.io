@@ -24,28 +24,33 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
     verify: function(ticketNumber, visitDate, reservationNum) {
       var date = '';
       if (visitDate) {
-        date = visitDate.split('/');
-        date = '/' + date[2] + '-' + date[1] + '-' + date[0];
+        // date = visitDate.split('/');
+        // date = '/' + date[2] + '-' + date[1] + '-' + date[0];
+        date = '/' + visitDate.replace(/\//g, '-');
       }
       if (reservationNum) {
         reservationNum = '/' + reservationNum;
       }
       var apiVerify = '/api/' + ticketType + '/verify/' + ticketNumber.replace('maskTicket', '') + date + reservationNum;
+      console.log(apiVerify);
       return env == 'dev' ? '/data/verify.json' : apiVerify
     },
     shuttle: function(guestNum, visitDate) {
       var date = '';
-      date = visitDate.split('/');
-      date = date[2] + '-' + date[1] + '-' + date[0] + '/';
+      // date = visitDate.split('/');
+      // date = date[2] + '-' + date[1] + '-' + date[0] + '/';
+      date = visitDate.replace(/\//g, '-') + '/';
       var apiShuttle = '/api/' + ticketType + '/shuttleBusService/' + date + guestNum;
+      console.log(apiShuttle);
       return env == 'dev' ? '/data/shuttle.json' : apiShuttle
     }
   }
 
   // convert yyyy-mm-dd to dd/mm/yyyy
   var dateFormat = function(date) {
-    var dateStr = date.split('-');
-    return dateStr[2] + '/' + dateStr[1] + '/' + dateStr[0];
+    // var dateStr = date.split('-');
+    // return dateStr[2] + '/' + dateStr[1] + '/' + dateStr[0];
+    return date.replace(/-/g, '/');
   }
 
   var api = function(url, options) {
@@ -439,7 +444,8 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
     $('#datepicker').datepicker({
       startDate: dateFormat(data[0].date),
       endDate: dateFormat(data[data.length-1].date),
-      format: 'dd/mm/yyyy',
+      // format: 'dd/mm/yyyy',
+      format: 'yyyy/mm/dd',
       language: currentLang,
       templates: {
         leftArrow: '<i class="icon nav-arrow-left"></i>',
