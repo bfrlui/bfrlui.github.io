@@ -19,10 +19,9 @@ script#guest-input-template(type='text/template')
       .position-relative
         label.input-label(for='guest_Index-ticket') #{dict.ticketBarcodeNumber[currentLang]}<span class="text-red">*</span>
         input.form-control.form-control-lg.rounded-pill.guest-text-input#guest_Index-ticket(name='guest_IndexTicket' type='text' value='' autocomplete="off" maxlength='24')
-        .mask ●●●● ●●●● ●●●● ●●●●
-      //- 
-        a.code-reader(href)
+        a.code-reader(href='/pdf/Water_World_Ticket_Guide.pdf' target='_blank')
           i.icon.question
+        .mask ●●●● ●●●● ●●●● ●●●●
       div
         .invalid-feedback.my-3 #{dict.errTicket[currentLang]}
         .invalid-feedback.my-3 #{dict.errTicketInvalid[currentLang]}

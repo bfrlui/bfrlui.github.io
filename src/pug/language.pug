@@ -1,5 +1,10 @@
 -
   var dict = {
+    tabTitle: {
+      en: 'Water World Online Reservation System',
+      tc: '水上樂園預約系統',
+      sc: '水上乐园预约系统'
+    },
     onlineReservation: {
       en: 'Online<br><span class="text-cyan">Reservation</span>',
       tc: '網上<span class="text-cyan">預約</span>',
@@ -61,9 +66,9 @@
       sc: '入园日期'
     },
     dateFormat: {
-      en: '(YYYY/MM/DD)',
-      tc: '(年/月/日)',
-      sc: '(年/月/日)'
+      en: '(DD/MM/YYYY)',
+      tc: '(日/月/年)',
+      sc: '(日/月/年)'
     },
     guestName: {
       en: 'Guest Name',
@@ -76,7 +81,7 @@
       sc: '验证'
     },
     registeredGuest: {
-      en: 'Registered <span class="text-blue">Guest</span>',
+      en: 'Registered <span class="text-blue">Visitor</span>',
       tc: '登記人',
       sc: '登记人',
     },
@@ -96,14 +101,14 @@
       sc: '预约号码'
     },
     numberOfGuest: {
-      en: 'Number of Guest',
-      tc: '遊客人數',
-      sc: '游客人数'
+      en: 'Number of Visitors',
+      tc: '訪客人數',
+      sc: '访客人数'
     },
     ticketNoGuestName: {
-      en: 'Ticket Number & Guest Name',
-      tc: '門票號碼/ 遊客姓名',
-      sc: '门票号码/ 遊客姓名'
+      en: 'Ticket Number & Visitor Name',
+      tc: '門票號碼/ 访客姓名',
+      sc: '门票号码/ 访客姓名'
     },
     ticketBarcodeNumber: {
       en: 'Ticket Number',
@@ -175,6 +180,16 @@
       tc: '暫時未可預約',
       sc: '暂时未可预约'
     },
+    shuttleAvailable: {
+      en: 'Available',
+      tc: '尚有空位',
+      sc: '尚有空位'
+    },
+    shuttleFull: {
+      en: 'Full',
+      tc: '額滿',
+      sc: '額滿'
+    },
     fullName: {
       en: 'Full Name',
       tc: '姓名',
@@ -191,20 +206,20 @@
       sc: '请输入门票号码'
     },
     buyTickets: {
-      en: 'Buy Tickets?',
-      tc: '購票？',
-      sc: '购票？'
+      en: 'Need to buy Tickets?',
+      tc: '需要購票？',
+      sc: '需要购票？'
     },
     buyTicketsLink: [
       {
         en: 'https://ticketing.oceanpark.com.hk/oceanpark_b2c/ticketselection.html?selectedCategory=WWGATIX&selectedSubcategory=WWGA01&qubsq=645fc692-9df1-488e-9cc9-f1b1de7de994&qubsp=e5090979-9495-40f5-9953-1991219bb2e7&qubsts=1630058683&qubsc=bestunion&qubse=ocpb2c2020&qubsrt=Safetynet&qubsh=f7e81c839773f11083d473c341fff6d7',
         tc: 'https://ticketing.oceanpark.com.hk/oceanpark_b2c/ticketselection.html?selectedCategory=WWGATIX&selectedSubcategory=WWGA01&locale=zh_TW&qubsq=645fc692-9df1-488e-9cc9-f1b1de7de994&qubsp=e5090979-9495-40f5-9953-1991219bb2e7&qubsts=1630058683&qubsc=bestunion&qubse=ocpb2c2020&qubsrt=Safetynet&qubsh=f7e81c839773f11083d473c341fff6d7',
-        sc: 'https://bestunion.queue-it.net/?c=bestunion&e=ocpb2c2020&t=https://ticketing.oceanpark.com.hk/oceanpark_b2c/ticketselection.html?https://ticketing.oceanpark.com.hk/oceanpark_b2c/ticketselection.html?selectedCategory=WWGATIX&selectedSubcategory=WWGA01&qubsq=645fc692-9df1-488e-9cc9-f1b1de7de994&qubsp=e5090979-9495-40f5-9953-1991219bb2e7&qubsts=1630058683&qubsc=bestunion&qubse=ocpb2c2020&qubsrt=Safetynet&qubsh=f7e81c839773f11083d473c341fff6d7'
+        sc: 'https://ticketing.oceanpark.com.hk/oceanpark_b2c/ticketselection.html?selectedCategory=WWGATIX&selectedSubcategory=WWGA01&qubsq=645fc692-9df1-488e-9cc9-f1b1de7de994&qubsp=e5090979-9495-40f5-9953-1991219bb2e7&qubsts=1630058683&qubsc=bestunion&qubse=ocpb2c2020&qubsrt=Safetynet&qubsh=f7e81c839773f11083d473c341fff6d7'
       },
       {
-        en: 'https://bestunion.queue-it.net/?c=bestunion&e=ocpb2c2020&t=https://ticketing.oceanpark.com.hk/oceanpark_b2c/ticketselection.html?selectedCategory=WWGATIX&selectedSubcategory=WWGA01&locale=en_GB',
-        tc: 'https://bestunion.queue-it.net/?c=bestunion&e=ocpb2c2020&t=https://ticketing.oceanpark.com.hk/oceanpark_b2c/ticketselection.html?selectedCategory=WWGATIX&selectedSubcategory=WWGA01&locale=zh_TW',
-        sc: 'https://bestunion.queue-it.net/?c=bestunion&e=ocpb2c2020&t=https://ticketing.oceanpark.com.hk/oceanpark_b2c/ticketselection.html?selectedCategory=WWGATIX&selectedSubcategory=WWGA01&locale=zh_CN'
+        en: 'https://ticketing.oceanpark.com.hk/oceanpark_b2c/ticketselection.html?selectedCategory=WWGATIX&selectedSubcategory=WWGA01&qubsq=645fc692-9df1-488e-9cc9-f1b1de7de994&qubsp=e5090979-9495-40f5-9953-1991219bb2e7&qubsts=1630058683&qubsc=bestunion&qubse=ocpb2c2020&qubsrt=Safetynet&qubsh=f7e81c839773f11083d473c341fff6d7',
+        tc: 'https://ticketing.oceanpark.com.hk/oceanpark_b2c/ticketselection.html?selectedCategory=WWGATIX&selectedSubcategory=WWGA01&locale=zh_TW&qubsq=645fc692-9df1-488e-9cc9-f1b1de7de994&qubsp=e5090979-9495-40f5-9953-1991219bb2e7&qubsts=1630058683&qubsc=bestunion&qubse=ocpb2c2020&qubsrt=Safetynet&qubsh=f7e81c839773f11083d473c341fff6d7',
+        sc: 'https://ticketing.oceanpark.com.hk/oceanpark_b2c/ticketselection.html?selectedCategory=WWGATIX&selectedSubcategory=WWGA01&qubsq=645fc692-9df1-488e-9cc9-f1b1de7de994&qubsp=e5090979-9495-40f5-9953-1991219bb2e7&qubsts=1630058683&qubsc=bestunion&qubse=ocpb2c2020&qubsrt=Safetynet&qubsh=f7e81c839773f11083d473c341fff6d7'
       },
       {
         en: '',
@@ -278,7 +293,7 @@
       sc: '下午'
     },
     shuttleBusTimeslot: {
-      en: 'Shuttle Bus TimeSlot',
+      en: 'Shuttle Bus Timeslot',
       tc: '已預約之穿梭巴士時段',
       sc: '已预约之穿梭巴士时段'
     },

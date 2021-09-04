@@ -1,6 +1,8 @@
 //- this is content template for: thank you page and modify reservation page
 - Global.currentStep = 4;
 
+block vars
+
 body
   main.container-fluid
     .row
@@ -9,8 +11,10 @@ body
       section#form.col-xs-12
         // step 4 - Thank You
         #form-step4.form-layer.active
-          // language switch for tablet and desktop
-          include langSwitch
+
+          if (Global.mode == 'modify')
+            // language switch for tablet and desktop
+            include langSwitch
 
           // mobile header
           include mobileHeader

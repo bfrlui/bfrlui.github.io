@@ -11,7 +11,8 @@
     },
     currentStep: 0,
     isNewReservation: true,
-    entryPageName: 'index.html'
+    entryPageName: 'index.html',
+    mode: 'new'
   }
 
 include language
@@ -26,7 +27,10 @@ html(lang=currentLang)
     meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
     meta(name='description', content='')
     meta(name='format-detection' content='telephone=no')
+
     block pageTitle
+      title #{dict.tabTitle[currentLang]}
+
     // datepicker
     link(rel='stylesheet' href='https://unpkg.com/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker3.min.css')
     // bootstrap

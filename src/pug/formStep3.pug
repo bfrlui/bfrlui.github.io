@@ -51,10 +51,10 @@
         #time-slots-legend.text-right.mt-2
           span.mr-4
             small.mr-1 ●
-            | #{dict.available[currentLang]}
+            | #{dict.shuttleAvailable[currentLang]}
           span.mr-3
             small.mr-1.font-weight-bold —
-            | #{dict.full[currentLang]}
+            | #{dict.shuttleFull[currentLang]}
       .invalid-feedback.mt-2 #{dict.errShuttleBusService[currentLang]}
       input#shuttle-bus-timeslot(name='shuttleBusTimeSlot' type='hidden' value='')
 

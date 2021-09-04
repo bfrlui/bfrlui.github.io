@@ -152,10 +152,17 @@ a, button, .btn, input, .form-control {
   background-position: center center;
   padding: 100px 0;
   z-index: 1;
-  &.disabled {
-    a {
-      pointer-events: none;
-    }
+  // &.disabled {
+  //   a {
+  //     pointer-events: none;
+  //   }
+  // }
+  #bg-layer {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: rgba(0,0,0,.3);
   }
   #logo-layer {
     display: flex;
@@ -164,10 +171,9 @@ a, button, .btn, input, .form-control {
     top: 0;
     bottom: 0;
     width: 100%;
-    background-color: rgba(0,0,0,.3);
     align-items: center;
     padding: 100px 0;
-    img {
+    a {
       width: 12.5vw;
       margin-bottom: auto;
     }
@@ -471,10 +477,10 @@ form {
       border-radius: 1px;
     }
   }
-  .ticket-number input + .mask {
+  .ticket-number input ~ .mask {
     display: none;
   }
-  .ticket-number input[readonly] + .mask {
+  .ticket-number input[readonly] ~ .mask {
     display: block;
     border: 0;
     font-size: $input-font-size;
@@ -1433,7 +1439,7 @@ main {
       max-height: $element-sm-max-height;
       // font-size: $input-sm-font-size;
     }
-    .ticket-number  input[readonly] + .mask {
+    .ticket-number  input[readonly] ~ .mask {
       bottom: 14px;
       font-size: $input-sm-font-size;
       left: $element-sm-x-padding + $element-border-width;

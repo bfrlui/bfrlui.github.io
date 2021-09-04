@@ -8,7 +8,24 @@ var mtCaptchaLang = { en: 'en', tc: 'zh-hk', sc: 'zh' }
 // 0 = dated, 1 = opendated, 2 = pass
 var ticketType = '';
 // Configuration to construct the captcha widget. Sitekey is a Mandatory Parameter 
-var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPublic-l2MBtzMdK", "lang": mtCaptchaLang[currentLang] };
+var mtcaptchaConfig = {
+  "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPublic-l2MBtzMdK",
+  "lang": mtCaptchaLang[currentLang],
+  "customLangText": {
+    "en": {
+      "inputPrompt": "Pleaes enter the text shown on the above image.",
+      "verifySuccess": "Verified Successfully"
+    },
+    "zh-hk": {
+      "inputPrompt": "請輸入上圖所示的文字。",
+      "verifySuccess": "驗證成功"
+    },
+    "zh": {
+      "inputPrompt": "请输入上图所示的文字。",
+      "verifySuccess": "验证成功"
+    }
+  }
+};
 
 (function() {
   'use strict';
@@ -24,33 +41,31 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
     verify: function(ticketNumber, visitDate, reservationNum) {
       var date = '';
       if (visitDate) {
-        // date = visitDate.split('/');
-        // date = '/' + date[2] + '-' + date[1] + '-' + date[0];
-        date = '/' + visitDate.replace(/\//g, '-');
+        date = visitDate.split('/');
+        date = '/' + date[2] + '-' + date[1] + '-' + date[0];
+        // date = '/' + visitDate.replace(/\//g, '-');
       }
       if (reservationNum) {
         reservationNum = '/' + reservationNum;
       }
       var apiVerify = '/api/' + ticketType + '/verify/' + ticketNumber.replace('maskTicket', '') + date + reservationNum;
-      console.log(apiVerify);
       return env == 'dev' ? '/data/verify.json' : apiVerify
     },
     shuttle: function(guestNum, visitDate) {
       var date = '';
-      // date = visitDate.split('/');
-      // date = date[2] + '-' + date[1] + '-' + date[0] + '/';
-      date = visitDate.replace(/\//g, '-') + '/';
+      date = visitDate.split('/');
+      date = date[2] + '-' + date[1] + '-' + date[0] + '/';
+      // date = visitDate.replace(/\//g, '-') + '/';
       var apiShuttle = '/api/' + ticketType + '/shuttleBusService/' + date + guestNum;
-      console.log(apiShuttle);
       return env == 'dev' ? '/data/shuttle.json' : apiShuttle
     }
   }
 
   // convert yyyy-mm-dd to dd/mm/yyyy
   var dateFormat = function(date) {
-    // var dateStr = date.split('-');
-    // return dateStr[2] + '/' + dateStr[1] + '/' + dateStr[0];
-    return date.replace(/-/g, '/');
+    var dateStr = date.split('-');
+    return dateStr[2] + '/' + dateStr[1] + '/' + dateStr[0];
+    // return date.replace(/-/g, '/');
   }
 
   var api = function(url, options) {
@@ -444,8 +459,8 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
     $('#datepicker').datepicker({
       startDate: dateFormat(data[0].date),
       endDate: dateFormat(data[data.length-1].date),
-      // format: 'dd/mm/yyyy',
-      format: 'yyyy/mm/dd',
+      format: 'dd/mm/yyyy',
+      // format: 'yyyy/mm/dd',
       language: currentLang,
       templates: {
         leftArrow: '<i class="icon nav-arrow-left"></i>',
@@ -531,7 +546,7 @@ var mtcaptchaConfig = { "sitekey": env == 'prd' ? "MTPublic-K5c0cwAEA" : "MTPubl
       mode = 'modify';
       currentStep = 2;
       // append reservation number to each language link
-      $('.lang-switch > a').each(function(i, el) {
+      $('.lang-switch > a, #logo-layer > a, header a').each(function(i, el) {
         el.href = el.href + '?r=' + reservationNumber;
       });
       renderModifyData();

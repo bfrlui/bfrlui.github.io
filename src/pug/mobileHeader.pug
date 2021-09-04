@@ -1,7 +1,9 @@
 header.d-lg-none
   div(style="width:180px;height:50px;")
-    img.w-100(src='../../img/logoMobile.png')
-  include langSwitch
+    a(href=Global.entryPageName)
+      img.w-100(src='../../img/logoMobile.png')
+  if (Global.currentStep < 4)
+    include langSwitch
 
 if (Global.isNewReservation)
   ul.mobile-steps.list-unstyled.d-lg-none.disabled.mb-0
