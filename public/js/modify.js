@@ -10,11 +10,13 @@
   
   var reservationNumber = getUrlParameter('r');
   var canceled = getUrlParameter('canceled') == 'true';
+  var disallowModify = getUrlParameter('modify') == 'false';
 
-  if (canceled) {
+  if (canceled || disallowModify) {
     var $modal = $('.modal');
-    $modal.find('.modal-content').attr('body', 'canceled-body');
+    $modal.find('.modal-content').attr('body', canceled ? 'canceled-body' : 'disallow-modify-body');
     $modal.modal('show');
+    $('#buttons-row').remove();
   } else if (reservationNumber) {
     cancelForm.reservationNumber.value = reservationNumber;
     $('a#modify').attr('href', 'index.html?r=' + reservationNumber);

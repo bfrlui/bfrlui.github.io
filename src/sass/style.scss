@@ -895,9 +895,9 @@ ul.list-unstyled.custom-disc {
       padding-bottom: $table-y-padding;
       table {
         width: 100%;
-        th.dow:first-child {
-          color: $red;
-        }
+        // th.dow:first-child {
+        //   color: $red;
+        // }
         th.dow, td {
           padding-top: $table-y-padding;
           padding-bottom: $table-y-padding;
@@ -909,10 +909,10 @@ ul.list-unstyled.custom-disc {
             color: inherit;
             background-color: inherit;
           }
-          &:first-child,
-          &.active:first-child {
-            color: $red;
-          }
+          // &:first-child,
+          // &.active:first-child {
+          //   color: $red;
+          // }
           &:hover {
             background: none;
           }
@@ -1144,11 +1144,19 @@ i.icon {
     border: $element-border-width solid $blue;
     height: 47.872vh;
     &[body=confirm-cancel-body] {
+      #disallow-modify-body,
       #canceled-body {
         display: none;
       }
     }
     &[body=canceled-body] {
+      #disallow-modify-body,
+      #confirm-cancel-body {
+        display: none;
+      }
+    }
+    &[body=disallow-modify-body] {
+      #canceled-body,
       #confirm-cancel-body {
         display: none;
       }
