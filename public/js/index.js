@@ -192,6 +192,7 @@ var mtcaptchaConfig = {
       }
       var data = resp.data;
       var classes = '';
+      guestForm.shuttleBusTimeSlot.value = '';
       $('#time-slots-pm a, #time-slots-am a').remove();
       for(var x=0; x < data.length; x++) {
         classes = 'col';
@@ -206,9 +207,7 @@ var mtcaptchaConfig = {
           classes += ' active';
           guestForm.shuttleBusTimeSlot.value = data[x].time;
           // better ux to show selected time slot if afternoon
-          if (guestForm.shuttleBusTimeSlot.value >= '12:00') {
-            $('#shuttle-bus-service').attr('time-slot', 'pm');
-          }
+          $('#shuttle-bus-service').attr('time-slot', guestForm.shuttleBusTimeSlot.value >= '12:00' ? 'pm' : 'am');
         }
         if (!data[x].available) {
           classes += ' disabled';
@@ -583,7 +582,9 @@ var mtcaptchaConfig = {
       $('#shuttle-bus-service').attr('require-service', this.checked ? 'yes' : 'no');
       // remove selected time slot
       // $('.time-slots .col.active').removeClass('active');
-      if (!this.checked) {
+      if (this.checked) {
+        loadShuttleBusTimeSlots();
+      } else {
         $('#shuttle-bus-service').removeClass('is-invalid');
       }
       // guestForm.shuttleBusTimeSlot.value = '';
@@ -601,6 +602,7 @@ var mtcaptchaConfig = {
       renderGuestInput();
       rangeFill();
       api(apiUrl.visitDate(guestForm.guestNum.value)).then(function(resp) {renderCalendar(resp)});
+      shuttleLoaded = false;  // going to reload shuttle if guestNum is changed
     });
 
     $('#datepicker').on('changeMonth', function() {
@@ -615,6 +617,7 @@ var mtcaptchaConfig = {
       $('#dateOfVisit').text(guestForm.dateOfVisit.value);
       $('#date-of-visit-input').removeClass('is-invalid');
       $('#datepicker table td').wrapInner('<label class="position-relative m-0"></label>');
+      shuttleLoaded = false;  // going to reload shuttle if guestNum is changed
     });
 
     // input label movement based on input state
@@ -635,6 +638,7 @@ var mtcaptchaConfig = {
         }
         api(apiUrl.visitDate(guestForm.guestNum.value)).then(function(resp) {renderCalendar(resp)});
         renderGuestInput();
+        shuttleLoaded = false;  // going to reload shuttle if guestNum is changed
       })
       .on('input change', function(e) {
         rangeFill();
