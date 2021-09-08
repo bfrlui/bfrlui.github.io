@@ -739,7 +739,9 @@ ul.list-unstyled.custom-disc {
         display: none;
       }
     }
-    #time-slots-container, #time-slots-legend {
+    .section-title,
+    #time-slots-container,
+    #time-slots-legend {
       display: none;
     }
   }
