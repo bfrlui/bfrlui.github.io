@@ -7,7 +7,9 @@
     include artworks
 
     .block-space.text-center
-      a#cancel-scan.btn.btn-lg.btn-primary.rounded-pill(href='' type='button') #{dict.back[currentLang]}
+      a#cancel-scan.btn.btn-lg.btn-primary.rounded-pill(href='' type='button')
+        img.icon(src='../../img/btnArrow.png' style='margin-right:22px;margin-left:0;transform:rotateY(180deg);')
+        | #{dict.back[currentLang]}
     p#camera-message.text-center(index=1)
       span #{dict.loadingCamera[currentLang]}
       span.text-red #{dict.noCamera[currentLang]}

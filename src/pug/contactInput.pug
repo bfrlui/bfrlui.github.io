@@ -39,3 +39,12 @@ h3.section-title.mb-4 #{dict.optinTitle[currentLang]}
     input.custom-control-input#opt-in(name='optin' type='checkbox')
     label.custom-control-label(for='opt-in').
       !{dict.optinCheckbox[currentLang]}
+  //- select
+    .field-container
+      .col-xs-12.mb-3.position-relative
+        label.input-label(for='contact-number') #{dict.contactNumber[currentLang]}
+        select.form-control
+          option(value='' selected) Life-stage (Optional) – “which of the following best describe your life stage”
+          option(value='1') One
+          option(value='2') Two
+          option(value='3') Three
