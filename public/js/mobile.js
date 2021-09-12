@@ -74,7 +74,7 @@ var html5QrCode = null;
   }
 
   if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-    $('i.icon.question, i.icon.scan').toggleClass('d-none');
+    $('#form-step2').attr('scan', true);
     $('#form-step2').on('click', '.code-reader', function(e) {
       e.preventDefault();
       var index = $(this).closest('.guest-input-group').index() + 1;

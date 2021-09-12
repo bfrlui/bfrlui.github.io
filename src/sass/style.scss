@@ -1129,12 +1129,28 @@ i.icon {
     right: -8.49vw;
   }
 }
-#form-step2 #artworks-layer {
-  > img:nth-child(2) {
-    top: 860px;
+#form-step2 {
+  &[scan="true"] {
+    .code-reader {
+      .icon.question {
+        display: none;
+      }
+    }
   }
-  > img:nth-child(3) {
-    top: 1990px;
+  &[scan="false"] {
+    .code-reader {
+      .icon.scan {
+        display: none;
+      }
+    }
+  }
+  #artworks-layer {
+    > img:nth-child(2) {
+      top: 860px;
+    }
+    > img:nth-child(3) {
+      top: 1990px;
+    }
   }
 }
 #tnc {
