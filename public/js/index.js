@@ -245,7 +245,7 @@ var mtcaptchaConfig = {
   function labelAutoFocus() {
     $('.input-label').each(function(i, el) {
       var $el = $(el);
-      $el.toggleClass('focus', $el.next('input').val() != '');
+      $el.toggleClass('focus', $el.next('input, select').val() != '');
     });
   }
 
@@ -621,12 +621,19 @@ var mtcaptchaConfig = {
     });
 
     // input label movement based on input state
-    $('form input').on('focus', function(e) {
-      $(this).prev('.input-label').addClass('focus');
-    });
-    $('form input').on('blur', function(e) {
-      if (!this.value)
-        $(this).prev('.input-label').removeClass('focus');
+    $('form input')
+      .on('focus', function(e) {
+        $(this).prev('.input-label').addClass('focus');
+      })
+      .on('blur', function(e) {
+        if (!this.value)
+          $(this).prev('.input-label').removeClass('focus');
+      });
+
+    // input label movement for select element
+    $('form select').on('change', function(e) {
+      $(this).prev('.input-label').toggleClass('invisible', !this.value);
+      $(this).prev('.input-label').toggleClass('focus', this.value != '');
     });
 
     // re-render guest input based on number of guests

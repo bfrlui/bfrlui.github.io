@@ -420,10 +420,17 @@ form {
     display: flex;
     align-items: center;
     color: $gray;
+    pointer-events: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    left: 0;
+    right: 42px;
+    overflow: hidden;
     transition: transform .3s, font-size .3s;
     &.focus {
       font-size: 70%;
       transform: translateY(-20%);
+      + select,
       + input {
         padding-top: $input-y-padding * 1.4;
         padding-bottom: $input-y-padding * .6;
@@ -494,6 +501,7 @@ form {
     background-color: #D1E3F2;
   }
   // general input style
+  select.form-control,
   input.form-control {
     height: auto;
     border: $element-border-width solid;
@@ -518,11 +526,27 @@ form {
       }
     }
   }
+  select.form-control {
+    text-overflow: ellipsis;
+    -webkit-appearance: none;
+    overflow: hidden;
+  }
+
   // custom field group for input text and number
   .field-container {
     .invalid-feedback {
       display: none;
       color: $red;
+    }
+    &.select-field {
+      .icon.nav-arrow-right {
+        width: 10px;
+        position: absolute;
+        right: 26px;
+        top: 29px;
+        transform: rotateZ(90deg);
+        pointer-events: none;
+      }
     }
     &.is-invalid {
       .form-text {
@@ -1459,14 +1483,30 @@ main {
     }
   }
   form {
+    .field-container.select-field {
+      .icon.nav-arrow-right {
+        top: 20px;
+      }
+    }
     .input-label {
       padding-left: $element-sm-x-padding;
     }
+    select.form-control,
     input.form-control {
       padding-left: $element-sm-x-padding;
       padding-right: $element-sm-x-padding;
       max-height: $element-sm-max-height;
-      // font-size: $input-sm-font-size;
+    }
+    select.form-control {
+      padding-top: 18.5px;
+      padding-bottom: 18.5px;
+      padding-right: 40px;
+      line-height: 1.2;
+      max-height: $element-sm-max-height + 6px;
+    }
+    .input-label.focus + select.form-control {
+      padding-top: 27px;
+      padding-bottom: 10px;
     }
     .ticket-number  input[readonly] ~ .mask {
       bottom: 14px;
