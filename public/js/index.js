@@ -3,6 +3,9 @@ var currentStep = 1;
 var maxGuestNum = 8;
 var agreeTnC = false;
 var mode = 'new';
+var isSmallViewport = false;
+var isMediumViewport = false;
+var $stepsEl = null;
 var currentLang =$('html').attr('lang');
 var mtCaptchaLang = { en: 'en', tc: 'zh-hk', sc: 'zh' }
 // 0 = dated, 1 = opendated, 2 = pass
@@ -143,6 +146,19 @@ var mtcaptchaConfig = {
       $('#shuttle-bus-service').toggleClass('is-invalid', shuttleBusServiceError);
 
       return !shuttleBusServiceError && mtState.isVerified;
+    }
+  }
+
+  // mobile sticky menu setup
+  var mobileStickyMenu = function() {
+    // bootstrap layout definition
+    isSmallViewport = $(window).width() < 768;
+    isMediumViewport = $(window).width() < 992;
+    if (isMediumViewport) {
+      $stepsEl = $('.form-layer.active .mobile-steps');
+      $('.form-layer').on('scroll.mobileStickyMenu', function() {
+        $stepsEl.toggleClass('sticky', $('.form-layer.active').scrollTop() > 80);
+      });
     }
   }
 
@@ -724,7 +740,7 @@ var mtcaptchaConfig = {
       } else {
         gotoPage(stepId);
       }
-      // get the current active element for $stepEl in mobile.js
+      // get the current active element for $stepEl in mobileStickyMenu
       $stepsEl = $('.form-layer.active .mobile-steps');
     });
     
