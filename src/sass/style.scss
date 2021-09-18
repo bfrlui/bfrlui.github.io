@@ -521,7 +521,7 @@ form {
       background-color: #D1E3F2;
       pointer-events: none;
       color: $gray;
-      + a {
+      ~ a {
         display: none;
       }
     }
@@ -586,16 +586,19 @@ form {
         border-color: $red !important;
         background-image: none;
       }
-      + a {
+      ~ a {
         position: absolute;
         right: 23px;
         top: 0;
         bottom: 0;
         display: flex;
+        &.code-reader {
+          right: 60px;
+        }
         .icon {
-          width: 29px;
-          height: 29px;
-          background-size: 29px;
+          width: 18px;
+          height: 18px;
+          background-size: 18px;
           margin: auto;
         }
       }
@@ -746,12 +749,15 @@ ul.list-unstyled.custom-disc {
           &:after {
             content: '';
             position: absolute;
-            left: 25px;
-            right: 25px;
+            left: 16px;
+            right: 16px;
             height: 1px;
             background-color: #253B56;
             display: inline-block;
-            top: 30px;          }
+            top: 30px;
+            max-width: 45px;
+            margin: 0 auto;
+          }
         }
       }
     }
@@ -1162,17 +1168,16 @@ i.icon {
 }
 #form-step2 {
   &[scan="true"] {
-    .code-reader {
-      .icon.question {
-        display: none;
-      }
+    .ticket-number label:first-child {
+      display: none;
     }
   }
   &[scan="false"] {
+    .ticket-number label:nth-child(2) {
+      display: none;
+    }
     .code-reader {
-      .icon.scan {
-        display: none;
-      }
+      display: none;
     }
   }
   #artworks-layer {

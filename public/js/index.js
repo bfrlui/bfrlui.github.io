@@ -261,7 +261,7 @@ var mtcaptchaConfig = {
   function labelAutoFocus() {
     $('.input-label').each(function(i, el) {
       var $el = $(el);
-      $el.toggleClass('focus', $el.next('input, select').val() != '');
+      $el.toggleClass('focus', $el.siblings('input, select').val() != '');
     });
   }
 
@@ -639,11 +639,11 @@ var mtcaptchaConfig = {
     // input label movement based on input state
     $('form input')
       .on('focus', function(e) {
-        $(this).prev('.input-label').addClass('focus');
+        $(this).siblings('.input-label').addClass('focus');
       })
       .on('blur', function(e) {
         if (!this.value)
-          $(this).prev('.input-label').removeClass('focus');
+          $(this).siblings('.input-label').removeClass('focus');
       });
 
     // input label movement for select element
