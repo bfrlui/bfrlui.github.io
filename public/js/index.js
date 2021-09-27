@@ -8,6 +8,7 @@ var isMediumViewport = false;
 var $stepsEl = null;
 var currentLang =$('html').attr('lang');
 var mtCaptchaLang = { en: 'en', tc: 'zh-hk', sc: 'zh' }
+var prevRecord = {};
 // 0 = dated, 1 = opendated, 2 = pass
 var ticketType = '';
 // Configuration to construct the captcha widget. Sitekey is a Mandatory Parameter 
@@ -208,28 +209,31 @@ var mtcaptchaConfig = {
       }
       var data = resp.data;
       var classes = '';
-      guestForm.shuttleBusTimeSlot.value = '';
+      // just for auto select earliest available timeslot in any mode
+      // guestForm.shuttleBusTimeSlot.value = '';
       $('#time-slots-pm a, #time-slots-am a').remove();
       for(var x=0; x < data.length; x++) {
         classes = 'col';
         el = template.replace(/_time_/g, data[x].time);
-        // reset selected timeslot if already full or not available at this moment
-        // if (guestForm.shuttleBusService.checked && guestForm.shuttleBusTimeSlot.value == data[x].time && (!data[x].available || data[x].full)) {
-        //   guestForm.shuttleBusTimeSlot.value = '';
+        if (!data[x].available) {
+          // not to disable when timeslot previously reserved and visit date is unchanged
+          if (mode == 'new' || prevRecord.shuttleBusTimeSlot != data[x].time || prevRecord.dateOfVisit != guestForm.dateOfVisit.value) {
+            classes += ' disabled';
+          }
+        }
+        if (data[x].full) {
+          // not to mark full when timeslot previously reserved and visit date is unchanged and num. of guests not increased
+          if (mode == 'new' || prevRecord.shuttleBusTimeSlot != data[x].time || prevRecord.dateOfVisit != guestForm.dateOfVisit.value || (prevRecord.guest && guestForm.guestNum.value > prevRecord.guest.length)) {
+            classes += ' full';
+          }
+        }
         // set active if selected previously
-        // } else if (guestForm.shuttleBusService.checked && guestForm.shuttleBusTimeSlot.value == data[x].time) {
-        // auto select available timeslot when not yet selected by guest
-        if (data[x].available && !guestForm.shuttleBusTimeSlot.value) {
+        // Or auto select available timeslot when not yet selected by guest
+        if (!/disabled|full/.test(classes) && guestForm.shuttleBusService.checked && (guestForm.shuttleBusTimeSlot.value == data[x].time || !guestForm.shuttleBusTimeSlot.value)) {
           classes += ' active';
           guestForm.shuttleBusTimeSlot.value = data[x].time;
           // better ux to show selected time slot if afternoon
           $('#shuttle-bus-service').attr('time-slot', guestForm.shuttleBusTimeSlot.value >= '12:00' ? 'pm' : 'am');
-        }
-        if (!data[x].available) {
-          classes += ' disabled';
-        }
-        if (data[x].full) {
-          classes += ' full';
         }
         $('#time-slots-' + (data[x].time >= '12:00' ? 'pm' : 'am')).append(el.replace(/_classes_/, classes));
       }
@@ -332,6 +336,15 @@ var mtcaptchaConfig = {
     $('#guest-num-value').text(guestForm.guestNum.value);
   }
 
+  function checkChanges() {
+    // reset timeslot if changes on guest num or visit date
+    // so earliest available timeslot will be auto selected for guest in step 3
+    if (mode == 'new' || (prevRecord.guest.length != guestForm.guestNum.value || prevRecord.dateOfVisit != guestForm.dateOfVisit.value)) {
+      guestForm.shuttleBusTimeSlot.value = '';
+    }
+    shuttleLoaded = false;
+  }
+
   function renderModifyData() {
     var data = $('#reservationJson').html();
     var uidPrefix = 'maskTicket';
@@ -340,28 +353,28 @@ var mtcaptchaConfig = {
       alert('System error! Please try again later.');
       location = 'index.html';  // back to new mode
     }
-    data = JSON.parse(data);
-    guestForm.guestNum.value = data.guest.length;
-    guestForm.email.value = data.email;
-    guestForm.confirmEmail.value = data.email;
-    guestForm.contactNumber.value = data.contactNumber;
-    // guestForm.shuttleBusTimeSlot.value = data.shuttleBusTimeSlot;
-    // guestForm.shuttleBusService.checked = data.shuttleBusService;
+    prevRecord = JSON.parse(data);  // save data for changes tracking
+    guestForm.guestNum.value = prevRecord.guest.length;
+    guestForm.email.value = prevRecord.email;
+    guestForm.confirmEmail.value = prevRecord.email;
+    guestForm.contactNumber.value = prevRecord.contactNumber;
+    guestForm.shuttleBusTimeSlot.value = prevRecord.shuttleBusTimeSlot;
+    guestForm.shuttleBusService.checked = prevRecord.shuttleBusService;
     // ignored previous selection in modify mode, force to select again unconditionally
     // must empty and set to checked to auto select earliest available timeslot for guest
-    guestForm.shuttleBusTimeSlot.value = '';
-    guestForm.shuttleBusService.checked = true;
-    for (var x=0; x < data.guest.length; x++) {
-      guestForm['guest' + (x+1) + 'Name'].value = data.guest[x].name;
-      guestForm['guest' + (x+1) + 'Ticket'].value = uidPrefix + data.guest[x].ticketNumber;
+    // guestForm.shuttleBusTimeSlot.value = '';
+    // guestForm.shuttleBusService.checked = true;
+    for (var x=0; x < prevRecord.guest.length; x++) {
+      guestForm['guest' + (x+1) + 'Name'].value = prevRecord.guest[x].name;
+      guestForm['guest' + (x+1) + 'Ticket'].value = uidPrefix + prevRecord.guest[x].ticketNumber;
     }
 
     // render data
     api(apiUrl.visitDate(guestForm.guestNum.value)).then(function(resp) {
       renderCalendar(resp);
       // update selected date
-      guestForm.dateOfVisit.value = data.dateOfVisit;
-      $('#datepicker').datepicker('update', data.dateOfVisit);
+      guestForm.dateOfVisit.value = prevRecord.dateOfVisit;
+      $('#datepicker').datepicker('update', prevRecord.dateOfVisit);
       $('#dateOfVisit').text(guestForm.dateOfVisit.value);
       // resolve yellow selector over the text (day value)
       $('#datepicker table td').wrapInner('<label class="position-relative m-0"></label>');
@@ -617,8 +630,8 @@ var mtcaptchaConfig = {
       // $guest.appendTo('#fieldsets');
       renderGuestInput();
       rangeFill();
+      checkChanges();
       api(apiUrl.visitDate(guestForm.guestNum.value)).then(function(resp) {renderCalendar(resp)});
-      shuttleLoaded = false;  // going to reload shuttle if guestNum is changed
     });
 
     $('#datepicker').on('changeMonth', function() {
@@ -633,7 +646,7 @@ var mtcaptchaConfig = {
       $('#dateOfVisit').text(guestForm.dateOfVisit.value);
       $('#date-of-visit-input').removeClass('is-invalid');
       $('#datepicker table td').wrapInner('<label class="position-relative m-0"></label>');
-      shuttleLoaded = false;  // going to reload shuttle if guestNum is changed
+      checkChanges();
     });
 
     // input label movement based on input state
@@ -661,7 +674,7 @@ var mtcaptchaConfig = {
         }
         api(apiUrl.visitDate(guestForm.guestNum.value)).then(function(resp) {renderCalendar(resp)});
         renderGuestInput();
-        shuttleLoaded = false;  // going to reload shuttle if guestNum is changed
+        checkChanges();
       })
       .on('input change', function(e) {
         rangeFill();

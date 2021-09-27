@@ -3,22 +3,22 @@
   "data": [
     {
       "time": "08:00",
-      "available": false,
-      "full": false
+      "available": true,
+      "full": true
     },
     {
       "time": "09:00",
       "available": false,
-      "full": true
+      "full": false
     },
     {
       "time": "09:30",
       "available": false,
-      "full": true
+      "full": false
     },
     {
       "time": "10:00",
-      "available": false,
+      "available": true,
       "full": false
     },
     {
@@ -28,8 +28,8 @@
     },
     {
       "time": "12:00",
-      "available": true,
-      "full": false
+      "available": false,
+      "full": true
     }
   ]
 }
