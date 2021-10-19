@@ -347,7 +347,8 @@ var mtcaptchaConfig = {
 
   function renderModifyData() {
     var data = $('#reservationJson').html();
-    var uidPrefix = 'maskTicket';
+    // var uidPrefix = 'maskTicket';
+    var uidPrefix = '';
     if (!data) {
       console.warn('modify parse json error: ' + JSON.stringify(data));
       alert('System error! Please try again later.');
