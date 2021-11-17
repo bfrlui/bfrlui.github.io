@@ -17,8 +17,8 @@ script#guest-input-template(type='text/template')
     // ticket number
     .col-xs-12.mb-3.field-container.ticket-number
       .position-relative
-        label.input-label(for='guest_Index-ticket') #{dict.ticketBarcodeNumber[currentLang]}<span class="text-red">*</span>
-        label.input-label(for='guest_Index-ticket') #{dict.scanTicketBarcodeNumber[currentLang]}<span class="text-red">*</span>
+        label.input-label(for='guest_Index-ticket') #{dict.ticketBarcodeNumber[currentLang][ticketType]}<span class="text-red">*</span>
+        label.input-label(for='guest_Index-ticket') #{dict.scanTicketBarcodeNumber[currentLang][ticketType]}<span class="text-red">*</span>
         input.form-control.form-control-lg.rounded-pill.guest-text-input#guest_Index-ticket(name='guest_IndexTicket' type='text' value='' autocomplete="off" maxlength='24')
         a.code-reader(href='/pdf/Water_World_Ticket_Guide.pdf' target='_blank')
           i.icon.scan
@@ -26,9 +26,9 @@ script#guest-input-template(type='text/template')
           i.icon.question
         .mask ●●●● ●●●● ●●●● ●●●●
       div
-        .invalid-feedback.my-3 #{dict.errTicket[currentLang]}
-        .invalid-feedback.my-3 #{dict.errTicketInvalid[currentLang]}
-        .invalid-feedback.my-3 #{dict.errTicketDuplicated[currentLang]}
+        .invalid-feedback.my-3 #{dict.errTicket[currentLang][ticketType]}
+        .invalid-feedback.my-3 #{dict.errTicketInvalid[currentLang][ticketType]}
+        .invalid-feedback.my-3 #{dict.errTicketDuplicated[currentLang][ticketType]}
       .mt-3
         a.buy-ticket(href=dict.buyTicketsLink[ticketType][currentLang] target='_blank') #{dict.buyTickets[currentLang]}
       //- 

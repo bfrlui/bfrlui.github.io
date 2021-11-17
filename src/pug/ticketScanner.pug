@@ -12,6 +12,6 @@
         | #{dict.back[currentLang]}
     p#camera-message.text-center(index=1)
       span #{dict.loadingCamera[currentLang]}
-      span.text-red #{dict.noCamera[currentLang]}
+      span.text-red #{dict.noCamera[currentLang][ticketType]}
     #reader
     include footer
