@@ -1395,12 +1395,13 @@ main {
   #qr-hcard {
     display: none;
   }
-  // #ticket-type-container {
-  //   margin-right: -$form-xs-margin-right;
-  //   .btn-group {
-  //     min-width: $ticket-type-min-width;
-  //   }
-  // }
+  #ticket-type-container {
+    margin-right: -$form-xs-margin-right;
+    .btn-group {
+      min-width: $ticket-type-min-width;
+      margin-right: $form-xs-margin-right;
+    }
+  }
   #shuttle-bus-service {
     #time-slots-container {
       .time-slots .col {

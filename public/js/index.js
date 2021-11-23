@@ -161,6 +161,10 @@ var mtcaptchaConfig = {
         $stepsEl.toggleClass('sticky', $('.form-layer.active').scrollTop() > 80);
       });
     }
+    // show the active button for pass holders in mobile view
+    if (isSmallViewport && ticketType == 'pass') {
+      $('#ticket-type-container')[0].scrollTo(9999, 0)
+    }
   }
 
   function mtcaptchaInit() {
