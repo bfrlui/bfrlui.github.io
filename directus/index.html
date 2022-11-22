@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="cache-control, pragma" content="no-cache">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <!-- code highlight style-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/github.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <!-- main style-->
+    <link href="css/light.css" rel="alternate stylesheet" type="text/css" title="light" disabled>
+    <link href="css/dark.css" rel="alternate stylesheet" type="text/css" title="dark" disabled>
+  </head>
+  <body class="d-flex flex-column" style="min-height:100vh;opacity:0">
+    <!-- fixed top navbar-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" style="z-index:1050">
+      <div class="container-fluid"><a class="navbar-brand" href="#">Brand</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">Docs</a></li>
+            <li class="nav-item"><a class="nav-link theme" href="#" data-theme="light">Light</a></li>
+            <li class="nav-item"><a class="nav-link theme" href="#" data-theme="dark">Dark</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" data-component="false">Demo1</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" data-component="false">Demo2</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" data-component="false">Demo3</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" data-component="false">Demo4</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- main layer-->
+    <main class="container-fluid position-relative p-5 overflow-auto">
+      <div class="offcanvas offcanvas-start text-start" id="offcanvasScrolling" data-bs-scroll="true" data-bs-backdrop="true" tabindex="-1" aria-labelledby="offcanvasScrollingLabel">
+        <div class="offcanvas-header">
+          <button class="btn-close text-reset ms-auto" type="button" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body" id="main-list">
+          <ul class="list-unstyled ps-0">
+            <li class="mb-1">
+              <button class="btn btn-toggle align-items-center rounded" data-bs-toggle="collapse" data-bs-target="#intro" aria-expanded="true"><i class="bi-chevron-right"></i>Directus</button>
+              <div class="collapse show" id="intro">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                  <li><a class="rounded" href="#" data-component="elementaryV1" data-demo="1" data-bs-dismiss="offcanvas" onclick="directusDataGet()">Data Get</a></li>
+                  <li><a class="rounded" href="#" data-component="componentV1" data-demo="1" data-bs-dismiss="offcanvas" onclick="directusImageGet()">Image Get</a></li>
+                </ul>
+              </div>
+            </li>
+            <li class="mb-1">
+              <button class="btn btn-toggle align-items-center rounded" data-bs-toggle="collapse" data-bs-target="#atoms" aria-expanded="true"><i class="bi-chevron-right"></i>Elementary</button>
+              <div class="collapse show" id="atoms">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                  <li><a class="rounded" href="#" data-component="textCollapseV1" data-demo="3">Text Collapse</a></li>
+                </ul>
+              </div>
+            </li>
+            <li class="mb-1">
+              <button class="btn btn-toggle align-items-center rounded" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true"><i class="bi-chevron-right"></i>Component</button>
+              <div class="collapse show" id="home-collapse">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                  <li><a class="rounded" href="#" data-component="accordion">Accordion</a></li>
+                  <li><a class="rounded" href="#" data-component="alerts">Alerts</a></li>
+                  <li><a class="rounded" href="#" data-component="badge">Badge</a></li>
+                  <li><a class="rounded" href="#" data-component="buttons">Buttons</a></li>
+                  <li><a class="rounded" href="#" data-component="comment">Comment</a></li>
+                  <li><a class="rounded" href="#" data-component="step">Step</a></li>
+                  <li><a class="rounded" href="#" data-component="timelineV1" data-demo="2">Timeline</a></li>
+                  <li><a class="rounded" href="#" data-component="toast">Toast</a></li>
+                </ul>
+              </div>
+            </li>
+            <li class="border-top my-3"></li>
+          </ul>
+        </div>
+      </div>
+      <!-- main content-->
+      <div class="row">
+        <div class="col mb-5">
+          <!-- content start here...-->
+          <div class="container py-5">
+            <div class="row">
+              <div class="col">
+                <div id="main-content"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- footer-->
+    <div class="container-fluid mt-auto">
+      <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 mb-4 border-top">
+        <p class="col-md-4 mb-0 text-muted">© 2021 Company, Inc</p><a class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none" href="/">
+          <svg class="bi me-2" width="40" height="32">
+            <use href="#bootstrap"></use>
+          </svg></a>
+        <ul class="nav col-md-4 justify-content-end">
+          <li class="nav-item"><a class="nav-link px-2 text-muted" href="#">Home</a></li>
+          <li class="nav-item"><a class="nav-link px-2 text-muted" href="#">Features</a></li>
+          <li class="nav-item"><a class="nav-link px-2 text-muted" href="#">Pricing</a></li>
+          <li class="nav-item"><a class="nav-link px-2 text-muted" href="#">FAQs</a></li>
+          <li class="nav-item"><a class="nav-link px-2 text-muted" href="#">About</a></li>
+        </ul>
+      </footer>
+    </div>
+    <!-- code view modal-->
+    <div class="modal fade" id="code-view" data-bs-keyboard="false" tabindex="-1" aria-labelledby="codeView" aria-hidden="true">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">Code View</h5>
+            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body py-0">
+            <pre class="mb-0"><code class="language-html p-0"></code></pre>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-outline-secondary rounded-pill" type="button" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- bootstrap-->
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <!-- highlightjs-->
+    <!-- custom script-->
+    <script src="js/index.js"></script>
+    <script src="js/directus.js"></script>
+  </body>
+</html>
