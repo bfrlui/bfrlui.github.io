@@ -7,7 +7,7 @@
   <meta name="description" content="">
   <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
   <meta name="generator" content="Hugo 0.111.3">
-  <title>Album example · Bootstrap v5.3</title>
+  <title>Stocks</title>
   <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/album/">
   <link href="https://getbootstrap.com/docs/5.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
   <!-- Favicons -->
@@ -153,7 +153,7 @@
     </ul>
   </div>
   <header data-bs-theme="dark">
-    <div class="text-bg-dark collapse" id="navbarHeader" style="">
+    <div class="text-bg-dark collapse" id="navbarHeader">
       <div class="container">
         <div class="row">
           <div class="col-sm-8 col-md-7 py-4">
@@ -202,6 +202,22 @@
               <label class="btn btn-outline-primary" for="btnradio2">Weekly</label>
               <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
               <label class="btn btn-outline-primary" for="btnradio3">Monthly</label>
+              <input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off">
+              <label class="btn btn-outline-primary" for="btnradio4">Instant</label>
+            </div>
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6 col-md-8 mx-auto">
+          <h1 class="fw-light"></h1>
+          <p class="lead text-body-secondary"></p>
+          <p>
+            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+              <input type="radio" class="btn-check" name="btnradio1" id="btnradio11" autocomplete="off" checked>
+              <label class="btn btn-outline-success" for="btnradio11">指數成份股</label>
+              <input type="radio" class="btn-check" name="btnradio1" id="btnradio12" autocomplete="off">
+              <label class="btn btn-outline-success" for="btnradio12">自選組合</label>
             </div>
           </p>
         </div>
@@ -222,24 +238,42 @@
       <p class="mb-0">New to Bootstrap? <a href="/">Visit the homepage</a> or read our <a href="https://getbootstrap.com/docs/5.3/getting-started/introduction/">getting started guide</a>.</p>
     </div>
   </footer>
-  <script id="template" type="text/template">
-    <div class="card shadow-sm">
-      <img src="http://charts.aastocks.com/servlet/Charts?fontsize=12&amp;15MinDelay=T&amp;lang=1&amp;titlestyle=1&amp;vol=1&amp;Indicator=1&amp;indpara1=10&amp;indpara2=20&amp;indpara3=50&amp;indpara4=100&amp;indpara5=0&amp;subChart1=2&amp;ref1para1=14&amp;ref1para2=0&amp;ref1para3=0&amp;subChart2=3&amp;ref2para1=12&amp;ref2para2=26&amp;ref2para3=9&amp;subChart3=12&amp;ref3para1=0&amp;ref3para2=0&amp;ref3para3=0&amp;scheme=1&amp;com=100&amp;chartwidth=870&amp;chartheight=855&amp;stockid={{code}}.HK&amp;period={{period}}&amp;type=1&amp;logoStyle=1&amp;" width="100%">
-      <div class="card-body">
-        <p class="card-text">{{code}} {{name}}</p>
-        <div class="d-flex justify-content-between align-items-center">
-          <div class="btn-group">
-            <a href="http://charts.aastocks.com/servlet/Charts?fontsize=12&amp;15MinDelay=T&amp;lang=1&amp;titlestyle=1&amp;vol=1&amp;Indicator=1&amp;indpara1=10&amp;indpara2=20&amp;indpara3=50&amp;indpara4=100&amp;indpara5=0&amp;subChart1=2&amp;ref1para1=14&amp;ref1para2=0&amp;ref1para3=0&amp;subChart2=3&amp;ref2para1=12&amp;ref2para2=26&amp;ref2para3=9&amp;subChart3=12&amp;ref3para1=0&amp;ref3para2=0&amp;ref3para3=0&amp;scheme=1&amp;com=100&amp;chartwidth=870&amp;chartheight=855&amp;stockid={{code}}.HK&amp;period={{period}}&amp;type=1&amp;logoStyle=1&amp;" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">View</a>
-            <a href="https://www.etnet.com.hk/mobile/tc/ashares/quote_dividend.php?code={{etnetCode}}" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">Dividend</a>
+  <script id="template-minChart" type="text/template">
+    <div class="col">
+      <div class="card shadow-sm">
+        <img src="https://www.etnet.com.hk/mobile/tc/common/chart_oneminute.php?code={{etnetCode}}" />
+        <div class="card-body">
+          <p class="card-text">{{code}} {{name}}</p>
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="btn-group">
+              <a href="https://www.etnet.com.hk/mobile/tc/ashares/quote_dividend.php?code={{etnetCode}}" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">Dividend</a>
+            </div>
+            <!-- <small class="text-body-secondary">9 mins</small> -->
           </div>
-          <!-- <small class="text-body-secondary">9 mins</small> -->
+        </div>
+      </div>
+    </div>
+  </script>
+  <script id="template" type="text/template">
+    <div class="col">
+      <div class="card shadow-sm">
+        <img src="http://charts.aastocks.com/servlet/Charts?indicator2=1&ind2para1=2&ind2para2=3&ind2para3=HSI&fontsize=12&15MinDelay=T&lang=1&titlestyle=1&vol=1&Indicator=1&indpara1=10&indpara2=20&indpara3=50&indpara4=100&indpara5=0&subChart1=2&ref1para1=14&ref1para2=0&ref1para3=0&subChart2=3&ref2para1=12&ref2para2=26&ref2para3=9&subChart3=12&ref3para1=0&ref3para2=0&ref3para3=0&scheme=1&com=100&chartwidth=870&chartheight=855&stockid={{code}}.HK&period={{period}}&type=1&logoStyle=1&" width="100%">
+        <div class="card-body">
+          <p class="card-text">{{code}} {{name}}</p>
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="btn-group">
+              <a href="http://charts.aastocks.com/servlet/Charts?indicator2=1&ind2para1=2&ind2para2=3&ind2para3=HSI&fontsize=12&15MinDelay=T&lang=1&titlestyle=1&vol=1&Indicator=1&indpara1=10&indpara2=20&indpara3=50&indpara4=100&indpara5=0&subChart1=2&ref1para1=14&ref1para2=0&ref1para3=0&subChart2=3&ref2para1=12&ref2para2=26&ref2para3=9&subChart3=12&ref3para1=0&ref3para2=0&ref3para3=0&scheme=1&com=100&chartwidth=870&chartheight=855&stockid={{code}}.HK&period={{period}}&type=1&logoStyle=1&" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">View</a>
+              <a href="https://www.etnet.com.hk/mobile/tc/ashares/quote_dividend.php?code={{etnetCode}}" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">Dividend</a>
+            </div>
+            <!-- <small class="text-body-secondary">9 mins</small> -->
+          </div>
         </div>
       </div>
     </div>
   </script>
   <script src="https://getbootstrap.com/docs/5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
   <script>
-    const list = [
+    const List = [
       { code: '009988', name: '阿里巴巴－ＳＷ' },
       { code: '000700', name: '騰訊控股' },
       { code: '001299', name: '友邦保險' },
@@ -253,32 +287,66 @@
       { code: '009618', name: '京東集團－ＳＷ' },
       { code: '003988', name: '中國銀行' },
     ];
-    const period = {daily: 6, weekly: 10, monthly: 18};
+    const ListSelected = [
+      { code: '000939', name: '建設銀行' },
+      { code: '000005', name: '匯豐控股' },
+      { code: '003032', name: '恒生科技指數' },
+      { code: '002828', name: '恒生中國企業指數' },
+      { code: '000020', name: '商湯集團' },
+      { code: '001448', name: '褔壽園' },
+    ];
+    const Period = {instant: 0, daily: 6, weekly: 10, monthly: 18};
     let template = document.getElementById('template').innerHTML;
+    let templateMinChart = document.getElementById('template-minChart').innerHTML;
     let mainRow = document.getElementById('main-row');
+    let currentList = List;
+    let currentPeriod = Period.daily;
     let render = (period) => {
-      list.forEach(stock => {
+      currentList.forEach(stock => {
         mainRow.innerHTML +=
-          template
-          .replaceAll('{{period}}', period)
-          .replaceAll('{{code}}', stock.code)
-          .replaceAll('{{etnetCode}}', stock.code.slice(-5))
-          .replaceAll('{{name}}', stock.name);
+          period == Period.instant
+          ? templateMinChart
+              .replaceAll('{{code}}', stock.code)
+              .replaceAll('{{name}}', stock.name)
+              .replaceAll('{{etnetCode}}', stock.code.slice(-5))
+          : template
+              .replaceAll('{{period}}', period)
+              .replaceAll('{{code}}', stock.code)
+              .replaceAll('{{name}}', stock.name)
+              .replaceAll('{{etnetCode}}', stock.code.slice(-5));
       });
     }
-    render(period.daily);
+    render(currentPeriod);
     // events setup
     document.getElementById('btnradio1').addEventListener('click', (e) => {
       mainRow.innerHTML = '';
-      render(period.daily);
+      currentPeriod = Period.daily;
+      render(currentPeriod);
     });
     document.getElementById('btnradio2').addEventListener('click', (e) => {
       mainRow.innerHTML = '';
-      render(period.weekly);
+      currentPeriod = Period.weekly;
+      render(currentPeriod);
     });
     document.getElementById('btnradio3').addEventListener('click', (e) => {
       mainRow.innerHTML = '';
-      render(period.monthly);
+      currentPeriod = Period.monthly;
+      render(currentPeriod);
+    });
+    document.getElementById('btnradio4').addEventListener('click', (e) => {
+      mainRow.innerHTML = '';
+      currentPeriod = Period.instant;
+      render(currentPeriod);
+    });
+    document.getElementById('btnradio11').addEventListener('click', (e) => {
+      mainRow.innerHTML = '';
+      currentList = List;
+      render(currentPeriod);
+    });
+    document.getElementById('btnradio12').addEventListener('click', (e) => {
+      mainRow.innerHTML = '';
+      currentList = ListSelected;
+      render(currentPeriod);
     });
   </script>
 </body>
