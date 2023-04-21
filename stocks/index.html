@@ -187,7 +187,7 @@
     </div>
   </header>
   <main>
-    <section class="py-5 text-center container">
+    <section class="py-4 text-center container">
       <div class="row">
         <div class="col-lg-6 col-md-8 mx-auto">
           <h1 class="fw-light"></h1>
@@ -209,7 +209,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-lg-6 col-md-8 mx-auto">
+        <div class="col-sm-4 mx-auto">
           <h1 class="fw-light"></h1>
           <p class="lead text-body-secondary"></p>
           <p>
@@ -221,6 +221,20 @@
             </div>
           </p>
         </div>
+        <div class="col-sm-1 m-auto"> OR </div>
+        <div class="col-7 col-sm-4 mx-auto">
+          <h1 class="fw-light"></h1>
+          <p class="lead text-body-secondary"></p>
+          <p>
+            <div class="input-group mb-3">
+              <input id="code" type="text" class="form-control" placeholder="Code" aria-label="Code" aria-describedby="button-addon2">
+              <button id="quote" class="btn btn-outline-secondary" type="button" id="button-addon2">Go</button>
+            </div>
+          </p>
+        </div>        
+      </div>
+      <div class="row">
+
       </div>
     </section>
     <div class="album py-5 bg-body-tertiary">
@@ -240,12 +254,15 @@
   </footer>
   <script id="template-minChart" type="text/template">
     <div class="col">
-      <div class="card shadow-sm">
-        <img src="https://www.etnet.com.hk/mobile/tc/common/chart_oneminute.php?code={{etnetCode}}" />
+      <div class="card shadow-sm h-100">
+        <div class="d-flex bg-light" style="height: 78%;">
+          <img class="etnet-chart object-fit-contain img-fluid mx-auto" src="https://www.etnet.com.hk/mobile/tc/common/chart_oneminute.php?type=detail&code={{etnetCode}}" />
+        </div>
         <div class="card-body">
           <p class="card-text">{{code}} {{name}}</p>
           <div class="d-flex justify-content-between align-items-center">
             <div class="btn-group">
+              <a href="http://www.aastocks.com/tc/mobile/quote.aspx?symbol={{code}}" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">Quote</a>
               <a href="https://www.etnet.com.hk/mobile/tc/ashares/quote_dividend.php?code={{etnetCode}}" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">Dividend</a>
             </div>
             <!-- <small class="text-body-secondary">9 mins</small> -->
@@ -256,13 +273,16 @@
   </script>
   <script id="template" type="text/template">
     <div class="col">
-      <div class="card shadow-sm">
-        <img src="http://charts.aastocks.com/servlet/Charts?indicator2=1&ind2para1=2&ind2para2=3&ind2para3=HSI&fontsize=12&15MinDelay=T&lang=1&titlestyle=1&vol=1&Indicator=1&indpara1=10&indpara2=20&indpara3=50&indpara4=100&indpara5=0&subChart1=2&ref1para1=14&ref1para2=0&ref1para3=0&subChart2=3&ref2para1=12&ref2para2=26&ref2para3=9&subChart3=12&ref3para1=0&ref3para2=0&ref3para3=0&scheme=1&com=100&chartwidth=870&chartheight=855&stockid={{code}}.HK&period={{period}}&type=1&logoStyle=1&" width="100%">
+      <div class="card shadow-sm h-100">
+        <div class="d-flex bg-light" style="height: 78%;">
+          <img class="object-fit-contain" src="http://charts.aastocks.com/servlet/Charts?indicator2=1&ind2para1=2&ind2para2=3&ind2para3=HSI&fontsize=12&15MinDelay=T&lang=1&titlestyle=1&vol=1&Indicator=1&indpara1=10&indpara2=20&indpara3=50&indpara4=100&indpara5=0&subChart1=2&ref1para1=14&ref1para2=0&ref1para3=0&subChart2=3&ref2para1=12&ref2para2=26&ref2para3=9&subChart3=12&ref3para1=0&ref3para2=0&ref3para3=0&scheme=1&com=100&chartwidth=870&chartheight=855&stockid={{code}}.HK&period={{period}}&type=1&logoStyle=1&" width="100%">
+        </div>
         <div class="card-body">
           <p class="card-text">{{code}} {{name}}</p>
           <div class="d-flex justify-content-between align-items-center">
             <div class="btn-group">
               <a href="http://charts.aastocks.com/servlet/Charts?indicator2=1&ind2para1=2&ind2para2=3&ind2para3=HSI&fontsize=12&15MinDelay=T&lang=1&titlestyle=1&vol=1&Indicator=1&indpara1=10&indpara2=20&indpara3=50&indpara4=100&indpara5=0&subChart1=2&ref1para1=14&ref1para2=0&ref1para3=0&subChart2=3&ref2para1=12&ref2para2=26&ref2para3=9&subChart3=12&ref3para1=0&ref3para2=0&ref3para3=0&scheme=1&com=100&chartwidth=870&chartheight=855&stockid={{code}}.HK&period={{period}}&type=1&logoStyle=1&" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">View</a>
+              <a href="http://www.aastocks.com/tc/mobile/quote.aspx?symbol={{code}}" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">Quote</a>
               <a href="https://www.etnet.com.hk/mobile/tc/ashares/quote_dividend.php?code={{etnetCode}}" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">Dividend</a>
             </div>
             <!-- <small class="text-body-secondary">9 mins</small> -->
@@ -301,7 +321,9 @@
     let mainRow = document.getElementById('main-row');
     let currentList = List;
     let currentPeriod = Period.daily;
+    let code = document.getElementById('code');
     let render = (period) => {
+      mainRow.innerHTML = '';
       currentList.forEach(stock => {
         mainRow.innerHTML +=
           period == Period.instant
@@ -314,40 +336,61 @@
               .replaceAll('{{code}}', stock.code)
               .replaceAll('{{name}}', stock.name)
               .replaceAll('{{etnetCode}}', stock.code.slice(-5));
+          btnradio11.checked = currentList == List;
+          btnradio12.checked = currentList == ListSelected;
       });
     }
+    let quote = () => {
+      let quoteCode = code.value.toUpperCase();
+      mainRow.innerHTML = '';
+      mainRow.innerHTML +=
+        templateMinChart
+          .replaceAll('{{code}}', quoteCode)
+          .replaceAll('{{name}}', 'instant')
+          .replaceAll('{{etnetCode}}', quoteCode);
+      for (let p in Period) {
+        if (p == 'instant') continue;
+        mainRow.innerHTML +=
+          template
+            .replaceAll('{{period}}', Period[p])
+            .replaceAll('{{code}}', quoteCode)
+            .replaceAll('{{name}}', p)
+            .replaceAll('{{etnetCode}}', ('0000' + quoteCode).slice(-5));
+      }
+      btnradio11.checked = false;
+      btnradio12.checked = false;
+    }
+
+    // main start
     render(currentPeriod);
+
     // events setup
     document.getElementById('btnradio1').addEventListener('click', (e) => {
-      mainRow.innerHTML = '';
       currentPeriod = Period.daily;
       render(currentPeriod);
     });
     document.getElementById('btnradio2').addEventListener('click', (e) => {
-      mainRow.innerHTML = '';
       currentPeriod = Period.weekly;
       render(currentPeriod);
     });
     document.getElementById('btnradio3').addEventListener('click', (e) => {
-      mainRow.innerHTML = '';
       currentPeriod = Period.monthly;
       render(currentPeriod);
     });
     document.getElementById('btnradio4').addEventListener('click', (e) => {
-      mainRow.innerHTML = '';
       currentPeriod = Period.instant;
       render(currentPeriod);
     });
     document.getElementById('btnradio11').addEventListener('click', (e) => {
-      mainRow.innerHTML = '';
       currentList = List;
       render(currentPeriod);
     });
     document.getElementById('btnradio12').addEventListener('click', (e) => {
-      mainRow.innerHTML = '';
       currentList = ListSelected;
       render(currentPeriod);
     });
+    document.getElementById('quote').addEventListener('click', quote);
+    document.getElementById('code').addEventListener('change', quote);
   </script>
 </body>
 
