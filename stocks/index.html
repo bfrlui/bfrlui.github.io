@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html data-bs-theme="dark" lang="en">
 
 <head>
@@ -192,21 +193,25 @@
   <main>
     <section class="py-4 text-center container">
       <div class="row">
-        <div class="col-lg-6 col-md-8 mx-auto">
+        <div class="col-12 mx-auto">
           <h1 class="fw-light"></h1>
           <p class="lead text-body-secondary"></p>
           <p>
             <!-- <a href="#" class="btn btn-primary my-2">Main call to action</a> -->
             <!-- <a href="#" class="btn btn-secondary my-2">Secondary action</a> -->
             <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-              <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
-              <label class="btn btn-outline-primary" for="btnradio1">Daily</label>
+              <input type="radio" class="btn-check" name="btnradio" id="btnradio0" autocomplete="off" checked>
+              <label class="d-flex align-items-center btn btn-outline-primary" for="btnradio0">Intraday</label>
+              <input type="radio" class="btn-check" name="btnradio" id="btnradio5" autocomplete="off">
+              <label class="d-flex align-items-center btn btn-outline-primary" for="btnradio5">Daily<br>(3 Mon)</label>
+              <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
+              <label class="d-flex align-items-center btn btn-outline-primary" for="btnradio1">Daily<br>(6 Mon)</label>
               <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-              <label class="btn btn-outline-primary" for="btnradio2">Weekly</label>
+              <label class="d-flex align-items-center btn btn-outline-primary" for="btnradio2">Weekly</label>
               <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
-              <label class="btn btn-outline-primary" for="btnradio3">Monthly</label>
+              <label class="d-flex align-items-center btn btn-outline-primary" for="btnradio3">Monthly</label>
               <input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off">
-              <label class="btn btn-outline-primary" for="btnradio4">Real-time</label>
+              <label class="d-flex align-items-center btn btn-outline-primary" for="btnradio4">Real-time</label>
             </div>
           </p>
         </div>
@@ -220,17 +225,19 @@
               <input type="radio" class="btn-check" name="btnradio1" id="btnradio11" autocomplete="off" checked>
               <label class="btn btn-outline-success" for="btnradio11">指數成份股</label>
               <input type="radio" class="btn-check" name="btnradio1" id="btnradio12" autocomplete="off">
-              <label class="btn btn-outline-success" for="btnradio12">自選組合</label>
+              <label class="btn btn-outline-success" for="btnradio12">投資組合</label>
+              <input type="radio" class="btn-check" name="btnradio1" id="btnradio13" autocomplete="off">
+              <label class="btn btn-outline-success" for="btnradio13">自選組合</label>
             </div>
           </p>
         </div>
         <div class="col-sm-1 m-auto"> OR </div>
-        <div class="col-7 col-sm-4 mx-auto">
+        <div class="col-7 col-sm-4 m-auto">
           <h1 class="fw-light"></h1>
           <p class="lead text-body-secondary"></p>
           <p>
             <div class="input-group mb-3">
-              <input id="code" type="text" class="form-control" placeholder="Code" aria-label="Code" aria-describedby="button-addon2">
+              <input id="code" type="text" class="form-control" placeholder="Code" aria-label="Code" aria-describedby="button-addon2" onclick="this.select()">
               <button id="quote" class="btn btn-outline-secondary" type="button" id="button-addon2">Go</button>
             </div>
           </p>
@@ -265,7 +272,7 @@
           <p class="card-text">{{code}} {{name}}</p>
           <div class="d-flex justify-content-between align-items-center">
             <div class="btn-group">
-              <a href="http://www.aastocks.com/tc/mobile/quote.aspx?symbol={{code}}" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">Quote</a>
+              <a href="http://www.aastocks.com/tc/mobile/quote.aspx?symbol={{etnetCode}}" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">Quote</a>
               <a href="https://www.etnet.com.hk/mobile/tc/ashares/quote_dividend.php?code={{etnetCode}}" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">Dividend</a>
             </div>
             <!-- <small class="text-body-secondary">9 mins</small> -->
@@ -285,7 +292,7 @@
           <div class="d-flex justify-content-between align-items-center">
             <div class="btn-group">
               <a href="http://charts.aastocks.com/servlet/Charts?indicator2=1&ind2para1=2&ind2para2=3&ind2para3=HSI&fontsize=12&15MinDelay=T&lang=1&titlestyle=1&vol=1&Indicator=1&indpara1=10&indpara2=20&indpara3=50&indpara4=100&indpara5=0&subChart1=2&ref1para1=14&ref1para2=0&ref1para3=0&subChart2=3&ref2para1=12&ref2para2=26&ref2para3=9&subChart3=12&ref3para1=0&ref3para2=0&ref3para3=0&scheme=1&com=100&chartwidth=870&chartheight=855&stockid={{code}}.HK&period={{period}}&type=1&logoStyle=1&" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">View</a>
-              <a href="http://www.aastocks.com/tc/mobile/quote.aspx?symbol={{code}}" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">Quote</a>
+              <a href="http://www.aastocks.com/tc/mobile/quote.aspx?symbol={{etnetCode}}" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">Quote</a>
               <a href="https://www.etnet.com.hk/mobile/tc/ashares/quote_dividend.php?code={{etnetCode}}" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">Dividend</a>
             </div>
             <!-- <small class="text-body-secondary">9 mins</small> -->
@@ -318,12 +325,18 @@
       { code: '000020', name: '商湯集團' },
       { code: '001448', name: '褔壽園' },
     ];
-    const Period = {instant: 0, daily: 6, weekly: 10, monthly: 18};
+    const ListMonitoring = [
+      { code: '000006', name: '電能實業' },
+      { code: '000002', name: '中電控股' },
+      { code: '000003', name: '香港中華煤氣' },
+      { code: '002638', name: '港燈－ＳＳ' },
+    ];
+    const Period = {instant: 'rt', intraday: 0, daily2: 7, daily: 6, weekly: 10, monthly: 18};
     let template = document.getElementById('template').innerHTML;
     let templateMinChart = document.getElementById('template-minChart').innerHTML;
     let mainRow = document.getElementById('main-row');
     let currentList = List;
-    let currentPeriod = Period.daily;
+    let currentPeriod = Period.intraday;
     let code = document.getElementById('code');
     let render = (period) => {
       mainRow.innerHTML = '';
@@ -339,11 +352,19 @@
               .replaceAll('{{code}}', stock.code)
               .replaceAll('{{name}}', stock.name)
               .replaceAll('{{etnetCode}}', stock.code.slice(-5));
-          btnradio11.checked = currentList == List;
-          btnradio12.checked = currentList == ListSelected;
+        btnradio11.checked = currentList == List;
+        btnradio12.checked = currentList == ListSelected;
+        btnradio13.checked = currentList == ListMonitoring;
+        btnradio0.checked = currentPeriod == Period.intraday;
+        btnradio1.checked = currentPeriod == Period.daily;
+        btnradio2.checked = currentPeriod == Period.weekly;
+        btnradio3.checked = currentPeriod == Period.monthly;
+        btnradio4.checked = currentPeriod == Period.instant;
+        btnradio5.checked = currentPeriod == Period.daily2;
       });
     }
     let quote = () => {
+      if (!code.value) return;
       let quoteCode = code.value.toUpperCase();
       mainRow.innerHTML = '';
       mainRow.innerHTML +=
@@ -360,14 +381,25 @@
             .replaceAll('{{name}}', p)
             .replaceAll('{{etnetCode}}', ('0000' + quoteCode).slice(-5));
       }
+      btnradio0.checked = false;
+      btnradio1.checked = false;
+      btnradio2.checked = false;
+      btnradio3.checked = false;
+      btnradio4.checked = false;
+      btnradio5.checked = false;
       btnradio11.checked = false;
       btnradio12.checked = false;
+      btnradio13.checked = false;
     }
 
     // main start
     render(currentPeriod);
 
     // events setup
+    document.getElementById('btnradio0').addEventListener('click', (e) => {
+      currentPeriod = Period.intraday;
+      render(currentPeriod);
+    });
     document.getElementById('btnradio1').addEventListener('click', (e) => {
       currentPeriod = Period.daily;
       render(currentPeriod);
@@ -384,12 +416,20 @@
       currentPeriod = Period.instant;
       render(currentPeriod);
     });
+    document.getElementById('btnradio5').addEventListener('click', (e) => {
+      currentPeriod = Period.daily2;
+      render(currentPeriod);
+    });
     document.getElementById('btnradio11').addEventListener('click', (e) => {
       currentList = List;
       render(currentPeriod);
     });
     document.getElementById('btnradio12').addEventListener('click', (e) => {
       currentList = ListSelected;
+      render(currentPeriod);
+    });
+    document.getElementById('btnradio13').addEventListener('click', (e) => {
+      currentList = ListMonitoring;
       render(currentPeriod);
     });
     document.getElementById('quote').addEventListener('click', quote);
