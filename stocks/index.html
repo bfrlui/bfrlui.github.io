@@ -206,6 +206,16 @@
               <label class="d-flex align-items-center btn btn-outline-primary" for="btnradio5">Daily<br>(3 Mon)</label>
               <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
               <label class="d-flex align-items-center btn btn-outline-primary" for="btnradio1">Daily<br>(6 Mon)</label>
+            </div>
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 mx-auto">
+          <h1 class="fw-light"></h1>
+          <p class="lead text-body-secondary"></p>
+          <p>
+            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
               <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
               <label class="d-flex align-items-center btn btn-outline-primary" for="btnradio2">Weekly</label>
               <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
@@ -272,7 +282,7 @@
           <p class="card-text">{{code}} {{name}}</p>
           <div class="d-flex justify-content-between align-items-center">
             <div class="btn-group">
-              <a href="http://www.aastocks.com/tc/mobile/quote.aspx?symbol={{etnetCode}}" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">Quote</a>
+              <a href="http://www.aastocks.com/tc/mobile/quote.aspx?symbol={{code}}" target="_blank">Quote</a>
               <a href="https://www.etnet.com.hk/mobile/tc/ashares/quote_dividend.php?code={{etnetCode}}" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">Dividend</a>
             </div>
             <!-- <small class="text-body-secondary">9 mins</small> -->
@@ -292,7 +302,7 @@
           <div class="d-flex justify-content-between align-items-center">
             <div class="btn-group">
               <a href="http://charts.aastocks.com/servlet/Charts?indicator2=1&ind2para1=2&ind2para2=3&ind2para3=HSI&fontsize=12&15MinDelay=T&lang=1&titlestyle=1&vol=1&Indicator=1&indpara1=10&indpara2=20&indpara3=50&indpara4=100&indpara5=0&subChart1=2&ref1para1=14&ref1para2=0&ref1para3=0&subChart2=3&ref2para1=12&ref2para2=26&ref2para3=9&subChart3=12&ref3para1=0&ref3para2=0&ref3para3=0&scheme=1&com=100&chartwidth=870&chartheight=855&stockid={{code}}.HK&period={{period}}&type=1&logoStyle=1&" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">View</a>
-              <a href="http://www.aastocks.com/tc/mobile/quote.aspx?symbol={{etnetCode}}" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">Quote</a>
+              <a href="http://www.aastocks.com/tc/mobile/quote.aspx?symbol={{code}}" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">Quote</a>
               <a href="https://www.etnet.com.hk/mobile/tc/ashares/quote_dividend.php?code={{etnetCode}}" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">Dividend</a>
             </div>
             <!-- <small class="text-body-secondary">9 mins</small> -->
@@ -320,6 +330,7 @@
     const ListSelected = [
       { code: '000939', name: '建設銀行' },
       { code: '000005', name: '匯豐控股' },
+      { code: '000006', name: '電能實業' },
       { code: '003032', name: '恒生科技指數' },
       { code: '002828', name: '恒生中國企業指數' },
       { code: '000020', name: '商湯集團' },
@@ -341,17 +352,18 @@
     let render = (period) => {
       mainRow.innerHTML = '';
       currentList.forEach(stock => {
+        let stockCode = Number(stock.code);
         mainRow.innerHTML +=
           period == Period.instant
           ? templateMinChart
-              .replaceAll('{{code}}', stock.code)
+              .replaceAll('{{code}}', stockCode)
               .replaceAll('{{name}}', stock.name)
-              .replaceAll('{{etnetCode}}', stock.code.slice(-5))
+              .replaceAll('{{etnetCode}}', stockCode)
           : template
               .replaceAll('{{period}}', period)
-              .replaceAll('{{code}}', stock.code)
+              .replaceAll('{{code}}', stockCode)
               .replaceAll('{{name}}', stock.name)
-              .replaceAll('{{etnetCode}}', stock.code.slice(-5));
+              .replaceAll('{{etnetCode}}', stockCode);
         btnradio11.checked = currentList == List;
         btnradio12.checked = currentList == ListSelected;
         btnradio13.checked = currentList == ListMonitoring;
@@ -366,6 +378,7 @@
     let quote = () => {
       if (!code.value) return;
       let quoteCode = code.value.toUpperCase();
+      if (!isNaN(quoteCode)) quoteCode = Number(quoteCode);
       mainRow.innerHTML = '';
       mainRow.innerHTML +=
         templateMinChart
@@ -379,7 +392,7 @@
             .replaceAll('{{period}}', Period[p])
             .replaceAll('{{code}}', quoteCode)
             .replaceAll('{{name}}', p)
-            .replaceAll('{{etnetCode}}', ('0000' + quoteCode).slice(-5));
+            .replaceAll('{{etnetCode}}', quoteCode);
       }
       btnradio0.checked = false;
       btnradio1.checked = false;
