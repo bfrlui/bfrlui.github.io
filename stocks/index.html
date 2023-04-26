@@ -276,13 +276,13 @@
     <div class="col">
       <div class="card shadow-sm h-100">
         <div class="d-flex bg-light" style="height: 78%;">
-          <img class="etnet-chart object-fit-contain img-fluid mx-auto" src="https://www.etnet.com.hk/mobile/tc/common/chart_oneminute.php?type=detail&code={{etnetCode}}" />
+          <img class="etnet-chart object-fit-contain img-fluid mx-auto" src="https://www.etnet.com.hk/mobile/tc/common/chart_oneminute.php?type=detail&code={{etnetCode}}&v={{time}}" />
         </div>
         <div class="card-body">
           <p class="card-text">{{code}} {{name}}</p>
           <div class="d-flex justify-content-between align-items-center">
             <div class="btn-group">
-              <a href="http://www.aastocks.com/tc/mobile/quote.aspx?symbol={{code}}" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">Quote</a>
+              <a href="https://www.aastocks.com/tc/mobile/quote.aspx?symbol={{code}}" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">Quote</a>
               <a href="https://www.etnet.com.hk/mobile/tc/ashares/quote_dividend.php?code={{etnetCode}}" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">Dividend</a>
             </div>
             <!-- <small class="text-body-secondary">9 mins</small> -->
@@ -295,14 +295,14 @@
     <div class="col">
       <div class="card shadow-sm h-100">
         <div class="d-flex bg-light" style="height: 78%;">
-          <img class="object-fit-contain" src="http://charts.aastocks.com/servlet/Charts?indicator2=1&ind2para1=2&ind2para2=3&ind2para3=HSI&fontsize=12&15MinDelay=T&lang=1&titlestyle=1&vol=1&Indicator=1&indpara1=10&indpara2=20&indpara3=50&indpara4=100&indpara5=0&subChart1=2&ref1para1=14&ref1para2=0&ref1para3=0&subChart2=3&ref2para1=12&ref2para2=26&ref2para3=9&subChart3=12&ref3para1=0&ref3para2=0&ref3para3=0&scheme=1&com=100&chartwidth=870&chartheight=855&stockid={{code}}.HK&period={{period}}&type=1&logoStyle=1&" width="100%">
+          <img class="object-fit-contain" src="https://charts.aastocks.com/servlet/Charts?indicator2=1&ind2para1=2&ind2para2=3&ind2para3=HSI&fontsize=12&15MinDelay=T&lang=1&titlestyle=1&vol=1&Indicator=1&indpara1=10&indpara2=20&indpara3=50&indpara4=100&indpara5=0&subChart1=2&ref1para1=14&ref1para2=0&ref1para3=0&subChart2=3&ref2para1=12&ref2para2=26&ref2para3=9&subChart3=12&ref3para1=0&ref3para2=0&ref3para3=0&scheme=1&com=100&chartwidth=870&chartheight=855&stockid={{code}}.HK&period={{period}}&type=1&logoStyle=1&v={{time}}" width="100%">
         </div>
         <div class="card-body">
           <p class="card-text">{{code}} {{name}}</p>
           <div class="d-flex justify-content-between align-items-center">
             <div class="btn-group">
-              <a href="http://charts.aastocks.com/servlet/Charts?indicator2=1&ind2para1=2&ind2para2=3&ind2para3=HSI&fontsize=12&15MinDelay=T&lang=1&titlestyle=1&vol=1&Indicator=1&indpara1=10&indpara2=20&indpara3=50&indpara4=100&indpara5=0&subChart1=2&ref1para1=14&ref1para2=0&ref1para3=0&subChart2=3&ref2para1=12&ref2para2=26&ref2para3=9&subChart3=12&ref3para1=0&ref3para2=0&ref3para3=0&scheme=1&com=100&chartwidth=870&chartheight=855&stockid={{code}}.HK&period={{period}}&type=1&logoStyle=1&" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">View</a>
-              <a href="http://www.aastocks.com/tc/mobile/quote.aspx?symbol={{code}}" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">Quote</a>
+              <a href="https://charts.aastocks.com/servlet/Charts?indicator2=1&ind2para1=2&ind2para2=3&ind2para3=HSI&fontsize=12&15MinDelay=T&lang=1&titlestyle=1&vol=1&Indicator=1&indpara1=10&indpara2=20&indpara3=50&indpara4=100&indpara5=0&subChart1=2&ref1para1=14&ref1para2=0&ref1para3=0&subChart2=3&ref2para1=12&ref2para2=26&ref2para3=9&subChart3=12&ref3para1=0&ref3para2=0&ref3para3=0&scheme=1&com=100&chartwidth=870&chartheight=855&stockid={{code}}.HK&period={{period}}&type=1&logoStyle=1&v={{time}}" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">View</a>
+              <a href="https://www.aastocks.com/tc/mobile/quote.aspx?symbol={{code}}" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">Quote</a>
               <a href="https://www.etnet.com.hk/mobile/tc/ashares/quote_dividend.php?code={{etnetCode}}" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">Dividend</a>
             </div>
             <!-- <small class="text-body-secondary">9 mins</small> -->
@@ -353,16 +353,19 @@
       mainRow.innerHTML = '';
       currentList.forEach(stock => {
         let stockCode = Number(stock.code);
+        let timestamp = new Date().getTime();
         mainRow.innerHTML +=
           period == Period.instant
           ? templateMinChart
               .replaceAll('{{code}}', stockCode)
               .replaceAll('{{name}}', stock.name)
               .replaceAll('{{etnetCode}}', stockCode)
+              .replaceAll('{{time}}', timestamp)
           : template
               .replaceAll('{{period}}', period)
               .replaceAll('{{code}}', stockCode)
               .replaceAll('{{name}}', stock.name)
+              .replaceAll('{{time}}', timestamp)
               .replaceAll('{{etnetCode}}', stockCode);
         btnradio11.checked = currentList == List;
         btnradio12.checked = currentList == ListSelected;
@@ -378,12 +381,14 @@
     let quote = () => {
       if (!code.value) return;
       let quoteCode = code.value.toUpperCase();
+      let timestamp = new Date().getTime();
       if (!isNaN(quoteCode)) quoteCode = Number(quoteCode);
       mainRow.innerHTML = '';
       mainRow.innerHTML +=
         templateMinChart
           .replaceAll('{{code}}', quoteCode)
           .replaceAll('{{name}}', 'Real-time')
+          .replaceAll('{{time}}', timestamp)
           .replaceAll('{{etnetCode}}', quoteCode);
       for (let p in Period) {
         if (p == 'instant') continue;
@@ -392,6 +397,7 @@
             .replaceAll('{{period}}', Period[p])
             .replaceAll('{{code}}', quoteCode)
             .replaceAll('{{name}}', p)
+            .replaceAll('{{time}}', timestamp)
             .replaceAll('{{etnetCode}}', quoteCode);
       }
       btnradio0.checked = false;
