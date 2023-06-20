@@ -254,20 +254,20 @@
     </div>
   </header>
   <main>
-    <div class="album pb-5 bg-body-tertiary">
+    <div class="album bg-body-tertiary">
       <div class="container">
         <div class="row py-4">
-          <div class="col-12 justify-content-end"><button onclick="isStockQuote ? quote() : render(currentPeriod)" class="btn btn-sm btn-outline-success">Refresh</button></div>
+          <div class="col-12">
+            <button onclick="isStockQuote ? quote() : render(currentPeriod)" class="btn btn-sm btn-outline-success float-end">Refresh</button>
+          </div>
         </div>
         <div id="main-row" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3"></div>
       </div>
     </div>
   </main>
-  <footer class="text-body-secondary py-5">
+  <footer class="text-body-secondary">
     <div class="container">
-      <p class="float-end mb-1">
-        <a href="#">Back to top</a>
-      </p>
+      <a href="#" class="float-end my-4">Back to top</a>
       <!-- <p class="mb-1">Album example is © Bootstrap, but please download and customize it for yourself!</p>
       <p class="mb-0">New to Bootstrap? <a href="/">Visit the homepage</a> or read our <a href="https://getbootstrap.com/docs/5.3/getting-started/introduction/">getting started guide</a>.</p> -->
     </div>
@@ -275,11 +275,13 @@
   <script id="template-minChart" type="text/template">
     <div class="col">
       <div class="card shadow-sm h-100">
+        <div class="card-header">
+          {{code}} - {{name}}
+        </div>
         <div class="d-flex bg-light" style="height: 78%;">
           <img class="etnet-chart object-fit-contain img-fluid mx-auto" src="https://www.etnet.com.hk/mobile/tc/common/chart_oneminute.php?type=detail&code={{etnetCode}}&v={{time}}" />
         </div>
         <div class="card-body">
-          <p class="card-text">{{code}} {{name}}</p>
           <div class="d-flex justify-content-between align-items-center">
             <div class="btn-group">
               <a href="https://www.aastocks.com/tc/mobile/quote.aspx?symbol={{code}}" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">Quote</a>
@@ -294,11 +296,13 @@
   <script id="template" type="text/template">
     <div class="col">
       <div class="card shadow-sm h-100">
+        <div class="card-header">
+          {{code}} - {{name}}
+        </div>
         <div class="d-flex bg-light" style="height: 78%;">
           <img class="object-fit-contain" src="https://charts.aastocks.com/servlet/Charts?indicator2=1&ind2para1=2&ind2para2=3&ind2para3=HSI&fontsize=12&15MinDelay=T&lang=1&titlestyle=1&vol=1&Indicator=1&indpara1=10&indpara2=20&indpara3=50&indpara4=100&indpara5=0&subChart1=2&ref1para1=14&ref1para2=0&ref1para3=0&subChart2=3&ref2para1=12&ref2para2=26&ref2para3=9&subChart3=12&ref3para1=0&ref3para2=0&ref3para3=0&scheme=1&com=100&chartwidth=870&chartheight=855&stockid={{code}}.HK&period={{period}}&type=1&logoStyle=1&v={{time}}" width="100%">
         </div>
         <div class="card-body">
-          <p class="card-text">{{code}} {{name}}</p>
           <div class="d-flex justify-content-between align-items-center">
             <div class="btn-group">
               <a href="https://charts.aastocks.com/servlet/Charts?indicator2=1&ind2para1=2&ind2para2=3&ind2para3=HSI&fontsize=12&15MinDelay=T&lang=1&titlestyle=1&vol=1&Indicator=1&indpara1=10&indpara2=20&indpara3=50&indpara4=100&indpara5=0&subChart1=2&ref1para1=14&ref1para2=0&ref1para3=0&subChart2=3&ref2para1=12&ref2para2=26&ref2para3=9&subChart3=12&ref3para1=0&ref3para2=0&ref3para3=0&scheme=1&com=100&chartwidth=870&chartheight=855&stockid={{code}}.HK&period={{period}}&type=1&logoStyle=1&v={{time}}" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">View</a>
@@ -343,11 +347,12 @@
       { code: '002638', name: '港燈－ＳＳ' },
     ];
     const Period = {instant: 'rt', intraday: 0, daily2: 7, daily: 6, weekly: 10, monthly: 18};
+    const PeriodName = {instant: '即時', intraday: '即日', daily2: '日線(3個月)', daily: '日線(6個月)', weekly: '周線', monthly: '月線'};
     let template = document.getElementById('template').innerHTML;
     let templateMinChart = document.getElementById('template-minChart').innerHTML;
     let mainRow = document.getElementById('main-row');
-    let currentList = List;
-    let currentPeriod = Period.intraday;
+    let currentList = ListSelected;
+    let currentPeriod = Period.instant;
     let code = document.getElementById('code');
     let isStockQuote = false;
     let render = (period) => {
@@ -363,7 +368,7 @@
               .replaceAll('{{etnetCode}}', stockCode)
               .replaceAll('{{time}}', timestamp)
           : template
-              .replaceAll('{{period}}', period)
+              .replaceAll('{{period}}', PeriodName[period])
               .replaceAll('{{code}}', stockCode)
               .replaceAll('{{name}}', stock.name)
               .replaceAll('{{time}}', timestamp)
@@ -389,7 +394,7 @@
       mainRow.innerHTML +=
         templateMinChart
           .replaceAll('{{code}}', quoteCode)
-          .replaceAll('{{name}}', 'Real-time')
+          .replaceAll('{{name}}', PeriodName.instant)
           .replaceAll('{{time}}', timestamp)
           .replaceAll('{{etnetCode}}', quoteCode);
       for (let p in Period) {
@@ -398,7 +403,7 @@
           template
             .replaceAll('{{period}}', Period[p])
             .replaceAll('{{code}}', quoteCode)
-            .replaceAll('{{name}}', p)
+            .replaceAll('{{name}}', PeriodName[p])
             .replaceAll('{{time}}', timestamp)
             .replaceAll('{{etnetCode}}', quoteCode);
       }
