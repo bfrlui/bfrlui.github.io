@@ -155,7 +155,7 @@
   </div> -->
   <header data-bs-theme="dark">
     <div class="text-bg-dark collapse" id="navbarHeader">
-      <div class="container">
+      <!-- <div class="container">
         <div class="row">
           <div class="col-sm-8 col-md-7 py-4">
             <h4>About</h4>
@@ -170,7 +170,70 @@
             </ul>
           </div>
         </div>
-      </div>
+      </div> -->
+      <section class="py-4 text-center container">
+        <div class="row">
+          <div class="col-12 mx-auto">
+            <h1 class="fw-light"></h1>
+            <p class="lead text-body-secondary"></p>
+            <p>
+              <!-- <a href="#" class="btn btn-primary my-2">Main call to action</a> -->
+              <!-- <a href="#" class="btn btn-secondary my-2">Secondary action</a> -->
+              <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio0" autocomplete="off" checked>
+                <label class="d-flex align-items-center btn btn-outline-primary" for="btnradio0">Intraday</label>
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio5" autocomplete="off">
+                <label class="d-flex align-items-center btn btn-outline-primary" for="btnradio5">Daily<br>(3 Mon)</label>
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
+                <label class="d-flex align-items-center btn btn-outline-primary" for="btnradio1">Daily<br>(6 Mon)</label>
+              </div>
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 mx-auto">
+            <h1 class="fw-light"></h1>
+            <p class="lead text-body-secondary"></p>
+            <p>
+              <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+                <label class="d-flex align-items-center btn btn-outline-primary" for="btnradio2">Weekly</label>
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+                <label class="d-flex align-items-center btn btn-outline-primary" for="btnradio3">Monthly</label>
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off">
+                <label class="d-flex align-items-center btn btn-outline-primary" for="btnradio4">Real-time</label>
+              </div>
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4 mx-auto">
+            <h1 class="fw-light"></h1>
+            <p class="lead text-body-secondary"></p>
+            <p>
+              <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                <input type="radio" class="btn-check" name="btnradio1" id="btnradio11" autocomplete="off" checked>
+                <label class="btn btn-outline-success" for="btnradio11">指數成份股</label>
+                <input type="radio" class="btn-check" name="btnradio1" id="btnradio12" autocomplete="off">
+                <label class="btn btn-outline-success" for="btnradio12">投資組合</label>
+                <input type="radio" class="btn-check" name="btnradio1" id="btnradio13" autocomplete="off">
+                <label class="btn btn-outline-success" for="btnradio13">自選組合</label>
+              </div>
+            </p>
+          </div>
+          <div class="col-sm-1 m-auto"> OR </div>
+          <div class="col-7 col-sm-4 m-auto">
+            <h1 class="fw-light"></h1>
+            <p class="lead text-body-secondary"></p>
+            <p>
+              <div class="input-group mb-3">
+                <input id="code" type="text" class="form-control" placeholder="Code" aria-label="Code" aria-describedby="button-addon2" onclick="this.select()">
+                <button id="quote" class="btn btn-outline-secondary" type="button" id="button-addon2">Go</button>
+              </div>
+            </p>
+          </div>        
+        </div>
+      </section>
     </div>
     <div class="navbar navbar-dark bg-dark shadow-sm">
       <div class="container">
@@ -191,74 +254,11 @@
     </div>
   </header>
   <main>
-    <section class="py-4 text-center container">
-      <div class="row">
-        <div class="col-12 mx-auto">
-          <h1 class="fw-light"></h1>
-          <p class="lead text-body-secondary"></p>
-          <p>
-            <!-- <a href="#" class="btn btn-primary my-2">Main call to action</a> -->
-            <!-- <a href="#" class="btn btn-secondary my-2">Secondary action</a> -->
-            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-              <input type="radio" class="btn-check" name="btnradio" id="btnradio0" autocomplete="off" checked>
-              <label class="d-flex align-items-center btn btn-outline-primary" for="btnradio0">Intraday</label>
-              <input type="radio" class="btn-check" name="btnradio" id="btnradio5" autocomplete="off">
-              <label class="d-flex align-items-center btn btn-outline-primary" for="btnradio5">Daily<br>(3 Mon)</label>
-              <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
-              <label class="d-flex align-items-center btn btn-outline-primary" for="btnradio1">Daily<br>(6 Mon)</label>
-            </div>
-          </p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12 mx-auto">
-          <h1 class="fw-light"></h1>
-          <p class="lead text-body-secondary"></p>
-          <p>
-            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-              <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-              <label class="d-flex align-items-center btn btn-outline-primary" for="btnradio2">Weekly</label>
-              <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
-              <label class="d-flex align-items-center btn btn-outline-primary" for="btnradio3">Monthly</label>
-              <input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off">
-              <label class="d-flex align-items-center btn btn-outline-primary" for="btnradio4">Real-time</label>
-            </div>
-          </p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-4 mx-auto">
-          <h1 class="fw-light"></h1>
-          <p class="lead text-body-secondary"></p>
-          <p>
-            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-              <input type="radio" class="btn-check" name="btnradio1" id="btnradio11" autocomplete="off" checked>
-              <label class="btn btn-outline-success" for="btnradio11">指數成份股</label>
-              <input type="radio" class="btn-check" name="btnradio1" id="btnradio12" autocomplete="off">
-              <label class="btn btn-outline-success" for="btnradio12">投資組合</label>
-              <input type="radio" class="btn-check" name="btnradio1" id="btnradio13" autocomplete="off">
-              <label class="btn btn-outline-success" for="btnradio13">自選組合</label>
-            </div>
-          </p>
-        </div>
-        <div class="col-sm-1 m-auto"> OR </div>
-        <div class="col-7 col-sm-4 m-auto">
-          <h1 class="fw-light"></h1>
-          <p class="lead text-body-secondary"></p>
-          <p>
-            <div class="input-group mb-3">
-              <input id="code" type="text" class="form-control" placeholder="Code" aria-label="Code" aria-describedby="button-addon2" onclick="this.select()">
-              <button id="quote" class="btn btn-outline-secondary" type="button" id="button-addon2">Go</button>
-            </div>
-          </p>
-        </div>        
-      </div>
-      <div class="row">
-
-      </div>
-    </section>
-    <div class="album py-5 bg-body-tertiary">
+    <div class="album pb-5 bg-body-tertiary">
       <div class="container">
+        <div class="row py-4">
+          <div class="col-12 justify-content-end"><button onclick="render(currentPeriod)" class="btn btn-sm btn-outline-success">Refresh</button></div>
+        </div>
         <div id="main-row" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3"></div>
       </div>
     </div>
