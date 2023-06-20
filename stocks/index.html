@@ -257,7 +257,7 @@
     <div class="album pb-5 bg-body-tertiary">
       <div class="container">
         <div class="row py-4">
-          <div class="col-12 justify-content-end"><button onclick="render(currentPeriod)" class="btn btn-sm btn-outline-success">Refresh</button></div>
+          <div class="col-12 justify-content-end"><button onclick="isStockQuote ? quote() : render(currentPeriod)" class="btn btn-sm btn-outline-success">Refresh</button></div>
         </div>
         <div id="main-row" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3"></div>
       </div>
@@ -349,6 +349,7 @@
     let currentList = List;
     let currentPeriod = Period.intraday;
     let code = document.getElementById('code');
+    let isStockQuote = false;
     let render = (period) => {
       mainRow.innerHTML = '';
       currentList.forEach(stock => {
@@ -376,6 +377,7 @@
         btnradio3.checked = currentPeriod == Period.monthly;
         btnradio4.checked = currentPeriod == Period.instant;
         btnradio5.checked = currentPeriod == Period.daily2;
+        isStockQuote = false;
       });
     }
     let quote = () => {
@@ -400,6 +402,7 @@
             .replaceAll('{{time}}', timestamp)
             .replaceAll('{{etnetCode}}', quoteCode);
       }
+      isStockQuote = true;
       btnradio0.checked = false;
       btnradio1.checked = false;
       btnradio2.checked = false;
