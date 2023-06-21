@@ -258,6 +258,7 @@
       <div class="container">
         <div class="row py-4">
           <div class="col-12">
+            <span id="active-list-name"></span>
             <button onclick="isStockQuote ? quote() : render(currentPeriod)" class="btn btn-sm btn-outline-success float-end">Refresh</button>
           </div>
         </div>
@@ -284,7 +285,7 @@
         <div class="card-body">
           <div class="d-flex justify-content-between align-items-center">
             <div class="btn-group">
-              <a href="https://www.aastocks.com/tc/mobile/quote.aspx?symbol={{code}}" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">Quote</a>
+              <a href="https://www.etnet.com.hk/www/tc/stocks/realtime/quote_super.php?code={{etnetCode}}" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">Quote</a>
               <a href="https://www.etnet.com.hk/mobile/tc/ashares/quote_dividend.php?code={{etnetCode}}" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">Dividend</a>
             </div>
             <!-- <small class="text-body-secondary">9 mins</small> -->
@@ -306,7 +307,7 @@
           <div class="d-flex justify-content-between align-items-center">
             <div class="btn-group">
               <a href="https://charts.aastocks.com/servlet/Charts?indicator2=1&ind2para1=2&ind2para2=3&ind2para3=HSI&fontsize=12&15MinDelay=T&lang=1&titlestyle=1&vol=1&Indicator=1&indpara1=10&indpara2=20&indpara3=50&indpara4=100&indpara5=0&subChart1=2&ref1para1=14&ref1para2=0&ref1para3=0&subChart2=3&ref2para1=12&ref2para2=26&ref2para3=9&subChart3=12&ref3para1=0&ref3para2=0&ref3para3=0&scheme=1&com=100&chartwidth=870&chartheight=855&stockid={{code}}.HK&period={{period}}&type=1&logoStyle=1&v={{time}}" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">View</a>
-              <a href="https://www.aastocks.com/tc/mobile/quote.aspx?symbol={{code}}" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">Quote</a>
+              <a href="https://www.etnet.com.hk/www/tc/stocks/realtime/quote_super.php?code={{etnetCode}}" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">Quote</a>
               <a href="https://www.etnet.com.hk/mobile/tc/ashares/quote_dividend.php?code={{etnetCode}}" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">Dividend</a>
             </div>
             <!-- <small class="text-body-secondary">9 mins</small> -->
@@ -318,6 +319,7 @@
   <script src="https://getbootstrap.com/docs/5.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
   <script>
     const List = [
+      { code: 'hsi', name: '恒生指數' },
       { code: '009988', name: '阿里巴巴－ＳＷ' },
       { code: '000700', name: '騰訊控股' },
       { code: '001299', name: '友邦保險' },
@@ -332,6 +334,7 @@
       { code: '003988', name: '中國銀行' },
     ];
     const ListSelected = [
+      { code: 'hsi', name: '恒生指數' },
       { code: '000939', name: '建設銀行' },
       { code: '000005', name: '匯豐控股' },
       { code: '000006', name: '電能實業' },
@@ -341,6 +344,7 @@
       { code: '001448', name: '褔壽園' },
     ];
     const ListMonitoring = [
+      { code: 'hsi', name: '恒生指數' },
       { code: '000006', name: '電能實業' },
       { code: '000002', name: '中電控股' },
       { code: '000003', name: '香港中華煤氣' },
@@ -350,17 +354,29 @@
     const PeriodName = {instant: '即時', intraday: '即日', daily2: '日線(3個月)', daily: '日線(6個月)', weekly: '周線', monthly: '月線'};
     let template = document.getElementById('template').innerHTML;
     let templateMinChart = document.getElementById('template-minChart').innerHTML;
-    let mainRow = document.getElementById('main-row');
+    let mainRowEl = document.getElementById('main-row');
+    let activeListNameEl = document.getElementById('active-list-name');
     let currentList = ListSelected;
     let currentPeriod = Period.instant;
-    let code = document.getElementById('code');
+    let codeEl = document.getElementById('code');
     let isStockQuote = false;
+    let activeListNameRender = () => {
+      let activeLabelId = '';
+      btnradio11.checked
+        ? activeLabelId = btnradio11.id
+        : btnradio12.checked
+          ? activeLabelId = btnradio12.id
+          : btnradio13.checked
+            ? activeLabelId = btnradio13.id
+            : '';
+      activeListNameEl.innerText = activeLabelId ? document.querySelector(`[for="${activeLabelId}"]`).innerText : '';
+    }
     let render = (period) => {
-      mainRow.innerHTML = '';
+      mainRowEl.innerHTML = '';
       currentList.forEach(stock => {
-        let stockCode = Number(stock.code);
+        let stockCode = isNaN(stock.code) ? stock.code.toUpperCase() : Number(stock.code);
         let timestamp = new Date().getTime();
-        mainRow.innerHTML +=
+        mainRowEl.innerHTML +=
           period == Period.instant
           ? templateMinChart
               .replaceAll('{{code}}', stockCode)
@@ -373,25 +389,26 @@
               .replaceAll('{{name}}', stock.name)
               .replaceAll('{{time}}', timestamp)
               .replaceAll('{{etnetCode}}', stockCode);
-        btnradio11.checked = currentList == List;
-        btnradio12.checked = currentList == ListSelected;
-        btnradio13.checked = currentList == ListMonitoring;
-        btnradio0.checked = currentPeriod == Period.intraday;
-        btnradio1.checked = currentPeriod == Period.daily;
-        btnradio2.checked = currentPeriod == Period.weekly;
-        btnradio3.checked = currentPeriod == Period.monthly;
-        btnradio4.checked = currentPeriod == Period.instant;
-        btnradio5.checked = currentPeriod == Period.daily2;
-        isStockQuote = false;
       });
+      btnradio11.checked = currentList == List;
+      btnradio12.checked = currentList == ListSelected;
+      btnradio13.checked = currentList == ListMonitoring;
+      btnradio0.checked = currentPeriod == Period.intraday;
+      btnradio1.checked = currentPeriod == Period.daily;
+      btnradio2.checked = currentPeriod == Period.weekly;
+      btnradio3.checked = currentPeriod == Period.monthly;
+      btnradio4.checked = currentPeriod == Period.instant;
+      btnradio5.checked = currentPeriod == Period.daily2;
+      isStockQuote = false;
+      activeListNameRender();
     }
     let quote = () => {
-      if (!code.value) return;
-      let quoteCode = code.value.toUpperCase();
+      if (!codeEl.value) return;
+      let quoteCode = codeEl.value.toUpperCase();
       let timestamp = new Date().getTime();
       if (!isNaN(quoteCode)) quoteCode = Number(quoteCode);
-      mainRow.innerHTML = '';
-      mainRow.innerHTML +=
+      mainRowEl.innerHTML = '';
+      mainRowEl.innerHTML +=
         templateMinChart
           .replaceAll('{{code}}', quoteCode)
           .replaceAll('{{name}}', PeriodName.instant)
@@ -399,7 +416,7 @@
           .replaceAll('{{etnetCode}}', quoteCode);
       for (let p in Period) {
         if (p == 'instant') continue;
-        mainRow.innerHTML +=
+        mainRowEl.innerHTML +=
           template
             .replaceAll('{{period}}', Period[p])
             .replaceAll('{{code}}', quoteCode)
@@ -417,6 +434,7 @@
       btnradio11.checked = false;
       btnradio12.checked = false;
       btnradio13.checked = false;
+      activeListNameRender();
     }
 
     // main start
