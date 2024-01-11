@@ -330,6 +330,7 @@
     let currentPeriod = Period.instant;
     let codeEl = document.getElementById('code');
     let isStockQuote = false;
+    let queryString = location.search.split('=');
     let activeListNameRender = () => {
       let activeLabelId = '';
       btnradio11.checked
@@ -373,10 +374,9 @@
       activeListNameRender();
       document.querySelectorAll('.btn-charts').forEach(el => {
         el.addEventListener('click', () => {
-          let code = Number(el.getAttribute('code')); 
+          let code = Number(el.getAttribute('code'));
           if (!isNaN(code)) {
-            codeEl.value = code;
-            quote();
+            window.open(`/stocks?code=${code}`,'_blank');
           }
         });
       });
@@ -417,15 +417,20 @@
     }
 
     // main start
-    fetch('./data.json')
-      .then((response) => response.json())
-      .then((data) => {
-        list = data.list;
-        listSelected = data.listSelected;
-        listMonitoring = data.listMonitoring;
-        currentList = listSelected;
-        render(currentPeriod);
-      });
+    if (queryString[0] == '?code' && !isNaN(queryString[1])) {
+      codeEl.value = queryString[1];
+      quote();
+    } else {
+      fetch('./data.json')
+        .then((response) => response.json())
+        .then((data) => {
+          list = data.list;
+          listSelected = data.listSelected;
+          listMonitoring = data.listMonitoring;
+          currentList = listSelected;
+          render(currentPeriod);
+        });
+    }
 
     // events setup
     document.getElementById('btnradio0').addEventListener('click', (e) => {
