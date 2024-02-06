@@ -281,8 +281,9 @@
         <div class="card-header">
           {{code}} - {{name}}
         </div>
-        <div class="d-flex bg-light" style="height: 78%;">
+        <div class="d-flex bg-light" style="height: 300px;">
           <img class="etnet-chart object-fit-contain img-fluid mx-auto" src="https://www.etnet.com.hk/mobile/tc/common/chart_oneminute.php?type=detail&code={{etnetCode}}&v={{time}}" />
+          <!-- <iframe src="https://www.etnet.com.hk/www/tc/common/chart_interactive_oneminute.php?chart_type=quote&code={{etnetCode}}&delay=ON&theme=dark&transparentbg=N" scrolling="no" width="100%" height="100%" frameborder="0"></iframe> -->
         </div>
         <div class="card-body">
           <div class="d-flex justify-content-between align-items-center">
@@ -377,8 +378,8 @@
       activeListNameRender();
       document.querySelectorAll('.btn-charts').forEach(el => {
         el.addEventListener('click', () => {
-          let code = Number(el.getAttribute('code'));
-          if (!isNaN(code)) {
+          let code = el.getAttribute('code');
+          if (!isNaN(code) || code.toLocaleLowerCase() == 'hsi') {
             window.open(`/stocks?code=${code}`,'_blank');
           }
         });
@@ -421,7 +422,7 @@
     }
 
     // main start
-    if (queryString[0] == '?code' && !isNaN(queryString[1])) {
+    if (queryString[0] == '?code' && (!isNaN(queryString[1]) || queryString[1].toLocaleLowerCase() == 'hsi')) {
       codeEl.value = queryString[1];
       quote();
     } else {
