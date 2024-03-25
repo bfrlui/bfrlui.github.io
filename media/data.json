@@ -2,15 +2,23 @@
   "tv": [
     {
       "title": "TVB 81",
-      "url": "tv1"
+      "url": "https://www.mytvsuper.com/tc/live/81/"
     },
     {
       "title": "TVB 82",
-      "url": "tv2"
+      "url": "https://www.mytvsuper.com/tc/live/82/"
     },
     {
       "title": "TVB 83",
-      "url": "tv3"
+      "url": "https://www.mytvsuper.com/tc/live/83/"
+    },
+    {
+      "title": "TVB 84",
+      "url": "https://www.mytvsuper.com/tc/live/84/"
+    },
+    {
+      "title": "TVB 85",
+      "url": "https://www.mytvsuper.com/tc/live/85/"
     },
     {
       "title": "ViuTV 99",
@@ -19,20 +27,24 @@
   ],
   "streaming": [
     {
-      "title": "streaming 1",
-      "url": "tv1"
+      "title": "Now News",
+      "url": "https://news.now.com/home/live"
     },
     {
-      "title": "streaming 2",
-      "url": "tv2"
+      "title": "Youtube",
+      "url": "https://youtube.com"
     },
     {
-      "title": "streaming 3",
-      "url": "tv3"
+      "title": "Gimy",
+      "url": "https://gimy.is/"
     },
     {
-      "title": "streaming 4",
-      "url": "https://viu.tv/ch"
+      "title": "楓林網",
+      "url": "https://8maple.co/"
+    },
+    {
+      "title": "漢江影視",
+      "url": "漢江影視"
     }
   ]
 }
