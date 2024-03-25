@@ -1,0 +1,38 @@
+{
+  "tv": [
+    {
+      "title": "TVB 81",
+      "url": "tv1"
+    },
+    {
+      "title": "TVB 82",
+      "url": "tv2"
+    },
+    {
+      "title": "TVB 83",
+      "url": "tv3"
+    },
+    {
+      "title": "ViuTV 99",
+      "url": "https://viu.tv/ch"
+    }
+  ],
+  "streaming": [
+    {
+      "title": "streaming 1",
+      "url": "tv1"
+    },
+    {
+      "title": "streaming 2",
+      "url": "tv2"
+    },
+    {
+      "title": "streaming 3",
+      "url": "tv3"
+    },
+    {
+      "title": "streaming 4",
+      "url": "https://viu.tv/ch"
+    }
+  ]
+}
