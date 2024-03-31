@@ -19,12 +19,12 @@
     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
   <!-- Favicons -->
-  <link rel="apple-touch-icon" href="https://getbootstrap.com/docs/5.3/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
-  <link rel="icon" href="https://getbootstrap.com/docs/5.3/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
-  <link rel="icon" href="https://getbootstrap.com/docs/5.3/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+  <link rel="apple-touch-icon" href="./apple-touch-icon.png" sizes="180x180">
+  <link rel="icon" href="./favicon-32x32.png" sizes="32x32" type="image/png">
+  <link rel="icon" href="./favicon-16x16.png" sizes="16x16" type="image/png">
   <link rel="manifest" href="https://getbootstrap.com/docs/5.3/assets/img/favicons/manifest.json">
-  <link rel="mask-icon" href="https://getbootstrap.com/docs/5.3/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
-  <link rel="icon" href="https://getbootstrap.com/docs/5.3/assets/img/favicons/favicon.ico">
+  <!-- <link rel="mask-icon" href="https://getbootstrap.com/docs/5.3/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9"> -->
+  <link rel="icon" href="./favicon.ico">
   <meta name="theme-color" content="#712cf9">
 
 
@@ -195,6 +195,13 @@
       <div id="row-streaming" class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5"></div>
     </div>
 
+    <div class="b-example-divider"></div>
+
+    <div class="container px-4 py-5">
+      <h2 class="pb-2 border-bottom">Radio</h2>
+      <div id="row-radio" class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5"></div>
+    </div>
+    
   </main>
   
   <script id="template" type="text/template">
@@ -216,6 +223,7 @@
     const Template = document.getElementById('template').innerHTML
     const RowTvEl = document.getElementById('row-tv')
     const RowStreamingEl = document.getElementById('row-streaming')
+    const RowRadioEl = document.getElementById('row-radio')
     const Render = function(mediaList) {
       mediaList.tv.forEach(item => {
         RowTvEl.innerHTML += 
@@ -226,6 +234,13 @@
   
       mediaList.streaming.forEach(item => {
         RowStreamingEl.innerHTML += 
+          Template
+            .replace('{{title}}', item.title)
+            .replace('{{url}}', item.url)
+      })
+
+      mediaList.radio.forEach(item => {
+        RowRadioEl.innerHTML += 
           Template
             .replace('{{title}}', item.title)
             .replace('{{url}}', item.url)

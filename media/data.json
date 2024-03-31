@@ -1,4 +1,18 @@
 {
+  "radio": [
+    {
+      "title": "RTHK",
+      "url": "https://www.rthk.hk/radio"
+    },
+    {
+      "title": "雷霆881",
+      "url": "https://www.881903.com/live/881"
+    },
+    {
+      "title": "叱吒903",
+      "url": "https://www.881903.com/live/903"
+    }
+  ],
   "tv": [
     {
       "title": "TVB 81",
