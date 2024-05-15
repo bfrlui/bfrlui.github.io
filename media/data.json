@@ -36,7 +36,11 @@
     },
     {
       "title": "ViuTV 99",
-      "url": "https://viu.tv/ch"
+      "url": "https://viu.tv/ch/99"
+    },
+    {
+      "title": "ViuTV 96",
+      "url": "https://viu.tv/ch/96"
     },
     {
       "title": "RTHK",
@@ -59,10 +63,6 @@
     {
       "title": "楓林網",
       "url": "https://8maple.co/"
-    },
-    {
-      "title": "漢江影視",
-      "url": "漢江影視"
     }
   ]
 }
