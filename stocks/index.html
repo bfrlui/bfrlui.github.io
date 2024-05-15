@@ -182,6 +182,18 @@
               <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
                 <input type="radio" class="btn-check" name="btnradio" id="btnradio0" autocomplete="off" checked>
                 <label class="d-flex align-items-center btn btn-outline-primary" for="btnradio0">Intraday</label>
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio7" autocomplete="off">
+                <label class="d-flex align-items-center btn btn-outline-primary" for="btnradio7">5 mins<br>(3 Days)</label>
+              </div>
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 mx-auto">
+            <h1 class="fw-light"></h1>
+            <p class="lead text-body-secondary"></p>
+            <p>
+              <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
                 <input type="radio" class="btn-check" name="btnradio" id="btnradio6" autocomplete="off">
                 <label class="d-flex align-items-center btn btn-outline-primary" for="btnradio6">Daily<br>(1 Mon)</label>
                 <input type="radio" class="btn-check" name="btnradio" id="btnradio5" autocomplete="off">
@@ -322,8 +334,8 @@
   </script>
   <script src="https://getbootstrap.com/docs/5.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
   <script>
-    const Period = {instant: 'rt', intraday: 0, daily3:5, daily2: 7, daily: 6, weekly: 10, monthly: 18};
-    const PeriodName = {instant: '即時', intraday: '即日', daily3: '日線(1個月)', daily2: '日線(3個月)', daily: '日線(6個月)', weekly: '周線', monthly: '月線'};
+    const Period = {instant: 'rt', intraday: 0, fiveMin:5012, daily3:5, daily2: 7, daily: 6, weekly: 10, monthly: 18};
+    const PeriodName = {instant: '即時', intraday: '即日', fiveMin: '5分鐘(3日)', daily3: '日線(1個月)', daily2: '日線(3個月)', daily: '日線(6個月)', weekly: '周線', monthly: '月線'};
     let list, listSelected, listMonitoring;
     let template = document.getElementById('template').innerHTML;
     let templateMinChart = document.getElementById('template-minChart').innerHTML;
@@ -374,6 +386,7 @@
       btnradio4.checked = currentPeriod == Period.instant;
       btnradio5.checked = currentPeriod == Period.daily2;
       btnradio6.checked = currentPeriod == Period.daily3;
+      btnradio7.checked = currentPeriod == Period.fiveMin;
       isStockQuote = false;
       activeListNameRender();
       document.querySelectorAll('.btn-charts').forEach(el => {
@@ -415,6 +428,7 @@
       btnradio4.checked = false;
       btnradio5.checked = false;
       btnradio6.checked = false;
+      btnradio7.checked = false;
       btnradio11.checked = false;
       btnradio12.checked = false;
       btnradio13.checked = false;
@@ -464,6 +478,10 @@
     });
     document.getElementById('btnradio6').addEventListener('click', (e) => {
       currentPeriod = Period.daily3;
+      render(currentPeriod);
+    });
+    document.getElementById('btnradio7').addEventListener('click', (e) => {
+      currentPeriod = Period.fiveMin;
       render(currentPeriod);
     });
     document.getElementById('btnradio11').addEventListener('click', (e) => {
