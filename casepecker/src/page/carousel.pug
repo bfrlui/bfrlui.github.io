@@ -1,0 +1,95 @@
+extends ../pug/page
+
+include ../pug/carousel
+
+block vars
+
+block pageTitle
+
+block pageStyle
+  title Carousel
+
+block mainContent
+  h2 Carousel
+  #demo
+    +carousel({design: 1, isCircleProgress: true, isFullWidth: true})
+
+  .mt-5
+  h2 Carousel - Slide per View
+    +carousel({design: 2, isCircleProgress: false, isFullWidth: true, id: 'carousel-slides-per-view'})
+      
+block pageJS
+  // vendor
+  script(src='https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js')
+  // custom script
+  //- script(src="js/test.js")
+  script.
+    document.addEventListener('DOMContentLoaded', () => {
+      // carousel
+      const carouselAutoplay = (selector, effect = 'slide') => {
+        const carousel = new Swiper(selector, {
+          effect: effect,
+          loop: true,
+          autoplay: {
+            delay: 5000,
+            disableOnInteraction: false
+          },
+          pagination: {
+            el: `${selector} .swiper-pagination`,
+            clickable: false
+          }
+        });
+
+        return carousel;
+      }
+
+      const carouselAutoplayCircleProgress = (selector, progressSelector, effect = 'slide') => {
+        const autoplayProgress = document.querySelector(progressSelector)
+        const progressCircle = autoplayProgress.querySelector("svg")
+        const progressContent = autoplayProgress.querySelector("span")
+        const carousel = new Swiper(selector, {
+          effect: effect,
+          loop: true,
+          autoplay: {
+            delay: 5000,
+            disableOnInteraction: false
+          },
+          watchSlidesProgress: true,
+          on: {
+            autoplayTimeLeft(s, time, progress) {
+              progressCircle.style.setProperty("--progress", progress * 100);
+            },
+            afterInit(swiper) {
+              progressContent.textContent = `${swiper.realIndex + 1}/${swiper.slides.length}`;
+            },
+            slideChange(swiper) {
+              progressContent.textContent = `${swiper.realIndex + 1}/${swiper.slides.length}`;
+            },
+            sliderMove(swiper) {
+              progressCircle.style.setProperty("--progress", 0);
+            }
+          }
+        });
+
+        return carousel;
+      }
+
+      carouselAutoplayCircleProgress('#demo .carousel-autoplay', '#demo .autoplay-progress')
+
+      // carousel slides per view demo
+      var carouselSlidesPerView = new Swiper("#carousel-slides-per-view", {
+        slidesPerView: "auto",
+        spaceBetween: 30,
+        loop: true,
+        autoplay: {
+          delay: 3000,
+          disableOnInteraction: false
+        },
+        pagination: {
+          el: "#carousel-slides-per-view .swiper-pagination",
+          clickable: false
+        },
+      })
+
+      setNavBottomItem(3)
+    })

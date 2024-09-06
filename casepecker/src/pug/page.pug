@@ -1,0 +1,126 @@
+//- this is page template for all pages
+//- Global instance for all pages
+
+//- common mixins for global usage
+include ./component/navbarFixedTop
+
+-
+  var Global = {
+    // generate random figure for widget
+    random: function(fr, to) {
+      return Math.floor(Math.random() * (to - fr)) + fr;
+    },
+    uid: function() {
+      return Math.floor(new Date().valueOf() * Math.random());
+    },
+    theme: 'light',
+    device: 'ios',
+    userImg: 'img/user.jpg',
+    imgPlaceholder: '/img/imgPlaceholder.png',
+    videoPlaceholder: 'https://joy1.videvo.net/videvo_files/video/free/2014-08/large_watermarked/Earth_Zoom_In_preview.mp4',
+    videoThumbnail: 'img/video_thumbnail.png',
+    product: [
+      'https://raydesign-cdn.github.io/image/venice1.jpg',
+      'https://raydesign-cdn.github.io/image/venice2.jpg',
+      'https://raydesign-cdn.github.io/image/venice3.jpg',
+      'https://raydesign-cdn.github.io/image/venice4.jpg',
+      'https://raydesign-cdn.github.io/image/venice5.jpg',
+      'https://raydesign-cdn.github.io/image/venice6.jpg',
+      'https://raydesign-cdn.github.io/image/venice7.jpg'
+    ],
+    banner: [
+      'https://raydesign-cdn.github.io/image/yoga4.jpg',
+      'https://raydesign-cdn.github.io/image/yoga2.jpg',
+      'https://raydesign-cdn.github.io/image/yoga5.jpg',
+      'https://source.unsplash.com/featured/1920x1080'
+    ],
+    entryPageName: 'index.html',
+    currentLang: 'en',
+    paragraph: `
+      Ours is a life of constant reruns. <a href='https://google.com' target='_blank'>Sample Link</a> We're always circling back to where we'd we started, then starting all over again. Even if we don't run extra laps that day, we surely will come back for more of the same another day soon.
+      <br />
+      <br />
+      Mollit officia anim esse incididunt aliquip consequat quis eu excepteur aliqua ut occaecat consectetur dolor. Proident eu laborum ut exercitation. Mollit officia anim esse incididunt aliquip consequat quis eu excepteur aliqua ut occaecat consectetur dolor. Proident eu laborum ut exercitation.`,
+    states: ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark']
+  }
+
+block vars
+
+doctype html
+html(lang=Global.currentLang data-bs-theme=Global.theme)
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='cache-control, pragma', content='no-cache')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(http-equiv='X-UA-Compatible' content='IE=edge,chrome=1')
+    link(rel='canonical' href='https://yourWebsite.com')
+
+    block pageTitle
+
+    // icons and colors
+    //- link(rel='apple-touch-icon' sizes='180x180' href='/apple-touch-icon.png')
+    //- link(rel='icon' type='image/png' sizes='32x32' href='/favicon-32x32.png')
+    //- link(rel='icon' type='image/png' sizes='16x16' href='/favicon-16x16.png')
+    link(rel='manifest' href='./manifest.json')
+    //- link(rel='mask-icon' href='./safari-pinned-tab.svg' color='#000000')
+    link(rel='shortcut icon' href='./favicon.ico')
+    //- meta(name='msapplication-TileColor' content='#000000')
+    //- meta(name='msapplication-TileImage' content='./mstile-144x144.png')
+    //- meta(name='msapplication-config' content='./browserconfig.xml')
+    meta(name='theme-color' content='#000000')
+
+    // SEO and Social Sharing and SEO
+    meta(name='description' content)
+    meta(name='robots' content='noodp')
+    meta(name='author' content)
+    meta(name='keywords' content='progressive web app, progressive web application, pwa, pwa progressive web app, pwa progressive web application, progressive app, basic progressive web app, basic progressive web application, basic pwa, example progressive web app, example progressive web application, example pwa, progressive web app basic, progressive web app builder, progressive web app example, progressive web app sample, progressive web app template, sample progressive web app, sample progressive web application, sample pwa, free progressive web application template, progressive web application template, progressive web app template free, progressive web app template free download, progressive web app html template, progressive web app template github')
+    meta(property='og:locale' content='en_US')
+    meta(property='og:type' content='website')
+    meta(property='og:title' content='Simple PWA')
+    meta(property='og:description' content='')
+    meta(property='og:url' content='https://yourWebsite.com')
+    meta(property='og:site_name' content='')
+    meta(property='section:publisher' content='https://yourWebsite.com')
+    meta(property='og:image' content='https://yourWebsite.com/share.jpg')
+    //- meta(name='twitter:card' content='summary_large_image')
+    //- meta(name='twitter:title' content='Your Website')
+    //- meta(name='twitter:description' content='Simple Progressive Web App (PWA) template')
+    //- meta(name='twitter:site' content='@yourWebsite')
+    //- meta(name='twitter:image' content='https://yourWebsite.com/share.jpg')
+    //- meta(name='twitter:creator' content)
+
+    // main style
+    link(href='css/theme_blue.css' rel='stylesheet preload' as='style' theme-color="blue")
+    link(href='css/theme_cyan.css' rel='stylesheet preload' as='style' theme-color='cyan' disabled)
+      
+    //- individual page style
+    block pageStyle
+
+  block pageBody
+    body
+      block navbar
+        +navbarFixedTop({
+          design: 1,
+          icon: 'icon-close',
+          text: 'Testing',
+          class: 'shadow-none'
+        })
+      
+      // main content
+      main.container-fluid.h-100.d-flex.flex-column.px-4
+        block mainContent
+        include ../pug/footer
+        
+      //- include ../pug/navbarBottom
+      include ../pug/offcanvas
+      include ../pug/themePanel
+      include ../pug/modal
+
+      #loader.fade.show.d-flex.align-items-center.justify-content-center(style='position: fixed;top: 0;bottom: 0;left: 0;right: 0;background: black;z-index: 9999;')
+        .spinner-border.text-primary(role='status')
+          span.visually-hidden Loading...
+
+      include ../pug/commonJS
+
+      //- individual page js
+      block pageJS

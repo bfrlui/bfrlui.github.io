@@ -1,0 +1,111 @@
+extends ../pug/page
+
+include ../pug/card
+include ../pug/carousel
+
+block vars
+
+block pageTitle
+
+block pageStyle
+  title Card
+
+block mainContent
+  h2 Card - Blog
+  .row
+    .col
+      +card({design: 1})
+
+  .mt-5
+  h2 Card - Blog
+  h4 (responsive card in landscape view)
+  .row
+    .col
+      +card({design: 1, landscapeEnabled: true})
+
+  .mt-5
+  h2 Card - Blog with carousel
+  .row
+    .col
+      +card({design: 2, landscapeEnabled: true})
+
+  .mt-5
+  h2 Card - Blog with video
+  .row
+    .col
+      +card({design: 3, landscapeEnabled: true})
+      
+  //- .mt-5
+  //- h2 Offcanvas
+  //- a.btn.btn-primary.rounded-pill(data-bs-toggle='offcanvas' href='#staticBackdrop' role='button' aria-controls='offcanvasExample') Show
+
+  //- .mt-5
+  //- h2 Modal
+  //- button.btn.btn-primary.rounded-pill(data-bs-target='#exampleModalToggle' data-bs-toggle='modal') Show
+
+  //- .mt-5
+  //- h2 Bottom Offcanvas
+  //- button.btn.btn-primary.rounded-pill(type='button' data-bs-toggle='offcanvas' data-bs-target='#offcanvasBottom' aria-controls='offcanvasBottom') Show
+  
+  //- .mt-5
+  //- h2 Toast
+  //- button.btn.btn-primary.rounded-pill#liveToastBtn(type='button') Show
+  
+block pageJS
+  // vendor
+  script(src='https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js')
+  script(src='https://vjs.zencdn.net/8.3.0/video.min.js')
+  // custom script
+  //- script(src="js/test.js")
+  script.
+    window.HELP_IMPROVE_VIDEOJS = false;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const toastTrigger = document.getElementById('liveToastBtn')
+      const toastLiveExample = document.getElementById('liveToast')
+
+      if (toastTrigger) {
+        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+        toastTrigger.addEventListener('click', () => {
+          toastBootstrap.show()
+        })
+      }
+
+      // carousel
+      const carouselAutoplay = (selector, effect = 'slide') => {
+        const carousel = new Swiper(selector, {
+          effect: effect,
+          loop: true,
+          autoplay: {
+            delay: 5000,
+            disableOnInteraction: false
+          },
+          pagination: {
+            el: `${selector} .swiper-pagination`,
+            clickable: false
+          }
+        });
+
+        return carousel;
+      }
+
+      carouselAutoplay('.card .carousel-autoplay', 'fade')
+      setNavBottomItem(1)
+
+      document.querySelectorAll('a.icon-share').forEach(el => {
+        el.addEventListener('click', e => {
+          e.preventDefault()
+          if (navigator.share) {
+            navigator.share({
+              title: 'Sample Share',
+              text: 'Share content via api',
+              url: 'https://yourwebsite.com/',
+            })
+              .then(() => console.log('Successful share'))
+              .catch((error) => console.log('Error sharing', error));
+          } else {
+            alert('Browser does not support navigator.share(). Please use mobile browser')
+          }
+        })
+      })
+    })

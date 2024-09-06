@@ -1,0 +1,29 @@
+// _custom.scss
+// Option A: Include all of Bootstrap
+
+$offcanvas-horizontal-width:    300px;
+// accordion
+// $accordion-button-color:          var(--bs-accordion-color);
+// $accordion-button-bg:             var(--bs-accordion-button-bg);
+// $accordion-button-active-color:   var(--bs-accordioin-button-active-color);
+// $accordion-button-active-bg:      var(--bs-accordion-button-active-bg);
+
+// .rounded-1 ... .rounded-3
+$border-radius-sm:              .5rem;
+$border-radius:                 .75rem;
+$border-radius-lg:              1rem;
+
+// card
+// $card-cap-bg:                     var(--bs-custom-card-cap-bg);
+// $card-border-radius:                .75rem;
+
+// $toast-header-background-color:   mix(white, $red, 80%);
+// $toast-header-color:              mix(black, $red, 40%);
+
+$device-radius:                 2rem;
+
+// Merge the maps
+$theme-colors: map-merge($theme-colors, $custom-colors);
+
+// input
+$input-btn-padding-y-lg:        .9rem;

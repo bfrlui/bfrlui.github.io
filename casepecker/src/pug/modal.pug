@@ -1,0 +1,11 @@
+// modal
+.modal.fade#exampleModalToggle(aria-hidden='true' aria-labelledby='exampleModalToggleLabel' tabindex='-1')
+  .modal-dialog.modal-dialog-centered
+    .modal-content
+      .modal-header
+        h1.modal-title.fs-5#exampleModalToggleLabel Modal 1
+        button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+      .modal-body.
+        Show a second modal and hide this one with the button below.
+      .modal-footer
+        button.btn.btn-primary(data-bs-target='#exampleModalToggle2' data-bs-toggle='modal') Open second modal

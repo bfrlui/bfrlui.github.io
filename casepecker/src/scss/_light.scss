@@ -1,0 +1,25 @@
+// _light.scss
+// Option A: Include all of Bootstrap
+
+// Include any default variable overrides here (though functions won't be available)
+// $body-bg-dark:                  #212121;
+// $body-color-dark:               #f1f1f1;
+
+:root {
+  // --bm-box-shadow-color: rgba(0,0,0,.06);
+  // --bm-card-cap-bg: var(--bs-gray-200);
+  // accordion
+  // --bs-accordion-button-bg: #{$accordion-bg};
+  // --bs-accordion-button-active-bg: #{tint-color($component-active-bg, 90%)};
+  // --bs-accordion-button-color: #{$accordion-color};
+  // --bs-accordion-button-active-color: #{shade-color($primary, 10%)};
+
+  // default theme is light
+  --device-box-shadow: rgba(0,0,0,.18);
+  --scrollbar-thumb-rgb: var(--bs-dark-rgb);
+}
+
+// Create your own map
+$custom-colors: (
+  "inverted": $dark
+);

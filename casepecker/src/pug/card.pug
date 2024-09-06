@@ -1,0 +1,25 @@
+mixin card(option)
+  .card(class=`${option.landscapeEnabled ? 'card-landscape-enabled' : ''}`)
+    .card-media-wrapper
+      if (option.design == 1)
+        img.card-img-top(src=Global.banner[Global.random(0, 3)] alt='...')
+      if (option.design == 2)
+        +carousel({design: 1, isCircleProgress: false, isFullWidth: false})
+      if (option.design == 3)
+        .ratio.ratio-16x9
+          video.video-js(controls preload='auto' poster=Global.videoThumbnail data-setup='{}')
+            source(src=Global.videoPlaceholder type='video/mp4')
+    .card-main-layer
+      .card-body
+        include tags
+        h5.card-title.mt-4 Card title
+        p.card-text.mb-1.line-clamp.mb-3.
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est beatae, ullam possimus magnam quisquam sed unde repellendus earum facere illo sint culpa, natus cum, architecto deserunt nam ipsum? Quisquam, corrupti.
+        .mb-3
+          a.text-decoration-none.float-end(href='#') Read
+          small.text-muted
+            span.icon-clock.me-2
+            | 2 mins read
+      .card-footer.d-flex.justify-content-between.align-items-center
+        include user
+        a.icon-share.icon-size-md(href='#')

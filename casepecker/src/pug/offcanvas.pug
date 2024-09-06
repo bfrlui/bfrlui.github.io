@@ -1,0 +1,16 @@
+include navs
+
+.offcanvas.offcanvas-start.w-100#staticBackdrop(tabindex='-1' aria-labelledby='staticBackdropLabel')
+  .offcanvas-header
+    h5.offcanvas-title#staticBackdropLabel Offcanvas
+    button.btn(type='button' data-bs-dismiss='offcanvas' aria-label='Close')
+      span.icon-close.icon-size-lg
+  .offcanvas-body
+    +navs({
+      items: [
+        {title: '<span class="icon-home"></span> List', href: 'list.html'},
+        {title: '<span class="icon-home"></span> Card', href: 'card.html'},
+        {title: '<span class="icon-home"></span> Carousel', href: 'carousel.html'},
+        {title: '<span class="icon-home"></span> Masonry', href: 'masonry.html'}
+      ]
+    })

@@ -1,0 +1,67 @@
+// ios icons
+@font-face {
+  font-family: 'ios';
+  src:
+    url('../icons/ios.ttf?cpcsgu') format('truetype'),
+    url('../icons/ios.woff?cpcsgu') format('woff'),
+    url('../icons/ios.svg?cpcsgu#ios') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+// android icons (material design icons)
+@font-face {
+  font-family: 'android';
+  src:
+    url('../icons/android.ttf?6jvw69') format('truetype'),
+    url('../icons/android.woff?6jvw69') format('woff'),
+    url('../icons/android.svg?6jvw69#android') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: var(--custom-icon-font);
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  font-size: var(--custom-icon-size);
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  &.icon-size-lg {
+    --custom-icon-size: var(--custom-icon-size-lg);
+  }
+  &.icon-size-md {
+    --custom-icon-size: var(--custom-icon-size-md);
+  }
+}
+
+.icon-back:before {
+  content: "\e900";
+}
+.icon-cancel:before {
+  content: "\e901";
+}
+.icon-close:before {
+  content: "\e902";
+}
+.icon-home:before {
+  content: "\e903";
+}
+.icon-menu:before {
+  content: "\e904";
+}
+.icon-share:before {
+  content: "\e905";
+}
+.icon-trash:before {
+  content: "\e906";
+}

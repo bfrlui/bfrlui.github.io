@@ -1,0 +1,7 @@
+mixin offcanvasBottom(option)
+  .offcanvas.offcanvas-bottom(id=`${option.id || null}` tabindex='-1' aria-labelledby='offcanvasBottomLabel')
+    .offcanvas-header
+      h5.offcanvas-title#offcanvasBottomLabel #{option.title}
+      button.btn-close(type='button' data-bs-dismiss='offcanvas' aria-label='Close')
+    .offcanvas-body
+      | share via api

@@ -1,0 +1,46 @@
+//
+// Color system
+//
+
+$white:    #fff !default;
+$gray-100: #f8f9fa !default;
+$gray-200: #ebebeb !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #adb5bd !default;
+$gray-600: #888 !default;
+$gray-700: #444 !default;
+$gray-800: #303030 !default;
+$gray-900: #222 !default;
+$black:    #000 !default;
+
+$blue:    #4378DB;
+$indigo:  #6610f2;
+$purple:  #6f42c1;
+$pink:    #d63384;
+$red:     #F35555;
+$orange:  #fd7e14;
+$yellow:  #F0A714;
+$green:   #28A164;
+$teal:    #20c997;
+$cyan:    #0dcaf0;
+
+// $primary:       $blue !default;
+$secondary:     $gray-700 !default;
+$success:       $green !default;
+$info:          $cyan !default;
+$warning:       $yellow !default;
+$danger:        $red !default;
+$light:         $gray-500 !default;
+$dark:          $gray-800 !default;
+
+$theme-colors: (
+  "primary":    $primary,
+  "secondary":  $secondary,
+  "success":    $success,
+  "info":       $info,
+  "warning":    $warning,
+  "danger":     $danger,
+  "light":      $light,
+  "dark":       $dark
+);
