@@ -1,6 +1,5 @@
 :root {
-  // --custom-icon-size: 28px;
-  --custom-icon-size: var(--bs-body-font-size);
+  --custom-icon-size: 24px;
   --custom-icon-size-lg: 1.7rem;
   --custom-icon-size-md: 1.35rem;
   --custom-navbar-top-height: 56px;
@@ -9,49 +8,21 @@
   --line-clamp: 3;
   --swiper-pagination-color: var(--bs-white);  // carousel pagination color
   --form-control-padding-y-lg: 0.875rem;
+  --bs-body-font-family: "Poppins", sans-serif;
 }
 
 html, body {
   height: 100%;
 }
 
-[data-custom-device="ios"] {
-  --custom-icon-font: 'ios';
-  --bs-body-font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif
-}
-
-[data-custom-device="android"] {
-  --custom-icon-font: 'android';
-  --bs-body-font-family: roboto, sans-serif
-}
-
-[data-bs-theme="dark"] {
-  .navbar {
-    &.fixed-top {
-      box-shadow: 0 1rem 3rem rgba(var(--bs-white-rgb), 0.175);
-    }
-
-    &.fixed-bottom {
-      box-shadow: 0 -1rem 3rem rgba(var(--bs-white-rgb), 0.175);
-    }
-  }
-}
-
-[data-bs-theme="light"] {
-  .navbar {
-    &.fixed-top {
-      box-shadow: 0 1rem 3rem rgba(var(--bs-black-rgb), 0.175);
-    }
-
-    &.fixed-bottom {
-      box-shadow: 0 -1rem 3rem rgba(var(--bs-black-rgb), 0.175);
-    }
-  }
-}
-
 main {
   padding-top: var(--custom-navbar-top-height);
   padding-bottom: var(--custom-navbar-bottom-height);
+}
+
+// hero banner
+#hero-banner {
+  height: 40vh;
 }
 
 // buttons
@@ -359,6 +330,11 @@ input {
   }
 }
 
+// icon
+i.bi {
+  font-size: var(--custom-icon-size);
+}
+
 // util
 .line-clamp {
   overflow: hidden;
@@ -379,4 +355,11 @@ a[class*="icon-"] {
 
 .btn-lg, .form-control-lg {
   font-size: var(--bs-body-font-size);
+}
+
+// media query
+@media (max-height: 576px) {
+  #hero-banner {
+    height: calc(100vh - var(--custom-navbar-top-height));
+  } 
 }

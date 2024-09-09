@@ -1,58 +1,6 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700&display=swap");
 @import url("https://fonts.cdnfonts.com/css/roboto");
-@import url("https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css");
-@import url("https://vjs.zencdn.net/8.3.0/video-js.min.css");
-@font-face {
-  font-family: 'ios';
-  src: url("../icons/ios.ttf?cpcsgu") format("truetype"), url("../icons/ios.woff?cpcsgu") format("woff"), url("../icons/ios.svg?cpcsgu#ios") format("svg");
-  font-weight: normal;
-  font-style: normal;
-  font-display: block; }
-
-@font-face {
-  font-family: 'android';
-  src: url("../icons/android.ttf?6jvw69") format("truetype"), url("../icons/android.woff?6jvw69") format("woff"), url("../icons/android.svg?6jvw69#android") format("svg");
-  font-weight: normal;
-  font-style: normal;
-  font-display: block; }
-
-[class^="icon-"], [class*=" icon-"] {
-  /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: var(--custom-icon-font);
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  font-size: var(--custom-icon-size);
-  /* Better Font Rendering =========== */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; }
-  [class^="icon-"].icon-size-lg, [class*=" icon-"].icon-size-lg {
-    --custom-icon-size: var(--custom-icon-size-lg); }
-  [class^="icon-"].icon-size-md, [class*=" icon-"].icon-size-md {
-    --custom-icon-size: var(--custom-icon-size-md); }
-
-.icon-back:before {
-  content: "\e900"; }
-
-.icon-cancel:before {
-  content: "\e901"; }
-
-.icon-close:before {
-  content: "\e902"; }
-
-.icon-home:before {
-  content: "\e903"; }
-
-.icon-menu:before {
-  content: "\e904"; }
-
-.icon-share:before {
-  content: "\e905"; }
-
-.icon-trash:before {
-  content: "\e906"; }
-
 /*!
    * Bootstrap  v5.3.0 (https://getbootstrap.com/)
    * Copyright 2011-2023 The Bootstrap Authors
@@ -157,7 +105,7 @@
   --bs-border-width: 1px;
   --bs-border-style: solid;
   --bs-border-color: #dee2e6;
-  --bs-border-color-translucent: rgba(0, 0, 0, 0.175);
+  --bs-border-color-translucent: #C2C2C2;
   --bs-border-radius: 0.375rem;
   --bs-border-radius-sm: 0.25rem;
   --bs-border-radius-lg: 0.5rem;
@@ -9345,43 +9293,25 @@ textarea.form-control-lg {
     display: none !important; } }
 
 :root {
-  --custom-icon-size: var(--bs-body-font-size);
+  --custom-icon-size: 24px;
   --custom-icon-size-lg: 1.7rem;
   --custom-icon-size-md: 1.35rem;
   --custom-navbar-top-height: 56px;
   --custom-navbar-bottom-height: 0px;
   --line-clamp: 3;
   --swiper-pagination-color: var(--bs-white);
-  --form-control-padding-y-lg: 0.875rem; }
+  --form-control-padding-y-lg: 0.875rem;
+  --bs-body-font-family: "Poppins", sans-serif; }
 
 html, body {
   height: 100%; }
 
-[data-custom-device="ios"] {
-  --custom-icon-font: 'ios';
-  --bs-body-font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif
-; }
-
-[data-custom-device="android"] {
-  --custom-icon-font: 'android';
-  --bs-body-font-family: roboto, sans-serif
-; }
-
-[data-bs-theme="dark"] .navbar.fixed-top {
-  box-shadow: 0 1rem 3rem rgba(var(--bs-white-rgb), 0.175); }
-
-[data-bs-theme="dark"] .navbar.fixed-bottom {
-  box-shadow: 0 -1rem 3rem rgba(var(--bs-white-rgb), 0.175); }
-
-[data-bs-theme="light"] .navbar.fixed-top {
-  box-shadow: 0 1rem 3rem rgba(var(--bs-black-rgb), 0.175); }
-
-[data-bs-theme="light"] .navbar.fixed-bottom {
-  box-shadow: 0 -1rem 3rem rgba(var(--bs-black-rgb), 0.175); }
-
 main {
   padding-top: var(--custom-navbar-top-height);
   padding-bottom: var(--custom-navbar-bottom-height); }
+
+#hero-banner {
+  height: 40vh; }
 
 .btn-lg, .btn-group-lg > .btn {
   padding-top: var(--form-control-padding-y-lg);
@@ -9554,6 +9484,9 @@ input + a {
   top: 0;
   right: 0; }
 
+i.bi {
+  font-size: var(--custom-icon-size); }
+
 .line-clamp {
   overflow: hidden;
   display: -webkit-box;
@@ -9570,5 +9503,9 @@ a[class*="icon-"] {
 
 .btn-lg, .btn-group-lg > .btn, .form-control-lg {
   font-size: var(--bs-body-font-size); }
+
+@media (max-height: 576px) {
+  #hero-banner {
+    height: calc(100vh - var(--custom-navbar-top-height)); } }
 
 /*# sourceMappingURL=theme_cyan.css.map */

@@ -1,45 +1,19 @@
-//- design:
-  default: using navbar collapse menu (bootstrap default)
-  1: just for navigation
-  2: using offcanvas
 mixin navbarFixedTop(option)
   // fixed top navbar
-  nav.navbar.navbar-expand-lg.bg-body-tertiary.fixed-top(class=option.class)
-    .container-fluid.px-3
-      case (option.design)
-        when 1
-          .d-flex.align-items-center
-            a.icon-size-lg(class=option.icon href='index.html')
-            if (option.text)
-              span.ms-3.lead #{option.text}
-        when 2
-          a.navbar-brand(href='index.html') Navbar
-          button.btn.navbar-toggler(type='button' data-bs-toggle='offcanvas' data-bs-target='#staticBackdrop' role='button' aria-controls='offcanvasExample')
-            span.icon-menu.icon-size-lg
-        default
-          a.navbar-brand(href='index.html') Navbar
-          button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation')
-            span.icon-menu.icon-size-lg
-          .collapse.navbar-collapse#navbarSupportedContent
-            ul.navbar-nav.me-auto.mb-2.mb-lg-0
-              li.nav-item
-                a.nav-link.active(aria-current='page' href='#') Home
-              li.nav-item
-                a.nav-link(href='#') Link
-              li.nav-item.dropdown
-                a.nav-link.dropdown-toggle(href='#' role='button' data-bs-toggle='dropdown' aria-expanded='false').
-                  Dropdown
-                ul.dropdown-menu
-                  li
-                    a.dropdown-item(href='#') Action
-                  li
-                    a.dropdown-item(href='#') Another action
-                  li
-                    hr.dropdown-divider
-                  li
-                    a.dropdown-item(href='#') Something else here
-              li.nav-item
-                a.nav-link.disabled Disabled
-            form.d-flex(role='search')
-              input.form-control.me-2(type='search' placeholder='Search' aria-label='Search')
-              button.btn.btn-outline-success(type='submit') Search
+  nav.navbar.navbar-expand-lg.bg-body-tertiary.fixed-top.mx-auto
+    .container-fluid.px-lg-5.px-3(style="max-width:1440px")
+      a.navbar-brand(href='index.html') Navbar
+      button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation')
+        span.navbar-toggler-icon
+      #navbarSupportedContent.collapse.navbar-collapse.text-center
+        ul.navbar-nav.mx-auto.mb-2.mb-lg-0
+          li.nav-item
+            a.nav-link.active(aria-current='page' href='#') Home
+          li.nav-item
+            a.nav-link(href='#') Start
+          li.nav-item
+            a.nav-link(href='#') About
+          li.nav-item
+            a.nav-link(href='#') Contact
+        a(href)
+          i.bi.bi-cart

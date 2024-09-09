@@ -30,14 +30,21 @@
   </head>
   <body>
     <!-- fixed top navbar-->
-    <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top shadow-none">
-      <div class="container-fluid px-3">
-        <div class="d-flex align-items-center"><a class="icon-size-lg icon-close" href="index.html"></a><span class="ms-3 lead">Testing</span>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top mx-auto">
+      <div class="container-fluid px-lg-5 px-3" style="max-width:1440px"><a class="navbar-brand" href="index.html">Navbar</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse text-center" id="navbarSupportedContent">
+          <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+            <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Start</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+          </ul><a href="href"><i class="bi bi-cart"></i></a>
         </div>
       </div>
     </nav>
     <!-- main content-->
-    <main class="container-fluid h-100 d-flex flex-column px-4">
+    <main class="container-fluid d-flex flex-column px-0" style="min-height:100%">
       <h2>Carousel</h2>
       <div id="demo">
         <!-- carousel autoplay demo-->
@@ -71,20 +78,22 @@
         </div>
       </h2>
       <!-- footer-->
-      <div class="container-fluid mt-auto">
-        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 mb-4 border-top">
-          <p class="col-md-4 mb-0 text-muted">© 2021 Company, Inc</p><a class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none" href="/">
-            <svg class="bi me-2" width="40" height="32">
-              <use href="#bootstrap"></use>
-            </svg></a>
-          <ul class="nav col-md-4 justify-content-end">
-            <li class="nav-item"><a class="nav-link px-2 text-muted" href="#">Home</a></li>
-            <li class="nav-item"><a class="nav-link px-2 text-muted" href="#">Features</a></li>
-            <li class="nav-item"><a class="nav-link px-2 text-muted" href="#">Pricing</a></li>
-            <li class="nav-item"><a class="nav-link px-2 text-muted" href="#">FAQs</a></li>
-            <li class="nav-item"><a class="nav-link px-2 text-muted" href="#">About</a></li>
-          </ul>
-        </footer>
+      <div class="container-fluid mt-auto px-0 border-top">
+        <div class="max-view">
+          <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 mb-4 px-lg-5 px-3">
+            <p class="col-md-4 mb-0 text-muted">© 2021 Company, Inc</p><a class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none" href="/">
+              <svg class="bi me-2" width="40" height="32">
+                <use href="#bootstrap"></use>
+              </svg></a>
+            <ul class="nav col-md-4 justify-content-end">
+              <li class="nav-item"><a class="nav-link px-2 text-muted" href="#">Home</a></li>
+              <li class="nav-item"><a class="nav-link px-2 text-muted" href="#">Features</a></li>
+              <li class="nav-item"><a class="nav-link px-2 text-muted" href="#">Pricing</a></li>
+              <li class="nav-item"><a class="nav-link px-2 text-muted" href="#">FAQs</a></li>
+              <li class="nav-item"><a class="nav-link px-2 text-muted" href="#">About</a></li>
+            </ul>
+          </footer>
+        </div>
       </div>
     </main>
     <div class="offcanvas offcanvas-start w-100" id="staticBackdrop" tabindex="-1" aria-labelledby="staticBackdropLabel">

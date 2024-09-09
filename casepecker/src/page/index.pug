@@ -9,40 +9,52 @@ block pageTitle
 
 block pageStyle
   title CasePecker
+  style.
+    .max-view {
+      width: 100%;
+      max-width: 1440px;
+      margin-left: auto;
+      margin-right: auto;
+    }
 
 block mainContent
-  //- .bg-body-tertiary.p-5.rounded.mt-5
-    h1.text-uppercase home page
-    p.lead This example is a quick exercise to illustrate how fixed to top navbar works. As you scroll, it will remain fixed to the top of your browser’s viewport.
-    a.btn.btn-primary.btn-lg(data-bs-toggle='offcanvas' href='#staticBackdrop' role='button' aria-controls='offcanvasExample').
-      Link with href
-    div
-      button.btn.btn-primary(data-bs-target='#exampleModalToggle' data-bs-toggle='modal') Open first modal
-    div
-      button.btn.btn-primary(onclick='toggleTheme()') Toggle theme mode
-    div
-      button.btn.btn-primary.theme-color-toggler(data-color='blue') Theme - default
-    div
-      button.btn.btn-primary.theme-color-toggler(data-color='cyan') Theme - cyan
-  //- p Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-  //- 
-    +image({
-      class: 'full-width',
-      img: Global.product[0]
-    })
-  +button({
-    design: 1,
-    label: 'testing',
-    fullWidth: false
-  })
-  +input({
-    design: 1,
-    label: '',
-    placeholder: 'testing'
-  })
+  // hero banner
+  #hero-banner.d-flex.max-view
+    img(src=Global.product[3]).w-100.object-fit-cover
+  // how to work
+  .container-fluid.px-lg-5.mt-5.max-view
+    h2.fw-semibold.text-center.my-5 How to Work
+    .row.gy-5
+      .col-12.col-sm-4
+        .card
+          .card-body
+            h5.card-title Card title
+            h6.card-subtitle.mb-2.text-body-secondary Card subtitle
+            p.card-text Some quick example text to build on the card title and make up the bulk of the card's content.
+      .col-12.col-sm-4
+        .card
+          .card-body
+            h5.card-title Card title
+            h6.card-subtitle.mb-2.text-body-secondary Card subtitle
+            p.card-text Some quick example text to build on the card title and make up the bulk of the card's content.
+      .col-12.col-sm-4
+        .card
+          .card-body
+            h5.card-title Card title
+            h6.card-subtitle.mb-2.text-body-secondary Card subtitle
+            p.card-text Some quick example text to build on the card title and make up the bulk of the card's content.
+  // about
+  .container-fluid.mt-5.px-0
+    h2.fw-semibold.text-center.my-5 About
+    .bg-layer(style="background-color:var(--bs-primary-bg-subtle)")
+      .max-view.px-3.px-lg-5.py-5
+        p Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+  // contact
+  .container-fluid.px-lg-5.mt-5
+    h2.fw-semibold.text-center.my-5 Contact
+      br
+      .mt-2.fs-6.col-lg-8.col-xl-5.col-xxl-4.mx-auto For More Information About Our Product & Services. Please Feel Free To Drop Us An Email. Our Staff Always Be There To Help You Out. Do Not Hesitate!
 
 block pageJS
   // custom script
   //- script(src="js/test.js")
-  //- script.
-    setNavBottomItem(0);

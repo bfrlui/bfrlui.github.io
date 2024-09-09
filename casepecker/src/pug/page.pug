@@ -99,19 +99,13 @@ html(lang=Global.currentLang data-bs-theme=Global.theme)
   block pageBody
     body
       block navbar
-        +navbarFixedTop({
-          design: 1,
-          icon: 'icon-close',
-          text: 'Testing',
-          class: 'shadow-none'
-        })
+        +navbarFixedTop()
       
       // main content
-      main.container-fluid.h-100.d-flex.flex-column.px-4
+      main.container-fluid.d-flex.flex-column.px-0(style='min-height:100%')
         block mainContent
         include ../pug/footer
         
-      //- include ../pug/navbarBottom
       include ../pug/offcanvas
       include ../pug/themePanel
       include ../pug/modal
