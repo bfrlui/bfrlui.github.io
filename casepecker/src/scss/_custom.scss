@@ -376,7 +376,7 @@ a[class*="icon-"] {
 }
 
 // media query
-@include media-breakpoint-down(md) {
+@media (max-height: 576px) {
   #hero-banner {
     height: calc(100vh - var(--custom-navbar-top-height));
   } 
