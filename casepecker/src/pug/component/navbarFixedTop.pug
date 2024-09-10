@@ -1,19 +1,19 @@
 mixin navbarFixedTop(option)
   // fixed top navbar
   nav.navbar.navbar-expand-lg.bg-body-tertiary.fixed-top.mx-auto
-    .container-fluid.px-lg-5.px-3(style="max-width:1440px")
-      a.navbar-brand(href='index.html') Navbar
+    .container-fluid.px-lg-5.px-3.max-view
+      a.navbar-brand.me-0(href='index.html') Navbar
       button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation')
         span.navbar-toggler-icon
       #navbarSupportedContent.collapse.navbar-collapse.text-center
         ul.navbar-nav.mx-auto.mb-2.mb-lg-0
-          li.nav-item
+          li.nav-item.px-5
             a.nav-link.active(aria-current='page' href='#') Home
-          li.nav-item
+          li.nav-item.px-5
             a.nav-link(href='#') Start
-          li.nav-item
+          li.nav-item.px-5
             a.nav-link(href='#') About
-          li.nav-item
+          li.nav-item.px-5
             a.nav-link(href='#') Contact
         a(href)
           i.bi.bi-cart

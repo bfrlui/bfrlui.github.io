@@ -9,51 +9,70 @@ block pageTitle
 
 block pageStyle
   title CasePecker
-  style.
-    .max-view {
-      width: 100%;
-      max-width: 1440px;
-      margin-left: auto;
-      margin-right: auto;
-    }
 
 block mainContent
   // hero banner
   #hero-banner.d-flex.max-view
     img(src=Global.product[3]).w-100.object-fit-cover
   // how to work
-  .container-fluid.px-lg-5.mt-5.max-view
+  #how-to-work.container-fluid.px-lg-5.mt-5.max-view
     h2.fw-semibold.text-center.my-5 How to Work
     .row.gy-5
-      .col-12.col-sm-4
+      .col-12.col-md-4
         .card
-          .card-body
-            h5.card-title Card title
-            h6.card-subtitle.mb-2.text-body-secondary Card subtitle
-            p.card-text Some quick example text to build on the card title and make up the bulk of the card's content.
-      .col-12.col-sm-4
+          .card-body.d-flex.flex-column.text-center.p-4
+            h5.card-title.text-primary Select Phone<br>Modal
+            i.my-5.bi.bi-phone.text-light
+            p.card-text Choose your phone from our list of available brands and models
+      .col-12.col-md-4
         .card
-          .card-body
-            h5.card-title Card title
-            h6.card-subtitle.mb-2.text-body-secondary Card subtitle
-            p.card-text Some quick example text to build on the card title and make up the bulk of the card's content.
-      .col-12.col-sm-4
+          .card-body.d-flex.flex-column.text-center.p-4
+            h5.card-title.text-primary Upload Your Design<br>Image or Photo
+            i.my-5.bi.bi-cloud-upload.text-light
+            p.card-text Our system will auto convert the image to best fit for engraving
+      .col-12.col-md-4
         .card
-          .card-body
-            h5.card-title Card title
-            h6.card-subtitle.mb-2.text-body-secondary Card subtitle
-            p.card-text Some quick example text to build on the card title and make up the bulk of the card's content.
+          .card-body.d-flex.flex-column.text-center.p-4
+            h5.card-title.text-primary Preview Output Result<br>& Place Order
+            i.my-5.bi.bi-cart-check.text-light
+            p.card-text Preview from the mockup and place order when all good
   // about
   .container-fluid.mt-5.px-0
     h2.fw-semibold.text-center.my-5 About
-    .bg-layer(style="background-color:var(--bs-primary-bg-subtle)")
+    .bg-primary-subtle
       .max-view.px-3.px-lg-5.py-5
-        p Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+        .row
+          .col
+            h3 Laser engraving<br>with high quality
+            p Our designer already made a lot of beautiful prototipe of rooms that inspire you
+            button.btn.btn-primary.text-white.px-5.text-uppercase.py-3 Start Here
+          .col
+            .w-100
+              img(src=Global.product[3]).w-100.object-fit-cover
   // contact
-  .container-fluid.px-lg-5.mt-5
+  .container-fluid.px-lg-5.my-5
     h2.fw-semibold.text-center.my-5 Contact
       br
-      .mt-2.fs-6.col-lg-8.col-xl-5.col-xxl-4.mx-auto For More Information About Our Product & Services. Please Feel Free To Drop Us An Email. Our Staff Always Be There To Help You Out. Do Not Hesitate!
+      .mt-2.fs-6.text-light.fw-normal.lh-base.mx-auto(style='max-width:640px')
+        | For More Information About Our Product & Services. Please Feel Free To Drop Us An Email. Our Staff Always Be There To Help You Out. Do Not Hesitate!
+    // contact us form
+    form.row.g-3.mx-auto.mb-5(style='max-width:800px')
+      .col-md-6
+        label.form-label(for='inputYourName') Your Name
+        input.form-control.form-control-lg#inputYourName(type='text')
+      .col-md-6
+        label.form-label(for='inputEmail') Email
+        input.form-control.form-control-lg#inputEmail(type='email')
+      .col-12
+        label.form-label(for='inputSubject') Subject
+        input.form-control.form-control-lg#inputSubject(type='text')
+      .col-12
+        label.form-label(for='inputMessage') Message
+        textarea.form-control#inputMessage(rows='6')
+      .col-12
+        button.btn.btn-primary.text-white.px-5.text-uppercase.py-3(type='submit') Submit
+  .container-fluid.my-5.px-0
+    include ../pug/serviceBanner
 
 block pageJS
   // custom script

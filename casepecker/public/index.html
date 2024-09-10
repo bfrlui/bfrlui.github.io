@@ -27,27 +27,18 @@
     <link href="css/theme_blue.css" rel="stylesheet preload" as="style" theme-color="blue">
     <link href="css/theme_cyan.css" rel="stylesheet preload" as="style" theme-color="cyan" disabled>
     <title>CasePecker</title>
-    <style>
-      .max-view {
-        width: 100%;
-        max-width: 1440px;
-        margin-left: auto;
-        margin-right: auto;
-      }
-      
-    </style>
   </head>
   <body>
     <!-- fixed top navbar-->
     <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top mx-auto">
-      <div class="container-fluid px-lg-5 px-3" style="max-width:1440px"><a class="navbar-brand" href="index.html">Navbar</a>
+      <div class="container-fluid px-lg-5 px-3 max-view"><a class="navbar-brand me-0" href="index.html">Navbar</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse text-center" id="navbarSupportedContent">
           <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-            <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Start</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">About</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+            <li class="nav-item px-5"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
+            <li class="nav-item px-5"><a class="nav-link" href="#">Start</a></li>
+            <li class="nav-item px-5"><a class="nav-link" href="#">About</a></li>
+            <li class="nav-item px-5"><a class="nav-link" href="#">Contact</a></li>
           </ul><a href="href"><i class="bi bi-cart"></i></a>
         </div>
       </div>
@@ -57,33 +48,30 @@
       <!-- hero banner-->
       <div class="d-flex max-view" id="hero-banner"><img class="w-100 object-fit-cover" src="https://raydesign-cdn.github.io/image/venice4.jpg"></div>
       <!-- how to work-->
-      <div class="container-fluid px-lg-5 mt-5 max-view">
+      <div class="container-fluid px-lg-5 mt-5 max-view" id="how-to-work">
         <h2 class="fw-semibold text-center my-5">How to Work</h2>
         <div class="row gy-5">
-          <div class="col-12 col-sm-4">
+          <div class="col-12 col-md-4">
             <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <h6 class="card-subtitle mb-2 text-body-secondary">Card subtitle</h6>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <div class="card-body d-flex flex-column text-center p-4">
+                <h5 class="card-title text-primary">Select Phone<br>Modal</h5><i class="my-5 bi bi-phone text-light"></i>
+                <p class="card-text">Choose your phone from our list of available brands and models</p>
               </div>
             </div>
           </div>
-          <div class="col-12 col-sm-4">
+          <div class="col-12 col-md-4">
             <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <h6 class="card-subtitle mb-2 text-body-secondary">Card subtitle</h6>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <div class="card-body d-flex flex-column text-center p-4">
+                <h5 class="card-title text-primary">Upload Your Design<br>Image or Photo</h5><i class="my-5 bi bi-cloud-upload text-light"></i>
+                <p class="card-text">Our system will auto convert the image to best fit for engraving</p>
               </div>
             </div>
           </div>
-          <div class="col-12 col-sm-4">
+          <div class="col-12 col-md-4">
             <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <h6 class="card-subtitle mb-2 text-body-secondary">Card subtitle</h6>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <div class="card-body d-flex flex-column text-center p-4">
+                <h5 class="card-title text-primary">Preview Output Result<br>& Place Order</h5><i class="my-5 bi bi-cart-check text-light"></i>
+                <p class="card-text">Preview from the mockup and place order when all good</p>
               </div>
             </div>
           </div>
@@ -92,17 +80,76 @@
       <!-- about-->
       <div class="container-fluid mt-5 px-0">
         <h2 class="fw-semibold text-center my-5">About</h2>
-        <div class="bg-layer" style="background-color:var(--bs-primary-bg-subtle)">
+        <div class="bg-primary-subtle">
           <div class="max-view px-3 px-lg-5 py-5">
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+            <div class="row">
+              <div class="col">
+                <h3>Laser engraving<br>with high quality</h3>
+                <p>Our designer already made a lot of beautiful prototipe of rooms that inspire you</p>
+                <button class="btn btn-primary text-white px-5 text-uppercase py-3">Start Here</button>
+              </div>
+              <div class="col">
+                <div class="w-100"><img class="w-100 object-fit-cover" src="https://raydesign-cdn.github.io/image/venice4.jpg"></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
       <!-- contact-->
-      <div class="container-fluid px-lg-5 mt-5">
+      <div class="container-fluid px-lg-5 my-5">
         <h2 class="fw-semibold text-center my-5">Contact<br>
-          <div class="mt-2 fs-6 col-lg-8 col-xl-5 col-xxl-4 mx-auto">For More Information About Our Product & Services. Please Feel Free To Drop Us An Email. Our Staff Always Be There To Help You Out. Do Not Hesitate!</div>
+          <div class="mt-2 fs-6 text-light fw-normal lh-base mx-auto" style="max-width:640px">For More Information About Our Product & Services. Please Feel Free To Drop Us An Email. Our Staff Always Be There To Help You Out. Do Not Hesitate!</div>
         </h2>
+        <!-- contact us form-->
+        <form class="row g-3 mx-auto mb-5" style="max-width:800px">
+          <div class="col-md-6">
+            <label class="form-label" for="inputYourName">Your Name</label>
+            <input class="form-control form-control-lg" id="inputYourName" type="text">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label" for="inputEmail">Email</label>
+            <input class="form-control form-control-lg" id="inputEmail" type="email">
+          </div>
+          <div class="col-12">
+            <label class="form-label" for="inputSubject">Subject</label>
+            <input class="form-control form-control-lg" id="inputSubject" type="text">
+          </div>
+          <div class="col-12">
+            <label class="form-label" for="inputMessage">Message</label>
+            <textarea class="form-control" id="inputMessage" rows="6"></textarea>
+          </div>
+          <div class="col-12">
+            <button class="btn btn-primary text-white px-5 text-uppercase py-3" type="submit">Submit</button>
+          </div>
+        </form>
+      </div>
+      <div class="container-fluid my-5 px-0">
+        <div class="bg-primary-subtle">
+          <div class="max-view px-3 px-lg-5 py-5">
+            <div class="row gy-5">
+              <div class="col-12 col-md-6 col-lg-3">
+                <div class="d-flex justify-content-center"><i class="bi bi-star" style="font-size: 3rem;"></i>
+                  <h5 class="lh-base" style="padding-top: 7px;padding-left: 16px;">High Quality<br><small class="fw-normal text-muted">Crafted from top materials</small></h5>
+                </div>
+              </div>
+              <div class="col-12 col-md-6 col-lg-3">
+                <div class="d-flex justify-content-center"><i class="bi bi-truck" style="font-size: 3rem;"></i>
+                  <h5 class="lh-base" style="padding-top: 7px;padding-left: 16px;">Free Shipping<br><small class="fw-normal text-muted">Any countries and regions</small></h5>
+                </div>
+              </div>
+              <div class="col-12 col-md-6 col-lg-3">
+                <div class="d-flex justify-content-center"><i class="bi bi-star" style="font-size: 3rem;"></i>
+                  <h5 class="lh-base" style="padding-top: 7px;padding-left: 16px;">High Quality<br><small class="fw-normal text-muted">crafted from top materials          </small></h5>
+                </div>
+              </div>
+              <div class="col-12 col-md-6 col-lg-3">
+                <div class="d-flex justify-content-center"><i class="bi bi-star" style="font-size: 3rem;"></i>
+                  <h5 class="lh-base" style="padding-top: 7px;padding-left: 16px;">High Quality<br><small class="fw-normal text-muted">crafted from top materials</small></h5>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <!-- footer-->
       <div class="container-fluid mt-auto px-0 border-top">
