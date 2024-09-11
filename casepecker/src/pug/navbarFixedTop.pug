@@ -1,8 +1,9 @@
 mixin navbarFixedTop(option)
   // fixed top navbar
-  nav.navbar.navbar-expand-lg.bg-body-tertiary.fixed-top.mx-auto
+  nav.navbar.navbar-expand-lg.bg-body-tertiary.fixed-top.mx-auto(style='padding-top:29px;padding-bottom:29px')
     .container-fluid.px-lg-5.px-3.max-view
-      a.navbar-brand.me-0(href='index.html') Navbar
+      a.navbar-brand.me-0(href='index.html')
+        include logo
       button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation')
         span.navbar-toggler-icon
       #navbarSupportedContent.collapse.navbar-collapse.text-center

@@ -1,19 +1,35 @@
 // footer
 .container-fluid.mt-auto.px-0.border-top
-  .max-view
-    footer.d-flex.flex-wrap.justify-content-between.align-items-center.py-3.mb-4.px-lg-5.px-3
-      p.col-md-4.mb-0.text-muted © 2021 Company, Inc
-      a.col-md-4.d-flex.align-items-center.justify-content-center.mb-3.mb-md-0.me-md-auto.link-dark.text-decoration-none(href='/')
-        svg.bi.me-2(width='40' height='32')
-          use(href='#bootstrap')
-      ul.nav.col-md-4.justify-content-end
-        li.nav-item
-          a.nav-link.px-2.text-muted(href='#') Home
-        li.nav-item
-          a.nav-link.px-2.text-muted(href='#') Features
-        li.nav-item
-          a.nav-link.px-2.text-muted(href='#') Pricing
-        li.nav-item
-          a.nav-link.px-2.text-muted(href='#') FAQs
-        li.nav-item
-          a.nav-link.px-2.text-muted(href='#') About
+  .max-view.p-5
+    footer.row.gy-5
+      .col-12.col-md-5
+        include logo
+        p.text-light.mt-5
+          | 400 University Drive Suite 200 Coral Gables,
+          br
+          | FL 33134 USA
+      .col-12.col-md-3
+        p.text-light Link
+        ul.d-flex.flex-column.p-0.m-0.list-unstyled
+          li.mt-4
+            a.link-primary.link-underline-opacity-0(href='#') Home
+          li.mt-4
+            a.link-primary.link-underline-opacity-0(href='#') Start
+          li.mt-4
+            a.link-primary.link-underline-opacity-0(href='#') About
+          li.mt-4
+            a.link-primary.link-underline-opacity-0(href='#') Contact
+      .col-12.col-md-3
+        p.text-light Help
+        ul.d-flex.flex-column.p-0.m-0.list-unstyled
+          li.mt-4
+            a.link-primary.link-underline-opacity-0(href='#') Payment
+          li.mt-4
+            a.link-primary.link-underline-opacity-0(href='#') Return
+          li.mt-4
+            a.link-primary.link-underline-opacity-0(href='#') Privacy Polices
+          li.mt-4
+            a.link-primary.link-underline-opacity-0(href='#') Terms
+.container-fluid.mt-auto.px-0.border-top
+  .max-view.p-3.px-lg-5
+    .col.text-light © 2024 CasePecker. All rights reserved

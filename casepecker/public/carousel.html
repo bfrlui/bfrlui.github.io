@@ -30,8 +30,12 @@
   </head>
   <body>
     <!-- fixed top navbar-->
-    <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top mx-auto">
-      <div class="container-fluid px-lg-5 px-3 max-view"><a class="navbar-brand me-0" href="index.html">Navbar</a>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top mx-auto" style="padding-top:29px;padding-bottom:29px">
+      <div class="container-fluid px-lg-5 px-3 max-view"><a class="navbar-brand me-0" href="index.html">
+          <div class="d-flex">
+            <div style="width:32px;height:32px"><img class="h-100 object-fit-contain" src="img/logo.png"/></div>
+            <div class="fw-semibold lh-1 ms-2" style="font-size:32px">CasePecker</div>
+          </div></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse text-center" id="navbarSupportedContent">
           <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
@@ -79,20 +83,39 @@
       </h2>
       <!-- footer-->
       <div class="container-fluid mt-auto px-0 border-top">
-        <div class="max-view">
-          <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 mb-4 px-lg-5 px-3">
-            <p class="col-md-4 mb-0 text-muted">© 2021 Company, Inc</p><a class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none" href="/">
-              <svg class="bi me-2" width="40" height="32">
-                <use href="#bootstrap"></use>
-              </svg></a>
-            <ul class="nav col-md-4 justify-content-end">
-              <li class="nav-item"><a class="nav-link px-2 text-muted" href="#">Home</a></li>
-              <li class="nav-item"><a class="nav-link px-2 text-muted" href="#">Features</a></li>
-              <li class="nav-item"><a class="nav-link px-2 text-muted" href="#">Pricing</a></li>
-              <li class="nav-item"><a class="nav-link px-2 text-muted" href="#">FAQs</a></li>
-              <li class="nav-item"><a class="nav-link px-2 text-muted" href="#">About</a></li>
-            </ul>
+        <div class="max-view p-5">
+          <footer class="row gy-5">
+            <div class="col-12 col-md-5">
+              <div class="d-flex">
+                <div style="width:32px;height:32px"><img class="h-100 object-fit-contain" src="img/logo.png"></div>
+                <div class="fw-semibold lh-1 ms-2" style="font-size:32px">CasePecker</div>
+              </div>
+              <p class="text-light mt-5">400 University Drive Suite 200 Coral Gables,<br>FL 33134 USA</p>
+            </div>
+            <div class="col-12 col-md-3">
+              <p class="text-light">Link</p>
+              <ul class="d-flex flex-column p-0 m-0 list-unstyled">
+                <li class="mt-4"><a class="link-primary link-underline-opacity-0" href="#">Home</a></li>
+                <li class="mt-4"><a class="link-primary link-underline-opacity-0" href="#">Start</a></li>
+                <li class="mt-4"><a class="link-primary link-underline-opacity-0" href="#">About</a></li>
+                <li class="mt-4"><a class="link-primary link-underline-opacity-0" href="#">Contact</a></li>
+              </ul>
+            </div>
+            <div class="col-12 col-md-3">
+              <p class="text-light">Help</p>
+              <ul class="d-flex flex-column p-0 m-0 list-unstyled">
+                <li class="mt-4"><a class="link-primary link-underline-opacity-0" href="#">Payment</a></li>
+                <li class="mt-4"><a class="link-primary link-underline-opacity-0" href="#">Return</a></li>
+                <li class="mt-4"><a class="link-primary link-underline-opacity-0" href="#">Privacy Polices</a></li>
+                <li class="mt-4"><a class="link-primary link-underline-opacity-0" href="#">Terms</a></li>
+              </ul>
+            </div>
           </footer>
+        </div>
+      </div>
+      <div class="container-fluid mt-auto px-0 border-top">
+        <div class="max-view p-3 px-lg-5">
+          <div class="col text-light">© 2024 CasePecker. All rights reserved</div>
         </div>
       </div>
     </main>

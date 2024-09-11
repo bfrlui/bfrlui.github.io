@@ -9311,7 +9311,7 @@ main {
   padding-bottom: var(--custom-navbar-bottom-height); }
 
 #hero-banner {
-  height: 40vh; }
+  height: 55vh; }
 
 .btn-lg, .btn-group-lg > .btn {
   padding-top: var(--form-control-padding-y-lg);
@@ -9329,6 +9329,15 @@ a:focus, a:active, button:focus, button:active, .btn:focus, .btn:active {
 
 #how-to-work .card > .card-body > i.bi {
   font-size: 50px; }
+
+#v-pills-tab.nav {
+  padding-left: calc(var(--bs-gutter-x) * .5); }
+  #v-pills-tab.nav .nav-link + p {
+    display: none; }
+  #v-pills-tab.nav .nav-link.active {
+    font-weight: 600; }
+    #v-pills-tab.nav .nav-link.active + p {
+      display: block; }
 
 .card-img-top {
   width: 100%;

@@ -22,7 +22,7 @@ main {
 
 // hero banner
 #hero-banner {
-  height: 40vh;
+  height: 55vh;
 }
 
 // buttons
@@ -56,6 +56,23 @@ a, button, .btn {
     .card-body > {
       i.bi {
         font-size: 50px;
+      }
+    }
+  }
+}
+
+#v-pills-tab.nav {
+  padding-left: calc(var(--bs-gutter-x) * .5);
+
+  .nav-link {
+    + p {
+      display: none;
+    }
+    &.active {
+      font-weight: 600;
+      
+      + p {
+        display: block;
       }
     }
   }

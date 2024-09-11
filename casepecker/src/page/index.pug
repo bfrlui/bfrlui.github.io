@@ -12,12 +12,12 @@ block pageStyle
 
 block mainContent
   // hero banner
-  #hero-banner.d-flex.max-view(style='max-width:1920px')
+  #hero-banner.d-flex.max-view(style='max-width:3840px')
     img(src=Global.product[3]).w-100.object-fit-cover
   // how to work
   #how-to-work.container-fluid.px-lg-5.mt-5.max-view
     h2.fw-semibold.text-center.my-5 How to Work
-    .row.gy-5
+    .row.g-5
       .col-12.col-md-4
         .card
           .card-body.d-flex.flex-column.text-center.p-4
@@ -40,33 +40,57 @@ block mainContent
   .container-fluid.mt-5.px-0
     h2.fw-semibold.text-center.my-5 About
     .bg-primary-subtle
-      .max-view.px-3.px-lg-5.py-5
+      .max-view.px-3.px-lg-5.px-5(style='padding-top:6rem;padding-bottom:6rem;')
         .row.g-3
-          .col-12.col-lg-4
-            .fs-3.col-lg-10.col-xl-8 Laser engraving with high quality
+          .col-12.col-lg-4.order-last
+            .fs-3.fw-semibold.col-lg-10.col-xl-8 Laser engraving with high quality
             p.mt-4 Our designer already made a lot of beautiful prototipe of rooms that inspire you
-            a.mt-5.btn.btn-primary.text-white.px-5.text-uppercase.py-3.d-none.d-lg-inline-block(href) Start Here
+            a.mt-5.btn.btn-primary.text-white.px-5.text-uppercase.py-3(href) Start Here
           .col-2.m-0
-          .col-12.col-lg-6
+          .col-12.col-lg-6.order-first
             .w-100
               img(src=Global.product[3]).w-100.object-fit-cover
-            a.mt-5.btn.btn-primary.text-white.px-5.text-uppercase.py-3.d-lg-none(href) Start Here
-        .row
-          .col
-            .d-flex.align-items-start
-              .nav.flex-column.nav-pills.me-3#v-pills-tab(role='tablist' aria-orientation='vertical')
-                button.nav-link.active#v-pills-home-tab(data-bs-toggle='pill' data-bs-target='#v-pills-home' type='button' role='tab' aria-controls='v-pills-home' aria-selected='true') Home
-                button.nav-link#v-pills-profile-tab(data-bs-toggle='pill' data-bs-target='#v-pills-profile' type='button' role='tab' aria-controls='v-pills-profile' aria-selected='false') Profile
-                button.nav-link#v-pills-disabled-tab(data-bs-toggle='pill' data-bs-target='#v-pills-disabled' type='button' role='tab' aria-controls='v-pills-disabled' aria-selected='false' disabled) Disabled
-                button.nav-link#v-pills-messages-tab(data-bs-toggle='pill' data-bs-target='#v-pills-messages' type='button' role='tab' aria-controls='v-pills-messages' aria-selected='false') Messages
-                button.nav-link#v-pills-settings-tab(data-bs-toggle='pill' data-bs-target='#v-pills-settings' type='button' role='tab' aria-controls='v-pills-settings' aria-selected='false') Settings
-              .tab-content#v-pills-tabContent
-                .tab-pane.fade.show.active#v-pills-home(role='tabpanel' aria-labelledby='v-pills-home-tab' tabindex='0') ...
-                .tab-pane.fade#v-pills-profile(role='tabpanel' aria-labelledby='v-pills-profile-tab' tabindex='0') ...
-                .tab-pane.fade#v-pills-disabled(role='tabpanel' aria-labelledby='v-pills-disabled-tab' tabindex='0') ...
-                .tab-pane.fade#v-pills-messages(role='tabpanel' aria-labelledby='v-pills-messages-tab' tabindex='0') ...
-                .tab-pane.fade#v-pills-settings(role='tabpanel' aria-labelledby='v-pills-settings-tab' tabindex='0') ...
-                            
+
+  .container-fluid.px-lg-5.my-5.max-view
+    h2.fw-semibold.text-center.my-5 Our Products
+    .row.mt-3.g-3
+      .nav.flex-column.col-12.col-lg-4.order-last.order-lg-first#v-pills-tab(role='tablist' aria-orientation='vertical')
+        .mb-5
+          a.fs-4.p-0.d-inline.nav-link.active#v-pills-home-tab(href data-bs-toggle='pill' data-bs-target='#v-pills-home' role='tab' aria-controls='v-pills-home' aria-selected='true') Wood Case
+          p.mt-3 Our designer already made a lot of beautiful prototipe of rooms that inspire you
+        .mb-5
+          a.fs-4.p-0.d-inline.nav-link#v-pills-profile-tab(href data-bs-toggle='pill' data-bs-target='#v-pills-profile' role='tab' aria-controls='v-pills-profile' aria-selected='false') Leather Case
+          p.mt-3 Our designer already made a lot of beautiful prototipe of rooms that inspire you
+        div
+          a.fs-4.p-0.d-inline.nav-link#v-pills-messages-tab(href data-bs-toggle='pill' data-bs-target='#v-pills-messages' role='tab' aria-controls='v-pills-messages' aria-selected='false') Medal Case
+          p.mt-3 Our designer already made a lot of beautiful prototipe of rooms that inspire you
+      .col-2.m-0
+      .tab-content.col-12.col-lg-6.order-first.order-lg-last#v-pills-tabContent
+        .tab-pane.fade.show.active#v-pills-home(role='tabpanel' aria-labelledby='v-pills-home-tab' tabindex='0')
+          .row.g-5
+            .col-6
+              img(src=Global.product[0]).w-100.object-fit-cover
+            .col-6
+              img(src=Global.product[0]).w-100.object-fit-cover
+            .col-12
+              img(src=Global.product[0]).w-100.object-fit-cover
+        .tab-pane.fade#v-pills-profile(role='tabpanel' aria-labelledby='v-pills-profile-tab' tabindex='0')
+          .row.g-5
+            .col-6
+              img(src=Global.product[1]).w-100.object-fit-cover
+            .col-6
+              img(src=Global.product[1]).w-100.object-fit-cover
+            .col-12
+              img(src=Global.product[1]).w-100.object-fit-cover
+        .tab-pane.fade#v-pills-messages(role='tabpanel' aria-labelledby='v-pills-messages-tab' tabindex='0')
+          .row.g-5
+            .col-6
+              img(src=Global.product[2]).w-100.object-fit-cover
+            .col-6
+              img(src=Global.product[2]).w-100.object-fit-cover
+            .col-12
+              img(src=Global.product[2]).w-100.object-fit-cover
+                          
   // contact
   .container-fluid.px-lg-5.my-5
     h2.fw-semibold.text-center.my-5 Contact
@@ -74,7 +98,7 @@ block mainContent
       .mt-2.fs-6.text-light.fw-normal.lh-base.mx-auto(style='max-width:640px')
         | For More Information About Our Product & Services. Please Feel Free To Drop Us An Email. Our Staff Always Be There To Help You Out. Do Not Hesitate!
     // contact us form
-    form.row.g-3.mx-auto.mb-5(style='max-width:800px')
+    form.row.g-5.mx-auto.mb-5(style='max-width:800px')
       .col-md-6
         label.form-label(for='inputYourName') Your Name
         input.form-control.form-control-lg#inputYourName(type='text')

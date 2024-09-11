@@ -30,8 +30,12 @@
   </head>
   <body>
     <!-- fixed top navbar-->
-    <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top mx-auto">
-      <div class="container-fluid px-lg-5 px-3 max-view"><a class="navbar-brand me-0" href="index.html">Navbar</a>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top mx-auto" style="padding-top:29px;padding-bottom:29px">
+      <div class="container-fluid px-lg-5 px-3 max-view"><a class="navbar-brand me-0" href="index.html">
+          <div class="d-flex">
+            <div style="width:32px;height:32px"><img class="h-100 object-fit-contain" src="img/logo.png"/></div>
+            <div class="fw-semibold lh-1 ms-2" style="font-size:32px">CasePecker</div>
+          </div></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse text-center" id="navbarSupportedContent">
           <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
@@ -46,11 +50,11 @@
     <!-- main content-->
     <main class="container-fluid d-flex flex-column px-0" style="min-height:100%">
       <!-- hero banner-->
-      <div class="d-flex max-view" id="hero-banner" style="max-width:1920px"><img class="w-100 object-fit-cover" src="https://raydesign-cdn.github.io/image/venice4.jpg"></div>
+      <div class="d-flex max-view" id="hero-banner" style="max-width:3840px"><img class="w-100 object-fit-cover" src="https://raydesign-cdn.github.io/image/venice4.jpg"></div>
       <!-- how to work-->
       <div class="container-fluid px-lg-5 mt-5 max-view" id="how-to-work">
         <h2 class="fw-semibold text-center my-5">How to Work</h2>
-        <div class="row gy-5">
+        <div class="row g-5">
           <div class="col-12 col-md-4">
             <div class="card">
               <div class="card-body d-flex flex-column text-center p-4">
@@ -81,35 +85,55 @@
       <div class="container-fluid mt-5 px-0">
         <h2 class="fw-semibold text-center my-5">About</h2>
         <div class="bg-primary-subtle">
-          <div class="max-view px-3 px-lg-5 py-5">
+          <div class="max-view px-3 px-lg-5 px-5" style="padding-top:6rem;padding-bottom:6rem;">
             <div class="row g-3">
-              <div class="col-12 col-lg-4">
-                <div class="fs-3 col-lg-10 col-xl-8">Laser engraving with high quality</div>
-                <p class="mt-4">Our designer already made a lot of beautiful prototipe of rooms that inspire you</p><a class="mt-5 btn btn-primary text-white px-5 text-uppercase py-3 d-none d-lg-inline-block" href>Start Here</a>
+              <div class="col-12 col-lg-4 order-last">
+                <div class="fs-3 fw-semibold col-lg-10 col-xl-8">Laser engraving with high quality</div>
+                <p class="mt-4">Our designer already made a lot of beautiful prototipe of rooms that inspire you</p><a class="mt-5 btn btn-primary text-white px-5 text-uppercase py-3" href>Start Here</a>
               </div>
               <div class="col-2 m-0"></div>
-              <div class="col-12 col-lg-6">
-                <div class="w-100"><img class="w-100 object-fit-cover" src="https://raydesign-cdn.github.io/image/venice4.jpg"></div><a class="mt-5 btn btn-primary text-white px-5 text-uppercase py-3 d-lg-none" href>Start Here</a>
+              <div class="col-12 col-lg-6 order-first">
+                <div class="w-100"><img class="w-100 object-fit-cover" src="https://raydesign-cdn.github.io/image/venice4.jpg"></div>
               </div>
             </div>
-            <div class="row">
-              <div class="col">
-                <div class="d-flex align-items-start">
-                  <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                    <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">Home</button>
-                    <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">Profile</button>
-                    <button class="nav-link" id="v-pills-disabled-tab" data-bs-toggle="pill" data-bs-target="#v-pills-disabled" type="button" role="tab" aria-controls="v-pills-disabled" aria-selected="false" disabled>Disabled</button>
-                    <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">Messages</button>
-                    <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</button>
-                  </div>
-                  <div class="tab-content" id="v-pills-tabContent">
-                    <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0">...</div>
-                    <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab" tabindex="0">...</div>
-                    <div class="tab-pane fade" id="v-pills-disabled" role="tabpanel" aria-labelledby="v-pills-disabled-tab" tabindex="0">...</div>
-                    <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab" tabindex="0">...</div>
-                    <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab" tabindex="0">...</div>
-                  </div>
-                </div>
+          </div>
+        </div>
+      </div>
+      <div class="container-fluid px-lg-5 my-5 max-view">
+        <h2 class="fw-semibold text-center my-5">Our Products</h2>
+        <div class="row mt-3 g-3">
+          <div class="nav flex-column col-12 col-lg-4 order-last order-lg-first" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <div class="mb-5"><a class="fs-4 p-0 d-inline nav-link active" id="v-pills-home-tab" href data-bs-toggle="pill" data-bs-target="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Wood Case</a>
+              <p class="mt-3">Our designer already made a lot of beautiful prototipe of rooms that inspire you</p>
+            </div>
+            <div class="mb-5"><a class="fs-4 p-0 d-inline nav-link" id="v-pills-profile-tab" href data-bs-toggle="pill" data-bs-target="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Leather Case</a>
+              <p class="mt-3">Our designer already made a lot of beautiful prototipe of rooms that inspire you</p>
+            </div>
+            <div><a class="fs-4 p-0 d-inline nav-link" id="v-pills-messages-tab" href data-bs-toggle="pill" data-bs-target="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Medal Case</a>
+              <p class="mt-3">Our designer already made a lot of beautiful prototipe of rooms that inspire you</p>
+            </div>
+          </div>
+          <div class="col-2 m-0"></div>
+          <div class="tab-content col-12 col-lg-6 order-first order-lg-last" id="v-pills-tabContent">
+            <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0">
+              <div class="row g-5">
+                <div class="col-6"><img class="w-100 object-fit-cover" src="https://raydesign-cdn.github.io/image/venice1.jpg"></div>
+                <div class="col-6"><img class="w-100 object-fit-cover" src="https://raydesign-cdn.github.io/image/venice1.jpg"></div>
+                <div class="col-12"><img class="w-100 object-fit-cover" src="https://raydesign-cdn.github.io/image/venice1.jpg"></div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab" tabindex="0">
+              <div class="row g-5">
+                <div class="col-6"><img class="w-100 object-fit-cover" src="https://raydesign-cdn.github.io/image/venice2.jpg"></div>
+                <div class="col-6"><img class="w-100 object-fit-cover" src="https://raydesign-cdn.github.io/image/venice2.jpg"></div>
+                <div class="col-12"><img class="w-100 object-fit-cover" src="https://raydesign-cdn.github.io/image/venice2.jpg"></div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab" tabindex="0">
+              <div class="row g-5">
+                <div class="col-6"><img class="w-100 object-fit-cover" src="https://raydesign-cdn.github.io/image/venice3.jpg"></div>
+                <div class="col-6"><img class="w-100 object-fit-cover" src="https://raydesign-cdn.github.io/image/venice3.jpg"></div>
+                <div class="col-12"><img class="w-100 object-fit-cover" src="https://raydesign-cdn.github.io/image/venice3.jpg"></div>
               </div>
             </div>
           </div>
@@ -121,7 +145,7 @@
           <div class="mt-2 fs-6 text-light fw-normal lh-base mx-auto" style="max-width:640px">For More Information About Our Product & Services. Please Feel Free To Drop Us An Email. Our Staff Always Be There To Help You Out. Do Not Hesitate!</div>
         </h2>
         <!-- contact us form-->
-        <form class="row g-3 mx-auto mb-5" style="max-width:800px">
+        <form class="row g-5 mx-auto mb-5" style="max-width:800px">
           <div class="col-md-6">
             <label class="form-label" for="inputYourName">Your Name</label>
             <input class="form-control form-control-lg" id="inputYourName" type="text">
@@ -148,23 +172,23 @@
           <div class="max-view px-3 px-lg-5 py-5">
             <div class="row gy-5">
               <div class="col-12 col-md-6 col-lg-3">
-                <div class="d-flex justify-content-center"><i class="bi bi-star" style="font-size: 3rem;"></i>
-                  <h5 class="lh-base" style="padding-top: 7px;padding-left: 16px;">High Quality<br><small class="fw-normal text-muted">Crafted from top materials</small></h5>
+                <div class="d-flex justify-content-center"><i class="bi bi-star" style="font-size: 2.5rem;"></i>
+                  <h6 class="lh-base" style="padding-top: 7px;padding-left: 16px;">High Quality<br><small class="fw-normal text-muted">Crafted from top materials</small></h6>
                 </div>
               </div>
               <div class="col-12 col-md-6 col-lg-3">
-                <div class="d-flex justify-content-center"><i class="bi bi-truck" style="font-size: 3rem;"></i>
-                  <h5 class="lh-base" style="padding-top: 7px;padding-left: 16px;">Free Shipping<br><small class="fw-normal text-muted">Any countries and regions</small></h5>
+                <div class="d-flex justify-content-center"><i class="bi bi-truck" style="font-size: 2.5rem;"></i>
+                  <h6 class="lh-base" style="padding-top: 7px;padding-left: 16px;">Free Shipping<br><small class="fw-normal text-muted">Any countries and regions</small></h6>
                 </div>
               </div>
               <div class="col-12 col-md-6 col-lg-3">
-                <div class="d-flex justify-content-center"><i class="bi bi-star" style="font-size: 3rem;"></i>
-                  <h5 class="lh-base" style="padding-top: 7px;padding-left: 16px;">High Quality<br><small class="fw-normal text-muted">crafted from top materials          </small></h5>
+                <div class="d-flex justify-content-center"><i class="bi bi-star" style="font-size: 2.5rem;"></i>
+                  <h6 class="lh-base" style="padding-top: 7px;padding-left: 16px;">High Quality<br><small class="fw-normal text-muted">crafted from top materials          </small></h6>
                 </div>
               </div>
               <div class="col-12 col-md-6 col-lg-3">
-                <div class="d-flex justify-content-center"><i class="bi bi-star" style="font-size: 3rem;"></i>
-                  <h5 class="lh-base" style="padding-top: 7px;padding-left: 16px;">High Quality<br><small class="fw-normal text-muted">crafted from top materials</small></h5>
+                <div class="d-flex justify-content-center"><i class="bi bi-star" style="font-size: 2.5rem;"></i>
+                  <h6 class="lh-base" style="padding-top: 7px;padding-left: 16px;">High Quality<br><small class="fw-normal text-muted">crafted from top materials</small></h6>
                 </div>
               </div>
             </div>
@@ -173,20 +197,39 @@
       </div>
       <!-- footer-->
       <div class="container-fluid mt-auto px-0 border-top">
-        <div class="max-view">
-          <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 mb-4 px-lg-5 px-3">
-            <p class="col-md-4 mb-0 text-muted">© 2021 Company, Inc</p><a class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none" href="/">
-              <svg class="bi me-2" width="40" height="32">
-                <use href="#bootstrap"></use>
-              </svg></a>
-            <ul class="nav col-md-4 justify-content-end">
-              <li class="nav-item"><a class="nav-link px-2 text-muted" href="#">Home</a></li>
-              <li class="nav-item"><a class="nav-link px-2 text-muted" href="#">Features</a></li>
-              <li class="nav-item"><a class="nav-link px-2 text-muted" href="#">Pricing</a></li>
-              <li class="nav-item"><a class="nav-link px-2 text-muted" href="#">FAQs</a></li>
-              <li class="nav-item"><a class="nav-link px-2 text-muted" href="#">About</a></li>
-            </ul>
+        <div class="max-view p-5">
+          <footer class="row gy-5">
+            <div class="col-12 col-md-5">
+              <div class="d-flex">
+                <div style="width:32px;height:32px"><img class="h-100 object-fit-contain" src="img/logo.png"></div>
+                <div class="fw-semibold lh-1 ms-2" style="font-size:32px">CasePecker</div>
+              </div>
+              <p class="text-light mt-5">400 University Drive Suite 200 Coral Gables,<br>FL 33134 USA</p>
+            </div>
+            <div class="col-12 col-md-3">
+              <p class="text-light">Link</p>
+              <ul class="d-flex flex-column p-0 m-0 list-unstyled">
+                <li class="mt-4"><a class="link-primary link-underline-opacity-0" href="#">Home</a></li>
+                <li class="mt-4"><a class="link-primary link-underline-opacity-0" href="#">Start</a></li>
+                <li class="mt-4"><a class="link-primary link-underline-opacity-0" href="#">About</a></li>
+                <li class="mt-4"><a class="link-primary link-underline-opacity-0" href="#">Contact</a></li>
+              </ul>
+            </div>
+            <div class="col-12 col-md-3">
+              <p class="text-light">Help</p>
+              <ul class="d-flex flex-column p-0 m-0 list-unstyled">
+                <li class="mt-4"><a class="link-primary link-underline-opacity-0" href="#">Payment</a></li>
+                <li class="mt-4"><a class="link-primary link-underline-opacity-0" href="#">Return</a></li>
+                <li class="mt-4"><a class="link-primary link-underline-opacity-0" href="#">Privacy Polices</a></li>
+                <li class="mt-4"><a class="link-primary link-underline-opacity-0" href="#">Terms</a></li>
+              </ul>
+            </div>
           </footer>
+        </div>
+      </div>
+      <div class="container-fluid mt-auto px-0 border-top">
+        <div class="max-view p-3 px-lg-5">
+          <div class="col text-light">© 2024 CasePecker. All rights reserved</div>
         </div>
       </div>
     </main>
