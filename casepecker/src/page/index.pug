@@ -13,11 +13,13 @@ block pageStyle
 block mainContent
   // hero banner
   #hero-banner.d-flex.max-view(style='max-width:3840px')
-    img(src=Global.product[3]).w-100.object-fit-cover
+    img(src=Global.heroBanner).w-100.object-fit-cover
+
   // how to work
+  .spacer
   #how-to-work.container-fluid.px-lg-5.mt-5.max-view
     h2.fw-semibold.text-center.my-5 How to Work
-    .row.g-5
+    .row.g-3.g-lg-5
       .col-12.col-md-4
         .card
           .card-body.d-flex.flex-column.text-center.p-4
@@ -36,7 +38,9 @@ block mainContent
             h5.card-title.text-primary Preview Output Result<br>& Place Order
             i.my-5.bi.bi-cart-check.text-light
             p.card-text Preview from the mockup and place order when all good
+
   // about
+  #about.spacer
   .container-fluid.mt-5.px-0
     h2.fw-semibold.text-center.my-5 About
     .bg-primary-subtle
@@ -49,9 +53,11 @@ block mainContent
           .col-2.m-0
           .col-12.col-lg-6.order-first
             .w-100
-              img(src=Global.product[3]).w-100.object-fit-cover
+              img.rounded(src=Global.product[3]).w-100.object-fit-cover
 
-  .container-fluid.px-lg-5.my-5.max-view
+  // our products
+  #products.spacer
+  .container-fluid.px-lg-5.mt-5.max-view
     h2.fw-semibold.text-center.my-5 Our Products
     .row.mt-3.g-3
       .nav.flex-column.col-12.col-lg-4.order-last.order-lg-first#v-pills-tab(role='tablist' aria-orientation='vertical')
@@ -67,31 +73,32 @@ block mainContent
       .col-2.m-0
       .tab-content.col-12.col-lg-6.order-first.order-lg-last#v-pills-tabContent
         .tab-pane.fade.show.active#v-pills-home(role='tabpanel' aria-labelledby='v-pills-home-tab' tabindex='0')
-          .row.g-5
+          .row.g-3.g-lg-5
             .col-6
-              img(src=Global.product[0]).w-100.object-fit-cover
+              img.rounded(src=Global.product[0]).w-100.object-fit-cover
             .col-6
-              img(src=Global.product[0]).w-100.object-fit-cover
+              img.rounded(src=Global.product[0]).w-100.object-fit-cover
             .col-12
-              img(src=Global.product[0]).w-100.object-fit-cover
+              img.rounded(src=Global.product[0]).w-100.object-fit-cover
         .tab-pane.fade#v-pills-profile(role='tabpanel' aria-labelledby='v-pills-profile-tab' tabindex='0')
           .row.g-5
             .col-6
-              img(src=Global.product[1]).w-100.object-fit-cover
+              img.rounded(src=Global.product[1]).w-100.object-fit-cover
             .col-6
-              img(src=Global.product[1]).w-100.object-fit-cover
+              img.rounded(src=Global.product[1]).w-100.object-fit-cover
             .col-12
-              img(src=Global.product[1]).w-100.object-fit-cover
+              img.rounded(src=Global.product[1]).w-100.object-fit-cover
         .tab-pane.fade#v-pills-messages(role='tabpanel' aria-labelledby='v-pills-messages-tab' tabindex='0')
           .row.g-5
             .col-6
-              img(src=Global.product[2]).w-100.object-fit-cover
+              img.rounded(src=Global.product[2]).w-100.object-fit-cover
             .col-6
-              img(src=Global.product[2]).w-100.object-fit-cover
+              img.rounded(src=Global.product[2]).w-100.object-fit-cover
             .col-12
-              img(src=Global.product[2]).w-100.object-fit-cover
+              img.rounded(src=Global.product[2]).w-100.object-fit-cover
                           
   // contact
+  #contact.spacer
   .container-fluid.px-lg-5.my-5
     h2.fw-semibold.text-center.my-5 Contact
       br

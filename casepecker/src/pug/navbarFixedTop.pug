@@ -1,8 +1,8 @@
 mixin navbarFixedTop(option)
   // fixed top navbar
-  nav.navbar.navbar-expand-lg.bg-body-tertiary.fixed-top.mx-auto(style='padding-top:29px;padding-bottom:29px')
+  nav.navbar.navbar-expand-lg.bg-body-tertiary.fixed-top.mx-auto.shadow-lg(style='padding-top:29px;padding-bottom:29px')
     .container-fluid.px-lg-5.px-3.max-view
-      a.navbar-brand.me-0(href='index.html')
+      a.navbar-brand.me-0(href='#')
         include logo
       button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation')
         span.navbar-toggler-icon
@@ -11,10 +11,10 @@ mixin navbarFixedTop(option)
           li.nav-item.px-5
             a.nav-link.active(aria-current='page' href='#') Home
           li.nav-item.px-5
-            a.nav-link(href='#') Start
+            a.nav-link(href='#products') Products
           li.nav-item.px-5
-            a.nav-link(href='#') About
+            a.nav-link(href='#about') About
           li.nav-item.px-5
-            a.nav-link(href='#') Contact
+            a.nav-link(href='#contact') Contact
         a(href)
           i.bi.bi-cart
