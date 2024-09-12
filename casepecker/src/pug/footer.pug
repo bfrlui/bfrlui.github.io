@@ -4,32 +4,14 @@
     footer.row.g-5
       .col-12.col-md-5
         include logo
-        p.text-light.mt-5
-          | 400 University Drive Suite 200 Coral Gables,
-          br
-          | FL 33134 USA
-      .col-12.col-md-3
-        p.text-light Link
-        ul.d-flex.flex-column.p-0.m-0.list-unstyled
-          li.mt-4
-            a.link-primary.link-underline-opacity-0(href='#') Home
-          li.mt-4
-            a.link-primary.link-underline-opacity-0(href='#products') Products
-          li.mt-4
-            a.link-primary.link-underline-opacity-0(href='#about') About
-          li.mt-4
-            a.link-primary.link-underline-opacity-0(href='#contact') Contact
-      .col-12.col-md-3
-        p.text-light Help
-        ul.d-flex.flex-column.p-0.m-0.list-unstyled
-          li.mt-4
-            a.link-primary.link-underline-opacity-0(href='#') Payment
-          li.mt-4
-            a.link-primary.link-underline-opacity-0(href='#') Return
-          li.mt-4
-            a.link-primary.link-underline-opacity-0(href='#') Privacy Polices
-          li.mt-4
-            a.link-primary.link-underline-opacity-0(href='#') Terms
+        p.text-light.mt-5 !{cms.global.footer.text}
+      each column in cms.global.footer.column
+        .col-12.col-md-3
+          p.text-light #{column.title}
+          ul.d-flex.flex-column.p-0.m-0.list-unstyled
+            each item in column.item
+              li.mt-4
+                a.link-primary.link-underline-opacity-0(href=item.link) #{item.text}
 .container-fluid.mt-auto.px-0.border-top
   .max-view.p-3.px-lg-5
-    .col.text-light © 2024 CasePecker. All rights reserved
+    .col.text-light !{cms.global.footer.copyright}

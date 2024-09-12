@@ -1,7 +1,4 @@
 extends ../pug/page
-include ../pug/component/button
-include ../pug/component/input
-include ../pug/component/image
 
 block vars
 
@@ -12,118 +9,95 @@ block pageStyle
 
 block mainContent
   // hero banner
-  #hero-banner.d-flex.max-view(style='max-width:3840px')
-    img(src=Global.heroBanner).w-100.object-fit-cover
+  #top.spacer
+  #hero-banner.d-flex
+    img(src=cms.homepage.heroBanner).w-100.object-fit-cover
 
   // how to work
   .spacer
-  #how-to-work.container-fluid.px-lg-5.mt-5.max-view
-    h2.fw-semibold.text-center.my-5 How to Work
+  #how-to-work.container-fluid.px-lg-5.max-view
+    h2.fw-semibold.text-center.my-5 #{cms.homepage.section[0].title}
     .row.g-3.g-lg-5
-      .col-12.col-md-4
-        .card
-          .card-body.d-flex.flex-column.text-center.p-4
-            h5.card-title.text-primary Select Phone<br>Modal
-            i.my-5.bi.bi-phone.text-light
-            p.card-text Choose your phone from our list of available brands and models
-      .col-12.col-md-4
-        .card
-          .card-body.d-flex.flex-column.text-center.p-4
-            h5.card-title.text-primary Upload Your Design<br>Image or Photo
-            i.my-5.bi.bi-cloud-upload.text-light
-            p.card-text Our system will auto convert the image to best fit for engraving
-      .col-12.col-md-4
-        .card
-          .card-body.d-flex.flex-column.text-center.p-4
-            h5.card-title.text-primary Preview Output Result<br>& Place Order
-            i.my-5.bi.bi-cart-check.text-light
-            p.card-text Preview from the mockup and place order when all good
+      each card in cms.homepage.section[0].card
+        .col-12.col-md-4
+          .card
+            .card-body.d-flex.flex-column.text-center.p-4
+              h5.card-title.text-primary !{card.title}
+              i.my-5.bi.text-light(class=`bi-${card.icon}`)
+              p.card-text !{card.text}
 
   // about
   #about.spacer
-  .container-fluid.mt-5.px-0
-    h2.fw-semibold.text-center.my-5 About
+  .container-fluid.px-0
+    h2.fw-semibold.text-center.my-5 #{cms.homepage.section[1].title}
     .bg-primary-subtle
       .max-view.px-3.px-lg-5.px-5(style='padding-top:6rem;padding-bottom:6rem;')
         .row.g-3
           .col-12.col-lg-4.order-last
-            .fs-3.fw-semibold.col-lg-10.col-xl-8 Laser engraving with high quality
-            p.mt-4 Our designer already made a lot of beautiful prototipe of rooms that inspire you
-            a.mt-5.btn.btn-primary.text-white.px-5.text-uppercase.py-3(href) Start Here
+            .fs-3.fw-semibold.col-lg-10.col-xl-8 #{cms.homepage.section[1].subtitle}
+            p.mt-4 #{cms.homepage.section[1].text}
+            a.mt-5.btn.btn-primary.text-white.px-5.text-uppercase.py-3.rounded-pill(href) #{cms.global.startButtonText}
           .col-2.m-0
           .col-12.col-lg-6.order-first
             .w-100
-              img.rounded(src=Global.product[3]).w-100.object-fit-cover
+              img.rounded(src=cms.homepage.section[1].image).w-100.object-fit-cover
 
   // our products
   #products.spacer
-  .container-fluid.px-lg-5.mt-5.max-view
-    h2.fw-semibold.text-center.my-5 Our Products
+  .container-fluid.px-lg-5.max-view
+    h2.fw-semibold.text-center.my-5 #{cms.homepage.section[2].title}
     .row.mt-3.g-3
       .nav.flex-column.col-12.col-lg-4.order-last.order-lg-first#v-pills-tab(role='tablist' aria-orientation='vertical')
-        .mb-5
-          a.fs-4.p-0.d-inline.nav-link.active#v-pills-home-tab(href data-bs-toggle='pill' data-bs-target='#v-pills-home' role='tab' aria-controls='v-pills-home' aria-selected='true') Wood Case
-          p.mt-3 Our designer already made a lot of beautiful prototipe of rooms that inspire you
-        .mb-5
-          a.fs-4.p-0.d-inline.nav-link#v-pills-profile-tab(href data-bs-toggle='pill' data-bs-target='#v-pills-profile' role='tab' aria-controls='v-pills-profile' aria-selected='false') Leather Case
-          p.mt-3 Our designer already made a lot of beautiful prototipe of rooms that inspire you
-        div
-          a.fs-4.p-0.d-inline.nav-link#v-pills-messages-tab(href data-bs-toggle='pill' data-bs-target='#v-pills-messages' role='tab' aria-controls='v-pills-messages' aria-selected='false') Medal Case
-          p.mt-3 Our designer already made a lot of beautiful prototipe of rooms that inspire you
+        each product, index in cms.homepage.section[2].product
+          div(class=`${index < cms.homepage.section[2].product.length-1 ? 'mb-5' : ''}`)
+            a.fs-4.p-0.d-inline.nav-link(id=`v-pills-tab-${index}` class=`${index == 0 ? 'active' : ''}` href data-bs-toggle='pill' data-bs-target=`#v-pills-${index}` role='tab' aria-controls=`v-pills-${index}` aria-selected='true') #{product.title}
+            p.mt-3 #{product.text}
       .col-2.m-0
       .tab-content.col-12.col-lg-6.order-first.order-lg-last#v-pills-tabContent
-        .tab-pane.fade.show.active#v-pills-home(role='tabpanel' aria-labelledby='v-pills-home-tab' tabindex='0')
-          .row.g-3.g-lg-5
-            .col-6
-              img.rounded(src=Global.product[0]).w-100.object-fit-cover
-            .col-6
-              img.rounded(src=Global.product[0]).w-100.object-fit-cover
-            .col-12
-              img.rounded(src=Global.product[0]).w-100.object-fit-cover
-        .tab-pane.fade#v-pills-profile(role='tabpanel' aria-labelledby='v-pills-profile-tab' tabindex='0')
-          .row.g-5
-            .col-6
-              img.rounded(src=Global.product[1]).w-100.object-fit-cover
-            .col-6
-              img.rounded(src=Global.product[1]).w-100.object-fit-cover
-            .col-12
-              img.rounded(src=Global.product[1]).w-100.object-fit-cover
-        .tab-pane.fade#v-pills-messages(role='tabpanel' aria-labelledby='v-pills-messages-tab' tabindex='0')
-          .row.g-5
-            .col-6
-              img.rounded(src=Global.product[2]).w-100.object-fit-cover
-            .col-6
-              img.rounded(src=Global.product[2]).w-100.object-fit-cover
-            .col-12
-              img.rounded(src=Global.product[2]).w-100.object-fit-cover
+        each product, index in cms.homepage.section[2].product
+          .tab-pane.fade(id=`v-pills-${index}` class=`${index == 0 ? 'show active' : ''}` role='tabpanel' aria-labelledby=`v-pills-tab-${index}` tabindex='0')
+            .row.g-3.g-lg-5
+              each image, index in product.image
+                div(class=`${index < product.image.length-1 ? 'col-6' : 'col-12'}`)
+                  img.rounded(src=image).w-100.object-fit-cover
                           
   // contact
   #contact.spacer
-  .container-fluid.px-lg-5.my-5
-    h2.fw-semibold.text-center.my-5 Contact
+  .container-fluid.px-lg-5.mb-5
+    h2.fw-semibold.text-center.my-5 #{cms.homepage.section[3].title}
       br
       .mt-2.fs-6.text-light.fw-normal.lh-base.mx-auto(style='max-width:640px')
-        | For More Information About Our Product & Services. Please Feel Free To Drop Us An Email. Our Staff Always Be There To Help You Out. Do Not Hesitate!
+        | #{cms.homepage.section[3].subtitle}
     // contact us form
     form.row.g-5.mx-auto.mb-5(style='max-width:800px')
       .col-md-6
-        label.form-label(for='inputYourName') Your Name
+        label.form-label(for='inputYourName') #{cms.homepage.section[3].field.name}
         input.form-control.form-control-lg#inputYourName(type='text')
       .col-md-6
-        label.form-label(for='inputEmail') Email
+        label.form-label(for='inputEmail') #{cms.homepage.section[3].field.email}
         input.form-control.form-control-lg#inputEmail(type='email')
       .col-12
-        label.form-label(for='inputSubject') Subject
+        label.form-label(for='inputSubject') #{cms.homepage.section[3].field.subject}
         input.form-control.form-control-lg#inputSubject(type='text')
       .col-12
-        label.form-label(for='inputMessage') Message
+        label.form-label(for='inputMessage') #{cms.homepage.section[3].field.message}
         textarea.form-control#inputMessage(rows='6')
       .col-12
-        button.btn.btn-primary.text-white.px-5.text-uppercase.py-3(type='submit') Submit
+        button.btn.btn-primary.text-white.px-5.text-uppercase.py-3.rounded-pill(type='submit') #{cms.global.submitButtonText}
+
   //- service banner
-  .container-fluid.my-5.px-0
+  .spacer
+  .container-fluid.mb-5.px-0
     include ../pug/serviceBanner
+
+  include ../pug/goTop
 
 block pageJS
   // custom script
-  //- script(src="js/test.js")
+  script.
+    window.addEventListener('scroll', ()=>{
+      let goTopEl = document.getElementById('go-top');
+      window.scrollY < 300
+        ? goTopEl.classList.add('d-none')
+        : goTopEl.classList.remove('d-none');
+    });

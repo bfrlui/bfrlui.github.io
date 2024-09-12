@@ -3,7 +3,6 @@
 
 //- common mixins for global usage
 include navbarFixedTop
-
 -
   var Global = {
     // generate random figure for widget
@@ -45,6 +44,7 @@ include navbarFixedTop
       Mollit officia anim esse incididunt aliquip consequat quis eu excepteur aliqua ut occaecat consectetur dolor. Proident eu laborum ut exercitation. Mollit officia anim esse incididunt aliquip consequat quis eu excepteur aliqua ut occaecat consectetur dolor. Proident eu laborum ut exercitation.`,
     states: ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark']
   }
+include cms_en
 
 block vars
 
@@ -100,17 +100,18 @@ html(lang=Global.currentLang data-bs-theme=Global.theme)
 
   block pageBody
     body
+      //- body#home
       block navbar
         +navbarFixedTop()
       
       // main content
-      main.container-fluid.d-flex.flex-column.px-0(style='min-height:100%')
+      main.container-fluid.d-flex.flex-column.px-0(data-bs-spy='scroll' data-bs-target='#navbar-fixed-top' data-bs-root-margin='100px 0px -40%' data-bs-smooth-scroll='true' style='min-height:100%')
         block mainContent
         include ../pug/footer
-        
-      include ../pug/offcanvas
+
       include ../pug/themePanel
-      include ../pug/modal
+      //- include ../pug/offcanvas
+      //- include ../pug/modal
 
       #loader.fade.show.d-flex.align-items-center.justify-content-center(style='position: fixed;top: 0;bottom: 0;left: 0;right: 0;background: black;z-index: 9999;')
         .spinner-border.text-primary(role='status')

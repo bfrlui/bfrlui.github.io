@@ -1,9 +1,12 @@
+$logo-size: 32px;
+$hero-banner-height: 500px;
+$navbar-fixed-top-height: 100px;
+
 :root {
   --custom-icon-size: 24px;
   --custom-icon-size-lg: 1.7rem;
   --custom-icon-size-md: 1.35rem;
   --custom-navbar-top-height: 100px;
-  // --custom-navbar-bottom-height: 96px;
   --custom-navbar-bottom-height: 0px;
   --line-clamp: 3;
   --swiper-pagination-color: var(--bs-white);  // carousel pagination color
@@ -16,14 +19,23 @@ html, body {
   scroll-behavior: smooth;
 }
 
-main {
-  padding-top: var(--custom-navbar-top-height);
-  padding-bottom: var(--custom-navbar-bottom-height);
+// main {
+//   padding-top: var(--custom-navbar-top-height);
+//   padding-bottom: var(--custom-navbar-bottom-height);
+// }
+
+// homepage
+#hero-banner {
+  height: $hero-banner-height;
 }
 
-// hero banner
-#hero-banner {
-  height: 500px;
+.logo-wrapper {
+  width: $logo-size;
+  height: $logo-size;
+
+  + div {
+    font-size: $logo-size;
+  }
 }
 
 // buttons
@@ -42,6 +54,7 @@ a, button, .btn {
 
 // Navbar
 .navbar {
+  --bs-navbar-active-color: var(--bs-primary);
   &-toggler {
     border: 0;
 
@@ -359,6 +372,12 @@ input {
   }
 }
 
+#go-top {
+  position: fixed;
+  right: 50px;
+  bottom: 50px;
+}
+
 // icon
 i.bi {
   font-size: var(--custom-icon-size);
@@ -394,7 +413,7 @@ a[class*="icon-"] {
 }
 
 .spacer {
-  height: 50px;
+  height: $navbar-fixed-top-height;
 }
 
 // media query

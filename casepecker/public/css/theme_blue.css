@@ -9307,12 +9307,14 @@ html, body {
   height: 100%;
   scroll-behavior: smooth; }
 
-main {
-  padding-top: var(--custom-navbar-top-height);
-  padding-bottom: var(--custom-navbar-bottom-height); }
-
 #hero-banner {
   height: 500px; }
+
+.logo-wrapper {
+  width: 32px;
+  height: 32px; }
+  .logo-wrapper + div {
+    font-size: 32px; }
 
 .btn-lg, .btn-group-lg > .btn {
   padding-top: var(--form-control-padding-y-lg);
@@ -9323,10 +9325,12 @@ a:focus, a:active, button:focus, button:active, .btn:focus, .btn:active {
   outline: none !important;
   box-shadow: none !important; }
 
-.navbar-toggler {
-  border: 0; }
-  .navbar-toggler > .icon-menu {
-    --custom-icon-size: var(--custom-icon-size-lg); }
+.navbar {
+  --bs-navbar-active-color: var(--bs-primary); }
+  .navbar-toggler {
+    border: 0; }
+    .navbar-toggler > .icon-menu {
+      --custom-icon-size: var(--custom-icon-size-lg); }
 
 #how-to-work .card > .card-body > i.bi {
   font-size: 50px; }
@@ -9497,6 +9501,11 @@ input + a {
   top: 0;
   right: 0; }
 
+#go-top {
+  position: fixed;
+  right: 50px;
+  bottom: 50px; }
+
 i.bi {
   font-size: var(--custom-icon-size); }
 
@@ -9524,7 +9533,7 @@ a[class*="icon-"] {
   margin-right: auto; }
 
 .spacer {
-  height: 50px; }
+  height: 100px; }
 
 @media (max-height: 576px) {
   #hero-banner {
