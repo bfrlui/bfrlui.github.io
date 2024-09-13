@@ -1,4 +1,5 @@
 extends ../pug/page
+include ../pug/button
 
 block vars
 
@@ -10,8 +11,17 @@ block pageStyle
 block mainContent
   // hero banner
   #top.spacer
-  #hero-banner.d-flex
-    img(src=cms.homepage.heroBanner).w-100.object-fit-cover
+  .position-relative
+    #hero-banner.d-flex
+      img.w-100.object-fit-cover(src=cms.homepage.heroBanner)
+    #hero-banner-overlay.max-view
+      .col-12.col-md-5
+        h1.text-primary.fw-bold !{cms.homepage.heroBannerHeadline}
+        p !{cms.homepage.heroBannerText}
+        +button({
+          class: 'btn-primary mt-5',
+          text: cms.global.startButtonText
+        })
 
   // how to work
   .spacer
@@ -36,7 +46,10 @@ block mainContent
           .col-12.col-lg-4.order-last
             .fs-3.fw-semibold.col-lg-10.col-xl-8 #{cms.homepage.section[1].subtitle}
             p.mt-4 #{cms.homepage.section[1].text}
-            a.mt-5.btn.btn-primary.text-white.px-5.text-uppercase.py-3.rounded-pill(href) #{cms.global.startButtonText}
+            +button({
+              class: 'btn-primary mt-5',
+              text: cms.global.startButtonText
+            })
           .col-2.m-0
           .col-12.col-lg-6.order-first
             .w-100
@@ -83,7 +96,12 @@ block mainContent
         label.form-label(for='inputMessage') #{cms.homepage.section[3].field.message}
         textarea.form-control#inputMessage(rows='6')
       .col-12
-        button.btn.btn-primary.text-white.px-5.text-uppercase.py-3.rounded-pill(type='submit') #{cms.global.submitButtonText}
+        +button({
+          tag: 'button',
+          type: 'submit',
+          class: 'btn-primary',
+          text: cms.global.submitButtonText
+        })
 
   //- service banner
   .spacer

@@ -9296,7 +9296,7 @@ textarea.form-control-lg {
   --custom-icon-size: 24px;
   --custom-icon-size-lg: 1.7rem;
   --custom-icon-size-md: 1.35rem;
-  --custom-navbar-top-height: 100px;
+  --custom-navbar-top-height: 58px;
   --custom-navbar-bottom-height: 0px;
   --line-clamp: 3;
   --swiper-pagination-color: var(--bs-white);
@@ -9309,6 +9309,15 @@ html, body {
 
 #hero-banner {
   height: 500px; }
+  #hero-banner-overlay {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 20%; }
+    #hero-banner-overlay p {
+      display: none; }
+    #hero-banner-overlay > * {
+      padding-left: 11vw; }
 
 .logo-wrapper {
   width: 32px;
@@ -9331,6 +9340,9 @@ a:focus, a:active, button:focus, button:active, .btn:focus, .btn:active {
     border: 0; }
     .navbar-toggler > .icon-menu {
       --custom-icon-size: var(--custom-icon-size-lg); }
+  .navbar-collapse {
+    max-height: calc(100vh - var(--custom-navbar-top-height));
+    overflow: auto; }
 
 #how-to-work .card > .card-body > i.bi {
   font-size: 50px; }
@@ -9448,8 +9460,8 @@ a:focus, a:active, button:focus, button:active, .btn:focus, .btn:active {
 
 #theme-panel {
   top: 25%;
-  max-height: 300px;
-  width: 50%;
+  max-height: 210px;
+  width: 100px;
   max-width: 375px; }
   #theme-panel.show [data-bs-toggle="offcanvas"] {
     opacity: 1; }
@@ -9503,7 +9515,7 @@ input + a {
 
 #go-top {
   position: fixed;
-  right: 50px;
+  right: 3vw;
   bottom: 50px; }
 
 i.bi {
@@ -9533,14 +9545,23 @@ a[class*="icon-"] {
   margin-right: auto; }
 
 .spacer {
-  height: 100px; }
+  height: var(--custom-navbar-top-height); }
 
-@media (max-height: 576px) {
+@media (max-height: 600px) {
   #hero-banner {
     height: calc(100vh - var(--custom-navbar-top-height)); } }
 
-@media (min-width: 992px) {
-  ul.navbar-nav {
-    padding-right: 50px; } }
+@media (min-height: 601px) {
+  :root {
+    --custom-navbar-top-height: 100px; }
+  #navbar-fixed-top {
+    padding-top: 29px;
+    padding-bottom: 29px; }
+  #hero-banner-overlay p {
+    display: block; } }
+
+@media (max-width: 991.98px) {
+  #navbar-fixed-top .nav-link {
+    font-size: 24px; } }
 
 /*# sourceMappingURL=theme_cyan.css.map */

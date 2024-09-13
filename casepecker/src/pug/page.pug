@@ -100,12 +100,11 @@ html(lang=Global.currentLang data-bs-theme=Global.theme)
 
   block pageBody
     body
-      //- body#home
       block navbar
         +navbarFixedTop()
       
       // main content
-      main.container-fluid.d-flex.flex-column.px-0(data-bs-spy='scroll' data-bs-target='#navbar-fixed-top' data-bs-root-margin='100px 0px -40%' data-bs-smooth-scroll='true' style='min-height:100%')
+      main.container-fluid.d-flex.flex-column.px-0(data-bs-spy='scroll' data-bs-target='#navbar-fixed-top' data-bs-root-margin='0px 0px -40%' data-bs-smooth-scroll='true' style='min-height:100%')
         block mainContent
         include ../pug/footer
 

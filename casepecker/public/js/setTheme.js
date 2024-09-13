@@ -43,7 +43,14 @@
   }
 
   const setThemeToggle = () => {
-    themeToggle.innerText = getStoredTheme() == 'dark' ? 'Light' : 'Dark'
+    let themeName = getStoredTheme()
+    themeToggle.classList.toggle('bi-sun', themeName == 'dark')
+    themeToggle.classList.toggle('bi-moon-stars', themeName != 'dark')
+    document.querySelectorAll('.logo-wrapper > img').forEach(el => {
+      el.src = themeName == 'dark'
+        ? el.src.replace('logo.png', 'logo_light.png')
+        : el.src.replace('logo_light.png', 'logo.png')
+    })
   }
 
   const setThemeDeviceToggle = () => {

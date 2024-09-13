@@ -1,6 +1,6 @@
 mixin navbarFixedTop(option)
   // fixed top navbar
-  nav#navbar-fixed-top.navbar.navbar-expand-lg.bg-body-tertiary.fixed-top.mx-auto.shadow-lg(style='padding-top:29px;padding-bottom:29px')
+  nav#navbar-fixed-top.navbar.navbar-expand-lg.bg-body-tertiary.fixed-top.mx-auto.shadow-lg
     .container-fluid.px-lg-5.px-3.max-view
       a.navbar-brand.me-0(href='#')
         include logo
@@ -9,7 +9,8 @@ mixin navbarFixedTop(option)
       #navbarSupportedContent.collapse.navbar-collapse.text-center
         ul.navbar-nav.mx-auto.mb-2.mb-lg-0
           each item, index in cms.global.navbarItem
-            li.nav-item.px-5
-              a.nav-link(class=(index == 0 ? 'active' : '') aria-current=(index == 0 ? 'page' : false) href=item.link) #{item.text}
+            li.nav-item.px-4
+              a.nav-link.py-4.p-lg-2(class=(index == 0 ? 'active' : '') aria-current=(index == 0 ? 'page' : false) href=item.link) #{item.text}
+        i#theme-toggle.text-primary.bi(class=`bi-${cms.global.icon.themeDark}` onclick='toggleTheme()' style='margin-right:30px;cursor:pointer')
         a(href)
           i.bi(class=`bi-${cms.global.icon.cart}`)

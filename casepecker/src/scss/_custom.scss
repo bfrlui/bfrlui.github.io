@@ -6,7 +6,7 @@ $navbar-fixed-top-height: 100px;
   --custom-icon-size: 24px;
   --custom-icon-size-lg: 1.7rem;
   --custom-icon-size-md: 1.35rem;
-  --custom-navbar-top-height: 100px;
+  --custom-navbar-top-height: 58px;
   --custom-navbar-bottom-height: 0px;
   --line-clamp: 3;
   --swiper-pagination-color: var(--bs-white);  // carousel pagination color
@@ -19,14 +19,24 @@ html, body {
   scroll-behavior: smooth;
 }
 
-// main {
-//   padding-top: var(--custom-navbar-top-height);
-//   padding-bottom: var(--custom-navbar-bottom-height);
-// }
-
 // homepage
 #hero-banner {
   height: $hero-banner-height;
+
+  &-overlay {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 20%;
+
+    p {
+      display: none;
+    }
+
+    > * {
+      padding-left: 11vw;
+    }
+  }
 }
 
 .logo-wrapper {
@@ -61,6 +71,11 @@ a, button, .btn {
     > .icon-menu {
       --custom-icon-size: var(--custom-icon-size-lg);
     }
+  }
+
+  &-collapse {
+    max-height: calc(100vh - var(--custom-navbar-top-height));
+    overflow: auto;
   }
 }
 
@@ -291,8 +306,8 @@ a, button, .btn {
 // theme panel
 #theme-panel {
   top: 25%;
-  max-height: 300px;
-  width: 50%;
+  max-height: 210px;
+  width: 100px;
   max-width: 375px;
   
   &.show [data-bs-toggle="offcanvas"] {
@@ -374,7 +389,7 @@ input {
 
 #go-top {
   position: fixed;
-  right: 50px;
+  right: 3vw;
   bottom: 50px;
 }
 
@@ -413,18 +428,35 @@ a[class*="icon-"] {
 }
 
 .spacer {
-  height: $navbar-fixed-top-height;
+  height: var(--custom-navbar-top-height);
 }
 
 // media query
-@media (max-height: 576px) {
+@media (max-height: 600px) {
   #hero-banner {
     height: calc(100vh - var(--custom-navbar-top-height));
   } 
 }
 
-@include media-breakpoint-up(lg) {
-  ul.navbar-nav {
-    padding-right: 50px;
+@media (min-height: 601px) {
+  :root {
+    --custom-navbar-top-height: 100px;
+  }
+  #navbar-fixed-top {
+    padding-top:29px;
+    padding-bottom:29px;
+  }
+  #hero-banner-overlay {
+    p {
+      display: block;
+    }
+  }
+}
+
+@include media-breakpoint-down(lg) {
+  #navbar-fixed-top {
+    .nav-link {
+      font-size: 24px;
+    }
   }
 }

@@ -30,7 +30,7 @@
   </head>
   <body>
     <!-- fixed top navbar-->
-    <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top mx-auto shadow-lg" id="navbar-fixed-top" style="padding-top:29px;padding-bottom:29px">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top mx-auto shadow-lg" id="navbar-fixed-top">
       <div class="container-fluid px-lg-5 px-3 max-view"><a class="navbar-brand me-0" href="#">
           <div class="d-flex">
             <div class="logo-wrapper"><img class="h-100 object-fit-contain" src="img/logo.png"/></div>
@@ -39,19 +39,27 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse text-center" id="navbarSupportedContent">
           <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-            <li class="nav-item px-5"><a class="nav-link active" aria-current="page" href="#top">Home</a></li>
-            <li class="nav-item px-5"><a class="nav-link" href="#about">About</a></li>
-            <li class="nav-item px-5"><a class="nav-link" href="#products">Products</a></li>
-            <li class="nav-item px-5"><a class="nav-link" href="#contact">Contact</a></li>
-          </ul><a href="href"><i class="bi bi-cart"></i></a>
+            <li class="nav-item px-4"><a class="nav-link py-4 p-lg-2 active" aria-current="page" href="#top">Home</a></li>
+            <li class="nav-item px-4"><a class="nav-link py-4 p-lg-2" href="#about">About</a></li>
+            <li class="nav-item px-4"><a class="nav-link py-4 p-lg-2" href="#products">Products</a></li>
+            <li class="nav-item px-4"><a class="nav-link py-4 p-lg-2" href="#contact">Contact</a></li>
+          </ul><i class="text-primary bi bi-moon-stars" id="theme-toggle" onclick="toggleTheme()" style="margin-right:30px;cursor:pointer"></i><a href="href"><i class="bi bi-cart"></i></a>
         </div>
       </div>
     </nav>
     <!-- main content-->
-    <main class="container-fluid d-flex flex-column px-0" data-bs-spy="scroll" data-bs-target="#navbar-fixed-top" data-bs-root-margin="100px 0px -40%" data-bs-smooth-scroll="true" style="min-height:100%">
+    <main class="container-fluid d-flex flex-column px-0" data-bs-spy="scroll" data-bs-target="#navbar-fixed-top" data-bs-root-margin="0px 0px -40%" data-bs-smooth-scroll="true" style="min-height:100%">
       <!-- hero banner-->
       <div class="spacer" id="top"></div>
-      <div class="d-flex" id="hero-banner"><img class="w-100 object-fit-cover" src="img/hero_banner_2560.jpg"></div>
+      <div class="position-relative">
+        <div class="d-flex" id="hero-banner"><img class="w-100 object-fit-cover" src="img/hero_banner_2560.jpg"></div>
+        <div class="max-view" id="hero-banner-overlay">
+          <div class="col-12 col-md-5">
+            <h1 class="text-primary fw-bold">Engrave<br>Your Phone Case</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis.</p><a class="fw-bold btn text-white px-5 text-uppercase py-3 rounded-pill btn-primary mt-5" href="">start here</a>
+          </div>
+        </div>
+      </div>
       <!-- how to work-->
       <div class="spacer"></div>
       <div class="container-fluid px-lg-5 max-view" id="how-to-work">
@@ -92,11 +100,11 @@
             <div class="row g-3">
               <div class="col-12 col-lg-4 order-last">
                 <div class="fs-3 fw-semibold col-lg-10 col-xl-8">Laser engraving with high quality</div>
-                <p class="mt-4">Our designer already made a lot of beautiful prototipe of rooms that inspire you</p><a class="mt-5 btn btn-primary text-white px-5 text-uppercase py-3 rounded-pill" href>start here</a>
+                <p class="mt-4">Our designer already made a lot of beautiful prototipe of rooms that inspire you</p><a class="fw-bold btn text-white px-5 text-uppercase py-3 rounded-pill btn-primary mt-5" href="">start here</a>
               </div>
               <div class="col-2 m-0"></div>
               <div class="col-12 col-lg-6 order-first">
-                <div class="w-100"><img class="rounded w-100 object-fit-cover" src="img/hero_banner.png"></div>
+                <div class="w-100"><img class="rounded w-100 object-fit-cover" src="img/about.jpg"></div>
               </div>
             </div>
           </div>
@@ -169,7 +177,7 @@
             <textarea class="form-control" id="inputMessage" rows="6"></textarea>
           </div>
           <div class="col-12">
-            <button class="btn btn-primary text-white px-5 text-uppercase py-3 rounded-pill" type="submit">submit</button>
+            <button class="fw-bold btn text-white px-5 text-uppercase py-3 rounded-pill btn-primary" type="submit">submit</button>
           </div>
         </form>
       </div>
@@ -211,24 +219,24 @@
                 <div class="logo-wrapper"><img class="h-100 object-fit-contain" src="img/logo.png"></div>
                 <div class="fw-semibold lh-1 ms-2">CasePecker</div>
               </div>
-              <p class="text-light mt-5">400 University Drive Suite 200 Coral Gables,<br>FL 33134 USA</p>
+              <div class="d-flex mt-4"><a class="me-5 link-light link-underline-opacity-0" href><i class="bi bi-envelope"></i></a><a class="me-5 link-light link-underline-opacity-0" href><i class="bi bi-instagram"></i></a><a class="me-5 link-light link-underline-opacity-0" href><i class="bi bi-whatsapp"></i></a><a class="me-5 link-light link-underline-opacity-0" href><i class="bi bi-facebook"></i></a></div>
             </div>
             <div class="col-12 col-md-3">
               <p class="text-light">Link</p>
               <ul class="d-flex flex-column p-0 m-0 list-unstyled">
-                <li class="mt-4"><a class="link-primary link-underline-opacity-0" href="#top">Home</a></li>
-                <li class="mt-4"><a class="link-primary link-underline-opacity-0" href="#about">About</a></li>
-                <li class="mt-4"><a class="link-primary link-underline-opacity-0" href="#products">Products</a></li>
-                <li class="mt-4"><a class="link-primary link-underline-opacity-0" href="#contact">Contact</a></li>
+                <li class="mt-4"><a class="link-secondary link-underline-opacity-0" href="#top">Home</a></li>
+                <li class="mt-4"><a class="link-secondary link-underline-opacity-0" href="#about">About</a></li>
+                <li class="mt-4"><a class="link-secondary link-underline-opacity-0" href="#products">Products</a></li>
+                <li class="mt-4"><a class="link-secondary link-underline-opacity-0" href="#contact">Contact</a></li>
               </ul>
             </div>
             <div class="col-12 col-md-3">
               <p class="text-light">Help</p>
               <ul class="d-flex flex-column p-0 m-0 list-unstyled">
-                <li class="mt-4"><a class="link-primary link-underline-opacity-0" href="#">Payment</a></li>
-                <li class="mt-4"><a class="link-primary link-underline-opacity-0" href="#">Return</a></li>
-                <li class="mt-4"><a class="link-primary link-underline-opacity-0" href="#">Privacy Polices</a></li>
-                <li class="mt-4"><a class="link-primary link-underline-opacity-0" href="#">Terms</a></li>
+                <li class="mt-4"><a class="link-secondary link-underline-opacity-0" href="#">Payment</a></li>
+                <li class="mt-4"><a class="link-secondary link-underline-opacity-0" href="#">Return</a></li>
+                <li class="mt-4"><a class="link-secondary link-underline-opacity-0" href="#">Privacy Polices</a></li>
+                <li class="mt-4"><a class="link-secondary link-underline-opacity-0" href="#">Terms</a></li>
               </ul>
             </div>
           </footer>
@@ -245,18 +253,11 @@
           <path d="M12.433 10.07C14.133 10.585 16 11.15 16 8a8 8 0 1 0-8 8c1.996 0 1.826-1.504 1.649-3.08-.124-1.101-.252-2.237.351-2.92.465-.527 1.42-.237 2.433.07zM8 5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm4.5 3a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zM5 6.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm.5 6.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"></path>
         </svg></a>
       <div class="offcanvas-body">
-        <div>
-          <button class="btn btn-primary" id="theme-toggle" onclick="toggleTheme()">Dark</button>
+        <div class="mb-5">
+          <button class="d-none btn btn-primary" id="theme-device-toggle" onclick="toggleThemeDevice()">Android</button>
         </div>
-        <div>
-          <button class="btn btn-primary" id="theme-device-toggle" onclick="toggleThemeDevice()">Android</button>
-        </div>
-        <div>
-          <button class="btn btn-primary theme-color-select" data-color="blue">blue</button>
-        </div>
-        <div>
-          <button class="btn btn-primary theme-color-select" data-color="cyan">cyan</button>
-        </div>
+        <div class="mb-5"><a class="theme-color-select" href data-color="blue">golden</a></div>
+        <div><a class="theme-color-select" href data-color="cyan">cyan</a></div>
       </div>
     </div>
     <div class="fade show d-flex align-items-center justify-content-center" id="loader" style="position: fixed;top: 0;bottom: 0;left: 0;right: 0;background: black;z-index: 9999;">

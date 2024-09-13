@@ -1,0 +1,5 @@
+mixin button(option)
+  if option.tag == 'button'
+    button.fw-bold.btn.text-white.px-5.text-uppercase.py-3.rounded-pill(class=(option.class || false) type=(option.type || false)) #{option.text}
+  else
+    a.fw-bold.btn.text-white.px-5.text-uppercase.py-3.rounded-pill(class=(option.class || false) href=(option.href || '')) #{option.text}
