@@ -1,4 +1,0 @@
-mixin listGroup(option)
-  .list-group.list-group-flush
-    each item, index in option.items
-      a.list-group-item.list-group-item-action(href=item.href class=`${index == option.activeIndex ? 'active' : ''}`) !{item.title}

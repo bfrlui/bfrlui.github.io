@@ -1,9 +1,9 @@
 {
 	"version": 3,
-	"file": "theme_cyan.css",
+	"file": "theme.css",
 	"sources": [
-		"../../src/scss/theme_cyan.scss",
-		"../../src/scss/_main.scss",
+		"../../src/scss/theme.scss",
+		"../../src/scss/_style.scss",
 		"../../src/scss/_colors.scss",
 		"../../src/scss/bootstrap-5.3.0/bootstrap.scss",
 		"../../src/scss/bootstrap-5.3.0/mixins/_banner.scss",

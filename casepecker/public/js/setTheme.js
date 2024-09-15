@@ -7,7 +7,7 @@
   const setStoredTheme = theme => localStorage.setItem('theme', theme)
   const setStoredThemeColor = color => localStorage.setItem('themeColor', color)
   const setStoredThemeDevice = device => localStorage.setItem('themeDevice', device)
-  const defaultThemeColor = 'blue'
+  const defaultThemeColor = 'golden'
   const defaultThemeDevice = 'ios'
   const themeColorStylesheet = document.querySelectorAll('link[theme-color]')
   const loader = document.getElementById('loader')
@@ -54,7 +54,8 @@
   }
 
   const setThemeDeviceToggle = () => {
-    themeDeviceToggle.innerText = getStoredThemeDevice() == 'ios' ? 'Android' : 'IOS'
+    if (themeDeviceToggle)
+      themeDeviceToggle.innerText = getStoredThemeDevice() == 'ios' ? 'Android' : 'IOS'
   }
 
   const setThemeDevice = device => {
