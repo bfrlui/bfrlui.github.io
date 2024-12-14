@@ -451,13 +451,14 @@
       codeEl.value = queryString[1];
       quote();
     } else {
-      fetch('/_data/2024-12-14-stocks-watch-list-1.md')
+      let path = 'https://raw.githubusercontent.com/bfrlui/bfrlui.github.io/refs/heads/main';
+      fetch(path + '/_data/2024-12-14-stocks-watch-list-1.md')
         .then(response => response.text())
         .then(result => list = mdParse(result));
-      fetch('/_data/2024-12-14-stocks-watch-list-3.md')
+      fetch(path + '/_data/2024-12-14-stocks-watch-list-3.md')
         .then(response => response.text())
         .then(result => listMonitoring = mdParse(result));
-      fetch('/_data/2024-12-14-stocks-watch-list-2.md')
+      fetch(path + '/_data/2024-12-14-stocks-watch-list-2.md')
         .then(response => response.text())
         .then(result => {
           listSelected = mdParse(result);
