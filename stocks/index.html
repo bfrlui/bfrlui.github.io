@@ -227,11 +227,11 @@
             <p>
               <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
                 <input type="radio" class="btn-check" name="btnradio1" id="btnradio11" autocomplete="off" checked>
-                <label class="btn btn-outline-success" for="btnradio11">指數成份股</label>
+                <label class="btn btn-outline-success" for="btnradio11">Watch list 1</label>
                 <input type="radio" class="btn-check" name="btnradio1" id="btnradio12" autocomplete="off">
-                <label class="btn btn-outline-success" for="btnradio12">投資組合</label>
+                <label class="btn btn-outline-success" for="btnradio12">Watch list 2</label>
                 <input type="radio" class="btn-check" name="btnradio1" id="btnradio13" autocomplete="off">
-                <label class="btn btn-outline-success" for="btnradio13">自選組合</label>
+                <label class="btn btn-outline-success" for="btnradio13">Watch list 3</label>
               </div>
             </p>
           </div>
@@ -435,17 +435,32 @@
       activeListNameRender();
     }
 
+    let mdParse = (markdown) => {
+      let data = markdown.split('~');
+      return data[1].split('+').map(stock =>  {
+        let o = stock.split('\n');
+        return {
+          code: o[1].trim(),
+          name: o[2].trim()
+        }
+      });
+    }
+
     // main start
     if (queryString[0] == '?code' && (!isNaN(queryString[1]) || queryString[1].toLocaleLowerCase() == 'hsi')) {
       codeEl.value = queryString[1];
       quote();
     } else {
-      fetch('./data.json')
-        .then((response) => response.json())
-        .then((data) => {
-          list = data.list;
-          listSelected = data.listSelected;
-          listMonitoring = data.listMonitoring;
+      fetch('/_data/2024-12-14-stocks-watch-list-1.md')
+        .then(response => response.text())
+        .then(result => list = mdParse(result));
+      fetch('/_data/2024-12-14-stocks-watch-list-3.md')
+        .then(response => response.text())
+        .then(result => listMonitoring = mdParse(result));
+      fetch('/_data/2024-12-14-stocks-watch-list-2.md')
+        .then(response => response.text())
+        .then(result => {
+          listSelected = mdParse(result);
           currentList = listSelected;
           render(currentPeriod);
         });
