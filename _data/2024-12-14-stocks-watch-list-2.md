@@ -1,5 +1,5 @@
 ---
-title: "[stocks] watch list 2"
+title: "[stocks] watch list 1"
 data: |-
   ~
   HSI
