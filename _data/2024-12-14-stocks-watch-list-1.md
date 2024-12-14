@@ -1,6 +1,5 @@
 ---
-title: "[stocks] watch list 1"
-date: 2024-12-13T10:32:00.000Z
+title: "[stocks] watch list 2"
 data: |-
   ~
   HSI
