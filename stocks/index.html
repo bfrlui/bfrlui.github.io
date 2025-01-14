@@ -336,7 +336,7 @@
   <script src="https://getbootstrap.com/docs/5.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
   <script>
     const Period = {instant: 'rt', intraday: 0, fiveMin:5012, daily3:5, daily2: 7, daily: 6, weekly: 10, monthly: 18};
-    const PeriodName = {instant: '即時', intraday: '即日', fiveMin: '5分鐘(3日)', daily3: '日線(1個月)', daily2: '日線(3個月)', daily: '日線(6個月)', weekly: '周線', monthly: '月線'};
+    const PeriodName = {"rt": '即時', "0": '即日', "5012": '5分鐘(3日)', "5": '日線(1個月)', "7": '日線(3個月)', "6": '日線(6個月)', "10": '周線', "18": '月線'};
     let list, listSelected, listMonitoring;
     let template = document.getElementById('template').innerHTML;
     let templateMinChart = document.getElementById('template-minChart').innerHTML;
@@ -373,7 +373,7 @@
           : template
               .replaceAll('{{period}}', period)
               .replaceAll('{{code}}', stockCode)
-              .replaceAll('{{name}}', stock.name)
+              .replaceAll('{{name}}', `${stock.name} - ${PeriodName[period]}`)
               .replaceAll('{{time}}', timestamp)
               .replaceAll('{{etnetCode}}', stockCode);
       });
@@ -405,21 +405,23 @@
       let timestamp = new Date().getTime();
       if (!isNaN(quoteCode)) quoteCode = Number(quoteCode);
       mainRowEl.innerHTML = '';
-      mainRowEl.innerHTML +=
-        templateMinChart
-          .replaceAll('{{code}}', quoteCode)
-          .replaceAll('{{name}}', PeriodName.instant)
-          .replaceAll('{{time}}', timestamp)
-          .replaceAll('{{etnetCode}}', quoteCode);
       for (let p in Period) {
-        if (p == 'instant') continue;
-        mainRowEl.innerHTML +=
-          template
-            .replaceAll('{{period}}', Period[p])
+        if (p == 'instant') {
+          mainRowEl.innerHTML +=
+          templateMinChart
             .replaceAll('{{code}}', quoteCode)
-            .replaceAll('{{name}}', PeriodName[p])
+            .replaceAll('{{name}}', PeriodName.rt)
             .replaceAll('{{time}}', timestamp)
             .replaceAll('{{etnetCode}}', quoteCode);
+        } else {
+            mainRowEl.innerHTML +=
+            template
+              .replaceAll('{{period}}', Period[p])
+              .replaceAll('{{code}}', quoteCode)
+              .replaceAll('{{name}}', PeriodName[Period[p]])
+              .replaceAll('{{time}}', timestamp)
+              .replaceAll('{{etnetCode}}', quoteCode);
+        }
       }
       isStockQuote = true;
       btnradio0.checked = false;
