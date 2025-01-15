@@ -183,7 +183,7 @@
                 <input type="radio" class="btn-check" name="btnradio" id="btnradio0" autocomplete="off" checked>
                 <label class="d-flex align-items-center btn btn-outline-primary" for="btnradio0">Intraday</label>
                 <input type="radio" class="btn-check" name="btnradio" id="btnradio7" autocomplete="off">
-                <label class="d-flex align-items-center btn btn-outline-primary" for="btnradio7">5 mins<br>(3 Days)</label>
+                <label class="d-flex align-items-center btn btn-outline-primary" for="btnradio7">15 mins<br>(5 Days)</label>
               </div>
             </p>
           </div>
@@ -335,8 +335,8 @@
   </script>
   <script src="https://getbootstrap.com/docs/5.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
   <script>
-    const Period = {instant: 'rt', intraday: 0, fiveMin:5012, daily3:5, daily2: 7, daily: 6, weekly: 10, monthly: 18};
-    const PeriodName = {"rt": '即時', "0": '即日', "5012": '5分鐘(3日)', "5": '日線(1個月)', "7": '日線(3個月)', "6": '日線(6個月)', "10": '周線', "18": '月線'};
+    const Period = {instant: 'rt', intraday: 0, fiveMin:2, daily3:5, daily2: 7, daily: 6, weekly: 10, monthly: 18};
+    const PeriodName = {"rt": '即時', "0": '即日', "2": '15分鐘(5日)', "5": '日線(1個月)', "7": '日線(3個月)', "6": '日線(6個月)', "10": '周線', "18": '月線'};
     let list, listSelected, listMonitoring;
     let template = document.getElementById('template').innerHTML;
     let templateMinChart = document.getElementById('template-minChart').innerHTML;
