@@ -272,21 +272,28 @@
       <div class="container">
         <div class="row py-4">
           <div class="col-12">
-            <span id="active-list-name"></span>
+            <a class="btn-link text-decoration-none" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+              <span id="active-list-name"></span>
+            </a>
             <button onclick="isStockQuote ? quote() : render(currentPeriod)" class="btn btn-sm btn-outline-success float-end">Refresh</button>
+            <div class="collapse py-3" id="collapseExample">
+              <div class="card card-body">
+                <div id="stocks-list"></div>
+              </div>
+            </div>
           </div>
         </div>
         <div id="main-row" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3"></div>
       </div>
     </div>
   </main>
+  <!--
   <footer class="text-body-secondary">
     <div class="container">
       <a href="#" class="float-end my-4">Back to top</a>
-      <!-- <p class="mb-1">Album example is © Bootstrap, but please download and customize it for yourself!</p>
-      <p class="mb-0">New to Bootstrap? <a href="/">Visit the homepage</a> or read our <a href="https://getbootstrap.com/docs/5.3/getting-started/introduction/">getting started guide</a>.</p> -->
     </div>
   </footer>
+  -->
   <script id="template-minChart" type="text/template">
     <div class="col">
       <div class="card shadow-sm h-100">
@@ -300,7 +307,7 @@
         <div class="card-body">
           <div class="d-flex justify-content-between align-items-center">
             <div class="btn-group">
-              <a href="https://www.etnet.com.hk/www/tc/stocks/realtime/quote_super.php?code={{etnetCode}}" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">Quote</a>
+              <a href="https://jpmhkwarrants.com/zh_hk/market-statistics/underlying/underlying-terms/code/{{etnetCode}}" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">Quote</a>
               <a href="https://www.etnet.com.hk/mobile/tc/ashares/quote_dividend.php?code={{etnetCode}}" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">Dividend</a>
               <button class="btn-charts btn btn-sm btn-outline-secondary" code={{etnetCode}}>Charts</a>
             </div>
@@ -311,7 +318,7 @@
     </div>
   </script>
   <script id="template" type="text/template">
-    <div class="col">
+    <div id="{{code}}" class="col">
       <div class="card shadow-sm h-100">
         <div class="card-header">
           {{code}} - {{name}}
@@ -323,11 +330,12 @@
           <div class="d-flex justify-content-between align-items-center">
             <div class="btn-group">
               <a href="https://charts.aastocks.com/servlet/Charts?indicator2=1&ind2para1=2&ind2para2=3&ind2para3=HSI&fontsize=12&15MinDelay=T&lang=1&titlestyle=1&vol=1&Indicator=1&indpara1=10&indpara2=20&indpara3=50&indpara4=100&indpara5=0&subChart1=2&ref1para1=9&ref1para2=0&ref1para3=0&subChart2=3&ref2para1=12&ref2para2=26&ref2para3=9&subChart3=12&ref3para1=0&ref3para2=0&ref3para3=0&scheme=1&com=100&chartwidth=870&chartheight=855&stockid={{code}}.HK&period={{period}}&type=1&logoStyle=1&v={{time}}" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">View</a>
-              <a href="https://www.etnet.com.hk/www/tc/stocks/realtime/quote_super.php?code={{etnetCode}}" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">Quote</a>
+              <a href="https://jpmhkwarrants.com/zh_hk/market-statistics/underlying/underlying-terms/code/{{etnetCode}}" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">Quote</a>
               <a href="https://www.etnet.com.hk/mobile/tc/ashares/quote_dividend.php?code={{etnetCode}}" target="_blank" type="button" class="btn btn-sm btn-outline-secondary">Dividend</a>
               <button class="btn-charts btn btn-sm btn-outline-secondary" code={{etnetCode}}>Charts</a>
             </div>
             <!-- <small class="text-body-secondary">9 mins</small> -->
+            <div><a href="#" class="text-decoration-none text-reset text-secondary">🡡</a></div>
           </div>
         </div>
       </div>
@@ -345,6 +353,7 @@
     let currentList;
     let currentPeriod = Period.intraday;
     let codeEl = document.getElementById('code');
+    let stocksListEl = document.getElementById('stocks-list');
     let isStockQuote = false;
     let queryString = location.search.split('=');
     let activeListNameRender = () => {
@@ -363,6 +372,11 @@
       currentList.forEach(stock => {
         let stockCode = isNaN(stock.code) ? stock.code.toUpperCase() : Number(stock.code);
         let timestamp = new Date().getTime();
+        if (!isNaN(stockCode)) {
+          stocksListEl.innerHTML += `
+            <a class="me-3 my-1 d-inline-block" href="#${stockCode}"><span class="badge text-bg-success">${stockCode}</span></a>
+          `;
+        }
         mainRowEl.innerHTML +=
           period == Period.instant
           ? templateMinChart
