@@ -121,6 +121,68 @@ document.getElementById('note-input').addEventListener('keypress', (e) => {
     }
 });
 
+// Parse and handle notification trigger in note content
+function parseNotificationTrigger(noteText) {
+    // Match pattern: "notify X" where X is a number (delay in seconds)
+    // Example: "notify 3" or "Remember to call notify 5"
+    const notifyPattern = /notify\s+(\d+)/i;
+    const match = noteText.match(notifyPattern);
+    
+    if (match) {
+        const delaySeconds = parseInt(match[1], 10);
+        return {
+            hasNotification: true,
+            delaySeconds: delaySeconds,
+            cleanedText: noteText // Keep original text in note storage
+        };
+    }
+    
+    return {
+        hasNotification: false,
+        delaySeconds: 0,
+        cleanedText: noteText
+    };
+}
+
+// Send notification with scheduled delay
+function sendScheduledNotification(noteText, delaySeconds) {
+    // Check if notifications are supported
+    if (!('Notification' in window)) {
+        console.log('Notifications not supported');
+        return;
+    }
+    
+    // Check if permission is granted
+    if (Notification.permission !== 'granted') {
+        console.log('Notification permission not granted');
+        return;
+    }
+    
+    // Schedule notification after delay
+    setTimeout(() => {
+        const notification = new Notification('PWA Notification', {
+            body: noteText,
+            icon: '/pwa/images/icon-192x192.png',
+            badge: '/pwa/images/icon-192x192.png',
+            tag: 'pwa-note-notification',
+            requireInteraction: true
+        });
+        
+        // Close notification after 10 seconds if user hasn't interacted
+        const closeTimeout = setTimeout(() => {
+            notification.close();
+        }, 10000);
+        
+        // Clear timeout if user clicks notification
+        notification.addEventListener('click', () => {
+            clearTimeout(closeTimeout);
+            notification.close();
+        });
+        
+        console.log('Notification sent for note: ' + noteText);
+    }, delaySeconds * 1000);
+}
+
 function addNote() {
     const input = document.getElementById('note-input');
     const noteText = input.value.trim();
@@ -130,10 +192,43 @@ function addNote() {
         return;
     }
     
-    notes.push(noteText);
+    // Parse notification trigger
+    const notificationInfo = parseNotificationTrigger(noteText);
+    
+    // Add note to storage
+    notes.push(notificationInfo.cleanedText);
     saveNotes();
     input.value = '';
     renderNotes();
+    
+    // Send scheduled notification if triggered
+    if (notificationInfo.hasNotification) {
+        sendScheduledNotification(
+            notificationInfo.cleanedText,
+            notificationInfo.delaySeconds
+        );
+        
+        // Show feedback to user
+        const feedback = document.createElement('div');
+        feedback.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 4px;
+            z-index: 1000;
+            animation: slideIn 0.3s ease-out;
+        `;
+        feedback.textContent = `🔔 Notification scheduled for ${notificationInfo.delaySeconds}s`;
+        document.body.appendChild(feedback);
+        
+        // Remove feedback after 3 seconds
+        setTimeout(() => {
+            feedback.remove();
+        }, 3000);
+    }
 }
 
 // Initialize
