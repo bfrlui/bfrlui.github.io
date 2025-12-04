@@ -142,3 +142,19 @@ self.addEventListener('notificationclick', event => {
             })
     );
 });
+
+// Message event - handle notifications from main app
+self.addEventListener('message', event => {
+    console.log('Service Worker received message:', event.data);
+    
+    if (event.data && event.data.type === 'SHOW_NOTIFICATION') {
+        const { title, options } = event.data;
+        self.registration.showNotification(title, options)
+            .then(() => {
+                console.log('Notification shown from Service Worker');
+            })
+            .catch(error => {
+                console.error('Error showing notification:', error);
+            });
+    }
+});

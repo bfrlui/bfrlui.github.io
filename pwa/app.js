@@ -160,26 +160,47 @@ function sendScheduledNotification(noteText, delaySeconds) {
     
     // Schedule notification after delay
     setTimeout(() => {
-        const notification = new Notification('PWA Notification', {
-            body: noteText,
-            icon: '/pwa/images/icon-192x192.png',
-            badge: '/pwa/images/icon-192x192.png',
-            tag: 'pwa-note-notification',
-            requireInteraction: true
-        });
-        
-        // Close notification after 10 seconds if user hasn't interacted
-        const closeTimeout = setTimeout(() => {
-            notification.close();
-        }, 10000);
-        
-        // Clear timeout if user clicks notification
-        notification.addEventListener('click', () => {
-            clearTimeout(closeTimeout);
-            notification.close();
-        });
-        
-        console.log('Notification sent for note: ' + noteText);
+        // Try to send notification via Service Worker first (better for PWAs)
+        if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+            navigator.serviceWorker.controller.postMessage({
+                type: 'SHOW_NOTIFICATION',
+                title: 'PWA Notification',
+                options: {
+                    body: noteText,
+                    icon: '/pwa/images/icon-192x192.png',
+                    badge: '/pwa/images/icon-192x192.png',
+                    tag: 'pwa-note-notification',
+                    requireInteraction: true
+                }
+            });
+            console.log('Notification sent via Service Worker for note: ' + noteText);
+        } else {
+            // Fallback to direct notification API for browser
+            try {
+                const notification = new Notification('PWA Notification', {
+                    body: noteText,
+                    icon: '/pwa/images/icon-192x192.png',
+                    badge: '/pwa/images/icon-192x192.png',
+                    tag: 'pwa-note-notification',
+                    requireInteraction: true
+                });
+                
+                // Close notification after 10 seconds if user hasn't interacted
+                const closeTimeout = setTimeout(() => {
+                    notification.close();
+                }, 10000);
+                
+                // Clear timeout if user clicks notification
+                notification.addEventListener('click', () => {
+                    clearTimeout(closeTimeout);
+                    notification.close();
+                });
+                
+                console.log('Notification sent via Notification API for note: ' + noteText);
+            } catch (error) {
+                console.error('Error sending notification:', error);
+            }
+        }
     }, delaySeconds * 1000);
 }
 
@@ -251,12 +272,38 @@ if ('serviceWorker' in navigator && 'SyncManager' in window) {
 
 // Notification API
 function requestNotificationPermission() {
-    if ('Notification' in window && Notification.permission === 'default') {
-        Notification.requestPermission();
+    if ('Notification' in window) {
+        if (Notification.permission === 'default') {
+            Notification.requestPermission().then(permission => {
+                console.log('Notification permission:', permission);
+                if (permission === 'granted') {
+                    console.log('Notifications enabled for this PWA');
+                }
+            });
+        } else if (Notification.permission === 'granted') {
+            console.log('Notifications already enabled');
+        } else {
+            console.log('Notifications denied by user');
+        }
     }
 }
 
-// Request notification permission when app loads
-window.addEventListener('load', requestNotificationPermission);
+// Request notification permission when Service Worker is ready
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', async () => {
+        try {
+            const registration = await navigator.serviceWorker.ready;
+            console.log('Service Worker ready for notifications');
+            requestNotificationPermission();
+        } catch (error) {
+            console.log('Service Worker not ready:', error);
+            // Fallback: request permission anyway
+            requestNotificationPermission();
+        }
+    });
+} else {
+    // Fallback for browsers without service worker
+    window.addEventListener('load', requestNotificationPermission);
+}
 
 console.log('App initialized successfully!');
