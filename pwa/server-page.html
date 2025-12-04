@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PWA Development Server</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+        }
+
+        h1 {
+            color: #2196F3;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            color: #333;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+            border-bottom: 2px solid #2196F3;
+            padding-bottom: 0.5rem;
+        }
+
+        p {
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .code {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 1rem;
+            margin: 1rem 0;
+            overflow-x: auto;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            color: #666;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #2196F3;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            margin-top: 1rem;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #1976D2;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .feature {
+            background: #f9f9f9;
+            padding: 1rem;
+            border-radius: 4px;
+            border: 1px solid #eee;
+        }
+
+        .feature h3 {
+            color: #2196F3;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature p {
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Welcome to Your PWA Project</h1>
+        
+        <p>Your Progressive Web App is ready! This is the development server page.</p>
+
+        <div class="info-box">
+            <strong>📝 Note:</strong> To use this PWA properly, you need to serve it over HTTPS (or localhost for development) with proper headers.
+        </div>
+
+        <h2>🎯 Key Features</h2>
+        <div class="features">
+            <div class="feature">
+                <h3>📱 Installable</h3>
+                <p>Install directly on your home screen like a native app</p>
+            </div>
+            <div class="feature">
+                <h3>🔌 Offline</h3>
+                <p>Works offline with service workers and caching</p>
+            </div>
+            <div class="feature">
+                <h3>⚡ Fast</h3>
+                <p>Instant loading with intelligent caching</p>
+            </div>
+            <div class="feature">
+                <h3>💾 Local Storage</h3>
+                <p>Persistent data storage on the device</p>
+            </div>
+        </div>
+
+        <h2>📂 Project Structure</h2>
+        <div class="code">
+pwa/
+├── index.html              # Main application page
+├── styles.css              # Styling for the app
+├── app.js                  # Application logic
+├── service-worker.js       # Service worker for offline support
+├── manifest.json           # PWA manifest configuration
+├── server.js               # Development server
+├── images/                 # App icons and screenshots
+│   ├── icon-192x192.png
+│   ├── icon-512x512.png
+│   └── apple-touch-icon.png
+└── README.md               # Project documentation
+        </div>
+
+        <h2>🚀 Getting Started</h2>
+        <ol>
+            <li>Make sure you have Node.js installed</li>
+            <li>Run the development server: <code>node server.js</code></li>
+            <li>Open <a href="http://localhost:3000" target="_blank">http://localhost:3000</a> in your browser</li>
+            <li>Test the app on different devices and network conditions</li>
+            <li>Use Chrome DevTools to simulate offline mode</li>
+        </ol>
+
+        <h2>🔧 Development Tips</h2>
+        <ul>
+            <li><strong>Service Worker:</strong> Cached files persist until service-worker.js is updated</li>
+            <li><strong>Offline Testing:</strong> Use Chrome DevTools Network tab to simulate offline</li>
+            <li><strong>Cache Busting:</strong> Update CACHE_NAME in service-worker.js to clear old caches</li>
+            <li><strong>Icons:</strong> Replace placeholder icons in images/ directory with your own</li>
+            <li><strong>HTTPS:</strong> Deploy with HTTPS for production (required for PWA)</li>
+        </ul>
+
+        <h2>📋 PWA Checklist</h2>
+        <ul>
+            <li>✅ Responsive design (works on all device sizes)</li>
+            <li>✅ HTTPS enabled (localhost for dev)</li>
+            <li>✅ Service worker registered</li>
+            <li>✅ Manifest file configured</li>
+            <li>✅ Icons provided (192x192 and 512x512)</li>
+            <li>✅ Offline functionality</li>
+            <li>✅ Installation prompt</li>
+        </ul>
+
+        <h2>🌐 Deployment</h2>
+        <p>To deploy your PWA:</p>
+        <ul>
+            <li>Use a hosting service like Vercel, Netlify, or Firebase Hosting</li>
+            <li>Ensure HTTPS is enabled</li>
+            <li>Update the <code>start_url</code> in manifest.json if needed</li>
+            <li>Test installation on various devices and browsers</li>
+        </ul>
+
+        <a href="/index.html" class="btn">Go to App →</a>
+
+        <h2>📚 Resources</h2>
+        <ul>
+            <li><a href="https://web.dev/progressive-web-apps/" target="_blank">Google: Progressive Web Apps</a></li>
+            <li><a href="https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps" target="_blank">MDN: Progressive Web Apps</a></li>
+            <li><a href="https://www.w3.org/TR/appmanifest/" target="_blank">W3C: Web App Manifest</a></li>
+            <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API" target="_blank">MDN: Service Worker API</a></li>
+        </ul>
+
+        <hr style="margin: 2rem 0; border: none; border-top: 1px solid #eee;">
+        <p style="text-align: center; color: #999; font-size: 0.9rem;">
+            Built with ❤️ as a Progressive Web App
+        </p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,11 @@
+# robots.txt - Web crawler instructions
+
+User-agent: *
+Allow: /
+Disallow: /private/
+
+# Sitemap location
+Sitemap: https://yourdomain.com/sitemap.xml
+
+# Crawl delay (optional)
+Crawl-delay: 1

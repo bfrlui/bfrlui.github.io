@@ -1,0 +1,23 @@
+{
+  "name": "pwa",
+  "version": "1.0.0",
+  "description": "A modern Progressive Web App with offline support",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "server": "node server.js"
+  },
+  "keywords": [
+    "pwa",
+    "progressive-web-app",
+    "mobile",
+    "offline",
+    "installable"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
