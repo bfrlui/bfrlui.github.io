@@ -81,7 +81,7 @@ for race_no in range(1, 12):
     time.sleep(1)
 
 # 儲存為終極結構化 JSON
-output_json = "hkjc_starters_perfect.json"
+output_json = "hkjc_starters_perfect_new.json"
 with open(output_json, "w", encoding="utf-8") as f:
     json.dump(hkjc_structured_data, f, ensure_ascii=False, indent=4)
 

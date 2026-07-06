@@ -1,5 +1,6 @@
 import pandas as pd
 import json
+import re  # 引入正則表達式，用來對付古怪空格
 
 url = "https://racing.hkjc.com/zh-hk/local/information/draw"
 
@@ -16,15 +17,17 @@ for i, df in enumerate(tables):
     
     # 檢查是否為雙層表頭的檔位表格
     if isinstance(df.columns, pd.MultiIndex):
-        # 修正：先用 .astype(str) 安全轉換，防止非字串引發崩潰
         level_1_cols = df.columns.get_level_values(1).astype(str).str.strip()
         if '檔位' in level_1_cols:
             has_draw_table = True
             # 自動抓取第一層的文字作為場次標題
             race_title = df.columns.get_level_values(0)[0].strip()
+            
+            # 🔥【清洗優化 1】理順場次標題：多空格變單空格，並移除雙引號（避免 JSON 鍵名出現 \"）
+            race_title = re.sub(r'\s+', ' ', race_title)
+            race_title = race_title.replace('"', '').replace('\"', '')
     else:
         # 單層表頭的備用檢查
-        # 修正：這裡就是原本卡死的地方，加上 .astype(str) 就安全了
         columns_str = df.columns.astype(str).str.strip()
         if '檔位' in columns_str:
             has_draw_table = True
@@ -40,8 +43,10 @@ for i, df in enumerate(tables):
     if isinstance(df.columns, pd.MultiIndex):
         df.columns = df.columns.get_level_values(1)
         
-    # 修正：拍平後同樣進行安全字串轉換
-    df.columns = df.columns.astype(str).str.strip()
+    # 🔥【清洗優化 2】強力橫掃欄位名空格！
+    # 將所有欄位名稱轉為字串，並用正則表達式把所有 \s（空格、Tab等）全部拔除
+    # 這會直接把 "出賽  次數" -> "出賽次數"、"勝出率 %" -> "勝出率%"、"前4名 率%" -> "前4名率%"
+    df.columns = [re.sub(r'\s+', '', str(col).strip()) for col in df.columns]
     
     # 4. 【數據清洗】剔除類似 "Unnamed: 10_level_1" 的空垃圾欄位
     df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
@@ -61,4 +66,4 @@ output_file = "hkjc_all_races_draw.json"
 with open(output_file, "w", encoding="utf-8") as f:
     json.dump(all_races_data, f, ensure_ascii=False, indent=4)
 
-print(f"\n🎉 大功告成！全日共 {len(all_races_data)} 場賽事的檔位偏差數據已完美整合至 {output_file}")
+print(f"\n🎉 大功告成！全日共 {len(all_races_data)} 場賽事的「純淨版」檔位數據已整合至 {output_file}")
