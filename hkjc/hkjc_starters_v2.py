@@ -37,28 +37,28 @@ def scrape_all_races_today(race_date="2026/07/08", racecourse="HV"):
             
             for row in table_rows:
                 tds = row.find_all('td')
-                # 確保這一行是真正的馬匹數據行（通常有 24-27 個單元格）
+                # 確保基本單元格數量足夠
                 if len(tds) < 24:
                     continue
                     
-                # 提取純文字文字列表
+                # 提取純文字列表
                 cells = [td.get_text(strip=True) for td in tds]
                 
-                # 🌟 【核心融合技術】：從馬名單元格 (tds[3]) 中提取真實的 horseid 全碼
+                # 🌟【終極清洗防禦線】：馬號必定要是純數字！
+                # 這行能完美剔除「表頭列」、「雜訊列」與「底部配備說明說明文字」
+                if not cells[0].isdigit():
+                    continue
+                
+                # 🌟【核心融合技術】：從馬名單元格 (tds[3]) 中提取真實的 horseid 全碼
                 true_horse_id = ""
                 horse_link = tds[3].find('a')
                 if horse_link and 'href' in horse_link.attrs:
                     href = horse_link['href']
-                    # 使用正則表達式精準切出 horseid=XXXXXX 
                     match = re.search(r'horseid=([^&]+)', href)
                     if match:
                         true_horse_id = match.group(1).strip()
                 
-                # 如果連馬名都提取不到，說明不是真實數據行，跳過
-                if not cells[3]:
-                    continue
-                
-                # 3. 依據官方網頁欄位順序，進行 100% 精準對齊與中文鍵值化對應
+                # 依據官方網頁欄位順序，進行 100% 精準對齊
                 horse_entry = {
                     "馬號": cells[0],
                     "6次近績": cells[1],
@@ -87,9 +87,8 @@ def scrape_all_races_today(race_date="2026/07/08", racecourse="HV"):
                     "母系": cells[25],
                     "進口類別": cells[26],
                     
-                    # 🌟 額外動態注入的關鍵欄位，供下游生涯歷史爬蟲及 RAG 使用
-                    "horse_id": true_horse_id if true_horse_id else cells[4], # 若抓不到全碼則 Fallback 回原本的烙印碼
-                    "馬匹編號": true_horse_id if true_horse_id else cells[4], # 雙重覆蓋，確保 100% 往下相容
+                    "horse_id": true_horse_id if true_horse_id else cells[4],
+                    "馬匹編號": true_horse_id if true_horse_id else cells[4],
                     "profile_url": f"https://racing.hkjc.com/zh-hk/local/information/horse?horseid={true_horse_id}&Option=1" if true_horse_id else ""
                 }
                 
@@ -103,6 +102,7 @@ def scrape_all_races_today(race_date="2026/07/08", racecourse="HV"):
             all_starters_data[race_key] = race_horses
             print(f"   ✅ {race_key} 處理完成，成功導入 {len(race_horses)} 匹馬的 26項全量指標。")
             
+            break  # 如果只想抓取一場比賽，取消註解這行即可
             race_no += 1
             time.sleep(1.5) # 爬蟲禮貌延時
             

@@ -108,10 +108,10 @@ def run_veterinary_records_v2(race_date, racecourse="ST", total_races=11):
             print(f"❌ {race_key} 異常: {e}")
             continue
 
-    output_filename = f"hkjc_vet_features_v2_20260704.json"
+    output_filename = f"hkjc_vet_features_v2.json"
     with open(output_filename, "w", encoding="utf-8") as f:
         json.dump(vet_dataset, f, ensure_ascii=False, indent=4)
     print(f"\n🎉 恭喜！【V2 高級特徵衍生數據集】已成功打包：'{output_filename}'")
 
 if __name__ == "__main__":
-    run_veterinary_records_v2("2026/07/04", racecourse="ST")
+    run_veterinary_records_v2("2026/07/08", racecourse="HV", total_races=9)

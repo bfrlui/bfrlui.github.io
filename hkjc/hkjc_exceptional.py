@@ -123,7 +123,7 @@ def run_exceptional_factors_v4(race_date, racecourse="ST", total_races=11):
             continue
 
     clean_date = race_date.replace('/', '')
-    output_filename = f"hkjc_exceptional_ultimate_{clean_date}.json"
+    output_filename = f"hkjc_exceptional_ultimate.json"
     
     with open(output_filename, "w", encoding="utf-8") as f:
         json.dump(exceptional_dataset, f, ensure_ascii=False, indent=4)
@@ -131,6 +131,8 @@ def run_exceptional_factors_v4(race_date, racecourse="ST", total_races=11):
     print(f"\n🎉 【V4 行掃描雙軌對齊完成】最終數據集已成功覆蓋生成：'{output_filename}'")
 
 if __name__ == "__main__":
-    TARGET_DATE = "2026/07/04" 
-    RACECOURSE = "ST"
-    run_exceptional_factors_v4(TARGET_DATE, racecourse=RACECOURSE, total_races=11)
+    TARGET_DATE = "2026/07/08" 
+    # RACECOURSE = "ST"
+    RACECOURSE = "HV"
+    TOTAL_RACES = 9
+    run_exceptional_factors_v4(TARGET_DATE, racecourse=RACECOURSE, total_races=TOTAL_RACES)

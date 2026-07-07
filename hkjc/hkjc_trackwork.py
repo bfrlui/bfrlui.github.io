@@ -4,7 +4,7 @@ import re
 import time
 from bs4 import BeautifulSoup
 
-base_url = "https://racing.hkjc.com/zh-hk/local/information/localtrackwork?racedate=2026/07/04&Racecourse=ST&RaceNo="
+base_url = "https://racing.hkjc.com/zh-hk/local/information/localtrackwork?racedate=2026/07/08&Racecourse=HV&RaceNo="
 headers = {
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 }

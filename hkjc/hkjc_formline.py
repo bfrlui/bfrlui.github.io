@@ -112,7 +112,7 @@ def run_one_shot_formline(race_date, total_races=11):
 
     # 定義輸出的最終終極 JSON 檔名
     date_str = race_date.replace('/', '')
-    output_filename = f"hkjc_formline_ultimate_{date_str}.json"
+    output_filename = f"hkjc_formline_ultimate.json"
     
     print(f"💾 正在將精煉後的數據直接寫入檔案...")
     with open(output_filename, "w", encoding="utf-8") as f:
@@ -122,7 +122,7 @@ def run_one_shot_formline(race_date, total_races=11):
 
 if __name__ == "__main__":
     # 填入您想要抓取的賽事日期 (請嚴格保持 YYYY/MM/DD 格式)
-    TARGET_DATE = "2026/07/04" 
+    TARGET_DATE = "2026/07/08" 
     
     # 執行一鍵式腳本
-    run_one_shot_formline(TARGET_DATE, total_races=11)  
+    run_one_shot_formline(TARGET_DATE, total_races=9)  

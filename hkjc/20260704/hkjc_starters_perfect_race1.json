@@ -26,7 +26,10 @@
             "馬主": "田啟安與鄭宇",
             "父系": "Cosmic Force",
             "母系": "Tinszelda",
-            "進口類別": "PPG"
+            "進口類別": "PPG",
+            "horse_id": "HK_2025_L441",
+            "馬匹編號": "HK_2025_L441",
+            "profile_url": "https://racing.hkjc.com/zh-hk/local/information/horse?horseid=HK_2025_L441&Option=1"
         },
         {
             "馬號": "2",
@@ -54,7 +57,10 @@
             "馬主": "鍾安良",
             "父系": "Saxon Warrior",
             "母系": "One Last Look",
-            "進口類別": "PPG"
+            "進口類別": "PPG",
+            "horse_id": "HK_2025_L245",
+            "馬匹編號": "HK_2025_L245",
+            "profile_url": "https://racing.hkjc.com/zh-hk/local/information/horse?horseid=HK_2025_L245&Option=1"
         },
         {
             "馬號": "3",
@@ -82,7 +88,10 @@
             "馬主": "禪勝賽馬團體",
             "父系": "Practical Joke",
             "母系": "Ailish",
-            "進口類別": "PPG"
+            "進口類別": "PPG",
+            "horse_id": "HK_2025_L051",
+            "馬匹編號": "HK_2025_L051",
+            "profile_url": "https://racing.hkjc.com/zh-hk/local/information/horse?horseid=HK_2025_L051&Option=1"
         },
         {
             "馬號": "4",
@@ -110,7 +119,10 @@
             "馬主": "梁景裕與莫芷韻",
             "父系": "Sioux Nation",
             "母系": "Easter Orchid",
-            "進口類別": "PPG"
+            "進口類別": "PPG",
+            "horse_id": "HK_2025_L307",
+            "馬匹編號": "HK_2025_L307",
+            "profile_url": "https://racing.hkjc.com/zh-hk/local/information/horse?horseid=HK_2025_L307&Option=1"
         },
         {
             "馬號": "5",
@@ -138,7 +150,10 @@
             "馬主": "王志達",
             "父系": "Global Campaign",
             "母系": "More Royalty",
-            "進口類別": "PPG"
+            "進口類別": "PPG",
+            "horse_id": "HK_2025_L335",
+            "馬匹編號": "HK_2025_L335",
+            "profile_url": "https://racing.hkjc.com/zh-hk/local/information/horse?horseid=HK_2025_L335&Option=1"
         },
         {
             "馬號": "6",
@@ -166,7 +181,10 @@
             "馬主": "陳家樑",
             "父系": "Pinatubo",
             "母系": "Waila",
-            "進口類別": "PPG"
+            "進口類別": "PPG",
+            "horse_id": "HK_2025_L306",
+            "馬匹編號": "HK_2025_L306",
+            "profile_url": "https://racing.hkjc.com/zh-hk/local/information/horse?horseid=HK_2025_L306&Option=1"
         },
         {
             "馬號": "7",
@@ -194,7 +212,10 @@
             "馬主": "李偉然與李蕙璇",
             "父系": "Dark Angel",
             "母系": "Meeting Waters",
-            "進口類別": "PPG"
+            "進口類別": "PPG",
+            "horse_id": "HK_2025_L190",
+            "馬匹編號": "HK_2025_L190",
+            "profile_url": "https://racing.hkjc.com/zh-hk/local/information/horse?horseid=HK_2025_L190&Option=1"
         },
         {
             "馬號": "8",
@@ -222,8 +243,11 @@
             "馬主": "王振武",
             "父系": "All Too Hard",
             "母系": "Its Time For Magic",
-            "進口類別": "PPG"
-        },
+            "進口類別": "PPG",
+            "horse_id": "HK_2025_L317",
+            "馬匹編號": "HK_2025_L317",
+            "profile_url": "https://racing.hkjc.com/zh-hk/local/information/horse?horseid=HK_2025_L317&Option=1"
+},
         {
             "馬號": "9",
             "6次近績": "3/4",
@@ -250,7 +274,10 @@
             "馬主": "張慧施",
             "父系": "Toronado",
             "母系": "French Emotion",
-            "進口類別": "PPG"
+            "進口類別": "PPG",
+            "horse_id": "HK_2025_L393",
+            "馬匹編號": "HK_2025_L393",
+            "profile_url": "https://racing.hkjc.com/zh-hk/local/information/horse?horseid=HK_2025_L393&Option=1"
         },
         {
             "馬號": "10",
@@ -278,7 +305,10 @@
             "馬主": "鋼鐵賽馬團體",
             "父系": "Hellbent",
             "母系": "Ultraviolet",
-            "進口類別": "PPG"
+            "進口類別": "PPG",
+            "horse_id": "HK_2025_L387",
+            "馬匹編號": "HK_2025_L387",
+            "profile_url": "https://racing.hkjc.com/zh-hk/local/information/horse?horseid=HK_2025_L387&Option=1"
         }
     ]
 }
