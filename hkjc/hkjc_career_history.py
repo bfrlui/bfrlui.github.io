@@ -5,66 +5,41 @@ import json
 import os
 import re
 import time
-import random
 
 def parse_horse_career(horse_id, horse_name):
-    """前往馬會官網傳統桌面版網址爬取單匹馬的生涯歷史（SSR 伺服器端渲染，100% 穿透防線）"""
-    # 🌟 關鍵修正：改用傳統的隨端渲染網址，規避新版網頁的 JavaScript 空白骨架問題
-    url = f"https://racing.hkjc.com/racing/information/Chinese/Horse/Horse.aspx?HorseId={horse_id}"
-    
+    """前往馬會官網爬取單匹馬的生涯歷史，並透過動態欄位錨定進行精準量化"""
+    url = f"https://racing.hkjc.com/zh-hk/local/information/horse?horseid={horse_id}&Option=1"
     headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
-        "Accept-Language": "zh-TW,zh;q=0.9,en-US;q=0.8,en;q=0.7",
-        "Referer": "https://racing.hkjc.com/racing/information/Chinese/Horse/Horse.aspx",
-        "Connection": "keep-alive"
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
     }
     
     try:
         res = requests.get(url, headers=headers, timeout=10)
         res.encoding = 'utf-8'
-        if res.status_code != 200:
-            return None
-    except Exception as e:
-        print(f"❌ 網絡請求超時或失敗 ({horse_name}): {e}")
-        return None
+        if res.status_code != 200: return None
+    except: return None
 
     soup = BeautifulSoup(res.text, 'html.parser')
     tables = soup.find_all('table')
     history_table = None
-    
-    # 🌟 關鍵修正：傳統表格的表頭是「級數」而非「班次」，這裡進行雙向彈性相容
     for t in tables:
         t_text = t.get_text()
-        if ("班次" in t_text or "級數" in t_text) and "途程" in t_text and "名次" in t_text:
+        if "班次" in t_text and "途程" in t_text and "名次" in t_text:
             history_table = t
             break
             
     if not history_table:
-        page_text = soup.get_text()
-        if "找不到馬匹" in page_text or "沒有相關紀錄" in page_text or "未有海外賽績" in page_text or horse_id == "":
-            return {
-                "生涯總結": "在港未出賽新馬，無同程歷史紀錄。",
-                "級數與負磅": "無歷史班次紀錄（新馬/初出）。",
-                "走位風格": "未知（新馬）",
-                "場地偏好": "未知（新馬）"
-            }
-        else:
-            title_text = soup.title.string.strip() if soup.title else "無標題"
-            snippet = re.sub(r'\s+', ' ', res.text[:150]).strip()
-            print(f"🔍 提示：{horse_name}({horse_id}) 未能找到賽績表格")
-            print(f"   [Debug 網頁實況] 標題: {title_text} | 內容片段: {snippet}")
-            return None
+        return {"生涯總結": "無出賽紀錄", "級數與負磅": "無資料", "走位風格": "未知", "場地偏好": "未知"}
 
     # 🌟【核心升級：動態偵測表頭索引】
     header_row = history_table.find('tr')
     headers_text = [th.get_text().strip() for th in header_row.find_all(['th', 'td'])]
     
-    # 初始化索引字典
-    idx = {"venue": 3, "class": 6, "dist": 4, "going": 5, "weight": 13, "placing": 1, "run_pos": 17}
+    # 初始化索引字典（給予安全預設值，若找不到則動態覆蓋）
+    idx = {"venue": 2, "class": 3, "dist": 4, "going": 5, "weight": 7, "placing": 9, "run_pos": 10}
     
     for i, h in enumerate(headers_text):
-        if "處境" in h or "馬場" in h: idx["venue"] = i
+        if "處境" in h: idx["venue"] = i
         if "班次" in h or "級數" in h: idx["class"] = i
         if "途程" in h: idx["dist"] = i
         if "狀況" in h or "場地" in h: idx["going"] = i
@@ -83,11 +58,13 @@ def parse_horse_career(horse_id, horse_name):
     running_styles = []
     max_win_weight = 0 
 
+    # === 以下是 for row in rows: 內部的完全體整合邏輯 ===
     for row in rows:
         cols = [td.get_text().strip() for td in row.find_all('td')]
         if len(cols) <= max(idx.values()): continue
             
         try:
+            # 依據動態索引精準取值
             venue_text = cols[idx["venue"]]
             class_text = cols[idx["class"]]
             dist_text = cols[idx["dist"]]
@@ -96,210 +73,193 @@ def parse_horse_career(horse_id, horse_name):
             placing_text = cols[idx["placing"]]
             run_pos_text = cols[idx["run_pos"]]
 
-            # 1. 清洗名次 (Placing)
-            p_clean = placing_text.strip().split('/')[0].split(' ')[0]
-            if not p_clean.isdigit(): continue
-            
-            p_num = int(p_clean)
-            is_win = (p_num == 1)
-            is_place = (p_num in [1, 2, 3])
+            # 1. 處理名次 (Placing) - 完美解決斜線(1/14)與並頭馬(1 DH)問題
+            placing_stage1 = placing_text.strip().split('/')[0].split(' ')[0]
+            placing_clean = "".join(filter(str.isdigit, placing_stage1))
 
-            # 2. 處理場地與途程 (Venue & Distance)
-            v_key = "其他"
-            if "谷" in venue_text or "HV" in venue_text: v_key = "谷"
-            elif "田" in venue_text or "ST" in venue_text: v_key = "從化" if "從" in venue_text else "沙田"
+            if placing_clean.isdigit():
+                p_num = int(placing_clean)
+                if 1 <= p_num <= 14:
+                    total_runs += 1
+                    is_win = (p_num == 1)
+                    is_place = (p_num in [1, 2, 3])
+                    
+                    if is_win: total_wins += 1
+                    if is_place: total_places += 1
+            else:
+                continue # 排除未完賽、退出等異常狀況
 
+            # 2. 處理途程 (Distance)
             dist_clean = "".join(filter(str.isdigit, dist_text))
-            if dist_clean:
-                total_runs += 1
-                if is_win: total_wins += 1
-                if is_place: total_places += 1
-                
-                dist_key = f"{v_key}{dist_clean}米"
-                if dist_key not in dist_stats:
-                    dist_stats[dist_key] = {"runs": 0, "wins": 0, "places": 0}
+            if dist_clean and len(dist_clean) >= 3:
+                venue_key = "田" if "田" in venue_text or "沙" in venue_text else "谷"
+                dist_key = f"{venue_key}{dist_clean}米"
+                if dist_key not in dist_stats: 
+                    dist_stats[dist_key] = {"runs":0, "wins":0, "places":0}
                 dist_stats[dist_key]["runs"] += 1
                 if is_win: dist_stats[dist_key]["wins"] += 1
                 if is_place: dist_stats[dist_key]["places"] += 1
 
-            # 3. 處理班次 (Class)
+            # 3. 處理班次 (Class) -> 🌟 這次把它穩穩地補回來！
             cls_match = re.search(r'[1-5一二三四五]', class_text)
             if cls_match:
                 c_level = cls_match.group()
                 c_level = c_level.replace('一','1').replace('二','2').replace('三','3').replace('四','4').replace('五','5')
-                c_key = f"第 {c_level} 班"
-                if c_key not in class_stats:
-                    class_stats[c_key] = {"runs": 0, "places": 0}
-                class_stats[c_key]["runs"] += 1
-                if is_place: class_stats[c_key]["places"] += 1
-
+                if c_level not in class_stats: 
+                    class_stats[c_level] = {"runs":0, "places":0}
+                class_stats[c_level]["runs"] += 1
+                if is_place: 
+                    class_stats[c_level]["places"] += 1
+                
             # 4. 處理負磅 (Weight)
             weight_clean = "".join(filter(str.isdigit, weight_text_raw))
-            if weight_clean.isdigit():
-                w_val = int(weight_clean)
-                if is_win and w_val > max_win_weight:
-                    max_win_weight = w_val
+            if weight_clean.isdigit() and is_win:
+                w = int(weight_clean)
+                if w > max_win_weight: 
+                    max_win_weight = w
 
-            # 5. 處理場地狀況偏好 (Going)
+            # 5. 場地與走位
             if going_text:
-                if going_text not in goings_dict:
-                    goings_dict[going_text] = {"runs": 0, "places": 0}
+                if going_text not in goings_dict: goings_dict[going_text] = {"runs": 0, "places": 0}
                 goings_dict[going_text]["runs"] += 1
                 if is_place: goings_dict[going_text]["places"] += 1
+            if run_pos_text:
+                running_styles.append(run_pos_text)
+                
+        except Exception: continue
 
-            # 6. 處理沿途走位風格 (Running Style)
-            pos_numbers = [int(s) for s in re.findall(r'\d+', run_pos_text)]
-            if pos_numbers:
-                first_pos = pos_numbers[0]
-                last_pos = pos_numbers[-1]
-                if first_pos <= 3:
-                    running_styles.append("放頭/前傾")
-                elif last_pos < first_pos and (first_pos - last_pos) >= 4:
-                    running_styles.append("留後發力後追")
-                else:
-                    running_styles.append("跟前/居中透出")
-
-        except Exception as e:
-            continue
-
-    # 如果清洗完畢後完全沒有有效出賽紀錄，視為新馬
     if total_runs == 0:
-        return {
-            "生涯總結": "在港未出賽新馬，無同程歷史紀錄。",
-            "級數與負磅": "無歷史班次紀錄（新馬/初出）。",
-            "走位風格": "未知（新馬）",
-            "場地偏好": "未知（新馬）"
-        }
+        return {"生涯總結": "無有效歷史紀錄", "級數與負磅": "無資料", "走位風格": "未知", "場地偏好": "未知"}
 
-    # --- 數據組裝區，精準對接大數據 RAG 模型要求的 4 碼結構 ---
-    # A. 最佳途程計算
+    # ==================== 【修復版：最擅長途程計算邏輯】 ====================
     best_dist = "暫無數據"
     max_score = -1
+    max_runs = -1  # 🌟 新增：用於在分數相同時比拼出賽次數
+
     for dk, dv in dist_stats.items():
         score = dv["places"] * 10 + dv["wins"]
-        if score > max_score:
+        
+        # 🌟 核心修復：如果分數更高，或者分數相同但「出賽次數更多」
+        if (score > max_score) or (score == max_score and dv["runs"] > max_runs):
             max_score = score
-            best_dist = f"{dk} (出賽{dv['runs']}次，獲{dv['wins']}勝{dv['places']}位)"
+            max_runs = dv["runs"]
+            if score > 0:
+                best_dist = f"{dk} (出賽{dv['runs']}次，獲{dv['wins']}勝{dv['places']}位)"
+            else:
+                # 如果從未上名過，則客觀顯示為出賽最多的途程並註明未上名
+                best_dist = f"{dk} (出賽{dv['runs']}次，未曾上名)"
 
-    # B. 最擅長班次與重磅承載力
+    # ==================== 【修復版：最擅長班次計算邏輯】 ====================
     best_class = "暫無數據"
     max_cls_places = -1
+    max_cls_runs = -1  # 🌟 新增：用於班次同分時比拼出賽次數
+
     for ck, cv in class_stats.items():
-        if cv["places"] > max_cls_places:
+        # 🌟 同理修復班次：避免 0 分馬全部被鎖死在第一筆遇見的班次
+        if (cv["places"] > max_cls_places) or (cv["places"] == max_cls_places and cv["runs"] > max_cls_runs):
             max_cls_places = cv["places"]
-            best_class = f"{ck} (出賽{cv['runs']}次，上名{cv['places']}次)"
-            
-    weight_str = f"曾負重磅 {max_win_weight} 磅奪冠，具備頂磅承載力！" if max_win_weight >= 130 else f"歷史最高奪冠負磅為 {max_win_weight} 磅。"
-    if max_win_weight == 0:
-        weight_str = "歷史未曾負重磅奪冠。"
-
-    # C. 走位型態歸納
-    style_summary = "中前段跟前，直路透出"
-    if running_styles:
-        from collections import Counter
-        most_common_style = Counter(running_styles).most_common(1)[0][0]
-        if most_common_style == "放頭/前傾": style_summary = "主動放頭馬，直路大膽抗衡"
-        elif most_common_style == "留後發力後追": style_summary = "早段留後蓄銳，依賴直路外疊發力後追"
-
-    # D. 場地偏好歸納
-    best_going = "常規好地"
-    max_going_places = -1
-    for gk, gv in goings_dict.items():
-        if gv["places"] > max_going_places:
-            max_going_places = gv["places"]
-            rate = int((gv["places"] / gv["runs"]) * 100) if gv["runs"] > 0 else 0
-            if "好" in gk or "快" in gk:
-                best_going = "常規好地"
+            max_cls_runs = cv["runs"]
+            if max_cls_places > 0:
+                best_class = f"{ck} (出賽{cv['runs']}次，上名{cv['places']}次)"
             else:
-                best_going = f"{gk}（特種場地上名率 {rate}%）"
+                best_class = f"{ck} (出賽{cv['runs']}次，未曾上名)"
+            
+    w_text = f"曾負重磅 {max_win_weight} 磅奪冠，具備頂磅承載力！" if max_win_weight >= 132 else f"歷史最高奪冠負磅為 {max_win_weight} 磅。"
+
+    # 走位與場地優化邏輯
+    style_text = "中前段跟前，直路透出" 
+    if running_styles:
+        sample = running_styles[0]
+        if sample.startswith("1") or sample.startswith("2"): style_text = "主動放頭馬，直路大膽抗衡"
+        elif any(x in sample for x in ["9", "10", "11", "12", "13", "14"]): style_text = "早段留後蓄銳，依賴直路外疊發力後追"
+
+    best_going = "常規好地"
+    for g, s in goings_dict.items():
+        if s["places"] > 0 and any(k in g for k in ["黏", "濕", "軟"]):
+            best_going = f"{g}（特種場地上名率 {round((s['places']/s['runs'])*100)}%）"
 
     return {
-        "生涯總結": f"在港總出賽 {total_runs} 次，累積 {total_wins} 冠 {total_places} 位。歷史最擅長途程為：{best_dist}。",
-        "級數與負磅": f"歷史最擅長適應班次為：{best_class}。{weight_str}",
-        "走位風格": f"走位形態多呈現為 [{style_summary}]。",
+        "生涯總結": f"在港總出賽 {total_runs} 次，累積 {total_wins}冠 {total_places-total_wins}位。歷史最擅長途程為：{best_dist}。",
+        "級數與負磅": f"歷史最擅長適應班次為：{best_class}。{w_text}",
+        "走位風格": f"走位形態多呈現為 [{style_text}]。",
         "場地偏好": f"表現最佳場地：{best_going}。"
     }
 
 def main():
     starters_file = "hkjc_starters_perfect.json"
-    history_file = "hkjc_career_history.json"
-
     if not os.path.exists(starters_file):
-        print(f"❌ 錯誤：找不到輸入源檔案 {starters_file}，請確認檔案是否存在。")
+        print(f"❌ 錯誤：找不到當日排位檔案 {starters_file}，請確認檔名！")
         return
 
-    with open(starters_file, 'r', encoding='utf-8') as f:
-        try:
-            starters_data = json.load(f)
-        except Exception as e:
-            print(f"❌ JSON 解析失敗，請檢查 {starters_file} 格式。錯誤: {e}")
-            return
+    with open(starters_file, "r", encoding="utf-8") as f:
+        starters_data = json.load(f)
 
-    if os.path.exists(history_file):
-        with open(history_file, 'r', encoding='utf-8') as f:
-            try:
-                career_big_data = json.load(f)
-            except:
-                career_big_data = {}
-    else:
-        career_big_data = {}
+    # 🔍 【核心新增】自動診斷：印出你 JSON 檔案裡到底長怎樣
+    print("\n🔍 【自動診斷啟動】正在掃描您的 JSON 數據格式...")
+    has_sample = False
+    for r_no, h_list in starters_data.items():
+        if isinstance(h_list, list) and len(h_list) > 0:
+            print(f"👉 發現場次標籤：'{r_no}'")
+            print(f"👉 該場次第一匹馬的原始資料欄位為：\n   {list(h_list[0].keys())}")
+            print(f"👉 第一匹馬的實際內容快照：\n   {h_list[0]}")
+            has_sample = True
+            break
+    if not has_sample:
+        print("❌ 錯誤：你的 JSON 檔案中沒有包含任何有效的馬匹陣列！")
+        return
+    print("="*60 + "\n")
 
-    starters_list = []
-    for race_key, horses in starters_data.items():
-        if isinstance(horses, list):
-            starters_list.extend(horses)
-
-    print("⏳ 開始批次爬取並解析出賽馬匹歷史底蘊...")
+    career_big_data = {}
     success_count = 0
 
-    for horse in starters_list:
-        h_name = horse.get("馬名") or horse.get("horse_name")
-        if not h_name or "馬名" in str(h_name) or "BO :" in str(h_name):
+    print("🚀 開始提取並清洗所有馬匹的全生涯大數據管線...")
+    for race_no, horses in starters_data.items():
+        if not isinstance(horses, list):
             continue
-
-        h_id = (
-            horse.get("烙印編號") or 
-            horse.get("horse_code") or 
-            horse.get("horse_id") or 
-            horse.get("烙印碼") or
-            horse.get("編號")
-        )
-        
-        if h_id:
-            clean_match = re.search(r'([A-Z]\d{3})', str(h_id))
-            if clean_match:
-                h_id = clean_match.group(1)
-
-        if not h_id and h_name:
-            match = re.search(r'\(([A-Z]\d{3})\)', h_name)
-            if match:
-                h_id = match.group(1)
-                h_name = re.sub(r'\([A-Z]\d{3}\)', '', h_name).strip()
-
-        if h_id and h_name:
-            h_id = h_id.strip()
-            h_name = h_name.strip()
+        for horse in horses:
+            # 1. 智慧多欄位容錯匹配馬名
+            h_name = horse.get("馬名") or horse.get("horse_name") or horse.get("馬匹名稱")
+            if h_name: h_name = h_name.strip()
             
-            # 🌟 增量更新邏輯：如果目前在庫內部的數據是上次失敗產生的空白 dummy 新馬數據，也強制重新爬取校準
-            is_dummy = "在港未出賽新馬" in str(career_big_data.get(h_name, {}).get("生涯總結", ""))
+            # 2. 智慧多欄位容錯匹配馬匹烙印碼 (如 L148)
+            h_id = (
+                horse.get("馬匹編號") or 
+                horse.get("horse_code") or 
+                horse.get("horse_id") or 
+                horse.get("烙印編號") or 
+                horse.get("烙印碼") or
+                horse.get("編號")
+            )
             
-            if h_name not in career_big_data or is_dummy:
-                print(f"🎬 正在解析：{h_name} ({h_id})...")
-                stats = parse_horse_career(h_id, h_name)
-                
-                if stats:
-                    career_big_data[h_name] = stats
-                    success_count += 1
-                    
-                    with open(history_file, 'w', encoding='utf-8') as f:
-                        json.dump(career_big_data, f, ensure_ascii=False, indent=4)
-                
-                time.sleep(random.uniform(3.0, 5.0))
-        else:
-            if h_name and "馬號" not in str(h_name):
+            # 💡 絕招：如果你的 starters 裡根本沒有獨立的編號欄位，
+            # 檢查編號是否直接黏在馬名後面，例如 "星球勇士 (L148)"
+            if not h_id and h_name:
+                match = re.search(r'\(([A-Z]\d{3})\)', h_name)
+                if match:
+                    h_id = match.group(1)
+                    h_name = re.sub(r'\([A-Z]\d{3}\)', '', h_name).strip() # 清洗馬名
+
+            # 3. 執行爬取
+            if h_id and h_name:
+                h_id = h_id.strip()
+                if h_name not in career_big_data:
+                    stats = parse_horse_career(h_id, h_name)
+                    if stats:
+                        career_big_data[h_name] = stats
+                        success_count += 1
+                    time.sleep(1.5) # 安全防護延時，避免被封鎖 IP
+            else:
                 print(f"⚠️ 跳過一筆資訊不全的馬匹：馬名={h_name}, 提取到的編號={h_id}")
 
-    print(f"🎉 運行結束！本次成功增量更新 {success_count} 匹馬的歷史底蘊至 {history_file}")
+    # 寫入第 8 數據集
+    with open("hkjc_career_history.json", "w", encoding="utf-8") as f:
+        json.dump(career_big_data, f, ensure_ascii=False, indent=4)
+        
+    print("\n" + "="*50)
+    print(f"🎉 執行完畢！共成功建立 {success_count} 匹馬的全生涯大數據。")
+    print(f"💾 檔案已儲存至: 'hkjc_career_history.json'")
+    if success_count == 0:
+        print("🚨 警告：最終輸出仍為空！請觀看上方【自動診斷】印出的原始欄位，確認代表馬匹烙印碼（如 L148）的英文鍵名到底是哪一個。")
 
 if __name__ == "__main__":
     main()
