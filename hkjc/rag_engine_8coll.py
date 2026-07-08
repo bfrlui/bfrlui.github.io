@@ -180,8 +180,8 @@ class RacingRAGEngine:
 
                 # --- E. 歷史競賽受阻事件 ---
                 inc_h = inc_lookup.get(h_no, {})
-                if inc_h and inc_h.get("競賽事件詳情"):
-                    semantic_profile += f"【上仗遭遇】: 🔍 實力折損還原評語：{inc_h.get('競賽事件詳情')}\n"
+                if inc_h and inc_h.get("競賽事件摘要"):
+                    semantic_profile += f"【上仗遭遇】: 🔍 實力折損還原評語：{inc_h.get('競賽事件摘要')}\n"
                 else:
                     semantic_profile += "【上仗遭遇】: ⚠️ 上仗無重大競賽受阻事件回報。（注意：此處不代表其最終名次，若無提及受阻，通常代表該駒純因實力或狀態落敗，請勿過度解讀為優勢）。\n"
 
