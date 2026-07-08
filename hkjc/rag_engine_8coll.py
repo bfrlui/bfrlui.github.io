@@ -4,8 +4,9 @@ import re
 import ollama
 
 class RacingRAGEngine:
-    def __init__(self, data_directory="."):
+    def __init__(self, data_directory=".", target_race=None):
         self.data_dir = data_directory
+        self.target_race = target_race  # 🌟 由外部傳入的場次編號，用於對齊第 8 數據集檔名
         self.kb = {}  # 知識庫索引 (Knowledge Base)
         self._initialize_knowledge_base()
 
@@ -42,7 +43,7 @@ class RacingRAGEngine:
         print("🗄️ 正在將本地賽馬 8 大數據集載入 RAG 內存索引...")
         
         # 1. 讀取所有原始數據
-        starters = self._safe_load_json("hkjc_starters_perfect_race1.json")
+        starters = self._safe_load_json("hkjc_starters_perfect.json")
         
         # 🔥【相容性升級】優先讀取優化清洗後的純淨版 JSON，找不到則回退至原版
         draws = self._safe_load_json("hkjc_all_races_draw_clean.json")
@@ -56,7 +57,10 @@ class RacingRAGEngine:
         formline = self._safe_load_json("hkjc_formline_ultimate.json")
         
         # 🆕 新增第 8 數據集：馬匹歷史生涯底蘊數據 (以馬名為 Key)
-        career_history = self._safe_load_json("hkjc_career_history.json")
+        # 🌟 修正：使用 self.target_race，未指定時預設為 1
+        # 🌟 檔名需與 hkjc_career_history.py 的單場輸出一致：race_{n}_career_history.json
+        career_race = self.target_race if self.target_race is not None else 1
+        career_history = self._safe_load_json(f"hkjc_career_history_race_{career_race}.json")
 
         # 2. 開始重組高維度跨表網格
         for r_raw_key, horses_list in starters.items():
@@ -239,10 +243,7 @@ class RacingRAGEngine:
 if __name__ == "__main__":
     import sys  # 🛠️ 確保引入系統參數模組
 
-    # 1. 初始化 RAG 引擎
-    rag = RacingRAGEngine(data_directory=".")
-    
-    # 2. 🛠️ 從 Command Line 動態讀取場次參數（加入防錯機制）
+    # 1. 🛠️ 從 Command Line 動態讀取場次參數（加入防錯機制）
     target_race = 1  # 設定預設場次
     
     if len(sys.argv) > 1:
@@ -259,11 +260,14 @@ if __name__ == "__main__":
 
     print("="*60)
 
+    # 2. 初始化 RAG 引擎（必須在 target_race 解析完成後才實例化）
+    rag = RacingRAGEngine(data_directory=".", target_race=target_race)
+
     # 3. 獲取該場次的【全場完整語義情報】
     full_context = rag.get_race_prompt_context(target_race)
     
     # 4. 直接寫入本地的 txt 檔案
-    output_filename = f"race_{target_race}_report_8collections.txt"
+    output_filename = f"race_{target_race}_report.txt"
     with open(output_filename, "w", encoding="utf-8") as f:
         f.write(full_context)
         

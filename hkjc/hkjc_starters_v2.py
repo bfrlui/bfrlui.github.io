@@ -102,7 +102,7 @@ def scrape_all_races_today(race_date="2026/07/08", racecourse="HV"):
             all_starters_data[race_key] = race_horses
             print(f"   ✅ {race_key} 處理完成，成功導入 {len(race_horses)} 匹馬的 26項全量指標。")
             
-            break  # 如果只想抓取一場比賽，取消註解這行即可
+            # break  # 如果只想抓取一場比賽，取消註解這行即可
             race_no += 1
             time.sleep(1.5) # 爬蟲禮貌延時
             

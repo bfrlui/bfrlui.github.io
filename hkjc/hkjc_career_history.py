@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 import json
 import os
 import re
+import sys
 import time
 
 def parse_horse_career(horse_id, horse_name):
@@ -36,10 +37,12 @@ def parse_horse_career(horse_id, horse_name):
     headers_text = [th.get_text().strip() for th in header_row.find_all(['th', 'td'])]
     
     # 初始化索引字典（給予安全預設值，若找不到則動態覆蓋）
-    idx = {"venue": 2, "class": 3, "dist": 4, "going": 5, "weight": 7, "placing": 9, "run_pos": 10}
+    # 🌟 修正：實際表頭為「馬場/跑道/賽道」，預設值改為正確的欄位索引 3
+    idx = {"venue": 3, "class": 3, "dist": 4, "going": 5, "weight": 7, "placing": 9, "run_pos": 10}
     
     for i, h in enumerate(headers_text):
-        if "處境" in h: idx["venue"] = i
+        # 🌟 修正：實際場地欄位表頭是「馬場/跑道/賽道」，而非「處境」
+        if "處境" in h or "馬場" in h or "跑道" in h or "賽道" in h: idx["venue"] = i
         if "班次" in h or "級數" in h: idx["class"] = i
         if "途程" in h: idx["dist"] = i
         if "狀況" in h or "場地" in h: idx["going"] = i
@@ -137,7 +140,9 @@ def parse_horse_career(horse_id, horse_name):
     max_runs = -1  # 🌟 新增：用於在分數相同時比拼出賽次數
 
     for dk, dv in dist_stats.items():
-        score = dv["places"] * 10 + dv["wins"]
+        # 🌟 修正前：score = dv["places"] * 10 + dv["wins"] (位置權重過高)
+        # 🌟 修正後：優先考慮頭馬，頭馬值 10 分，位置值 1 分
+        score = dv["wins"] * 10 + dv["places"]        
         
         # 🌟 核心修復：如果分數更高，或者分數相同但「出賽次數更多」
         if (score > max_score) or (score == max_score and dv["runs"] > max_runs):
@@ -160,9 +165,9 @@ def parse_horse_career(horse_id, horse_name):
             max_cls_places = cv["places"]
             max_cls_runs = cv["runs"]
             if max_cls_places > 0:
-                best_class = f"{ck} (出賽{cv['runs']}次，上名{cv['places']}次)"
+                best_class = f"第 {ck} 班 (出賽{cv['runs']}次，上名{cv['places']}次)"
             else:
-                best_class = f"{ck} (出賽{cv['runs']}次，未曾上名)"
+                best_class = f"第 {ck} 班 (出賽{cv['runs']}次，未曾上名)"
             
     w_text = f"曾負重磅 {max_win_weight} 磅奪冠，具備頂磅承載力！" if max_win_weight >= 132 else f"歷史最高奪冠負磅為 {max_win_weight} 磅。"
 
@@ -186,6 +191,16 @@ def parse_horse_career(horse_id, horse_name):
     }
 
 def main():
+    # 🌟 新增：支援透過命令列參數指定單一場次，例如 python hkjc_career_history.py 1
+    # 若未帶參數則處理全部場次（維持舊行為）
+    target_race = None
+    if len(sys.argv) > 1:
+        try:
+            target_race = int(sys.argv[1])
+        except ValueError:
+            print(f"❌ 錯誤：場次編號必須為數字，您輸入的是 '{sys.argv[1]}'。")
+            return
+
     starters_file = "hkjc_starters_perfect.json"
     if not os.path.exists(starters_file):
         print(f"❌ 錯誤：找不到當日排位檔案 {starters_file}，請確認檔名！")
@@ -194,7 +209,7 @@ def main():
     with open(starters_file, "r", encoding="utf-8") as f:
         starters_data = json.load(f)
 
-    # 🔍 【核心新增】自動診斷：印出你 JSON 檔案裡到底長怎樣
+    # 🔍 自動診斷：印出 JSON 數據格式
     print("\n🔍 【自動診斷啟動】正在掃描您的 JSON 數據格式...")
     has_sample = False
     for r_no, h_list in starters_data.items():
@@ -208,6 +223,17 @@ def main():
         print("❌ 錯誤：你的 JSON 檔案中沒有包含任何有效的馬匹陣列！")
         return
     print("="*60 + "\n")
+
+    # 🌟 若指定了場次，則只保留該場次的資料
+    if target_race is not None:
+        race_key = f"第 {target_race} 場"
+        if race_key not in starters_data or not isinstance(starters_data[race_key], list):
+            available = [k for k, v in starters_data.items() if isinstance(v, list)]
+            print(f"❌ 錯誤：找不到場次 '{race_key}'！")
+            print(f"👉 目前檔案中可用的場次標籤為：{available}")
+            return
+        starters_data = {race_key: starters_data[race_key]}
+        print(f"🎯 已鎖定單一場次：{race_key}，僅處理該場次馬匹。\n")
 
     career_big_data = {}
     success_count = 0
@@ -252,12 +278,18 @@ def main():
                 print(f"⚠️ 跳過一筆資訊不全的馬匹：馬名={h_name}, 提取到的編號={h_id}")
 
     # 寫入第 8 數據集
-    with open("hkjc_career_history.json", "w", encoding="utf-8") as f:
+    # 🌟 若指定單一場次，則輸出至 race_{n}_career_history.json，避免覆蓋全場次檔案
+    if target_race is not None:
+        out_file = f"hkjc_career_history_race_{target_race}.json"
+    else:
+        out_file = "hkjc_career_history.json"
+
+    with open(out_file, "w", encoding="utf-8") as f:
         json.dump(career_big_data, f, ensure_ascii=False, indent=4)
         
     print("\n" + "="*50)
     print(f"🎉 執行完畢！共成功建立 {success_count} 匹馬的全生涯大數據。")
-    print(f"💾 檔案已儲存至: 'hkjc_career_history.json'")
+    print(f"💾 檔案已儲存至: '{out_file}'")
     if success_count == 0:
         print("🚨 警告：最終輸出仍為空！請觀看上方【自動診斷】印出的原始欄位，確認代表馬匹烙印碼（如 L148）的英文鍵名到底是哪一個。")
 
