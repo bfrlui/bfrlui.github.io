@@ -59,6 +59,7 @@ def parse_horse_career(horse_id, horse_name):
     class_stats = {}  
     goings_dict = {}  
     running_styles = []
+    early_positions = []  # 🌟 新增：收集每場早段位置（沿途走位第一個數字），用於量化前速
     max_win_weight = 0 
 
     # === 以下是 for row in rows: 內部的完全體整合邏輯 ===
@@ -128,6 +129,10 @@ def parse_horse_career(horse_id, horse_name):
                 if is_place: goings_dict[going_text]["places"] += 1
             if run_pos_text:
                 running_styles.append(run_pos_text)
+                # 🌟 新增：解析沿途走位第一個數字作為早段位置（如 "10 8 3" -> 10）
+                ep_match = re.match(r'\s*(\d+)', run_pos_text)
+                if ep_match:
+                    early_positions.append(int(ep_match.group(1)))
                 
         except Exception: continue
 
@@ -173,10 +178,25 @@ def parse_horse_career(horse_id, horse_name):
 
     # 走位與場地優化邏輯
     style_text = "中前段跟前，直路透出" 
-    if running_styles:
+    # 🌟 升級：以「全部出賽」的早段位置量化前速，而非只看第一筆樣本
+    early_avg = (sum(early_positions) / len(early_positions)) if early_positions else 7.0
+    early_front_ratio = (sum(1 for p in early_positions if p <= 3) / len(early_positions)) if early_positions else 0.0
+
+    if early_positions:
+        if early_avg <= 3.5:
+            style_text = "主動放頭馬，直路大膽抗衡"
+        elif early_avg >= 9.0:
+            style_text = "早段留後蓄銳，依賴直路外疊發力後追"
+        # 中間區間維持預設「中前段跟前，直路透出」
+    elif running_styles:
+        # 回退：若無法解析數字，沿用舊邏輯取第一筆
         sample = running_styles[0]
         if sample.startswith("1") or sample.startswith("2"): style_text = "主動放頭馬，直路大膽抗衡"
         elif any(x in sample for x in ["9", "10", "11", "12", "13", "14"]): style_text = "早段留後蓄銳，依賴直路外疊發力後追"
+
+    # 🌟 新增：量化前速指標，供 RAG 引擎做場級步速總結
+    front_speed = "高" if early_avg <= 4.0 else ("中" if early_avg <= 7.0 else "低")
+    front_speed_metric = f"早段平均位置 {early_avg:.1f}（前速{front_speed}），早段前置(≤3)佔比 {round(early_front_ratio*100)}%"
 
     best_going = "常規好地"
     for g, s in goings_dict.items():
@@ -187,6 +207,7 @@ def parse_horse_career(horse_id, horse_name):
         "生涯總結": f"在港總出賽 {total_runs} 次，累積 {total_wins}冠 {total_places-total_wins}位。歷史最擅長途程為：{best_dist}。",
         "級數與負磅": f"歷史最擅長適應班次為：{best_class}。{w_text}",
         "走位風格": f"走位形態多呈現為 [{style_text}]。",
+        "前速指標": front_speed_metric,
         "場地偏好": f"表現最佳場地：{best_going}。"
     }
 

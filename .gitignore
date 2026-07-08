@@ -48,3 +48,4 @@ dist
 package-lock.json
 public/css
 public/*.html
+__pycache__*

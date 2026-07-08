@@ -88,6 +88,9 @@ class RacingRAGEngine:
             inc_lookup = {self._pad_horse_no(h.get("馬號")): h for h in incidents.get(r_raw_key, [])}
             past_battles = formline.get(r_raw_key, [])
 
+            # 🌟 新增：收集場內前置型馬匹資訊，用於場級步速形勢總結
+            front_runners = []  # 每項: (馬名, 檔位, 前速指標文字, 是否放頭馬)
+
             # 遍歷當場所有出賽馬匹，進行全維度語義化裝配
             for horse in horses_list:
                 h_no = self._pad_horse_no(horse.get("馬號"))
@@ -131,8 +134,13 @@ class RacingRAGEngine:
                         f"【歷史底蘊】: 📈 {career_h.get('生涯總結', '無數據')}\n"
                         f"              🎯 {career_h.get('級數與負磅', '無數據')}\n"
                         f"              🏃‍♂️ {career_h.get('走位風格', '無數據')}\n"
+                        f"              ⚡ {career_h.get('前速指標', '無數據')}\n"
                         f"              🌦️ {career_h.get('場地偏好', '無數據')}\n"
                     )
+                    # 🌟 收集前置型馬匹（放頭馬）供場級步速總結
+                    style = career_h.get('走位風格', '')
+                    is_front = "主動放頭馬" in style
+                    front_runners.append((h_name, str(draw_assigned).strip(), career_h.get('前速指標', '無數據'), is_front))
                 else:
                     semantic_profile += "【歷史底蘊】: 📅 暫無該駒歷史生涯統計，可能為在港首秀或進口新馬。\n"
 
@@ -191,8 +199,78 @@ class RacingRAGEngine:
                     semantic_profile += "【歷史同場交鋒戰績】: 屬於新交鋒組合，無近期與同場對手直接碰頭的戰績參考。\n"
 
                 self.kb[race_no]["horses"][h_no] = semantic_profile
+
+            # 🌟 新增：根據場內前置型馬匹，生成【預期步速形勢演變】場級總結
+            self.kb[race_no]["pace_summary"] = self._build_pace_summary(front_runners)
                 
         print(f"🎉 成功！RAG 引擎已完成對齊，共裝配 {len(self.kb)} 個場次的 8 維度語義知識庫。")
+
+    def _build_pace_summary(self, front_runners):
+        """
+        🌟 場級步速形勢演變總結：
+        量化場內前置型（放頭）馬數量、其檔位分佈與前速指標，
+        判斷是「惡性爭頂拉快步速（後追馬有利）」還是「互相禮讓（領放馬有利）」。
+        front_runners: list of (馬名, 檔位, 前速指標文字, is_front_bool)
+        """
+        front_horses = [f for f in front_runners if f[3]]
+        n_front = len(front_horses)
+        n_total = len(front_runners)
+
+        if n_total == 0:
+            return "【預期步速形勢演變】: 缺乏足夠歷史走位數據，步速形勢難以判斷，建議以個體實力與檔位為主。"
+
+        # 解析每匹前置馬的早段平均位置（從「早段平均位置 X.X」抽取）
+        avg_positions = []
+        for name, draw, metric, is_front in front_horses:
+            m = re.search(r'早段平均位置\s*([\d.]+)', metric)
+            if m:
+                avg_positions.append(float(m.group(1)))
+
+        avg_front_pos = (sum(avg_positions) / len(avg_positions)) if avg_positions else 7.0
+
+        # 檔位分佈：大檔(外檔)被迫搶前會拉快步速
+        draws = [int(d) for name, d, metric, is_front in front_horses if d.isdigit()]
+        outer_draws = [d for d in draws if d >= 7]  # 外檔門檻（視總馬數，此處以 7 為界）
+        inner_draws = [d for d in draws if d < 7]
+
+        # 判斷邏輯
+        if n_front >= 3:
+            if outer_draws:
+                verdict = (
+                    f"本場共 {n_front} 隻前置型（放頭）馬，且當中 {len(outer_draws)} 隻排外檔"
+                    f"（檔位 {outer_draws}），早段平均位置約 {avg_front_pos:.1f}。"
+                    f"外檔放頭馬為搶佔有利位置將被迫高步速競逐，預期形成【惡性爭頂、步速偏快】之局面，"
+                    f"直路後追馬（留後型）有望受惠，前領馬體力消耗風險高。"
+                )
+            elif inner_draws and len(inner_draws) >= 2:
+                verdict = (
+                    f"本場共 {n_front} 隻前置型（放頭）馬，且多集中內檔（檔位 {inner_draws}），"
+                    f"早段平均位置約 {avg_front_pos:.1f}。內檔領放馬易「執到軟弱領放」互相禮讓，"
+                    f"預期【步速偏慢、領放馬有利】，前領型馬可從容帶出，後追馬需克服慢步速下難追的困局。"
+                )
+            else:
+                verdict = (
+                    f"本場共 {n_front} 隻前置型（放頭）馬，早段平均位置約 {avg_front_pos:.1f}。"
+                    f"多頭前置馬並存，預期早段將出現位置爭奪，步速傾向偏快，留意後追馬趁亂突圍。"
+                )
+        elif n_front == 1:
+            verdict = (
+                f"本場僅 {n_front} 隻明確前置型（放頭）馬（檔位 {draws or '未知'}），"
+                f"早段平均位置約 {avg_front_pos:.1f}。預期該駒可從容領放，"
+                f"【步速偏慢、單一領放馬有利】，後追馬需主動上前才不致被帶離。"
+            )
+        else:
+            verdict = (
+                f"本場前置型（放頭）馬僅 {n_front} 隻，多數馬匹傾向留後或中置，"
+                f"早段平均位置約 {avg_front_pos:.1f}。預期【步速中庸、中置馬靈活走位有利】，"
+                f"留後馬需視直路爆發力突圍。"
+            )
+
+        front_names = "、".join(name for name, d, m, f in front_horses) or "無"
+        return (
+            f"【預期步速形勢演變】: 全場 {n_total} 匹出賽，其中前置型（放頭）馬 {n_front} 隻"
+            f"（{front_names}）。{verdict}"
+        )
 
     def get_race_prompt_context(self, race_no):
         """根據場次號，提取該場所有馬匹的語義 Context"""
@@ -201,6 +279,10 @@ class RacingRAGEngine:
             return f"❌ 錯誤：RAG 知識庫中未找到第 {race_no} 場的任何數據。"
         
         context_string = f"### 【RAG 精準檢索：第 {race_no} 場參賽馬匹全維度語義情報】 ###\n\n"
+        # 🌟 在個體分析前先給出全局步速形勢，讓模型具備全局觀
+        pace = race_data.get("pace_summary", "")
+        if pace:
+            context_string += pace + "\n\n"
         # 按馬號順序組裝
         for h_no in sorted(race_data["horses"].keys()):
             context_string += f"--- 馬匹編號: {h_no} ---\n"
