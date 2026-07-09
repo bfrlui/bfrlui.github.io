@@ -122,7 +122,7 @@ def run_one_shot_formline(race_date, total_races=11):
 
 if __name__ == "__main__":
     # 填入您想要抓取的賽事日期 (請嚴格保持 YYYY/MM/DD 格式)
-    TARGET_DATE = "2026/07/12" 
+    TARGET_DATE = "2026/07/08" 
     
     # 執行一鍵式腳本
-    run_one_shot_formline(TARGET_DATE, total_races=1)  
+    run_one_shot_formline(TARGET_DATE, total_races=9)  

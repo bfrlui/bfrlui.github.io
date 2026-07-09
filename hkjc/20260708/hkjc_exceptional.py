@@ -131,23 +131,8 @@ def run_exceptional_factors_v4(race_date, racecourse="ST", total_races=11):
     print(f"\n🎉 【V4 行掃描雙軌對齊完成】最終數據集已成功覆蓋生成：'{output_filename}'")
 
 if __name__ == "__main__":
-    import sys  # 🛠️ 確保引入系統參數模組
-
-    # 用法: python hkjc_exceptional.py <賽事日期> <馬場代碼> [總場次]
-    # 例:   python hkjc_exceptional.py 2026/07/12 ST 11
-    TARGET_DATE = "2026/07/08"  # 設定預設賽事日期
-    RACECOURSE = "HV"           # 設定預設馬場代碼
-    TOTAL_RACES = 11            # 設定預設總場次
-
-    if len(sys.argv) > 1:
-        TARGET_DATE = sys.argv[1]
-    if len(sys.argv) > 2:
-        RACECOURSE = sys.argv[2]
-    if len(sys.argv) > 3:
-        try:
-            TOTAL_RACES = int(sys.argv[3])
-        except ValueError:
-            print(f"❌ 錯誤：總場次 '{sys.argv[3]}' 不是有效數字，使用預設 {TOTAL_RACES} 場。")
-
-    print(f"📅 賽事日期: {TARGET_DATE}　🏟️ 馬場代碼: {RACECOURSE}　🏁 總場次: {TOTAL_RACES}")
+    TARGET_DATE = "2026/07/08" 
+    # RACECOURSE = "ST"
+    RACECOURSE = "HV"
+    TOTAL_RACES = 9
     run_exceptional_factors_v4(TARGET_DATE, racecourse=RACECOURSE, total_races=TOTAL_RACES)

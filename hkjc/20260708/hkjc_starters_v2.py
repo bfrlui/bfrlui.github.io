@@ -4,7 +4,6 @@ from bs4 import BeautifulSoup
 import json
 import time
 import re
-import argparse
 
 def scrape_all_races_today(race_date="2026/07/08", racecourse="HV"):
     headers = {
@@ -103,8 +102,8 @@ def scrape_all_races_today(race_date="2026/07/08", racecourse="HV"):
             all_starters_data[race_key] = race_horses
             print(f"   ✅ {race_key} 處理完成，成功導入 {len(race_horses)} 匹馬的 26項全量指標。")
             
-            break  # 如果只想抓取一場比賽，取消註解這行即可
-            # race_no += 1
+            # break  # 如果只想抓取一場比賽，取消註解這行即可
+            race_no += 1
             time.sleep(1.5) # 爬蟲禮貌延時
             
         except Exception as e:
@@ -121,8 +120,4 @@ def scrape_all_races_today(race_date="2026/07/08", racecourse="HV"):
     print("="*60)
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="抓取馬會排位表全量數據")
-    parser.add_argument("race_date", nargs="?", default="2026/07/08", help="賽事日期，格式 YYYY/MM/DD")
-    parser.add_argument("racecourse", nargs="?", default="HV", help="馬場代碼，例如 HV 或 ST")
-    args = parser.parse_args()
-    scrape_all_races_today(race_date=args.race_date, racecourse=args.racecourse)
+    scrape_all_races_today(race_date="2026/07/08", racecourse="HV")

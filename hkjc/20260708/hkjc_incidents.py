@@ -3,7 +3,7 @@ import json
 import time
 from bs4 import BeautifulSoup
 
-base_url = "https://racing.hkjc.com/zh-hk/local/information/racereportext?racedate=2026/07/12&Racecourse=ST&RaceNo="
+base_url = "https://racing.hkjc.com/zh-hk/local/information/racereportext?racedate=2026/07/08&Racecourse=HV&RaceNo="
 headers = {
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 }
@@ -39,17 +39,8 @@ for race_no in range(1, 13):  # 完整跑完 1 至 12 場
             
         rows = target_table.find_all("tr")
         race_incidents = []
-        in_reserve = False  # 標記是否進入「後備馬匹」區段
         
         for row in rows:
-            row_text = row.get_text(strip=True)
-            
-            # 偵測「後備馬匹」分隔行，進入後備區段並跳過該分隔行本身
-            # （分隔行可能使用 <th> 而非 <td>，故先於欄位解析前判斷）
-            if "後備馬匹" in row_text:
-                in_reserve = True
-                continue
-            
             tds = row.find_all("td")
             if not tds:
                 continue
@@ -58,12 +49,8 @@ for race_no in range(1, 13):  # 完整跑完 1 至 12 場
             
             # 安全過濾：確保欄位數量達到 6 欄，且第一欄必須是數字（馬號）
             if len(cells) >= 6 and cells[0].isdigit():
-                horse_no = cells[0]
-                # 後備馬匹的馬號改為非數字字串，避免與正選馬匹重複
-                if in_reserve:
-                    horse_no = f"{cells[0]} (後備馬匹)"
                 incident_entry = {
-                    "馬號": horse_no,
+                    "馬號": cells[0],
                     "烙號": cells[1],
                     "馬名": cells[2],
                     "上次事件日期": cells[3],
@@ -73,13 +60,8 @@ for race_no in range(1, 13):  # 完整跑完 1 至 12 場
                 race_incidents.append(incident_entry)
         
         if race_incidents:
-            # 依馬號排序（後備馬匹排在同號正選馬匹之後），確保結構整齊
-            def sort_key(x):
-                num_str = x["馬號"].split()[0]
-                num = int(num_str) if num_str.isdigit() else 9999
-                is_reserve = 1 if "後備馬匹" in x["馬號"] else 0
-                return (num, is_reserve)
-            race_incidents.sort(key=sort_key)
+            # 依馬號排序，確保結構整齊
+            race_incidents.sort(key=lambda x: int(x["馬號"]))
             hkjc_incidents_data[race_key] = race_incidents
             print(f"✅ {race_key} 事件摘要解析成功！共收錄 {len(race_incidents)} 匹馬。")
         else:

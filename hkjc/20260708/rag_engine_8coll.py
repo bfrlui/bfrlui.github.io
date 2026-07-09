@@ -4,11 +4,9 @@ import re
 import ollama
 
 class RacingRAGEngine:
-    def __init__(self, data_directory=".", target_race=None, race_date="2026/07/12", racecourse="ST"):
+    def __init__(self, data_directory=".", target_race=None):
         self.data_dir = data_directory
         self.target_race = target_race  # 🌟 由外部傳入的場次編號，用於對齊第 8 數據集檔名
-        self.race_date = race_date      # 🌟 賽事日期，用於抓取賽事資料標頭
-        self.racecourse = racecourse    # 🌟 馬場代碼 (HV / ST)，用於抓取賽事資料標頭
         self.kb = {}  # 知識庫索引 (Knowledge Base)
         self._initialize_knowledge_base()
 
@@ -37,32 +35,6 @@ class RacingRAGEngine:
         digits = ''.join(filter(str.isdigit, str(race_key)))
         return int(digits) if digits else None
 
-    def _fetch_race_info(self, race_no):
-        """
-        🌟 從馬會排位表頁面抓取賽事資料標頭 (賽事名稱、日期、馬場、時間、跑道、途程、場地、獎金、評分、班次)
-        標頭位於 div.f_fs13 元素，文字格式如：
-        「第 1 場 - 開球讓賽 2026年7月8日, 星期三, 跑馬地, 18:30 草地, "B" 賽道, 1000米 獎金: $875,000, 評分: 40-0, 第五班」
-        """
-        import requests
-        from bs4 import BeautifulSoup
-        url = (f"https://racing.hkjc.com/zh-hk/local/information/racecard"
-               f"?racedate={self.race_date}&Racecourse={self.racecourse}&RaceNo={race_no}")
-        headers = {
-            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-        }
-        try:
-            res = requests.get(url, headers=headers, timeout=10)
-            res.encoding = 'utf-8'
-            if res.status_code != 200:
-                return ""
-            soup = BeautifulSoup(res.text, 'html.parser')
-            div = soup.find('div', class_='f_fs13')
-            if div:
-                return div.get_text(' ', strip=True)
-        except Exception as e:
-            print(f"⚠️ 抓取第 {race_no} 場賽事資料標頭失敗: {e}")
-        return ""
-
     def _initialize_knowledge_base(self):
         """
         核心 RAG 機制：加載 8 大原始數據集
@@ -73,7 +45,11 @@ class RacingRAGEngine:
         # 1. 讀取所有原始數據
         starters = self._safe_load_json("hkjc_starters_perfect.json")
         
-        draws = self._safe_load_json("hkjc_all_races_draw.json")
+        # 🔥【相容性升級】優先讀取優化清洗後的純淨版 JSON，找不到則回退至原版
+        draws = self._safe_load_json("hkjc_all_races_draw_clean.json")
+        if not draws:
+            draws = self._safe_load_json("hkjc_all_races_draw.json")
+            
         exceptional = self._safe_load_json("hkjc_exceptional_ultimate.json")
         trackwork = self._safe_load_json("hkjc_trackwork_perfect.json")
         vet_features = self._safe_load_json("hkjc_vet_features_v2.json")
@@ -93,7 +69,6 @@ class RacingRAGEngine:
             
             self.kb[race_no] = {
                 "race_title": f"第 {race_no} 場賽事",
-                "race_info": self._fetch_race_info(race_no),  # 🌟 賽事資料標頭
                 "horses": {}
             }
 
@@ -206,9 +181,9 @@ class RacingRAGEngine:
                 # --- E. 歷史競賽受阻事件 ---
                 inc_h = inc_lookup.get(h_no, {})
                 if inc_h and inc_h.get("競賽事件摘要"):
-                    semantic_profile += f"【上次競賽受阻及應變紀錄】: 🔍 實力折損還原評語：{inc_h.get('競賽事件摘要')}\n"
+                    semantic_profile += f"【上仗遭遇】: 🔍 實力折損還原評語：{inc_h.get('競賽事件摘要')}\n"
                 else:
-                    semantic_profile += "【上次競賽受阻及應變紀錄】: ⚠️ 無重大競賽受阻事件回報。（注意：此處不代表其最終名次，若無提及受阻，通常代表該駒純因實力或狀態落敗，請勿過度解讀為優勢）。\n"
+                    semantic_profile += "【上仗遭遇】: ⚠️ 上仗無重大競賽受阻事件回報。（注意：此處不代表其最終名次，若無提及受阻，通常代表該駒純因實力或狀態落敗，請勿過度解讀為優勢）。\n"
 
                 # --- F. 歷史同場對壘戰績 ---
                 head_to_head_logs = []
@@ -304,11 +279,7 @@ class RacingRAGEngine:
             return f"❌ 錯誤：RAG 知識庫中未找到第 {race_no} 場的任何數據。"
         
         context_string = f"### 【RAG 精準檢索：第 {race_no} 場參賽馬匹全維度語義情報】 ###\n\n"
-        # 🌟 先輸出賽事資料標頭，再輸出全局步速形勢
-        race_info = race_data.get("race_info", "")
-        if race_info:
-            context_string += "--- 賽事資料 ---\n"
-            context_string += race_info + "\n\n"
+        # 🌟 在個體分析前先給出全局步速形勢，讓模型具備全局觀
         pace = race_data.get("pace_summary", "")
         if pace:
             context_string += pace + "\n\n"
@@ -354,44 +325,34 @@ class RacingRAGEngine:
 if __name__ == "__main__":
     import sys  # 🛠️ 確保引入系統參數模組
 
-    # 1. 🛠️ 從 Command Line 動態讀取參數（加入防錯機制）
-    #    用法: python rag_engine_8coll.py <總場次> <馬場代碼> [賽事日期]
-    #    例:   python rag_engine_8coll.py 11 ST 2026/07/12
-    total_races = 11          # 設定預設總場次
-    racecourse = "ST"         # 設定預設馬場代碼
-    race_date = "2026/07/12"  # 設定預設賽事日期
-
+    # 1. 🛠️ 從 Command Line 動態讀取場次參數（加入防錯機制）
+    target_race = 1  # 設定預設場次
+    
     if len(sys.argv) > 1:
         try:
-            total_races = int(sys.argv[1])
-            print(f"📥 成功讀取命令列參數：即將批次分析第 1 至 【{total_races}】 場賽事...")
+            # sys.argv[1] 代表終端機輸入的第一個參數
+            target_race = int(sys.argv[1])
+            print(f"📥 成功讀取命令列參數：即將開始分析第 【{target_race}】 場賽事...")
         except ValueError:
-            print(f"❌ 錯誤：您輸入的 '{sys.argv[1]}' 不是有效的數字！將自動切換回預設 {total_races} 場。")
+            print(f"❌ 錯誤：您輸入的 '{sys.argv[1]}' 不是有效的數字！將自動切換回預設第 1 場。")
+            target_race = 1
     else:
-        print(f"💡 提示：您未在命令列輸入總場次，系統自動使用預設 【{total_races}】 場。")
-
-    if len(sys.argv) > 2:
-        racecourse = sys.argv[2]
-    if len(sys.argv) > 3:
-        race_date = sys.argv[3]
-
-    print(f"📅 賽事日期: {race_date}　🏟️ 馬場代碼: {racecourse}")
-    print("👉 使用提示：'python rag_engine_8coll.py 11 ST 2026/07/12' 可指定總場次/馬場/日期。")
+        print("💡 提示：您未在命令列輸入場次，系統自動使用預設第 【1】 場。")
+        print("👉 使用提示：下次可以使用 'python rag_engine.py 3' 來直接輸出第 3 場報告。")
 
     print("="*60)
 
-    # 2. 逐場初始化 RAG 引擎並生成報告
-    #    （引擎依 target_race 對齊第 8 數據集檔名，故每場各自實例化以確保生涯底蘊正確對齊）
-    for race_no in range(1, total_races + 1):
-        rag = RacingRAGEngine(data_directory=".", target_race=race_no,
-                              race_date=race_date, racecourse=racecourse)
+    # 2. 初始化 RAG 引擎（必須在 target_race 解析完成後才實例化）
+    rag = RacingRAGEngine(data_directory=".", target_race=target_race)
 
-        # 3. 獲取該場次的【全場完整語義情報】
-        full_context = rag.get_race_prompt_context(race_no)
-
-        # 4. 直接寫入本地的 txt 檔案
-        output_filename = f"race_{race_no}_report.txt"
-        with open(output_filename, "w", encoding="utf-8") as f:
-            f.write(full_context)
-
-        print(f"🎉 第 {race_no} 場報告已生成: '{output_filename}'")
+    # 3. 獲取該場次的【全場完整語義情報】
+    full_context = rag.get_race_prompt_context(target_race)
+    
+    # 4. 直接寫入本地的 txt 檔案
+    output_filename = f"race_{target_race}_report.txt"
+    with open(output_filename, "w", encoding="utf-8") as f:
+        f.write(full_context)
+        
+    print(f"\n🎉 成功！第 {target_race} 場的全場完整語義報告已生成。")
+    print(f"💾 檔案已儲存至: '{output_filename}'")
+    print(f"💡 提示：請直接去資料夾打開這個文字檔，全選複製後貼給大模型即可！")
