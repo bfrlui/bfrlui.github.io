@@ -18,13 +18,46 @@ Design goals (for a growing "big data collection"):
 import json
 import os
 import re
+import unicodedata
 from collections import OrderedDict
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 
+# Invisible / non-breaking characters scraped from HKJC web pages that should be
+# normalized away so the output JSON stays clean ASCII-space / standard text.
+_INVISIBLE_MAP = {
+    "\u00a0": " ",   # NO-BREAK SPACE
+    "\u200b": "",    # ZERO WIDTH SPACE
+    "\u200c": "",    # ZERO WIDTH NON-JOINER
+    "\u200d": "",    # ZERO WIDTH JOINER
+    "\u00ad": "",    # SOFT HYPHEN
+    "\u200e": "",    # LEFT-TO-RIGHT MARK
+    "\u200f": "",    # RIGHT-TO-LEFT MARK
+    "\u2028": " ",   # LINE SEPARATOR
+    "\u2029": " ",   # PARAGRAPH SEPARATOR
+    "\ufeff": "",    # BYTE ORDER MARK
+    "\u2060": "",    # WORD JOINER
+}
+
+
+def clean_text(value):
+    """Recursively strip invisible/unicode characters from all strings."""
+    if isinstance(value, str):
+        for bad, good in _INVISIBLE_MAP.items():
+            if bad in value:
+                value = value.replace(bad, good)
+        # Collapse any resulting multiple spaces and trim.
+        value = re.sub(r"\s+", " ", value).strip()
+        return value
+    if isinstance(value, list):
+        return [clean_text(v) for v in value]
+    if isinstance(value, dict):
+        return OrderedDict((k, clean_text(v)) for k, v in value.items())
+    return value
+
 # The racing day the web-page sources were scraped from. career is historical
 # and not tied to a single racing day, so it has no _race_date.
-RACE_DATE = "2026/07/15"
+RACE_DATE = "15/07/2026"
 
 # Race-day sources (scraped from HKJC web pages on RACE_DATE). Each entry gets a
 # _race_date tag.
@@ -63,7 +96,7 @@ def race_from_filename(fname):
 
 def load(name):
     with open(os.path.join(BASE, name), encoding="utf-8") as fh:
-        return json.load(fh)
+        return clean_text(json.load(fh))
 
 
 def merge():
