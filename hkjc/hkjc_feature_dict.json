@@ -1,0 +1,275 @@
+[
+  {
+    "name": "f_horse_age",
+    "dtype": "int",
+    "imputation": 0
+  },
+  {
+    "name": "f_draw",
+    "dtype": "int",
+    "imputation": 0
+  },
+  {
+    "name": "f_declared_weight",
+    "dtype": "int",
+    "imputation": 0.0
+  },
+  {
+    "name": "f_horse_weight",
+    "dtype": "int",
+    "imputation": 0.0
+  },
+  {
+    "name": "f_weight_change",
+    "dtype": "int",
+    "imputation": 0.0
+  },
+  {
+    "name": "f_weight_change_pct",
+    "dtype": "int",
+    "imputation": 0.0
+  },
+  {
+    "name": "f_current_rating",
+    "dtype": "int",
+    "imputation": 40
+  },
+  {
+    "name": "f_rating_change",
+    "dtype": "int",
+    "imputation": 0
+  },
+  {
+    "name": "f_days_since_last_run",
+    "dtype": "int",
+    "imputation": 60
+  },
+  {
+    "name": "f_gallop_count_7d",
+    "dtype": "int",
+    "imputation": 0
+  },
+  {
+    "name": "f_gallop_count_14d",
+    "dtype": "int",
+    "imputation": 0
+  },
+  {
+    "name": "f_gallop_count_28d",
+    "dtype": "int",
+    "imputation": 0
+  },
+  {
+    "name": "f_gallop_last_time_sec",
+    "dtype": "float",
+    "imputation": 30.0
+  },
+  {
+    "name": "f_swim_count_14d",
+    "dtype": "int",
+    "imputation": 0
+  },
+  {
+    "name": "f_trot_count_14d",
+    "dtype": "int",
+    "imputation": 0
+  },
+  {
+    "name": "f_intensity_score_14d",
+    "dtype": "float",
+    "imputation": 0.0
+  },
+  {
+    "name": "f_has_partner_gallop",
+    "dtype": "int",
+    "imputation": 0
+  },
+  {
+    "name": "f_gallop_jockey_match_flag",
+    "dtype": "int",
+    "imputation": 0
+  },
+  {
+    "name": "f_vet_days_since_injury",
+    "dtype": "int",
+    "imputation": 9999
+  },
+  {
+    "name": "f_vet_recovery_days",
+    "dtype": "int",
+    "imputation": 0
+  },
+  {
+    "name": "f_vet_tendon_issue",
+    "dtype": "int",
+    "imputation": 0
+  },
+  {
+    "name": "f_vet_total_incidents_count",
+    "dtype": "int",
+    "imputation": 0
+  },
+  {
+    "name": "f_vet_recent_90d_flag",
+    "dtype": "int",
+    "imputation": 0
+  },
+  {
+    "name": "f_incident_last_days",
+    "dtype": "int",
+    "imputation": 9999
+  },
+  {
+    "name": "f_incident_slow_out_flag",
+    "dtype": "int",
+    "imputation": 0
+  },
+  {
+    "name": "f_incident_gear_lost_flag",
+    "dtype": "int",
+    "imputation": 0
+  },
+  {
+    "name": "f_incident_blocked_flag",
+    "dtype": "int",
+    "imputation": 0
+  },
+  {
+    "name": "f_incident_count_last_5",
+    "dtype": "int",
+    "imputation": 0
+  },
+  {
+    "name": "f_exp_distance_delta",
+    "dtype": "int",
+    "imputation": 0
+  },
+  {
+    "name": "f_exp_gear_first_time",
+    "dtype": "int",
+    "imputation": 0
+  },
+  {
+    "name": "f_exp_gear_removed",
+    "dtype": "int",
+    "imputation": 0
+  },
+  {
+    "name": "f_exp_rating_drop",
+    "dtype": "int",
+    "imputation": 0
+  },
+  {
+    "name": "f_career_total_runs",
+    "dtype": "int",
+    "imputation": 0
+  },
+  {
+    "name": "f_career_win_rate",
+    "dtype": "int",
+    "imputation": 0.0
+  },
+  {
+    "name": "f_career_top3_rate",
+    "dtype": "int",
+    "imputation": 0.0
+  },
+  {
+    "name": "f_career_avg_rank_last3",
+    "dtype": "int",
+    "imputation": 14.0
+  },
+  {
+    "name": "f_career_avg_rank_last5",
+    "dtype": "int",
+    "imputation": 14.0
+  },
+  {
+    "name": "f_career_avg_margin_last3",
+    "dtype": "int",
+    "imputation": 20.0
+  },
+  {
+    "name": "f_course_cd_win_rate",
+    "dtype": "int",
+    "imputation": 0.0
+  },
+  {
+    "name": "f_best_time_sec",
+    "dtype": "float",
+    "imputation": 999.0
+  },
+  {
+    "name": "f_pace_style_code",
+    "dtype": "int",
+    "imputation": 3
+  },
+  {
+    "name": "f_import_ISG",
+    "dtype": "int (0/1)",
+    "imputation": 0,
+    "note": "one-hot of f_is_imported_type=ISG"
+  },
+  {
+    "name": "f_import_PP",
+    "dtype": "int (0/1)",
+    "imputation": 0,
+    "note": "one-hot of f_is_imported_type=PP"
+  },
+  {
+    "name": "f_import_PPG",
+    "dtype": "int (0/1)",
+    "imputation": 0,
+    "note": "one-hot of f_is_imported_type=PPG"
+  },
+  {
+    "name": "f_declared_weight_z",
+    "dtype": "float",
+    "note": "in-race Z-score (grouped by race_id)"
+  },
+  {
+    "name": "f_horse_weight_z",
+    "dtype": "float",
+    "note": "in-race Z-score (grouped by race_id)"
+  },
+  {
+    "name": "f_current_rating_z",
+    "dtype": "float",
+    "note": "in-race Z-score (grouped by race_id)"
+  },
+  {
+    "name": "f_intensity_score_14d_z",
+    "dtype": "float",
+    "note": "in-race Z-score (grouped by race_id)"
+  },
+  {
+    "name": "f_career_avg_rank_last3_z",
+    "dtype": "float",
+    "note": "in-race Z-score (grouped by race_id)"
+  },
+  {
+    "name": "f_draw_pct",
+    "dtype": "float",
+    "note": "in-race percentile rank (grouped by race_id)"
+  },
+  {
+    "name": "f_rating_change_pct",
+    "dtype": "float",
+    "note": "in-race percentile rank (grouped by race_id)"
+  },
+  {
+    "name": "f_best_time_sec_pct",
+    "dtype": "float",
+    "note": "in-race percentile rank (grouped by race_id)"
+  },
+  {
+    "name": "target_finish_position",
+    "dtype": "int",
+    "note": "LABEL: actual finish position (leakage-safe)"
+  },
+  {
+    "name": "target_won",
+    "dtype": "int (0/1)",
+    "note": "LABEL: 1 if won"
+  }
+]

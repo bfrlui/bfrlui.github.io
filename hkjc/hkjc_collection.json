@@ -2,6 +2,90 @@
   "_meta": {
     "join_key": "馬名",
     "race_date": "15/07/2026",
+    "race_course": "跑馬地",
+    "race": [
+      {
+        "race_id": 858,
+        "race_name": "摩法神采讓賽",
+        "distance": 1650,
+        "race_class": 5,
+        "track_condition": "好地",
+        "track": "草地 - \"C\" 賽道",
+        "prize_money": "HK$ 875,000"
+      },
+      {
+        "race_id": 859,
+        "race_name": "百步穿雲讓賽",
+        "distance": 1200,
+        "race_class": 4,
+        "track_condition": "好地",
+        "track": "草地 - \"C\" 賽道",
+        "prize_money": "HK$ 1,170,000"
+      },
+      {
+        "race_id": 860,
+        "race_name": "都靈勇士讓賽",
+        "distance": 1800,
+        "race_class": 4,
+        "track_condition": "好地",
+        "track": "草地 - \"C\" 賽道",
+        "prize_money": "HK$ 1,170,000"
+      },
+      {
+        "race_id": 861,
+        "race_name": "甜橙讓賽",
+        "distance": 1650,
+        "race_class": 4,
+        "track_condition": "好地",
+        "track": "草地 - \"C\" 賽道",
+        "prize_money": "HK$ 1,170,000"
+      },
+      {
+        "race_id": 862,
+        "race_name": "輝煌星讓賽",
+        "distance": 1200,
+        "race_class": 4,
+        "track_condition": "好地",
+        "track": "草地 - \"C\" 賽道",
+        "prize_money": "HK$ 1,170,000"
+      },
+      {
+        "race_id": 863,
+        "race_name": "超級綠洲讓賽",
+        "distance": 1200,
+        "race_class": 4,
+        "track_condition": "好地",
+        "track": "草地 - \"C\" 賽道",
+        "prize_money": "HK$ 1,170,000"
+      },
+      {
+        "race_id": 864,
+        "race_name": "安遇讓賽",
+        "distance": 1650,
+        "race_class": 3,
+        "track_condition": "好地",
+        "track": "草地 - \"C\" 賽道",
+        "prize_money": "HK$ 2,050,000"
+      },
+      {
+        "race_id": 865,
+        "race_name": "錶之未來讓賽",
+        "distance": 1200,
+        "race_class": 2,
+        "track_condition": "好地",
+        "track": "草地 - \"C\" 賽道",
+        "prize_money": "HK$ 2,840,000"
+      },
+      {
+        "race_id": 866,
+        "race_name": "首飾太陽讓賽",
+        "distance": 1200,
+        "race_class": 3,
+        "track_condition": "好地",
+        "track": "草地 - \"C\" 賽道",
+        "prize_money": "HK$ 1,860,000"
+      }
+    ],
     "source_files": [
       "hkjc_vet_features_v2.json",
       "hkjc_trackwork_perfect.json",

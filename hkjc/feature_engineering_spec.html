@@ -1,0 +1,1290 @@
+<message-content _ngcontent-ng-c2533274573="" _nghost-ng-c984046693="" id="message-content-id-r_6f27b5b7d543b269" class="ng-star-inserted">
+  <div _ngcontent-ng-c984046693="" inline-copy-host="" class="markdown markdown-main-panel enable-luminous-fast-follows enable-updated-hr-color stronger tutor-markdown-rendering" id="model-response-message-contentr_6f27b5b7d543b269" aria-busy="false" aria-live="polite" dir="ltr" style="--animation-duration: 400ms; --fade-animation-function: ease-out;">
+    <h2 data-path-to-node="2">深入數據分析與特徵工程完整規格說明書 (Feature Engineering Specification)</h2>
+    <h3 data-path-to-node="3">一、 架構設計與展平邏輯 (Flatten Logic Architecture)</h3>
+    <h4 data-path-to-node="4">1.1 數據粒度與核心主鍵 (Data Grain &amp; Primary Key)</h4>
+    <ul data-path-to-node="5">
+      <li>
+        <p data-path-to-node="5,0,0"><b data-path-to-node="5,0,0" data-index-in-node="0">機器學習目標</b>：預測每場賽事中各馬匹的名次、完成時間或勝出機率（Tabular Ranking / Classification / Regression）。</p>
+      </li>
+      <li>
+        <p data-path-to-node="5,1,0"><b data-path-to-node="5,1,0" data-index-in-node="0">展平目標粒度 (Entity Grain)</b>：<b data-path-to-node="5,1,0" data-index-in-node="22">單一參賽實體 (Single Starter Entry)</b>，即以 <code data-path-to-node="5,1,0" data-index-in-node="55">(race_date, race_id, horse_id / 馬名)</code> 為唯一主鍵。</p>
+      </li>
+      <li>
+        <p data-path-to-node="5,2,0"><b data-path-to-node="5,2,0" data-index-in-node="0">展平流程</b>：以 <code data-path-to-node="5,2,0" data-index-in-node="7">starters</code> 陣列作為<b data-path-to-node="5,2,0" data-index-in-node="20">基礎主表 (Base Table)</b>（1:1 展開），對其餘 5 個子來源（<code data-path-to-node="5,2,0" data-index-in-node="57">vet</code>, <code data-path-to-node="5,2,0" data-index-in-node="62">trackwork</code>, <code data-path-to-node="5,2,0" data-index-in-node="73">incidents</code>, <code data-path-to-node="5,2,0" data-index-in-node="84">exceptional</code>, <code data-path-to-node="5,2,0" data-index-in-node="97">career</code>）進行時間序列約束過濾（過濾出賽日前的紀錄）、數值聚合（Aggregations）、文字解析（Parsing）及特徵交叉，最終輸出平坦化矩陣 (Flattened Feature Matrix)。</p>
+      </li>
+    </ul>
+    <h4 data-path-to-node="7">1.2 各子表展平算子細則 (Sub-table Flattening Rules)</h4>
+    <response-element class="" ng-version="0.0.0-PLACEHOLDER">
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <code-block _nghost-ng-c427156625="" class="ng-tns-c427156625-86 enable-luminous-code-block ng-star-inserted" style="">
+        <!---->
+        <!---->
+        <div _ngcontent-ng-c427156625="" class="code-block ng-tns-c427156625-86 ng-animate-disabled ng-trigger ng-trigger-codeBlockRevealAnimation" jslog="223238;track:impression,attention;BardVeMetadataKey:[[&quot;r_6f27b5b7d543b269&quot;,&quot;c_6be4a053f4cbc6bc&quot;,null,&quot;rc_be0a2bb6eab26e8d&quot;,null,null,&quot;zh&quot;,null,1,null,null,1,0]]" data-hveid="0" decode-data-ved="1" data-ved="0CAAQhtANahgKEwiFjZjAneCVAxUAAAAAHQAAAAAQqgI" style="display: block;">
+          <!---->
+          <div _ngcontent-ng-c427156625="" class="formatted-code-block-internal-container ng-tns-c427156625-86">
+            <div _ngcontent-ng-c427156625="" class="animated-opacity ng-tns-c427156625-86">
+              <!---->
+              <pre _ngcontent-ng-c427156625="" class="ng-tns-c427156625-86"><code _ngcontent-ng-c427156625="" role="text" data-test-id="code-content" class="code-container formatted ng-tns-c427156625-86 no-decoration-radius">[Nested Multi-Source JSON]
+       │
+       ├──&gt; [starters] ─────────► (Base Row: 1 Row per Horse-Race)
+       │
+       ├──&gt; [vet] ──────────────► [Date Filter: &lt; race_date] ──► Aggregations (Recency, Count, Severity)
+       │
+       ├──&gt; [trackwork] ────────► [Sliding Windows: 7d/14d/28d] ──► Intensity Score &amp; Frequency Metrics
+       │
+       ├──&gt; [incidents] ────────► [Date Filter: &lt; race_date] ──► Event Frequency &amp; Keyword Flags
+       │
+       ├──&gt; [exceptional] ──────► Mapping &amp; Parsing ──────────► Equipment Delta &amp; Distance Shift Metrics
+       │
+       └──&gt; [career] ───────────► [Date Filter: &lt; race_date] ──► Form Moving Averages, Pace &amp; Track Fits
+</code></pre>
+              <!---->
+            </div>
+          </div>
+        </div>
+        <!---->
+        <!---->
+        <!---->
+      </code-block>
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+    </response-element>
+    <h5 data-path-to-node="9">1. <code data-path-to-node="9" data-index-in-node="3">starters</code>（排位主表，1:1 展平）</h5>
+    <ul data-path-to-node="10">
+      <li>
+        <p data-path-to-node="10,0,0"><b data-path-to-node="10,0,0" data-index-in-node="0">展平邏輯</b>：直展為基礎特徵。</p>
+      </li>
+      <li>
+        <p data-path-to-node="10,1,0"><b data-path-to-node="10,1,0" data-index-in-node="0">數值轉化</b>：</p>
+        <ul data-path-to-node="10,1,1">
+          <li>
+            <p data-path-to-node="10,1,1,0,0"><b data-path-to-node="10,1,1,0,0" data-index-in-node="0">負磅 / 排位體重</b>：轉為浮點數（kg/磅）。</p>
+          </li>
+          <li>
+            <p data-path-to-node="10,1,1,1,0"><b data-path-to-node="10,1,1,1,0" data-index-in-node="0">排位體重+/-</b>：數值化，提煉出體重波動比率 <span class="math-inline" data-math="\frac{\text{體重變幅}}{\text{排位體重}}" data-index-in-node="22"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 1.2173em; vertical-align: -0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.8723em;"><span class="" style="top: -2.655em;"><span class="pstrut" style="height: 3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord cjk_fallback mtight">排位體重</span></span></span></span></span><span class="" style="top: -3.23em;"><span class="pstrut" style="height: 3em;"></span><span class="frac-line" style="border-bottom-width: 0.04em;"></span></span><span class="" style="top: -3.394em;"><span class="pstrut" style="height: 3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord cjk_fallback mtight">體重變幅</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.345em;"><span class=""></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span>。</p>
+          </li>
+          <li>
+            <p data-path-to-node="10,1,1,2,0"><b data-path-to-node="10,1,1,2,0" data-index-in-node="0">檔位</b>：離散數值（1-14）。</p>
+          </li>
+          <li>
+            <p data-path-to-node="10,1,1,3,0"><b data-path-to-node="10,1,1,3,0" data-index-in-node="0">評分與評分+/-</b>：提取當前評分及近期評分調整幅度。</p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <h5 data-path-to-node="11">2. <code data-path-to-node="11" data-index-in-node="3">vet</code>（健康與傷患紀錄，1:N 轉 1:1 聚合）</h5>
+    <ul data-path-to-node="12">
+      <li>
+        <p data-path-to-node="12,0,0"><b data-path-to-node="12,0,0" data-index-in-node="0">篩選條件</b>：<code data-path-to-node="12,0,0" data-index-in-node="5">傷患日期 &lt; race_date</code>（排除賽事當天或賽後檢查）。</p>
+      </li>
+      <li>
+        <p data-path-to-node="12,1,0"><b data-path-to-node="12,1,0" data-index-in-node="0">展平與聚合邏輯</b>：</p>
+        <ul data-path-to-node="12,1,1">
+          <li>
+            <p data-path-to-node="12,1,1,0,0"><b data-path-to-node="12,1,1,0,0" data-index-in-node="0"><code data-path-to-node="12,1,1,0,0" data-index-in-node="0">vet_days_since_last_injury</code></b>：取最近一次傷患距今天數（取極小值）。若無傷患歷史，填補為大數（如 9999）。</p>
+          </li>
+          <li>
+            <p data-path-to-node="12,1,1,1,0"><b data-path-to-node="12,1,1,1,0" data-index-in-node="0"><code data-path-to-node="12,1,1,1,0" data-index-in-node="0">vet_total_incidents_count</code></b>：統計該馬匹歷史傷患記錄總次數。</p>
+          </li>
+          <li>
+            <p data-path-to-node="12,1,1,2,0"><b data-path-to-node="12,1,1,2,0" data-index-in-node="0"><code data-path-to-node="12,1,1,2,0" data-index-in-node="0">vet_recent_90d_flag</code></b>：計算 <code data-path-to-node="12,1,1,2,0" data-index-in-node="23">傷患距今日數 &lt;= 90</code> 的次數，若 <span class="math-inline" data-math="&gt;0" data-index-in-node="42"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.5782em; vertical-align: -0.0391em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right: 0.2778em;"></span></span><span class="base"><span class="strut" style="height: 0.6444em;"></span><span class="mord">0</span></span></span></span></span> 則標記為 1，否則為 0。</p>
+          </li>
+          <li>
+            <p data-path-to-node="12,1,1,3,0"><b data-path-to-node="12,1,1,3,0" data-index-in-node="0"><code data-path-to-node="12,1,1,3,0" data-index-in-node="0">vet_tendon_flag</code></b>：檢索 <code data-path-to-node="12,1,1,3,0" data-index-in-node="19">傷患詳情</code> 是否包含「肌腱」、「腳患」、「韌帶」、「骨折」等高危字眼，生成二元特徵。</p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <h5 data-path-to-node="13">3. <code data-path-to-node="13" data-index-in-node="3">trackwork</code>（晨操與操練紀錄，時間切片聚合）</h5>
+    <ul data-path-to-node="14">
+      <li>
+        <p data-path-to-node="14,0,0"><b data-path-to-node="14,0,0" data-index-in-node="0">時間窗切片 (Sliding Windows)</b>：基於賽事日前 7 天、14 天及 28 天進行動態計數。</p>
+      </li>
+      <li>
+        <p data-path-to-node="14,1,0"><b data-path-to-node="14,1,0" data-index-in-node="0">展平與聚合邏輯</b>：</p>
+        <ul data-path-to-node="14,1,1">
+          <li>
+            <p data-path-to-node="14,1,1,0,0"><b data-path-to-node="14,1,1,0,0" data-index-in-node="0">快操 (<code data-path-to-node="14,1,1,0,0" data-index-in-node="4">快操</code>)</b>：</p>
+            <ul data-path-to-node="14,1,1,0,1">
+              <li>
+                <p data-path-to-node="14,1,1,0,1,0,0">統計 7 天/14 天/28 天內的快操次數（<code data-path-to-node="14,1,1,0,1,0,0" data-index-in-node="23">gallop_count_7d</code>, <code data-path-to-node="14,1,1,0,1,0,0" data-index-in-node="40">gallop_count_14d</code>, <code data-path-to-node="14,1,1,0,1,0,0" data-index-in-node="58">gallop_count_28d</code>）。</p>
+              </li>
+              <li>
+                <p data-path-to-node="14,1,1,0,1,1,0">解析快操時間字串（如 <code data-path-to-node="14,1,1,0,1,1,0" data-index-in-node="11">31.3 27.6 23.5</code>），計算最後一圈末段速度（末腳爆發力）。</p>
+              </li>
+              <li>
+                <p data-path-to-node="14,1,1,0,1,2,0">標記最近一次快操騎師是否為當場騎師/副練馬師（<code data-path-to-node="14,1,1,0,1,2,0" data-index-in-node="23">gallop_jockey_match_flag</code>）。</p>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p data-path-to-node="14,1,1,1,0"><b data-path-to-node="14,1,1,1,0" data-index-in-node="0">踱步 (<code data-path-to-node="14,1,1,1,0" data-index-in-node="4">踱步</code>) &amp; 游泳 (<code data-path-to-node="14,1,1,1,0" data-index-in-node="14">游泳</code>)</b>：</p>
+            <ul data-path-to-node="14,1,1,1,1">
+              <li>
+                <p data-path-to-node="14,1,1,1,1,0,0">統計 7 天/14 天/28 天內踱步與游泳頻率（<code data-path-to-node="14,1,1,1,1,0,0" data-index-in-node="25">swim_count_14d</code>, <code data-path-to-node="14,1,1,1,1,0,0" data-index-in-node="41">trot_count_14d</code>）。</p>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p data-path-to-node="14,1,1,2,0"><b data-path-to-node="14,1,1,2,0" data-index-in-node="0">綜合操練強度指數 (Workout Intensity Score)</b>：</p>
+            <ul data-path-to-node="14,1,1,2,1">
+              <li>
+                <p data-path-to-node="14,1,1,2,1,0,0">計算加權操練分數：</p>
+                <div data-path-to-node="14,1,1,2,1,0,1">
+                  <div class="math-block" data-math="\text{Intensity\_Score}_{14d} = 3.0 \times N_{\text{快操}} + 2.5 \times N_{\text{試閘}} + 1.0 \times N_{\text{游泳}} + 0.5 \times N_{\text{踱步}}"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 1.043em; vertical-align: -0.3597em;"></span><span class="mord"><span class="mord text"><span class="mord">Intensity_Score</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.1264em;"><span class="" style="top: -2.3403em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">14</span><span class="mord mathnormal mtight">d</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.3597em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.2778em;"></span></span><span class="base"><span class="strut" style="height: 0.7278em; vertical-align: -0.0833em;"></span><span class="mord">3.0</span><span class="mspace" style="margin-right: 0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right: 0.2222em;"></span></span><span class="base"><span class="strut" style="height: 0.8333em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right: 0.109em;">N</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.3283em;"><span class="" style="top: -2.55em; margin-left: -0.109em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord cjk_fallback mtight">快操</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right: 0.2222em;"></span></span><span class="base"><span class="strut" style="height: 0.7278em; vertical-align: -0.0833em;"></span><span class="mord">2.5</span><span class="mspace" style="margin-right: 0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right: 0.2222em;"></span></span><span class="base"><span class="strut" style="height: 0.8333em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right: 0.109em;">N</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.3283em;"><span class="" style="top: -2.55em; margin-left: -0.109em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord cjk_fallback mtight">試閘</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right: 0.2222em;"></span></span><span class="base"><span class="strut" style="height: 0.7278em; vertical-align: -0.0833em;"></span><span class="mord">1.0</span><span class="mspace" style="margin-right: 0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right: 0.2222em;"></span></span><span class="base"><span class="strut" style="height: 0.8333em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right: 0.109em;">N</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.3283em;"><span class="" style="top: -2.55em; margin-left: -0.109em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord cjk_fallback mtight">游泳</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right: 0.2222em;"></span></span><span class="base"><span class="strut" style="height: 0.7278em; vertical-align: -0.0833em;"></span><span class="mord">0.5</span><span class="mspace" style="margin-right: 0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right: 0.2222em;"></span></span><span class="base"><span class="strut" style="height: 0.8333em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right: 0.109em;">N</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.3283em;"><span class="" style="top: -2.55em; margin-left: -0.109em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord cjk_fallback mtight">踱步</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span></div>
+                </div>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <h5 data-path-to-node="15">4. <code data-path-to-node="15" data-index-in-node="3">incidents</code>（競賽事件紀錄，歷史累積與關鍵字解析）</h5>
+    <ul data-path-to-node="16">
+      <li>
+        <p data-path-to-node="16,0,0"><b data-path-to-node="16,0,0" data-index-in-node="0">篩選條件</b>：<code data-path-to-node="16,0,0" data-index-in-node="5">上次事件日期 &lt; race_date</code>（僅計算過去賽事的競賽事故）。</p>
+      </li>
+      <li>
+        <p data-path-to-node="16,1,0"><b data-path-to-node="16,1,0" data-index-in-node="0">展平與聚合邏輯</b>：</p>
+        <ul data-path-to-node="16,1,1">
+          <li>
+            <p data-path-to-node="16,1,1,0,0"><b data-path-to-node="16,1,1,0,0" data-index-in-node="0"><code data-path-to-node="16,1,1,0,0" data-index-in-node="0">incidents_days_since_last</code></b>：上次事故距今天數。</p>
+          </li>
+          <li>
+            <p data-path-to-node="16,1,1,1,0"><b data-path-to-node="16,1,1,1,0" data-index-in-node="0"><code data-path-to-node="16,1,1,1,0" data-index-in-node="0">incidents_count_last_5</code></b>：過去 5 場賽事中的總事故頻率。</p>
+          </li>
+          <li>
+            <p data-path-to-node="16,1,1,2,0"><b data-path-to-node="16,1,1,2,0" data-index-in-node="0">關鍵字二元標籤抽出</b>：</p>
+            <ul data-path-to-node="16,1,1,2,1">
+              <li>
+                <p data-path-to-node="16,1,1,2,1,0,0"><code data-path-to-node="16,1,1,2,1,0,0" data-index-in-node="0">incidents_flag_slow_out</code>：匹配「慢閘」、「躍出時向內/外斜跑」、「失去平衡」。</p>
+              </li>
+              <li>
+                <p data-path-to-node="16,1,1,2,1,1,0"><code data-path-to-node="16,1,1,2,1,1,0" data-index-in-node="0">incidents_flag_gear_issue</code>：匹配「失去蹄鐵」、「配備脫落」。</p>
+              </li>
+              <li>
+                <p data-path-to-node="16,1,1,2,1,2,0"><code data-path-to-node="16,1,1,2,1,2,0" data-index-in-node="0">incidents_flag_blocked</code>：匹配「受阻」、「受擠壓」、「無通路」。</p>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <h5 data-path-to-node="17">5. <code data-path-to-node="17" data-index-in-node="3">exceptional</code>（特別特徵與配備異動，文字解析展平）</h5>
+    <ul data-path-to-node="18">
+      <li>
+        <p data-path-to-node="18,0,0"><b data-path-to-node="18,0,0" data-index-in-node="0">展平與解析邏輯</b>：</p>
+        <ul data-path-to-node="18,0,1">
+          <li>
+            <p data-path-to-node="18,0,1,0,0"><b data-path-to-node="18,0,1,0,0" data-index-in-node="0">配備變動解析 (<code data-path-to-node="18,0,1,0,0" data-index-in-node="8">配備</code>)</b>：解析字符增減符號。</p>
+            <ul data-path-to-node="18,0,1,0,1">
+              <li>
+                <p data-path-to-node="18,0,1,0,1,0,0"><code data-path-to-node="18,0,1,0,1,0,0" data-index-in-node="0">+</code> / <code data-path-to-node="18,0,1,0,1,0,0" data-index-in-node="4">1</code>：新增配備（如 <code data-path-to-node="18,0,1,0,1,0,0" data-index-in-node="13">CP1</code> 代表首次戴羊毛面箍）。</p>
+              </li>
+              <li>
+                <p data-path-to-node="18,0,1,0,1,1,0"><code data-path-to-node="18,0,1,0,1,1,0" data-index-in-node="0">-</code>：移除配備（如 <code data-path-to-node="18,0,1,0,1,1,0" data-index-in-node="9">B-</code> 代表戴眼罩移除）。</p>
+              </li>
+              <li>
+                <p data-path-to-node="18,0,1,0,1,2,0">生成二元變數：<code data-path-to-node="18,0,1,0,1,2,0" data-index-in-node="7">exp_gear_added</code>（是否新增配備）、<code data-path-to-node="18,0,1,0,1,2,0" data-index-in-node="30">exp_gear_removed</code>（是否移除配備）。</p>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p data-path-to-node="18,0,1,1,0"><b data-path-to-node="18,0,1,1,0" data-index-in-node="0">途程變幅 (<code data-path-to-node="18,0,1,1,0" data-index-in-node="6">途程</code>)</b>：解析數值（如 <code data-path-to-node="18,0,1,1,0" data-index-in-node="17">+450</code> 表示大幅加程 450 米；若無變動則為 0）。</p>
+          </li>
+          <li>
+            <p data-path-to-node="18,0,1,2,0"><b data-path-to-node="18,0,1,2,0" data-index-in-node="0">評分劇變 (<code data-path-to-node="18,0,1,2,0" data-index-in-node="6">評分</code>)</b>：解析降班或大幅減分（如 <code data-path-to-node="18,0,1,2,0" data-index-in-node="22">-18</code> 代表評分累減 18 分，降班利好）。</p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <h5 data-path-to-node="19">6. <code data-path-to-node="19" data-index-in-node="3">career</code>（歷史戰績序列，時序特徵工程）</h5>
+    <ul data-path-to-node="20">
+      <li>
+        <p data-path-to-node="20,0,0"><b data-path-to-node="20,0,0" data-index-in-node="0">篩選條件</b>：過濾出 <code data-path-to-node="20,0,0" data-index-in-node="9">日期 &lt; race_date</code> 的歷史賽事（排除當天賽事，防止數據洩漏 Data Leakage）。</p>
+      </li>
+      <li>
+        <p data-path-to-node="20,1,0"><b data-path-to-node="20,1,0" data-index-in-node="0">展平與統計邏輯</b>：</p>
+        <ul data-path-to-node="20,1,1">
+          <li>
+            <p data-path-to-node="20,1,1,0,0"><b data-path-to-node="20,1,1,0,0" data-index-in-node="0">基本資料 (<code data-path-to-node="20,1,1,0,0" data-index-in-node="6">basic_info</code>)</b>：</p>
+            <ul data-path-to-node="20,1,1,0,1">
+              <li>
+                <p data-path-to-node="20,1,1,0,1,0,0">計算勝率 <span class="math-inline" data-math="\text{Win\_Rate} = \frac{\text{冠}}{總出賽}" data-index-in-node="5"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.9933em; vertical-align: -0.31em;"></span><span class="mord text"><span class="mord">Win_Rate</span></span><span class="mspace" style="margin-right: 0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.2778em;"></span></span><span class="base"><span class="strut" style="height: 1.2173em; vertical-align: -0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.8723em;"><span class="" style="top: -2.655em;"><span class="pstrut" style="height: 3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord cjk_fallback mtight">總出賽</span></span></span></span><span class="" style="top: -3.23em;"><span class="pstrut" style="height: 3em;"></span><span class="frac-line" style="border-bottom-width: 0.04em;"></span></span><span class="" style="top: -3.394em;"><span class="pstrut" style="height: 3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord cjk_fallback mtight">冠</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.345em;"><span class=""></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span>，前三名率 <span class="math-inline" data-math="\text{Top3\_Rate} = \frac{\text{冠+亞+季}}{總出賽}" data-index-in-node="50"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.9933em; vertical-align: -0.31em;"></span><span class="mord text"><span class="mord">Top3_Rate</span></span><span class="mspace" style="margin-right: 0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.2778em;"></span></span><span class="base"><span class="strut" style="height: 1.2173em; vertical-align: -0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.8723em;"><span class="" style="top: -2.655em;"><span class="pstrut" style="height: 3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord cjk_fallback mtight">總出賽</span></span></span></span><span class="" style="top: -3.23em;"><span class="pstrut" style="height: 3em;"></span><span class="frac-line" style="border-bottom-width: 0.04em;"></span></span><span class="" style="top: -3.394em;"><span class="pstrut" style="height: 3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord cjk_fallback mtight">冠</span><span class="mord mtight">+</span><span class="mord cjk_fallback mtight">亞</span><span class="mord mtight">+</span><span class="mord cjk_fallback mtight">季</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.345em;"><span class=""></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span>。</p>
+              </li>
+              <li>
+                <p data-path-to-node="20,1,1,0,1,1,0">計算累積獎金與今季獎金比率。</p>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p data-path-to-node="20,1,1,1,0"><b data-path-to-node="20,1,1,1,0" data-index-in-node="0">近績趨勢 (Form Sliding Window)</b>：</p>
+            <ul data-path-to-node="20,1,1,1,1">
+              <li>
+                <p data-path-to-node="20,1,1,1,1,0,0">計算近 3 場與近 5 場的<b data-path-to-node="20,1,1,1,1,0,0" data-index-in-node="14">平均名次</b>（<code data-path-to-node="20,1,1,1,1,0,0" data-index-in-node="19">career_avg_rank_last3</code> / <code data-path-to-node="20,1,1,1,1,0,0" data-index-in-node="43">last5</code>）。</p>
+              </li>
+              <li>
+                <p data-path-to-node="20,1,1,1,1,1,0">計算近 3 場<b data-path-to-node="20,1,1,1,1,1,0" data-index-in-node="7">平均頭馬距離</b>（Margin in Lengths）。</p>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p data-path-to-node="20,1,1,2,0"><b data-path-to-node="20,1,1,2,0" data-index-in-node="0">同場同程適應性 (Course/Distance Specialty)</b>：</p>
+            <ul data-path-to-node="20,1,1,2,1">
+              <li>
+                <p data-path-to-node="20,1,1,2,1,0,0">篩選歷史記錄中 <code data-path-to-node="20,1,1,2,1,0,0" data-index-in-node="8">馬場 == 跑馬地</code> 且 <code data-path-to-node="20,1,1,2,1,0,0" data-index-in-node="20">途程 == 1650</code> 的賽事，統計該特定場景下的勝率與上榜率（<code data-path-to-node="20,1,1,2,1,0,0" data-index-in-node="51">hv_1650_win_rate</code>）。</p>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p data-path-to-node="20,1,1,3,0"><b data-path-to-node="20,1,1,3,0" data-index-in-node="0">完成時間標準化 (Speed Figure)</b>：</p>
+            <ul data-path-to-node="20,1,1,3,1">
+              <li>
+                <p data-path-to-node="20,1,1,3,1,0,0">取同場同途程歷史最佳完成時間（<code data-path-to-node="20,1,1,3,1,0,0" data-index-in-node="15">best_time_hv_1650</code>），轉換為秒數。</p>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p data-path-to-node="20,1,1,4,0"><b data-path-to-node="20,1,1,4,0" data-index-in-node="0">跑法風格分類 (Pacing Style Categorization)</b>：</p>
+            <ul data-path-to-node="20,1,1,4,1">
+              <li>
+                <p data-path-to-node="20,1,1,4,1,0,0">解析 <code data-path-to-node="20,1,1,4,1,0,0" data-index-in-node="3">沿途走位</code>（如 <code data-path-to-node="20,1,1,4,1,0,0" data-index-in-node="10">4 7 5 1</code> 或 <code data-path-to-node="20,1,1,4,1,0,0" data-index-in-node="20">12 12 12 10</code>），取第一及第二彎位的走位平均值：</p>
+                <ul data-path-to-node="20,1,1,4,1,0,1">
+                  <li>
+                    <p data-path-to-node="20,1,1,4,1,0,1,0,0">平均走位 <span class="math-inline" data-math="\le 3" data-index-in-node="5"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.7719em; vertical-align: -0.136em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right: 0.2778em;"></span></span><span class="base"><span class="strut" style="height: 0.6444em;"></span><span class="mord">3</span></span></span></span></span> 歸類為 <b data-path-to-node="20,1,1,4,1,0,1,0,0" data-index-in-node="15">領放馬 (Front-runner)</b>；</p>
+                  </li>
+                  <li>
+                    <p data-path-to-node="20,1,1,4,1,0,1,1,0">平均走位 <span class="math-inline" data-math="4 - 7" data-index-in-node="5"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.7278em; vertical-align: -0.0833em;"></span><span class="mord">4</span><span class="mspace" style="margin-right: 0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right: 0.2222em;"></span></span><span class="base"><span class="strut" style="height: 0.6444em;"></span><span class="mord">7</span></span></span></span></span> 歸類為 <b data-path-to-node="20,1,1,4,1,0,1,1,0" data-index-in-node="15">前中遊馬 (Pace-tracker)</b>；</p>
+                  </li>
+                  <li>
+                    <p data-path-to-node="20,1,1,4,1,0,1,2,0">平均走位 <span class="math-inline" data-math="&gt; 7" data-index-in-node="5"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.5782em; vertical-align: -0.0391em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right: 0.2778em;"></span></span><span class="base"><span class="strut" style="height: 0.6444em;"></span><span class="mord">7</span></span></span></span></span> 歸類為 <b data-path-to-node="20,1,1,4,1,0,1,2,0" data-index-in-node="13">後追馬 (Closer)</b>。</p>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <h3 data-path-to-node="22">二、 完整特徵字典規格 (Feature Dictionary Specification)</h3>
+    <p data-path-to-node="23">下列為經由展平與特徵抽取後，最終輸入至機器學習模型（如 LightGBM, XGBoost, CatBoost）的完整特徵矩陣字典：</p>
+    <h4 data-path-to-node="24">2.1 靜態與當場動態特徵 (Static &amp; Race Dynamics)</h4>
+    <div class="horizontal-scroll-wrapper">
+      <div class="table-block-component">
+        <response-element class="" ng-version="0.0.0-PLACEHOLDER">
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <table-block _nghost-ng-c3073273329="" class="enable-luminous-table-block ng-star-inserted">
+            <div _ngcontent-ng-c3073273329="" class="table-block has-export-button new-table-style has-scrollbar is-at-scroll-start">
+              <div _ngcontent-ng-c3073273329="" not-end-of-paragraph="" class="table-content" jslog="275421;track:impression,attention" data-hveid="0" decode-data-ved="1" data-ved="0CAAQ3ecQahgKEwiFjZjAneCVAxUAAAAAHQAAAAAQqwI">
+                <table data-path-to-node="25">
+                  <thead>
+                    <tr>
+                      <th><span data-path-to-node="25,0,0,0">特徵名稱 (Feature Name)</span></th>
+                      <th><span data-path-to-node="25,0,1,0">數據類型</span></th>
+                      <th><span data-path-to-node="25,0,2,0">原始來源</span></th>
+                      <th><span data-path-to-node="25,0,3,0">轉換與計算邏輯 (Transformation Rules)</span></th>
+                      <th><span data-path-to-node="25,0,4,0">缺值處理 (Imputation)</span></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><span data-path-to-node="25,1,0,0"><code data-path-to-node="25,1,0,0" data-index-in-node="0">f_horse_age</code></span></td>
+                      <td><span data-path-to-node="25,1,1,0">數值 (Int)</span></td>
+                      <td><span data-path-to-node="25,1,2,0"><code data-path-to-node="25,1,2,0" data-index-in-node="0">starters.馬齡</code></span></td>
+                      <td><span data-path-to-node="25,1,3,0">直接提取數值（如 3, 6, 8）。</span></td>
+                      <td><span data-path-to-node="25,1,4,0">補中位數</span></td>
+                    </tr>
+                    <tr>
+                      <td><span data-path-to-node="25,2,0,0"><code data-path-to-node="25,2,0,0" data-index-in-node="0">f_draw</code></span></td>
+                      <td><span data-path-to-node="25,2,1,0">離散 (Int)</span></td>
+                      <td><span data-path-to-node="25,2,2,0"><code data-path-to-node="25,2,2,0" data-index-in-node="0">starters.檔位</code></span></td>
+                      <td><span data-path-to-node="25,2,3,0">檔位號碼（1 - 14）。</span></td>
+                      <td><span data-path-to-node="25,2,4,0">補 0</span></td>
+                    </tr>
+                    <tr>
+                      <td><span data-path-to-node="25,3,0,0"><code data-path-to-node="25,3,0,0" data-index-in-node="0">f_declared_weight</code></span></td>
+                      <td><span data-path-to-node="25,3,1,0">數值 (Float)</span></td>
+                      <td><span data-path-to-node="25,3,2,0"><code data-path-to-node="25,3,2,0" data-index-in-node="0">starters.負磅</code></span></td>
+                      <td><span data-path-to-node="25,3,3,0">馬匹實際負磅數值。</span></td>
+                      <td><span data-path-to-node="25,3,4,0">補均值</span></td>
+                    </tr>
+                    <tr>
+                      <td><span data-path-to-node="25,4,0,0"><code data-path-to-node="25,4,0,0" data-index-in-node="0">f_horse_weight</code></span></td>
+                      <td><span data-path-to-node="25,4,1,0">數值 (Float)</span></td>
+                      <td><span data-path-to-node="25,4,2,0"><code data-path-to-node="25,4,2,0" data-index-in-node="0">starters.排位體重</code></span></td>
+                      <td><span data-path-to-node="25,4,3,0">當前排位體重（磅）。</span></td>
+                      <td><span data-path-to-node="25,4,4,0">補均值</span></td>
+                    </tr>
+                    <tr>
+                      <td><span data-path-to-node="25,5,0,0"><code data-path-to-node="25,5,0,0" data-index-in-node="0">f_weight_change</code></span></td>
+                      <td><span data-path-to-node="25,5,1,0">數值 (Float)</span></td>
+                      <td><span data-path-to-node="25,5,2,0"><code data-path-to-node="25,5,2,0" data-index-in-node="0">starters.排位體重+/-</code></span></td>
+                      <td><span data-path-to-node="25,5,3,0">體重較上賽變化量。</span></td>
+                      <td><span data-path-to-node="25,5,4,0">補 0</span></td>
+                    </tr>
+                    <tr>
+                      <td><span data-path-to-node="25,6,0,0"><code data-path-to-node="25,6,0,0" data-index-in-node="0">f_weight_change_pct</code></span></td>
+                      <td><span data-path-to-node="25,6,1,0">數值 (Float)</span></td>
+                      <td><span data-path-to-node="25,6,2,0"><code data-path-to-node="25,6,2,0" data-index-in-node="0">starters</code> 算子</span></td>
+                      <td><span data-path-to-node="25,6,3,0"><span class="math-inline" data-math="\frac{\text{排位體重+/-}}{\text{排位體重}}" data-index-in-node="0"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 1.355em; vertical-align: -0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.01em;"><span class="" style="top: -2.655em;"><span class="pstrut" style="height: 3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord cjk_fallback mtight">排位體重</span></span></span></span></span><span class="" style="top: -3.23em;"><span class="pstrut" style="height: 3em;"></span><span class="frac-line" style="border-bottom-width: 0.04em;"></span></span><span class="" style="top: -3.485em;"><span class="pstrut" style="height: 3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord cjk_fallback mtight">排位體重</span><span class="mord mtight">+/-</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.345em;"><span class=""></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></span></td>
+                      <td><span data-path-to-node="25,6,4,0">補 0.0</span></td>
+                    </tr>
+                    <tr>
+                      <td><span data-path-to-node="25,7,0,0"><code data-path-to-node="25,7,0,0" data-index-in-node="0">f_current_rating</code></span></td>
+                      <td><span data-path-to-node="25,7,1,0">數值 (Int)</span></td>
+                      <td><span data-path-to-node="25,7,2,0"><code data-path-to-node="25,7,2,0" data-index-in-node="0">starters.評分</code></span></td>
+                      <td><span data-path-to-node="25,7,3,0">現時競賽評分。</span></td>
+                      <td><span data-path-to-node="25,7,4,0">補 40</span></td>
+                    </tr>
+                    <tr>
+                      <td><span data-path-to-node="25,8,0,0"><code data-path-to-node="25,8,0,0" data-index-in-node="0">f_rating_change</code></span></td>
+                      <td><span data-path-to-node="25,8,1,0">數值 (Int)</span></td>
+                      <td><span data-path-to-node="25,8,2,0"><code data-path-to-node="25,8,2,0" data-index-in-node="0">starters.評分+/-</code></span></td>
+                      <td><span data-path-to-node="25,8,3,0">評分調整幅度。</span></td>
+                      <td><span data-path-to-node="25,8,4,0">補 0</span></td>
+                    </tr>
+                    <tr>
+                      <td><span data-path-to-node="25,9,0,0"><code data-path-to-node="25,9,0,0" data-index-in-node="0">f_days_since_last_run</code></span></td>
+                      <td><span data-path-to-node="25,9,1,0">數值 (Int)</span></td>
+                      <td><span data-path-to-node="25,9,2,0"><code data-path-to-node="25,9,2,0" data-index-in-node="0">starters.上賽距今日數</code></span></td>
+                      <td><span data-path-to-node="25,9,3,0">距離上次出賽的天數（休養期）。</span></td>
+                      <td><span data-path-to-node="25,9,4,0">補 60</span></td>
+                    </tr>
+                    <tr>
+                      <td><span data-path-to-node="25,10,0,0"><code data-path-to-node="25,10,0,0" data-index-in-node="0">f_is_imported_type</code></span></td>
+                      <td><span data-path-to-node="25,10,1,0">類別 (String)</span></td>
+                      <td><span data-path-to-node="25,10,2,0"><code data-path-to-node="25,10,2,0" data-index-in-node="0">starters.進口類別</code></span></td>
+                      <td><span data-path-to-node="25,10,3,0">PPG（自購新馬）、PP（自購馬）等 One-Hot 編碼。</span></td>
+                      <td><span data-path-to-node="25,10,4,0">補 'UNKNOWN'</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div _ngcontent-ng-c3073273329="" hide-from-message-actions="" class="table-footer hide-on-print hide-from-message-actions">
+                <gem-icon-button _ngcontent-ng-c3073273329="" tabindex="0" gemmenutrigger="" cdkoverlayorigin="" theme="lm" type="tonal" arialabel="More options" gemtooltip="More options" class="mat-mdc-tooltip-trigger overflow-menu-button gem-button gem-button-badge-size-small gem-button-size-small gem-button-type-tonal lm-enabled ng-star-inserted is-mobile" _nghost-ng-c374551268="" aria-disabled="false" aria-haspopup="true" aria-expanded="false" aria-controls="ng-menu-a10645-63" aria-describedby="cdk-describedby-message-ng-1-25" cdk-describedby-host="ng-1">
+                  <!---->
+                  <!----><button _ngcontent-ng-c374551268="" maticonbutton="" matbadgeposition="after" class="mdc-icon-button mat-mdc-icon-button mat-mdc-button-base mat-badge mat-unthemed mat-badge-overlap mat-badge-above mat-badge-after mat-badge-small mat-badge-hidden ng-star-inserted" mat-ripple-loader-uninitialized="" mat-ripple-loader-class-name="mat-mdc-button-ripple" mat-ripple-loader-centered="" aria-label="More options" jslog="305704;track:generic_click,impression"><span class="mat-mdc-button-persistent-ripple mdc-icon-button__ripple"></span>
+                    <gem-icon _ngcontent-ng-c374551268="" _nghost-ng-c818472059="">
+                      <mat-icon _ngcontent-ng-c818472059="" role="img" class="mat-icon notranslate lm-icon-l lumi-symbols mat-ligature-font mat-icon-no-color ng-star-inserted" aria-hidden="true" data-mat-icon-type="font" data-mat-icon-name="more_horiz" data-mat-icon-namespace="lumi-symbols" fonticon="more_horiz"></mat-icon>
+                      <!---->
+                      <!---->
+                      <!---->
+                    </gem-icon>
+                    <!----><span class="mat-focus-indicator"></span><span class="mat-mdc-button-touch-target"></span>
+                  </button>
+                  <!---->
+                  <!---->
+                </gem-icon-button>
+                <!---->
+                <gem-popover _ngcontent-ng-c3073273329="" _nghost-ng-c506861182="" class="ng-star-inserted">
+                  <!---->
+                </gem-popover>
+                <!---->
+                <!---->
+              </div>
+            </div>
+            <!---->
+          </table-block>
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+        </response-element>
+      </div>
+    </div>
+    <h4 data-path-to-node="27">2.2 晨操與體能狀態特徵 (Trackwork &amp; Fitness)</h4>
+    <div class="horizontal-scroll-wrapper">
+      <div class="table-block-component">
+        <response-element class="" ng-version="0.0.0-PLACEHOLDER">
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <table-block _nghost-ng-c3073273329="" class="enable-luminous-table-block ng-star-inserted">
+            <div _ngcontent-ng-c3073273329="" class="table-block has-export-button new-table-style has-scrollbar is-at-scroll-start">
+              <div _ngcontent-ng-c3073273329="" not-end-of-paragraph="" class="table-content" jslog="275421;track:impression,attention" data-hveid="0" decode-data-ved="1" data-ved="0CAAQ3ecQahgKEwiFjZjAneCVAxUAAAAAHQAAAAAQrQI">
+                <table data-path-to-node="28">
+                  <thead>
+                    <tr>
+                      <th><span data-path-to-node="28,0,0,0">特徵名稱 (Feature Name)</span></th>
+                      <th><span data-path-to-node="28,0,1,0">數據類型</span></th>
+                      <th><span data-path-to-node="28,0,2,0">原始來源</span></th>
+                      <th><span data-path-to-node="28,0,3,0">轉換與計算邏輯 (Transformation Rules)</span></th>
+                      <th><span data-path-to-node="28,0,4,0">缺值處理 (Imputation)</span></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><span data-path-to-node="28,1,0,0"><code data-path-to-node="28,1,0,0" data-index-in-node="0">f_gallop_count_7d</code></span></td>
+                      <td><span data-path-to-node="28,1,1,0">數值 (Int)</span></td>
+                      <td><span data-path-to-node="28,1,2,0"><code data-path-to-node="28,1,2,0" data-index-in-node="0">trackwork.快操</code></span></td>
+                      <td><span data-path-to-node="28,1,3,0">前 7 天內快操總次數。</span></td>
+                      <td><span data-path-to-node="28,1,4,0">補 0</span></td>
+                    </tr>
+                    <tr>
+                      <td><span data-path-to-node="28,2,0,0"><code data-path-to-node="28,2,0,0" data-index-in-node="0">f_gallop_count_14d</code></span></td>
+                      <td><span data-path-to-node="28,2,1,0">數值 (Int)</span></td>
+                      <td><span data-path-to-node="28,2,2,0"><code data-path-to-node="28,2,2,0" data-index-in-node="0">trackwork.快操</code></span></td>
+                      <td><span data-path-to-node="28,2,3,0">前 14 天內快操總次數。</span></td>
+                      <td><span data-path-to-node="28,2,4,0">補 0</span></td>
+                    </tr>
+                    <tr>
+                      <td><span data-path-to-node="28,3,0,0"><code data-path-to-node="28,3,0,0" data-index-in-node="0">f_gallop_last_time_sec</code></span></td>
+                      <td><span data-path-to-node="28,3,1,0">數值 (Float)</span></td>
+                      <td><span data-path-to-node="28,3,2,0"><code data-path-to-node="28,3,2,0" data-index-in-node="0">trackwork.快操</code></span></td>
+                      <td><span data-path-to-node="28,3,3,0">解析最近一次快操最後分段時間（秒）。</span></td>
+                      <td><span data-path-to-node="28,3,4,0">補 30.0</span></td>
+                    </tr>
+                    <tr>
+                      <td><span data-path-to-node="28,4,0,0"><code data-path-to-node="28,4,0,0" data-index-in-node="0">f_swim_count_14d</code></span></td>
+                      <td><span data-path-to-node="28,4,1,0">數值 (Int)</span></td>
+                      <td><span data-path-to-node="28,4,2,0"><code data-path-to-node="28,4,2,0" data-index-in-node="0">trackwork.游泳</code></span></td>
+                      <td><span data-path-to-node="28,4,3,0">前 14 天內游泳訓練總次數。</span></td>
+                      <td><span data-path-to-node="28,4,4,0">補 0</span></td>
+                    </tr>
+                    <tr>
+                      <td><span data-path-to-node="28,5,0,0"><code data-path-to-node="28,5,0,0" data-index-in-node="0">f_trot_count_14d</code></span></td>
+                      <td><span data-path-to-node="28,5,1,0">數值 (Int)</span></td>
+                      <td><span data-path-to-node="28,5,2,0"><code data-path-to-node="28,5,2,0" data-index-in-node="0">trackwork.踱步</code></span></td>
+                      <td><span data-path-to-node="28,5,3,0">前 14 天內踱步訓練總次數。</span></td>
+                      <td><span data-path-to-node="28,5,4,0">補 0</span></td>
+                    </tr>
+                    <tr>
+                      <td><span data-path-to-node="28,6,0,0"><code data-path-to-node="28,6,0,0" data-index-in-node="0">f_intensity_score_14d</code></span></td>
+                      <td><span data-path-to-node="28,6,1,0">數值 (Float)</span></td>
+                      <td><span data-path-to-node="28,6,2,0"><code data-path-to-node="28,6,2,0" data-index-in-node="0">trackwork</code> 算子</span></td>
+                      <td><span data-path-to-node="28,6,3,0"><span class="math-inline" data-math="3.0 \times \text{快操} + 2.5 \times \text{試閘} + 1.0 \times \text{游泳} + 0.5 \times \text{踱步}" data-index-in-node="0"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.7278em; vertical-align: -0.0833em;"></span><span class="mord">3.0</span><span class="mspace" style="margin-right: 0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right: 0.2222em;"></span></span><span class="base"><span class="strut" style="height: 0.7667em; vertical-align: -0.0833em;"></span><span class="mord text"><span class="mord cjk_fallback">快操</span></span><span class="mspace" style="margin-right: 0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right: 0.2222em;"></span></span><span class="base"><span class="strut" style="height: 0.7278em; vertical-align: -0.0833em;"></span><span class="mord">2.5</span><span class="mspace" style="margin-right: 0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right: 0.2222em;"></span></span><span class="base"><span class="strut" style="height: 0.7667em; vertical-align: -0.0833em;"></span><span class="mord text"><span class="mord cjk_fallback">試閘</span></span><span class="mspace" style="margin-right: 0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right: 0.2222em;"></span></span><span class="base"><span class="strut" style="height: 0.7278em; vertical-align: -0.0833em;"></span><span class="mord">1.0</span><span class="mspace" style="margin-right: 0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right: 0.2222em;"></span></span><span class="base"><span class="strut" style="height: 0.7667em; vertical-align: -0.0833em;"></span><span class="mord text"><span class="mord cjk_fallback">游泳</span></span><span class="mspace" style="margin-right: 0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right: 0.2222em;"></span></span><span class="base"><span class="strut" style="height: 0.7278em; vertical-align: -0.0833em;"></span><span class="mord">0.5</span><span class="mspace" style="margin-right: 0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right: 0.2222em;"></span></span><span class="base"><span class="strut" style="height: 0.6833em;"></span><span class="mord text"><span class="mord cjk_fallback">踱步</span></span></span></span></span></span></span></td>
+                      <td><span data-path-to-node="28,6,4,0">補 0.0</span></td>
+                    </tr>
+                    <tr>
+                      <td><span data-path-to-node="28,7,0,0"><code data-path-to-node="28,7,0,0" data-index-in-node="0">f_has_partner_gallop</code></span></td>
+                      <td><span data-path-to-node="28,7,1,0">二元 (0/1)</span></td>
+                      <td><span data-path-to-node="28,7,2,0"><code data-path-to-node="28,7,2,0" data-index-in-node="0">trackwork.快操</code></span></td>
+                      <td><span data-path-to-node="28,7,3,0">近期快操記錄是否包含「伴跳馬」關鍵字。</span></td>
+                      <td><span data-path-to-node="28,7,4,0">補 0</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div _ngcontent-ng-c3073273329="" hide-from-message-actions="" class="table-footer hide-on-print hide-from-message-actions">
+                <gem-icon-button _ngcontent-ng-c3073273329="" tabindex="0" gemmenutrigger="" cdkoverlayorigin="" theme="lm" type="tonal" arialabel="More options" gemtooltip="More options" class="mat-mdc-tooltip-trigger overflow-menu-button gem-button gem-button-badge-size-small gem-button-size-small gem-button-type-tonal lm-enabled ng-star-inserted is-mobile" _nghost-ng-c374551268="" aria-disabled="false" aria-haspopup="true" aria-expanded="false" aria-controls="ng-menu-a10645-64" aria-describedby="cdk-describedby-message-ng-1-25" cdk-describedby-host="ng-1">
+                  <!---->
+                  <!----><button _ngcontent-ng-c374551268="" maticonbutton="" matbadgeposition="after" class="mdc-icon-button mat-mdc-icon-button mat-mdc-button-base mat-badge mat-unthemed mat-badge-overlap mat-badge-above mat-badge-after mat-badge-small mat-badge-hidden ng-star-inserted" mat-ripple-loader-uninitialized="" mat-ripple-loader-class-name="mat-mdc-button-ripple" mat-ripple-loader-centered="" aria-label="More options" jslog="305704;track:generic_click,impression"><span class="mat-mdc-button-persistent-ripple mdc-icon-button__ripple"></span>
+                    <gem-icon _ngcontent-ng-c374551268="" _nghost-ng-c818472059="">
+                      <mat-icon _ngcontent-ng-c818472059="" role="img" class="mat-icon notranslate lm-icon-l lumi-symbols mat-ligature-font mat-icon-no-color ng-star-inserted" aria-hidden="true" data-mat-icon-type="font" data-mat-icon-name="more_horiz" data-mat-icon-namespace="lumi-symbols" fonticon="more_horiz"></mat-icon>
+                      <!---->
+                      <!---->
+                      <!---->
+                    </gem-icon>
+                    <!----><span class="mat-focus-indicator"></span><span class="mat-mdc-button-touch-target"></span>
+                  </button>
+                  <!---->
+                  <!---->
+                </gem-icon-button>
+                <!---->
+                <gem-popover _ngcontent-ng-c3073273329="" _nghost-ng-c506861182="" class="ng-star-inserted">
+                  <!---->
+                </gem-popover>
+                <!---->
+                <!---->
+              </div>
+            </div>
+            <!---->
+          </table-block>
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+        </response-element>
+      </div>
+    </div>
+    <h4 data-path-to-node="30">2.3 傷患與競賽風險特徵 (Vet &amp; Incidents)</h4>
+    <div class="horizontal-scroll-wrapper">
+      <div class="table-block-component">
+        <response-element class="" ng-version="0.0.0-PLACEHOLDER">
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <table-block _nghost-ng-c3073273329="" class="enable-luminous-table-block ng-star-inserted">
+            <div _ngcontent-ng-c3073273329="" class="table-block has-export-button new-table-style has-scrollbar is-at-scroll-start">
+              <div _ngcontent-ng-c3073273329="" not-end-of-paragraph="" class="table-content" jslog="275421;track:impression,attention" data-hveid="0" decode-data-ved="1" data-ved="0CAAQ3ecQahgKEwiFjZjAneCVAxUAAAAAHQAAAAAQrwI">
+                <table data-path-to-node="31">
+                  <thead>
+                    <tr>
+                      <th><span data-path-to-node="31,0,0,0">特徵名稱 (Feature Name)</span></th>
+                      <th><span data-path-to-node="31,0,1,0">數據類型</span></th>
+                      <th><span data-path-to-node="31,0,2,0">原始來源</span></th>
+                      <th><span data-path-to-node="31,0,3,0">轉換與計算邏輯 (Transformation Rules)</span></th>
+                      <th><span data-path-to-node="31,0,4,0">缺值處理 (Imputation)</span></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><span data-path-to-node="31,1,0,0"><code data-path-to-node="31,1,0,0" data-index-in-node="0">f_vet_days_since_injury</code></span></td>
+                      <td><span data-path-to-node="31,1,1,0">數值 (Int)</span></td>
+                      <td><span data-path-to-node="31,1,2,0"><code data-path-to-node="31,1,2,0" data-index-in-node="0">vet.特徵_傷患距今日數</code></span></td>
+                      <td><span data-path-to-node="31,1,3,0">距離最近一次傷患紀錄的天數。</span></td>
+                      <td><span data-path-to-node="31,1,4,0">補 9999</span></td>
+                    </tr>
+                    <tr>
+                      <td><span data-path-to-node="31,2,0,0"><code data-path-to-node="31,2,0,0" data-index-in-node="0">f_vet_recovery_days</code></span></td>
+                      <td><span data-path-to-node="31,2,1,0">數值 (Int)</span></td>
+                      <td><span data-path-to-node="31,2,2,0"><code data-path-to-node="31,2,2,0" data-index-in-node="0">vet.特徵_康復期耗時天數</code></span></td>
+                      <td><span data-path-to-node="31,2,3,0">最近一次傷患的康復耗時天數。</span></td>
+                      <td><span data-path-to-node="31,2,4,0">補 0</span></td>
+                    </tr>
+                    <tr>
+                      <td><span data-path-to-node="31,3,0,0"><code data-path-to-node="31,3,0,0" data-index-in-node="0">f_vet_tendon_issue</code></span></td>
+                      <td><span data-path-to-node="31,3,1,0">二元 (0/1)</span></td>
+                      <td><span data-path-to-node="31,3,2,0"><code data-path-to-node="31,3,2,0" data-index-in-node="0">vet.傷患詳情</code></span></td>
+                      <td><span data-path-to-node="31,3,3,0">傷患詳情匹配「肌腱受傷」/「腿患」。</span></td>
+                      <td><span data-path-to-node="31,3,4,0">補 0</span></td>
+                    </tr>
+                    <tr>
+                      <td><span data-path-to-node="31,4,0,0"><code data-path-to-node="31,4,0,0" data-index-in-node="0">f_incident_last_days</code></span></td>
+                      <td><span data-path-to-node="31,4,1,0">數值 (Int)</span></td>
+                      <td><span data-path-to-node="31,4,2,0"><code data-path-to-node="31,4,2,0" data-index-in-node="0">incidents.上次事件日期</code></span></td>
+                      <td><span data-path-to-node="31,4,3,0">距離上次競賽事件（慢閘、失鐵等）天數。</span></td>
+                      <td><span data-path-to-node="31,4,4,0">補 9999</span></td>
+                    </tr>
+                    <tr>
+                      <td><span data-path-to-node="31,5,0,0"><code data-path-to-node="31,5,0,0" data-index-in-node="0">f_incident_slow_out_flag</code></span></td>
+                      <td><span data-path-to-node="31,5,1,0">二元 (0/1)</span></td>
+                      <td><span data-path-to-node="31,5,2,0"><code data-path-to-node="31,5,2,0" data-index-in-node="0">incidents.競賽事件摘要</code></span></td>
+                      <td><span data-path-to-node="31,5,3,0">過去事件是否曾出現「慢閘」、「失去平衡」。</span></td>
+                      <td><span data-path-to-node="31,5,4,0">補 0</span></td>
+                    </tr>
+                    <tr>
+                      <td><span data-path-to-node="31,6,0,0"><code data-path-to-node="31,6,0,0" data-index-in-node="0">f_incident_gear_lost_flag</code></span></td>
+                      <td><span data-path-to-node="31,6,1,0">二元 (0/1)</span></td>
+                      <td><span data-path-to-node="31,6,2,0"><code data-path-to-node="31,6,2,0" data-index-in-node="0">incidents.競賽事件摘要</code></span></td>
+                      <td><span data-path-to-node="31,6,3,0">過去事件是否曾出現「失去蹄鐵」。</span></td>
+                      <td><span data-path-to-node="31,6,4,0">補 0</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div _ngcontent-ng-c3073273329="" hide-from-message-actions="" class="table-footer hide-on-print hide-from-message-actions">
+                <gem-icon-button _ngcontent-ng-c3073273329="" tabindex="0" gemmenutrigger="" cdkoverlayorigin="" theme="lm" type="tonal" arialabel="More options" gemtooltip="More options" class="mat-mdc-tooltip-trigger overflow-menu-button gem-button gem-button-badge-size-small gem-button-size-small gem-button-type-tonal lm-enabled ng-star-inserted is-mobile" _nghost-ng-c374551268="" aria-disabled="false" aria-haspopup="true" aria-expanded="false" aria-controls="ng-menu-a10645-65" aria-describedby="cdk-describedby-message-ng-1-25" cdk-describedby-host="ng-1">
+                  <!---->
+                  <!----><button _ngcontent-ng-c374551268="" maticonbutton="" matbadgeposition="after" class="mdc-icon-button mat-mdc-icon-button mat-mdc-button-base mat-badge mat-unthemed mat-badge-overlap mat-badge-above mat-badge-after mat-badge-small mat-badge-hidden ng-star-inserted" mat-ripple-loader-uninitialized="" mat-ripple-loader-class-name="mat-mdc-button-ripple" mat-ripple-loader-centered="" aria-label="More options" jslog="305704;track:generic_click,impression"><span class="mat-mdc-button-persistent-ripple mdc-icon-button__ripple"></span>
+                    <gem-icon _ngcontent-ng-c374551268="" _nghost-ng-c818472059="">
+                      <mat-icon _ngcontent-ng-c818472059="" role="img" class="mat-icon notranslate lm-icon-l lumi-symbols mat-ligature-font mat-icon-no-color ng-star-inserted" aria-hidden="true" data-mat-icon-type="font" data-mat-icon-name="more_horiz" data-mat-icon-namespace="lumi-symbols" fonticon="more_horiz"></mat-icon>
+                      <!---->
+                      <!---->
+                      <!---->
+                    </gem-icon>
+                    <!----><span class="mat-focus-indicator"></span><span class="mat-mdc-button-touch-target"></span>
+                  </button>
+                  <!---->
+                  <!---->
+                </gem-icon-button>
+                <!---->
+                <gem-popover _ngcontent-ng-c3073273329="" _nghost-ng-c506861182="" class="ng-star-inserted">
+                  <!---->
+                </gem-popover>
+                <!---->
+                <!---->
+              </div>
+            </div>
+            <!---->
+          </table-block>
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+        </response-element>
+      </div>
+    </div>
+    <h4 data-path-to-node="33">2.4 特別標籤與異動特徵 (Exceptional Features)</h4>
+    <div class="horizontal-scroll-wrapper">
+      <div class="table-block-component">
+        <response-element class="" ng-version="0.0.0-PLACEHOLDER">
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <table-block _nghost-ng-c3073273329="" class="enable-luminous-table-block ng-star-inserted">
+            <div _ngcontent-ng-c3073273329="" class="table-block has-export-button new-table-style has-scrollbar is-at-scroll-start">
+              <div _ngcontent-ng-c3073273329="" not-end-of-paragraph="" class="table-content" jslog="275421;track:impression,attention" data-hveid="0" decode-data-ved="1" data-ved="0CAAQ3ecQahgKEwiFjZjAneCVAxUAAAAAHQAAAAAQsQI">
+                <table data-path-to-node="34">
+                  <thead>
+                    <tr>
+                      <th><span data-path-to-node="34,0,0,0">特徵名稱 (Feature Name)</span></th>
+                      <th><span data-path-to-node="34,0,1,0">數據類型</span></th>
+                      <th><span data-path-to-node="34,0,2,0">原始來源</span></th>
+                      <th><span data-path-to-node="34,0,3,0">轉換與計算邏輯 (Transformation Rules)</span></th>
+                      <th><span data-path-to-node="34,0,4,0">缺值處理 (Imputation)</span></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><span data-path-to-node="34,1,0,0"><code data-path-to-node="34,1,0,0" data-index-in-node="0">f_exp_distance_delta</code></span></td>
+                      <td><span data-path-to-node="34,1,1,0">數值 (Int)</span></td>
+                      <td><span data-path-to-node="34,1,2,0"><code data-path-to-node="34,1,2,0" data-index-in-node="0">exceptional.途程</code></span></td>
+                      <td><span data-path-to-node="34,1,3,0">提取數值（如 <code data-path-to-node="34,1,3,0" data-index-in-node="7">+450</code> 表示較上場加程 450 米）。</span></td>
+                      <td><span data-path-to-node="34,1,4,0">補 0</span></td>
+                    </tr>
+                    <tr>
+                      <td><span data-path-to-node="34,2,0,0"><code data-path-to-node="34,2,0,0" data-index-in-node="0">f_exp_gear_first_time</code></span></td>
+                      <td><span data-path-to-node="34,2,1,0">二元 (0/1)</span></td>
+                      <td><span data-path-to-node="34,2,2,0"><code data-path-to-node="34,2,2,0" data-index-in-node="0">exceptional.配備</code></span></td>
+                      <td><span data-path-to-node="34,2,3,0">配備包含 <code data-path-to-node="34,2,3,0" data-index-in-node="5">1</code> 或 <code data-path-to-node="34,2,3,0" data-index-in-node="9">+</code>（如 <code data-path-to-node="34,2,3,0" data-index-in-node="13">CP1</code> 代表首次配戴）。</span></td>
+                      <td><span data-path-to-node="34,2,4,0">補 0</span></td>
+                    </tr>
+                    <tr>
+                      <td><span data-path-to-node="34,3,0,0"><code data-path-to-node="34,3,0,0" data-index-in-node="0">f_exp_gear_removed</code></span></td>
+                      <td><span data-path-to-node="34,3,1,0">二元 (0/1)</span></td>
+                      <td><span data-path-to-node="34,3,2,0"><code data-path-to-node="34,3,2,0" data-index-in-node="0">exceptional.配備</code></span></td>
+                      <td><span data-path-to-node="34,3,3,0">配備包含 <code data-path-to-node="34,3,3,0" data-index-in-node="5">-</code>（如 <code data-path-to-node="34,3,3,0" data-index-in-node="9">B-</code> 代表除去眼罩）。</span></td>
+                      <td><span data-path-to-node="34,3,4,0">補 0</span></td>
+                    </tr>
+                    <tr>
+                      <td><span data-path-to-node="34,4,0,0"><code data-path-to-node="34,4,0,0" data-index-in-node="0">f_exp_rating_drop</code></span></td>
+                      <td><span data-path-to-node="34,4,1,0">數值 (Int)</span></td>
+                      <td><span data-path-to-node="34,4,2,0"><code data-path-to-node="34,4,2,0" data-index-in-node="0">exceptional.評分</code></span></td>
+                      <td><span data-path-to-node="34,4,3,0">提取積累降分幅度（如 <code data-path-to-node="34,4,3,0" data-index-in-node="11">-18</code> 表示超跌馬）。</span></td>
+                      <td><span data-path-to-node="34,4,4,0">補 0</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div _ngcontent-ng-c3073273329="" hide-from-message-actions="" class="table-footer hide-on-print hide-from-message-actions">
+                <gem-icon-button _ngcontent-ng-c3073273329="" tabindex="0" gemmenutrigger="" cdkoverlayorigin="" theme="lm" type="tonal" arialabel="More options" gemtooltip="More options" class="mat-mdc-tooltip-trigger overflow-menu-button gem-button gem-button-badge-size-small gem-button-size-small gem-button-type-tonal lm-enabled ng-star-inserted is-mobile" _nghost-ng-c374551268="" aria-disabled="false" aria-haspopup="true" aria-expanded="false" aria-controls="ng-menu-a10645-66" aria-describedby="cdk-describedby-message-ng-1-25" cdk-describedby-host="ng-1">
+                  <!---->
+                  <!----><button _ngcontent-ng-c374551268="" maticonbutton="" matbadgeposition="after" class="mdc-icon-button mat-mdc-icon-button mat-mdc-button-base mat-badge mat-unthemed mat-badge-overlap mat-badge-above mat-badge-after mat-badge-small mat-badge-hidden ng-star-inserted" mat-ripple-loader-uninitialized="" mat-ripple-loader-class-name="mat-mdc-button-ripple" mat-ripple-loader-centered="" aria-label="More options" jslog="305704;track:generic_click,impression"><span class="mat-mdc-button-persistent-ripple mdc-icon-button__ripple"></span>
+                    <gem-icon _ngcontent-ng-c374551268="" _nghost-ng-c818472059="">
+                      <mat-icon _ngcontent-ng-c818472059="" role="img" class="mat-icon notranslate lm-icon-l lumi-symbols mat-ligature-font mat-icon-no-color ng-star-inserted" aria-hidden="true" data-mat-icon-type="font" data-mat-icon-name="more_horiz" data-mat-icon-namespace="lumi-symbols" fonticon="more_horiz"></mat-icon>
+                      <!---->
+                      <!---->
+                      <!---->
+                    </gem-icon>
+                    <!----><span class="mat-focus-indicator"></span><span class="mat-mdc-button-touch-target"></span>
+                  </button>
+                  <!---->
+                  <!---->
+                </gem-icon-button>
+                <!---->
+                <gem-popover _ngcontent-ng-c3073273329="" _nghost-ng-c506861182="" class="ng-star-inserted">
+                  <!---->
+                </gem-popover>
+                <!---->
+                <!---->
+              </div>
+            </div>
+            <!---->
+          </table-block>
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+        </response-element>
+      </div>
+    </div>
+    <h4 data-path-to-node="36">2.5 歷史戰績與場景適應特徵 (Career Historical Form)</h4>
+    <div class="horizontal-scroll-wrapper">
+      <div class="table-block-component">
+        <response-element class="" ng-version="0.0.0-PLACEHOLDER">
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <table-block _nghost-ng-c3073273329="" class="enable-luminous-table-block ng-star-inserted">
+            <div _ngcontent-ng-c3073273329="" class="table-block has-export-button new-table-style has-scrollbar is-at-scroll-start">
+              <div _ngcontent-ng-c3073273329="" not-end-of-paragraph="" class="table-content" jslog="275421;track:impression,attention" data-hveid="0" decode-data-ved="1" data-ved="0CAAQ3ecQahgKEwiFjZjAneCVAxUAAAAAHQAAAAAQswI">
+                <table data-path-to-node="37">
+                  <thead>
+                    <tr>
+                      <th><span data-path-to-node="37,0,0,0">特徵名稱 (Feature Name)</span></th>
+                      <th><span data-path-to-node="37,0,1,0">數據類型</span></th>
+                      <th><span data-path-to-node="37,0,2,0">原始來源</span></th>
+                      <th><span data-path-to-node="37,0,3,0">轉換與計算邏輯 (Transformation Rules)</span></th>
+                      <th><span data-path-to-node="37,0,4,0">缺值處理 (Imputation)</span></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><span data-path-to-node="37,1,0,0"><code data-path-to-node="37,1,0,0" data-index-in-node="0">f_career_total_runs</code></span></td>
+                      <td><span data-path-to-node="37,1,1,0">數值 (Int)</span></td>
+                      <td><span data-path-to-node="37,1,2,0"><code data-path-to-node="37,1,2,0" data-index-in-node="0">career.basic_info</code></span></td>
+                      <td><span data-path-to-node="37,1,3,0">歷史總出賽次數。</span></td>
+                      <td><span data-path-to-node="37,1,4,0">補 0</span></td>
+                    </tr>
+                    <tr>
+                      <td><span data-path-to-node="37,2,0,0"><code data-path-to-node="37,2,0,0" data-index-in-node="0">f_career_win_rate</code></span></td>
+                      <td><span data-path-to-node="37,2,1,0">數值 (Float)</span></td>
+                      <td><span data-path-to-node="37,2,2,0"><code data-path-to-node="37,2,2,0" data-index-in-node="0">career.basic_info</code></span></td>
+                      <td><span data-path-to-node="37,2,3,0"><span class="math-inline" data-math="\frac{\text{歷史頭馬次數}}{\text{歷史總出賽次數}}" data-index-in-node="0"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 1.2173em; vertical-align: -0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.8723em;"><span class="" style="top: -2.655em;"><span class="pstrut" style="height: 3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord cjk_fallback mtight">歷史總出賽次數</span></span></span></span></span><span class="" style="top: -3.23em;"><span class="pstrut" style="height: 3em;"></span><span class="frac-line" style="border-bottom-width: 0.04em;"></span></span><span class="" style="top: -3.394em;"><span class="pstrut" style="height: 3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord cjk_fallback mtight">歷史頭馬次數</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.345em;"><span class=""></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></span></td>
+                      <td><span data-path-to-node="37,2,4,0">補 0.0</span></td>
+                    </tr>
+                    <tr>
+                      <td><span data-path-to-node="37,3,0,0"><code data-path-to-node="37,3,0,0" data-index-in-node="0">f_career_top3_rate</code></span></td>
+                      <td><span data-path-to-node="37,3,1,0">數值 (Float)</span></td>
+                      <td><span data-path-to-node="37,3,2,0"><code data-path-to-node="37,3,2,0" data-index-in-node="0">career.basic_info</code></span></td>
+                      <td><span data-path-to-node="37,3,3,0"><span class="math-inline" data-math="\frac{\text{歷史冠亞季次數}}{\text{歷史總出賽次數}}" data-index-in-node="0"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 1.2173em; vertical-align: -0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.8723em;"><span class="" style="top: -2.655em;"><span class="pstrut" style="height: 3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord cjk_fallback mtight">歷史總出賽次數</span></span></span></span></span><span class="" style="top: -3.23em;"><span class="pstrut" style="height: 3em;"></span><span class="frac-line" style="border-bottom-width: 0.04em;"></span></span><span class="" style="top: -3.394em;"><span class="pstrut" style="height: 3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord cjk_fallback mtight">歷史冠亞季次數</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.345em;"><span class=""></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></span></td>
+                      <td><span data-path-to-node="37,3,4,0">補 0.0</span></td>
+                    </tr>
+                    <tr>
+                      <td><span data-path-to-node="37,4,0,0"><code data-path-to-node="37,4,0,0" data-index-in-node="0">f_career_avg_rank_last3</code></span></td>
+                      <td><span data-path-to-node="37,4,1,0">數值 (Float)</span></td>
+                      <td><span data-path-to-node="37,4,2,0"><code data-path-to-node="37,4,2,0" data-index-in-node="0">career.career_records</code></span></td>
+                      <td><span data-path-to-node="37,4,3,0">近 3 場賽事的平均名次。</span></td>
+                      <td><span data-path-to-node="37,4,4,0">補 14.0</span></td>
+                    </tr>
+                    <tr>
+                      <td><span data-path-to-node="37,5,0,0"><code data-path-to-node="37,5,0,0" data-index-in-node="0">f_career_avg_rank_last5</code></span></td>
+                      <td><span data-path-to-node="37,5,1,0">數值 (Float)</span></td>
+                      <td><span data-path-to-node="37,5,2,0"><code data-path-to-node="37,5,2,0" data-index-in-node="0">career.career_records</code></span></td>
+                      <td><span data-path-to-node="37,5,3,0">近 5 場賽事的平均名次。</span></td>
+                      <td><span data-path-to-node="37,5,4,0">補 14.0</span></td>
+                    </tr>
+                    <tr>
+                      <td><span data-path-to-node="37,6,0,0"><code data-path-to-node="37,6,0,0" data-index-in-node="0">f_career_avg_margin_last3</code></span></td>
+                      <td><span data-path-to-node="37,6,1,0">數值 (Float)</span></td>
+                      <td><span data-path-to-node="37,6,2,0"><code data-path-to-node="37,6,2,0" data-index-in-node="0">career.career_records</code></span></td>
+                      <td><span data-path-to-node="37,6,3,0">近 3 場賽事平均輸頭馬距離（馬位）。</span></td>
+                      <td><span data-path-to-node="37,6,4,0">補 20.0</span></td>
+                    </tr>
+                    <tr>
+                      <td><span data-path-to-node="37,7,0,0"><code data-path-to-node="37,7,0,0" data-index-in-node="0">f_course_cd_win_rate</code></span></td>
+                      <td><span data-path-to-node="37,7,1,0">數值 (Float)</span></td>
+                      <td><span data-path-to-node="37,7,2,0"><code data-path-to-node="37,7,2,0" data-index-in-node="0">career.career_records</code></span></td>
+                      <td><span data-path-to-node="37,7,3,0">同馬場(HV) + 同途程(1650m) 之歷史勝率。</span></td>
+                      <td><span data-path-to-node="37,7,4,0">補 0.0</span></td>
+                    </tr>
+                    <tr>
+                      <td><span data-path-to-node="37,8,0,0"><code data-path-to-node="37,8,0,0" data-index-in-node="0">f_best_time_sec</code></span></td>
+                      <td><span data-path-to-node="37,8,1,0">數值 (Float)</span></td>
+                      <td><span data-path-to-node="37,8,2,0"><code data-path-to-node="37,8,2,0" data-index-in-node="0">career.career_records</code></span></td>
+                      <td><span data-path-to-node="37,8,3,0">同途程歷史最佳完成時間（轉為秒數）。</span></td>
+                      <td><span data-path-to-node="37,8,4,0">補 999.0</span></td>
+                    </tr>
+                    <tr>
+                      <td><span data-path-to-node="37,9,0,0"><code data-path-to-node="37,9,0,0" data-index-in-node="0">f_pace_style_code</code></span></td>
+                      <td><span data-path-to-node="37,9,1,0">離散 (Int)</span></td>
+                      <td><span data-path-to-node="37,9,2,0"><code data-path-to-node="37,9,2,0" data-index-in-node="0">career.career_records</code></span></td>
+                      <td><span data-path-to-node="37,9,3,0">根據早期走位編碼：1=領放, 2=前中遊, 3=後追。</span></td>
+                      <td><span data-path-to-node="37,9,4,0">補 3</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div _ngcontent-ng-c3073273329="" hide-from-message-actions="" class="table-footer hide-on-print hide-from-message-actions">
+                <gem-icon-button _ngcontent-ng-c3073273329="" tabindex="0" gemmenutrigger="" cdkoverlayorigin="" theme="lm" type="tonal" arialabel="More options" gemtooltip="More options" class="mat-mdc-tooltip-trigger overflow-menu-button gem-button gem-button-badge-size-small gem-button-size-small gem-button-type-tonal lm-enabled ng-star-inserted is-mobile" _nghost-ng-c374551268="" aria-disabled="false" aria-haspopup="true" aria-expanded="false" aria-controls="ng-menu-a10645-67" aria-describedby="cdk-describedby-message-ng-1-25" cdk-describedby-host="ng-1">
+                  <!---->
+                  <!----><button _ngcontent-ng-c374551268="" maticonbutton="" matbadgeposition="after" class="mdc-icon-button mat-mdc-icon-button mat-mdc-button-base mat-badge mat-unthemed mat-badge-overlap mat-badge-above mat-badge-after mat-badge-small mat-badge-hidden ng-star-inserted" mat-ripple-loader-uninitialized="" mat-ripple-loader-class-name="mat-mdc-button-ripple" mat-ripple-loader-centered="" aria-label="More options" jslog="305704;track:generic_click,impression"><span class="mat-mdc-button-persistent-ripple mdc-icon-button__ripple"></span>
+                    <gem-icon _ngcontent-ng-c374551268="" _nghost-ng-c818472059="">
+                      <mat-icon _ngcontent-ng-c818472059="" role="img" class="mat-icon notranslate lm-icon-l lumi-symbols mat-ligature-font mat-icon-no-color ng-star-inserted" aria-hidden="true" data-mat-icon-type="font" data-mat-icon-name="more_horiz" data-mat-icon-namespace="lumi-symbols" fonticon="more_horiz"></mat-icon>
+                      <!---->
+                      <!---->
+                      <!---->
+                    </gem-icon>
+                    <!----><span class="mat-focus-indicator"></span><span class="mat-mdc-button-touch-target"></span>
+                  </button>
+                  <!---->
+                  <!---->
+                </gem-icon-button>
+                <!---->
+                <gem-popover _ngcontent-ng-c3073273329="" _nghost-ng-c506861182="" class="ng-star-inserted">
+                  <!---->
+                </gem-popover>
+                <!---->
+                <!---->
+              </div>
+            </div>
+            <!---->
+          </table-block>
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+        </response-element>
+      </div>
+    </div>
+    <h3 data-path-to-node="39">三、 賽事內相對標準化規格 (In-Race Relational Scaling Specification)</h3>
+    <p data-path-to-node="40">馬匹在賽事中的競爭力是<b data-path-to-node="40" data-index-in-node="11">相對的</b>而非絕對的。為了提高 LightGBM / XGBoost 等模型在排序任務（Ranking Task）上的表現，所有絕對數值特徵在完成展平後，均須進行<b data-path-to-node="40" data-index-in-node="90">賽事分組內（Grouped by <code data-path-to-node="40" data-index-in-node="107">race_id</code>）相對標準化</b>。</p>
+    <h4 data-path-to-node="41">3.1 賽事內 Z-Score 歸一化 (In-Race Z-Score Standardization)</h4>
+    <p data-path-to-node="42">對負磅、體重、評分、14天操練強度指數、近 3 場平均名次等連續變數，在同一場賽事（<code data-path-to-node="42" data-index-in-node="42">race_id</code>）內計算 Z-Score：</p>
+    <div data-path-to-node="43">
+      <div class="math-block" data-math="Z_{i, k} = \frac{X_{i, k} - \mu_{k}}{\sigma_{k}}"><span class="katex-display"><span class="katex" contenteditable=""><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.9694em; vertical-align: -0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right: 0.0715em;">Z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.3361em;"><span class="" style="top: -2.55em; margin-left: -0.0715em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight" style="margin-right: 0.0315em;">k</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.2861em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.2778em;"></span><span class="mrel">= (</span></span><span class="base"><span class="mord"><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.3603em;"><span class="" style="top: -2.314em;"><span class="mord"><span class="mord"><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span><span class="" style="top: -3.23em;"><span class="pstrut" style="height: 3em;"></span><span class="frac-line" style="border-bottom-width: 0.04em;"></span></span><span class="" style="top: -3.677em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal" style="margin-right: 0.0785em;">X</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.3361em;"><span class="" style="top: -2.55em; margin-left: -0.0785em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight" style="margin-right: 0.0315em;">k</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.2861em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right: 0.2222em;"></span><span class="mord"><span class="mord mathnormal">μ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.3361em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right: 0.0315em;">k) /&nbsp;<span class="mord mathnormal" style="margin-right: 0.0359em;">σ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.3361em;"><span class="" style="top: -2.55em; margin-left: -0.0359em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right: 0.0315em;">k</span></span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.836em;"><span class=""></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></div>
+    </div>
+    <ul data-path-to-node="44">
+      <li>
+        <p data-path-to-node="44,0,0"><span class="math-inline" data-math="X_{i, k}" data-index-in-node="0"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.9694em; vertical-align: -0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right: 0.0785em;">X</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.3361em;"><span class="" style="top: -2.55em; margin-left: -0.0785em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight" style="margin-right: 0.0315em;">k</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.2861em;"><span class=""></span></span></span></span></span></span></span></span></span></span>：賽事 <span class="math-inline" data-math="k" data-index-in-node="12"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.6944em;"></span><span class="mord mathnormal" style="margin-right: 0.0315em;">k</span></span></span></span></span> 中第 <span class="math-inline" data-math="i" data-index-in-node="17"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.6595em;"></span><span class="mord mathnormal">i</span></span></span></span></span> 匹馬的原始特徵值。</p>
+      </li>
+      <li>
+        <p data-path-to-node="44,1,0"><span class="math-inline" data-math="\mu_{k}" data-index-in-node="0"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.625em; vertical-align: -0.1944em;"></span><span class="mord"><span class="mord mathnormal">μ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.3361em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right: 0.0315em;">k</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span>：賽事 <span class="math-inline" data-math="k" data-index-in-node="11"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.6944em;"></span><span class="mord mathnormal" style="margin-right: 0.0315em;">k</span></span></span></span></span> 內所有參賽馬匹該特徵的平均值。</p>
+      </li>
+      <li>
+        <p data-path-to-node="44,2,0"><span class="math-inline" data-math="\sigma_{k}" data-index-in-node="0"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.5806em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right: 0.0359em;">σ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.3361em;"><span class="" style="top: -2.55em; margin-left: -0.0359em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right: 0.0315em;">k</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span>：賽事 <span class="math-inline" data-math="k" data-index-in-node="14"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.6944em;"></span><span class="mord mathnormal" style="margin-right: 0.0315em;">k</span></span></span></span></span> 內所有參賽馬匹該特徵的標準差。</p>
+      </li>
+    </ul>
+    <h4 data-path-to-node="45">3.2 賽事內百分比排名 (In-Race Percentile Ranking)</h4>
+    <p data-path-to-node="46">對檔位、評分變動、最佳時間等特徵，轉換為賽事內的相對百分比排名（0.0 至 1.0）：</p>
+    <div data-path-to-node="47">
+      <div class="math-block" data-math="\text{Rank\_Pct}_{i, k} = \frac{\text{Rank}(X_{i, k}) - 1}{N_k - 1}"><span contenteditable="" class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 1.1902em; vertical-align: -0.4958em;"></span><span class="mord"><span class="mord text"><span class="mord">Rank_Pct</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.1264em;"><span class="" style="top: -2.3403em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight" style="margin-right: 0.0315em;">k</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.4958em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.2778em;"></span><span class="mrel">= (</span></span><span class="base"><span class="mord"><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.427em;"><span class="" style="top: -3.677em;"><span class="mord"><span class="mord text"><span class="mord">Rank</span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right: 0.0785em;">X</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.3361em;"><span class="" style="top: -2.55em; margin-left: -0.0785em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight" style="margin-right: 0.0315em;">k</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.2861em;"><span class=""></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right: 0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right: 0.2222em;"></span><span class="mord">1</span></span></span></span><span class="vlist-s">​) / (<span class="mord"><span class="mord mathnormal" style="margin-right: 0.109em;">N</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.3361em;"><span class="" style="top: -2.55em; margin-left: -0.109em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right: 0.0315em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right: 0.2222em;"></span><span class="mord">1</span>)</span></span><span class="vlist-r"><span class="vlist" style="height: 0.836em;"><span class=""></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></div>
+    </div>
+    <ul data-path-to-node="48">
+      <li>
+        <p data-path-to-node="48,0,0"><span class="math-inline" data-math="N_k" data-index-in-node="0"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.8333em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right: 0.109em;">N</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.3361em;"><span class="" style="top: -2.55em; margin-left: -0.109em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right: 0.0315em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span>：當前賽事 <span class="math-inline" data-math="k" data-index-in-node="9"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.6944em;"></span><span class="mord mathnormal" style="margin-right: 0.0315em;">k</span></span></span></span></span> 的參賽總馬匹數。</p>
+      </li>
+      <li>
+        <p data-path-to-node="48,1,0">輸出值 <code data-path-to-node="48,1,0" data-index-in-node="4">0.0</code> 代表該場賽事中該特徵最有利/最優者，<code data-path-to-node="48,1,0" data-index-in-node="26">1.0</code> 代表最不利/最劣者。</p>
+      </li>
+    </ul>
+  </div>
+</message-content>

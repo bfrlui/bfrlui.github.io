@@ -57,7 +57,16 @@ def clean_text(value):
 
 # The racing day the web-page sources were scraped from. career is historical
 # and not tied to a single racing day, so it has no _race_date.
+# Default racing day / racecourse. These can be overridden from the command
+# line:  python merge_collection.py 15/07/2026 HV
 RACE_DATE = "15/07/2026"
+
+# Racecourse code for the racing day (HV = Happy Valley, ST = Sha Tin). Used to
+# fetch the per-race header (race name, distance, class, track, etc.) from HKJC.
+RACECOURSE = "HV"
+
+# Human-readable racecourse name mapping (code -> Chinese name).
+RACECOURSE_NAME = {"HV": "跑馬地", "ST": "沙田"}
 
 # Race-day sources (scraped from HKJC web pages on RACE_DATE). Each entry gets a
 # _race_date tag.
@@ -97,6 +106,150 @@ def race_from_filename(fname):
 def load(name):
     with open(os.path.join(BASE, name), encoding="utf-8") as fh:
         return clean_text(json.load(fh))
+
+
+def _parse_race_header_from_html(html):
+    """
+    Parse the structured race header from a HKJC racecard/localresults HTML
+    page. Returns an OrderedDict with the fields needed for "_meta.race", or
+    None if the header could not be located/parsed.
+
+    The header lives in a <thead> row "第 N 場 (race_id)" followed by a
+    <tbody class="f_fs13"> whose rows carry:
+      - "第五班 - 1650米 - (40-0)"  -> race_class + distance
+      - "場地狀況 :" 好地          -> track_condition
+      - "摩法神采讓賽" / "賽道 :" 草地 - "C" 賽道  -> race_name + track
+      - "HK$ 875,000"              -> prize_money
+    """
+    from bs4 import BeautifulSoup
+
+    soup = BeautifulSoup(html, "html.parser")
+
+    # 1) race_id from the "第 N 場 (race_id)" header row.
+    race_id = None
+    head = soup.select_one("thead td")
+    if head:
+        m = re.search(r"第\s*\d+\s*場\s*\((\d+)\)", head.get_text(" ", strip=True))
+        if m:
+            race_id = int(m.group(1))
+
+    # 2) Parse the structured rows in tbody.f_fs13.
+    race_name = track_condition = track = prize_money = None
+    distance = race_class = None
+
+    for row in soup.select("tbody.f_fs13 tr"):
+        cells = [c.get_text(" ", strip=True) for c in row.find_all("td")]
+        cells = [clean_text(c) for c in cells if c]
+        if not cells:
+            continue
+        text = " ".join(cells)
+
+        # "第五班 - 1650米 - (40-0)"
+        m = re.search(r"第?([一二三四五六七八九十]+)班", text)
+        if m and distance is None:
+            class_map = {"一": 1, "二": 2, "三": 3, "四": 4, "五": 5,
+                         "六": 6, "七": 7, "八": 8, "九": 9, "十": 10}
+            race_class = class_map.get(m.group(1))
+            dm = re.search(r"(\d+)\s*米", text)
+            if dm:
+                distance = int(dm.group(1))
+
+        # "場地狀況 :" 好地
+        if "場地狀況" in text:
+            val = text.split("場地狀況", 1)[1].strip(" :")
+            if val:
+                track_condition = val
+
+        # "摩法神采讓賽" / "賽道 :" 草地 - "C" 賽道
+        if "賽道" in text:
+            # race name is the cell before "賽道 :"
+            for i, c in enumerate(cells):
+                if "賽道" in c and i > 0:
+                    name_candidate = cells[i - 1]
+                    if name_candidate and "賽道" not in name_candidate:
+                        race_name = name_candidate
+            track_val = text.split("賽道", 1)[1].strip(" :")
+            if track_val:
+                track = track_val  # keep original double quotes
+
+        # "HK$ 875,000"  (first cell only, ignore the trailing 時間 cells)
+        for c in cells:
+            if re.search(r"HK\$\s*[\d,]+", c):
+                prize_money = c.strip()
+                break
+
+    if race_id is None and not (race_name or distance):
+        return None
+
+    return OrderedDict([
+        ("race_id", race_id),
+        ("race_name", race_name),
+        ("distance", distance),
+        ("race_class", race_class),
+        ("track_condition", track_condition),
+        ("track", track),
+        ("prize_money", prize_money),
+    ])
+
+
+def _fetch_race_header(race_no):
+    """
+    Fetch the per-race header from HKJC, mirroring the logic of
+    RacingRAGEngine._fetch_race_info: try the "racecard" page first, and if it
+    fails (e.g. the race is already over and racecard is no longer available)
+    fall back to the "localresults" page. Returns None if both fail.
+    """
+    import requests
+
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+                      "AppleWebKit/537.36 (KHTML, like Gecko) "
+                      "Chrome/120.0.0.0 Safari/537.36"
+    }
+    urls = [
+        (f"https://racing.hkjc.com/zh-hk/local/information/racecard"
+         f"?racedate={RACE_DATE}&Racecourse={RACECOURSE}&RaceNo={race_no}",
+         "racecard"),
+        (f"https://racing.hkjc.com/zh-hk/local/information/localresults"
+         f"?racedate={RACE_DATE}&Racecourse={RACECOURSE}&RaceNo={race_no}",
+         "localresults"),
+    ]
+
+    for url, page_name in urls:
+        try:
+            res = requests.get(url, headers=headers, timeout=15)
+            res.encoding = "utf-8"
+            if res.status_code != 200:
+                continue
+            header = _parse_race_header_from_html(res.text)
+            if header:
+                if page_name == "localresults":
+                    print(f"[INFO] 第 {race_no} 場賽事標頭已由 {page_name} 備用頁面取得。")
+                return header
+        except Exception as e:
+            print(f"[WARN] 抓取第 {race_no} 場賽事標頭失敗 ({page_name}): {e}")
+
+    print(f"[WARN] 第 {race_no} 場賽事標頭解析失敗 (可能該場次不存在)")
+    return None
+
+
+def build_race_meta():
+    """Build the "_meta.race" list by fetching each race's header from HKJC."""
+    # Determine the set of race numbers present in the race-day sources.
+    race_nos = set()
+    for _, fname in RACE_DAY_SOURCES:
+        data = load(fname)
+        for race in data.keys():
+            digits = "".join(filter(str.isdigit, str(race)))
+            if digits:
+                race_nos.add(int(digits))
+
+    races = []
+    for race_no in sorted(race_nos):
+        header = _fetch_race_header(race_no)
+        if header:
+            races.append(header)
+    return races
 
 
 def merge():
@@ -161,6 +314,8 @@ def merge():
     out["_meta"] = OrderedDict([
         ("join_key", JOIN_KEY),
         ("race_date", RACE_DATE),
+        ("race_course", RACECOURSE_NAME.get(RACECOURSE, RACECOURSE)),
+        ("race", build_race_meta()),
         ("source_files", [f for _, f in RACE_DAY_SOURCES] + list(CAREER_FILES)),
         ("total_horses", len(collection)),
         ("records_per_source", stats),
@@ -177,4 +332,15 @@ def merge():
 
 
 if __name__ == "__main__":
+    import sys
+
+    # Optional command-line args:  python merge_collection.py <race_date> <racecourse>
+    #   e.g.  python merge_collection.py 15/07/2026 HV
+    if len(sys.argv) > 1:
+        RACE_DATE = sys.argv[1]
+    if len(sys.argv) > 2:
+        RACECOURSE = sys.argv[2].upper()
+        if RACECOURSE not in RACECOURSE_NAME:
+            print(f"[WARN] 未知馬場代碼 '{RACECOURSE}'，將原樣輸出。")
+
     merge()
