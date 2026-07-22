@@ -13,6 +13,7 @@ import time
 def parse_horse_career_raw(horse_id, horse_name):
     """前往馬會官網爬取單匹馬的生涯歷史，原樣保留表格原始數據，不做任何語意轉換"""
     url = f"https://racing.hkjc.com/zh-hk/local/information/horse?horseid={horse_id}&Option=1"
+    print(f"🌐 正在抓取: {horse_name} ({horse_id}) -> {url}")
     headers = {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
     }
@@ -100,16 +101,53 @@ def parse_horse_career_raw(horse_id, horse_name):
         "career_records": career_records
     }
 
+def parse_race_date(date_str):
+    """解析日期字串，支援 DD/MM/YY 或 DD/MM/YYYY 格式"""
+    try:
+        parts = date_str.split('/')
+        if len(parts) != 3:
+            return None
+        day, month, year = parts
+        if len(year) == 2:
+            year = '20' + year
+        return (int(year), int(month), int(day))
+    except:
+        return None
+
+
+def filter_career_records_by_date(career_records, max_date_tuple):
+    """過濾賽績，只保留日期 <= max_date 的記錄"""
+    if max_date_tuple is None:
+        return career_records
+    
+    filtered = []
+    for record in career_records:
+        race_date_str = record.get("日期", "").strip()
+        if not race_date_str:
+            continue
+        race_date_tuple = parse_race_date(race_date_str)
+        if race_date_tuple and race_date_tuple <= max_date_tuple:
+            filtered.append(record)
+    return filtered
+
+
 def main():
-    # 支援透過命令列參數指定單一場次，例如 python hkjc_career_history_raw.py 1
-    # 若未帶參數則處理全部場次（維持舊行為）
-    target_race = None
-    if len(sys.argv) > 1:
-        try:
-            target_race = int(sys.argv[1])
-        except ValueError:
-            print(f"❌ 錯誤：場次編號必須為數字，您輸入的是 '{sys.argv[1]}'。")
-            return
+    import argparse
+    
+    parser = argparse.ArgumentParser(description="抓取馬匹生涯歷史原始數據")
+    parser.add_argument("race_no", nargs="?", type=int, help="指定場次編號（可選）")
+    parser.add_argument("-d", "--race-date", type=str, help="指定賽事日期 (格式: DD/MM/YY 或 DD/MM/YYYY)，過濾掉此日期之後的賽績")
+    args = parser.parse_args()
+    
+    target_race = args.race_no
+    max_race_date = parse_race_date(args.race_date) if args.race_date else None
+    
+    if args.race_date and max_race_date is None:
+        print(f"❌ 錯誤：日期格式無效 '{args.race_date}'，請使用 DD/MM/YY 或 DD/MM/YYYY 格式")
+        return
+    
+    if max_race_date:
+        print(f"📅 過濾條件：只保留賽事日期 <= {args.race_date} 的賽績")
 
     starters_file = "hkjc_starters_perfect.json"
     if not os.path.exists(starters_file):
@@ -165,6 +203,9 @@ def main():
                 if h_name not in career_raw_data:
                     stats = parse_horse_career_raw(h_id, h_name)
                     if stats:
+                        # 依指定日期過濾賽績
+                        if max_race_date:
+                            stats["career_records"] = filter_career_records_by_date(stats["career_records"], max_race_date)
                         career_raw_data[h_name] = stats
                         success_count += 1
                     time.sleep(1.5)  # 安全防護延時，避免被封鎖 IP
