@@ -26,7 +26,7 @@
   },
   {
     "name": "f_weight_change_pct",
-    "dtype": "int",
+    "dtype": "float",
     "imputation": 0.0
   },
   {
@@ -166,32 +166,32 @@
   },
   {
     "name": "f_career_win_rate",
-    "dtype": "int",
+    "dtype": "float",
     "imputation": 0.0
   },
   {
     "name": "f_career_top3_rate",
-    "dtype": "int",
+    "dtype": "float",
     "imputation": 0.0
   },
   {
     "name": "f_career_avg_rank_last3",
-    "dtype": "int",
+    "dtype": "float",
     "imputation": 14.0
   },
   {
     "name": "f_career_avg_rank_last5",
-    "dtype": "int",
+    "dtype": "float",
     "imputation": 14.0
   },
   {
     "name": "f_career_avg_margin_last3",
-    "dtype": "int",
+    "dtype": "float",
     "imputation": 20.0
   },
   {
     "name": "f_course_cd_win_rate",
-    "dtype": "int",
+    "dtype": "float",
     "imputation": 0.0
   },
   {
@@ -271,5 +271,40 @@
     "name": "target_won",
     "dtype": "int (0/1)",
     "note": "LABEL: 1 if won"
+  },
+  {
+    "name": "relevance",
+    "dtype": "int (0-3)",
+    "note": "Derived label: 1st=3, 2nd=2, 3rd=1, else=0"
+  },
+  {
+    "name": "pred_score",
+    "dtype": "float",
+    "note": "Model raw ranking score (LambdaMART output)"
+  },
+  {
+    "name": "win_prob",
+    "dtype": "float",
+    "note": "Calibrated win probability (sums to 1 per race)"
+  },
+  {
+    "name": "pred_rank",
+    "dtype": "int",
+    "note": "Predicted rank within race (1 = top predicted)"
+  },
+  {
+    "name": "market_odds",
+    "dtype": "float",
+    "note": "Live HKJC win odds (required for betting simulation)"
+  },
+  {
+    "name": "place_odds",
+    "dtype": "float",
+    "note": "Live HKJC place odds (optional)"
+  },
+  {
+    "name": "fold",
+    "dtype": "int (1-5)",
+    "note": "CV fold assignment (GroupKFold by race_id)"
   }
 ]

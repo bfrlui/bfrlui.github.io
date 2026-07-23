@@ -1,0 +1,61 @@
+{
+  "models": [
+    "lightgbm",
+    "xgboost"
+  ],
+  "weights": {
+    "lightgbm": 1.0,
+    "xgboost": 1.0
+  },
+  "feature_cols": [
+    "f_horse_age",
+    "f_declared_weight",
+    "f_horse_weight",
+    "f_weight_change_pct",
+    "f_current_rating",
+    "f_days_since_last_run",
+    "f_gallop_count_7d",
+    "f_gallop_count_14d",
+    "f_gallop_count_28d",
+    "f_swim_count_14d",
+    "f_intensity_score_14d",
+    "f_vet_days_since_injury",
+    "f_exp_rating_drop",
+    "f_career_total_runs",
+    "f_career_win_rate",
+    "f_career_top3_rate",
+    "f_career_avg_margin_last3",
+    "f_course_cd_win_rate",
+    "f_best_time_sec",
+    "f_pace_style_code",
+    "f_horse_weight_z",
+    "f_current_rating_z",
+    "f_intensity_score_14d_z",
+    "f_career_avg_rank_last3_z",
+    "f_draw_pct",
+    "f_rating_change_pct",
+    "f_best_time_sec_pct"
+  ],
+  "best_params": {
+    "n_estimators": 386,
+    "learning_rate": 0.008359566229214835,
+    "num_leaves": 4,
+    "max_depth": 3,
+    "min_child_samples": 29,
+    "subsample": 0.9990108093352523,
+    "colsample_bytree": 0.6954888777519316,
+    "reg_alpha": 0.3136950071660084,
+    "reg_lambda": 0.3226783053101548,
+    "min_split_gain": 0.44765694791599314,
+    "min_child_weight": 0.006398606480420762,
+    "objective": "lambdarank",
+    "metric": "ndcg",
+    "random_state": 42,
+    "verbose": -1,
+    "eval_at": [
+      1,
+      3,
+      5
+    ]
+  }
+}

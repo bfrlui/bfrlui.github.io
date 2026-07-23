@@ -1,0 +1,1351 @@
+[
+  {
+    "race_id": 858,
+    "race_date": "15/07/2026",
+    "race_no": 1,
+    "course": "跑馬地",
+    "predictions": [
+      {
+        "horse_id": "HK_2023_J080",
+        "horse_name": "川河型駒",
+        "jockey": "莫雷拉",
+        "trainer": "游達榮",
+        "draw": 0.0909090909090909,
+        "pred_score": 1.882683038663115,
+        "win_prob": 0.7598589165498634,
+        "pred_rank": 1
+      },
+      {
+        "horse_id": "HK_2023_J332",
+        "horse_name": "電訊驕陽",
+        "jockey": "蔡明紹",
+        "trainer": "徐雨石",
+        "draw": 0.6363636363636364,
+        "pred_score": -0.1091169309691324,
+        "win_prob": 0.1036824445640336,
+        "pred_rank": 2
+      },
+      {
+        "horse_id": "HK_2024_K073",
+        "horse_name": "幸運福星",
+        "jockey": "梁家俊",
+        "trainer": "巫偉傑",
+        "draw": 0.5454545454545454,
+        "pred_score": -0.9430418843375581,
+        "win_prob": 0.04503355402560285,
+        "pred_rank": 3
+      },
+      {
+        "horse_id": "HK_2021_G277",
+        "horse_name": "極速滿貫",
+        "jockey": "艾兆禮",
+        "trainer": "黎昭昇",
+        "draw": 0.4545454545454545,
+        "pred_score": -1.9238301978363195,
+        "win_prob": 0.01688827414316676,
+        "pred_rank": 4
+      },
+      {
+        "horse_id": "HK_2025_L139",
+        "horse_name": "怪獸波士",
+        "jockey": "潘頓",
+        "trainer": "文家良",
+        "draw": 0.3636363636363636,
+        "pred_score": -1.9279785266623723,
+        "win_prob": 0.016818361140038374,
+        "pred_rank": 5
+      },
+      {
+        "horse_id": "HK_2021_G095",
+        "horse_name": "駟跑得",
+        "jockey": "霍宏聲",
+        "trainer": "廖康銘",
+        "draw": 1.0,
+        "pred_score": -2.126260157651174,
+        "win_prob": 0.01379339126498163,
+        "pred_rank": 6
+      },
+      {
+        "horse_id": "HK_2021_G312",
+        "horse_name": "架勢奇爸",
+        "jockey": "布文",
+        "trainer": "告東尼",
+        "draw": 0.0,
+        "pred_score": -2.5513256366312866,
+        "win_prob": 0.009017111992891257,
+        "pred_rank": 7
+      },
+      {
+        "horse_id": "HK_2024_K217",
+        "horse_name": "勇者無敵",
+        "jockey": "田泰安",
+        "trainer": "韋達",
+        "draw": 0.1818181818181818,
+        "pred_score": -2.6155648182325404,
+        "win_prob": 0.00845607335159982,
+        "pred_rank": 8
+      },
+      {
+        "horse_id": "HK_2023_J003",
+        "horse_name": "勁爽",
+        "jockey": "楊明綸",
+        "trainer": "丁冠豪",
+        "draw": 0.9090909090909092,
+        "pred_score": -2.7564160615607376,
+        "win_prob": 0.007345101876440929,
+        "pred_rank": 9
+      },
+      {
+        "horse_id": "HK_2024_K390",
+        "horse_name": "摘星聲升",
+        "jockey": "金誠剛",
+        "trainer": "鄭俊偉",
+        "draw": 0.8181818181818182,
+        "pred_score": -2.8888954804468376,
+        "win_prob": 0.0064337286968240955,
+        "pred_rank": 10
+      },
+      {
+        "horse_id": "HK_2024_K059",
+        "horse_name": "悠悠乾坤",
+        "jockey": "希威森",
+        "trainer": "桂福特",
+        "draw": 0.7272727272727273,
+        "pred_score": -2.8919501139621486,
+        "win_prob": 0.006414105998851739,
+        "pred_rank": 11
+      },
+      {
+        "horse_id": "HK_2021_G292",
+        "horse_name": "多利神駒",
+        "jockey": "巴度",
+        "trainer": "蘇偉賢",
+        "draw": 0.2727272727272727,
+        "pred_score": -2.916439475428965,
+        "win_prob": 0.006258936395705572,
+        "pred_rank": 12
+      }
+    ],
+    "betting_recommendations": [
+      {
+        "rank": 1,
+        "horse_name": "川河型駒",
+        "win_prob": 0.7598589165498634,
+        "implied_odds": 1.3160337770865365,
+        "recommendation": "BET"
+      },
+      {
+        "rank": 2,
+        "horse_name": "電訊驕陽",
+        "win_prob": 0.1036824445640336,
+        "implied_odds": 9.64483432277107,
+        "recommendation": "WATCH"
+      },
+      {
+        "rank": 3,
+        "horse_name": "幸運福星",
+        "win_prob": 0.04503355402560285,
+        "implied_odds": 22.205664679085103,
+        "recommendation": "WATCH"
+      }
+    ]
+  },
+  {
+    "race_id": 859,
+    "race_date": "15/07/2026",
+    "race_no": 2,
+    "course": "跑馬地",
+    "predictions": [
+      {
+        "horse_id": "HK_2025_L074",
+        "horse_name": "星威心得",
+        "jockey": "金誠剛",
+        "trainer": "大衛希斯",
+        "draw": 0.2727272727272727,
+        "pred_score": 2.147816799423233,
+        "win_prob": 0.8079952210257421,
+        "pred_rank": 1
+      },
+      {
+        "horse_id": "HK_2023_J359",
+        "horse_name": "天下寵兒",
+        "jockey": "艾兆禮",
+        "trainer": "廖康銘",
+        "draw": 0.3636363636363636,
+        "pred_score": -0.06022548719160245,
+        "win_prob": 0.08881129672838463,
+        "pred_rank": 2
+      },
+      {
+        "horse_id": "HK_2024_K132",
+        "horse_name": "團結戰靈",
+        "jockey": "田泰安",
+        "trainer": "桂福特",
+        "draw": 0.1818181818181818,
+        "pred_score": -0.946464172892995,
+        "win_prob": 0.036608306624691674,
+        "pred_rank": 3
+      },
+      {
+        "horse_id": "HK_2022_H134",
+        "horse_name": "精益大師",
+        "jockey": "黃寶妮 (-7)",
+        "trainer": "葉楚航",
+        "draw": 0.9090909090909092,
+        "pred_score": -1.6936051811478117,
+        "win_prob": 0.01734204957053884,
+        "pred_rank": 4
+      },
+      {
+        "horse_id": "HK_2022_H110",
+        "horse_name": "紅愛舍",
+        "jockey": "布文",
+        "trainer": "韋達",
+        "draw": 0.5454545454545454,
+        "pred_score": -2.1392520541869957,
+        "win_prob": 0.01110601985201338,
+        "pred_rank": 5
+      },
+      {
+        "horse_id": "HK_2024_K229",
+        "horse_name": "三強",
+        "jockey": "楊明綸",
+        "trainer": "鄭俊偉",
+        "draw": 1.0,
+        "pred_score": -2.6348264197202176,
+        "win_prob": 0.006766019313097803,
+        "pred_rank": 6
+      },
+      {
+        "horse_id": "HK_2023_J116",
+        "horse_name": "紅錢到",
+        "jockey": "霍宏聲",
+        "trainer": "呂健威",
+        "draw": 0.6363636363636364,
+        "pred_score": -2.667664984263003,
+        "win_prob": 0.006547441484242636,
+        "pred_rank": 7
+      },
+      {
+        "horse_id": "HK_2022_H454",
+        "horse_name": "良駒好友",
+        "jockey": "梁家俊",
+        "trainer": "文家良",
+        "draw": 0.8181818181818182,
+        "pred_score": -2.6964445950336273,
+        "win_prob": 0.0063616943523539075,
+        "pred_rank": 8
+      },
+      {
+        "horse_id": "HK_2023_J398",
+        "horse_name": "金駒永騰",
+        "jockey": "黃智弘 (-3)",
+        "trainer": "伍鵬志",
+        "draw": 0.4545454545454545,
+        "pred_score": -2.732676751905563,
+        "win_prob": 0.00613532218454797,
+        "pred_rank": 9
+      },
+      {
+        "horse_id": "HK_2024_K441",
+        "horse_name": "友聲友色",
+        "jockey": "鍾易禮 (-2)",
+        "trainer": "蘇偉賢",
+        "draw": 0.7272727272727273,
+        "pred_score": -2.74270076519237,
+        "win_prob": 0.006074128847259883,
+        "pred_rank": 10
+      },
+      {
+        "horse_id": "HK_2025_L327",
+        "horse_name": "好運多彩",
+        "jockey": "潘明輝",
+        "trainer": "羅富全",
+        "draw": 0.0,
+        "pred_score": -3.318924953711411,
+        "win_prob": 0.003413760230993633,
+        "pred_rank": 11
+      },
+      {
+        "horse_id": "HK_2025_L061",
+        "horse_name": "勝利君子",
+        "jockey": "莫雷拉",
+        "trainer": "方嘉柏",
+        "draw": 0.0909090909090909,
+        "pred_score": -3.503379128092582,
+        "win_prob": 0.002838739786133584,
+        "pred_rank": 12
+      }
+    ],
+    "betting_recommendations": [
+      {
+        "rank": 1,
+        "horse_name": "星威心得",
+        "win_prob": 0.8079952210257421,
+        "implied_odds": 1.2376310824345096,
+        "recommendation": "BET"
+      },
+      {
+        "rank": 2,
+        "horse_name": "天下寵兒",
+        "win_prob": 0.08881129672838463,
+        "implied_odds": 11.259828837522129,
+        "recommendation": "WATCH"
+      },
+      {
+        "rank": 3,
+        "horse_name": "團結戰靈",
+        "win_prob": 0.036608306624691674,
+        "implied_odds": 27.31620476882471,
+        "recommendation": "WATCH"
+      }
+    ]
+  },
+  {
+    "race_id": 860,
+    "race_date": "15/07/2026",
+    "race_no": 3,
+    "course": "跑馬地",
+    "predictions": [
+      {
+        "horse_id": "HK_2024_K300",
+        "horse_name": "家樂寶駒",
+        "jockey": "莫雷拉",
+        "trainer": "游達榮",
+        "draw": 0.4545454545454545,
+        "pred_score": 1.2822542016727096,
+        "win_prob": 0.7326941553779128,
+        "pred_rank": 1
+      },
+      {
+        "horse_id": "HK_2021_G476",
+        "horse_name": "浪漫老撾",
+        "jockey": "梁家俊",
+        "trainer": "巫偉傑",
+        "draw": 0.1818181818181818,
+        "pred_score": -0.4955477879285764,
+        "win_prob": 0.12383207014254519,
+        "pred_rank": 2
+      },
+      {
+        "horse_id": "HK_2022_H233",
+        "horse_name": "北海盜",
+        "jockey": "潘明輝",
+        "trainer": "賀賢",
+        "draw": 0.8181818181818182,
+        "pred_score": -1.8523139473632189,
+        "win_prob": 0.03188578232409935,
+        "pred_rank": 3
+      },
+      {
+        "horse_id": "HK_2022_H296",
+        "horse_name": "八駿笑昇",
+        "jockey": "布文",
+        "trainer": "告東尼",
+        "draw": 0.5454545454545454,
+        "pred_score": -2.0754788595196465,
+        "win_prob": 0.025508080979366868,
+        "pred_rank": 4
+      },
+      {
+        "horse_id": "HK_2023_J452",
+        "horse_name": "步風雷",
+        "jockey": "艾兆禮",
+        "trainer": "伍鵬志",
+        "draw": 1.0,
+        "pred_score": -2.0964455144495275,
+        "win_prob": 0.024978829551705696,
+        "pred_rank": 5
+      },
+      {
+        "horse_id": "HK_2023_J183",
+        "horse_name": "風起雲湧",
+        "jockey": "奧爾民",
+        "trainer": "蘇偉賢",
+        "draw": 0.6363636363636364,
+        "pred_score": -2.61285163390521,
+        "win_prob": 0.014903894113844102,
+        "pred_rank": 6
+      },
+      {
+        "horse_id": "HK_2023_J502",
+        "horse_name": "蜜蜜送",
+        "jockey": "田泰安",
+        "trainer": "韋達",
+        "draw": 0.7272727272727273,
+        "pred_score": -2.768710193182108,
+        "win_prob": 0.012752967242765771,
+        "pred_rank": 7
+      },
+      {
+        "horse_id": "HK_2023_J266",
+        "horse_name": "香港神駒",
+        "jockey": "艾道拿",
+        "trainer": "沈集成",
+        "draw": 0.3636363636363636,
+        "pred_score": -2.858634458837864,
+        "win_prob": 0.011656217210445482,
+        "pred_rank": 8
+      },
+      {
+        "horse_id": "HK_2022_H388",
+        "horse_name": "風火恆雲",
+        "jockey": "何澤堯",
+        "trainer": "姚本輝",
+        "draw": 0.9090909090909092,
+        "pred_score": -3.2393119772423686,
+        "win_prob": 0.007965838296870047,
+        "pred_rank": 9
+      },
+      {
+        "horse_id": "HK_2023_J494",
+        "horse_name": "領航天子",
+        "jockey": "霍宏聲",
+        "trainer": "廖康銘",
+        "draw": 0.0909090909090909,
+        "pred_score": -3.460052782939954,
+        "win_prob": 0.00638800095398645,
+        "pred_rank": 10
+      },
+      {
+        "horse_id": "HK_2024_K351",
+        "horse_name": "勁步速",
+        "jockey": "黃寶妮 (-7)",
+        "trainer": "徐雨石",
+        "draw": 0.2727272727272727,
+        "pred_score": -3.7729656856206315,
+        "win_prob": 0.004671632007998431,
+        "pred_rank": 11
+      },
+      {
+        "horse_id": "HK_2022_H324",
+        "horse_name": "大千氣象",
+        "jockey": "黃智弘 (-3)",
+        "trainer": "方嘉柏",
+        "draw": 0.0,
+        "pred_score": -4.298326585100833,
+        "win_prob": 0.002762531798459717,
+        "pred_rank": 12
+      }
+    ],
+    "betting_recommendations": [
+      {
+        "rank": 1,
+        "horse_name": "家樂寶駒",
+        "win_prob": 0.7326941553779128,
+        "implied_odds": 1.3648259545406292,
+        "recommendation": "BET"
+      },
+      {
+        "rank": 2,
+        "horse_name": "浪漫老撾",
+        "win_prob": 0.12383207014254519,
+        "implied_odds": 8.075452496666518,
+        "recommendation": "WATCH"
+      },
+      {
+        "rank": 3,
+        "horse_name": "北海盜",
+        "win_prob": 0.03188578232409935,
+        "implied_odds": 31.3619402477134,
+        "recommendation": "WATCH"
+      }
+    ]
+  },
+  {
+    "race_id": 861,
+    "race_date": "15/07/2026",
+    "race_no": 4,
+    "course": "跑馬地",
+    "predictions": [
+      {
+        "horse_id": "HK_2025_L097",
+        "horse_name": "劍飛聲",
+        "jockey": "霍宏聲",
+        "trainer": "告東尼",
+        "draw": 1.0,
+        "pred_score": 1.7449294529580284,
+        "win_prob": 0.6721717370853264,
+        "pred_rank": 1
+      },
+      {
+        "horse_id": "HK_2024_K041",
+        "horse_name": "深心星",
+        "jockey": "莫雷拉",
+        "trainer": "方嘉柏",
+        "draw": 0.1818181818181818,
+        "pred_score": 0.19415424757068062,
+        "win_prob": 0.14255653582011865,
+        "pred_rank": 2
+      },
+      {
+        "horse_id": "HK_2024_K009",
+        "horse_name": "瑞祺威楓",
+        "jockey": "田泰安",
+        "trainer": "姚本輝",
+        "draw": 0.7272727272727273,
+        "pred_score": -0.9380285588866811,
+        "win_prob": 0.045950092284484524,
+        "pred_rank": 3
+      },
+      {
+        "horse_id": "HK_2022_H116",
+        "horse_name": "大學生",
+        "jockey": "金誠剛",
+        "trainer": "韋達",
+        "draw": 0.0909090909090909,
+        "pred_score": -1.4999232286507906,
+        "win_prob": 0.02619742667424491,
+        "pred_rank": 4
+      },
+      {
+        "horse_id": "HK_2024_K253",
+        "horse_name": "同心",
+        "jockey": "何澤堯",
+        "trainer": "呂健威",
+        "draw": 0.9090909090909092,
+        "pred_score": -1.583025980740118,
+        "win_prob": 0.024108354382801067,
+        "pred_rank": 5
+      },
+      {
+        "horse_id": "HK_2024_K204",
+        "horse_name": "光年程祥",
+        "jockey": "布文",
+        "trainer": "游達榮",
+        "draw": 0.3636363636363636,
+        "pred_score": -1.7370961054949547,
+        "win_prob": 0.02066596843822065,
+        "pred_rank": 6
+      },
+      {
+        "horse_id": "HK_2025_L048",
+        "horse_name": "寫我其誰",
+        "jockey": "鍾易禮 (-2)",
+        "trainer": "葉楚航",
+        "draw": 0.6363636363636364,
+        "pred_score": -1.8872914836608161,
+        "win_prob": 0.01778388895226864,
+        "pred_rank": 7
+      },
+      {
+        "horse_id": "HK_2025_L087",
+        "horse_name": "華麗再贏",
+        "jockey": "潘頓",
+        "trainer": "沈集成",
+        "draw": 0.8181818181818182,
+        "pred_score": -2.022201514723331,
+        "win_prob": 0.015539464755533791,
+        "pred_rank": 8
+      },
+      {
+        "horse_id": "HK_2024_K383",
+        "horse_name": "傲然",
+        "jockey": "巫顯東 (-2)",
+        "trainer": "鄭俊偉",
+        "draw": 0.4545454545454545,
+        "pred_score": -2.184592436345464,
+        "win_prob": 0.013210235948217228,
+        "pred_rank": 9
+      },
+      {
+        "horse_id": "HK_2023_J098",
+        "horse_name": "先到先得",
+        "jockey": "艾道拿",
+        "trainer": "蔡約翰",
+        "draw": 0.5454545454545454,
+        "pred_score": -2.594191718703798,
+        "win_prob": 0.008770490177469278,
+        "pred_rank": 10
+      },
+      {
+        "horse_id": "HK_2024_K396",
+        "horse_name": "凱皇寶",
+        "jockey": "蔡明紹",
+        "trainer": "巫偉傑",
+        "draw": 0.0,
+        "pred_score": -2.8507099997590823,
+        "win_prob": 0.006786086521594834,
+        "pred_rank": 11
+      },
+      {
+        "horse_id": "HK_2025_L079",
+        "horse_name": "越駿齊歡",
+        "jockey": "巴度",
+        "trainer": "羅富全",
+        "draw": 0.2727272727272727,
+        "pred_score": -2.931449126562998,
+        "win_prob": 0.006259718959720132,
+        "pred_rank": 12
+      }
+    ],
+    "betting_recommendations": [
+      {
+        "rank": 1,
+        "horse_name": "劍飛聲",
+        "win_prob": 0.6721717370853264,
+        "implied_odds": 1.487715035946325,
+        "recommendation": "BET"
+      },
+      {
+        "rank": 2,
+        "horse_name": "深心星",
+        "win_prob": 0.14255653582011865,
+        "implied_odds": 7.014760805227651,
+        "recommendation": "WATCH"
+      },
+      {
+        "rank": 3,
+        "horse_name": "瑞祺威楓",
+        "win_prob": 0.045950092284484524,
+        "implied_odds": 21.762741928978873,
+        "recommendation": "WATCH"
+      }
+    ]
+  },
+  {
+    "race_id": 862,
+    "race_date": "15/07/2026",
+    "race_no": 5,
+    "course": "跑馬地",
+    "predictions": [
+      {
+        "horse_id": "HK_2024_K429",
+        "horse_name": "過關勇士",
+        "jockey": "希威森",
+        "trainer": "沈集成",
+        "draw": 0.6363636363636364,
+        "pred_score": 1.6906461883919166,
+        "win_prob": 0.7125001323773948,
+        "pred_rank": 1
+      },
+      {
+        "horse_id": "HK_2021_G192",
+        "horse_name": "大才",
+        "jockey": "潘明輝",
+        "trainer": "葉楚航",
+        "draw": 0.1818181818181818,
+        "pred_score": 0.14776831658910788,
+        "win_prob": 0.1523076100472088,
+        "pred_rank": 2
+      },
+      {
+        "horse_id": "HK_2024_K297",
+        "horse_name": "葳莉非凡",
+        "jockey": "莫雷拉",
+        "trainer": "方嘉柏",
+        "draw": 0.2727272727272727,
+        "pred_score": -0.9089921282077545,
+        "win_prob": 0.05293907803341688,
+        "pred_rank": 3
+      },
+      {
+        "horse_id": "HK_2024_K111",
+        "horse_name": "盛勢威楓",
+        "jockey": "艾兆禮",
+        "trainer": "賀賢",
+        "draw": 0.0,
+        "pred_score": -2.0442682933486873,
+        "win_prob": 0.017011092243547094,
+        "pred_rank": 4
+      },
+      {
+        "horse_id": "HK_2025_L050",
+        "horse_name": "快樂神駒",
+        "jockey": "霍宏聲",
+        "trainer": "廖康銘",
+        "draw": 0.9090909090909092,
+        "pred_score": -2.148210316682367,
+        "win_prob": 0.01533171552263855,
+        "pred_rank": 5
+      },
+      {
+        "horse_id": "HK_2025_L274",
+        "horse_name": "笑必勝",
+        "jockey": "楊明綸",
+        "trainer": "黎昭昇",
+        "draw": 0.4545454545454545,
+        "pred_score": -2.378138351159673,
+        "win_prob": 0.012182439850863949,
+        "pred_rank": 6
+      },
+      {
+        "horse_id": "HK_2025_L197",
+        "horse_name": "喜意",
+        "jockey": "梁家俊",
+        "trainer": "呂健威",
+        "draw": 1.0,
+        "pred_score": -2.512183234149264,
+        "win_prob": 0.010654162654790331,
+        "pred_rank": 7
+      },
+      {
+        "horse_id": "HK_2024_K565",
+        "horse_name": "威威神駒",
+        "jockey": "田泰安",
+        "trainer": "韋達",
+        "draw": 0.3636363636363636,
+        "pred_score": -2.899203402946713,
+        "win_prob": 0.007235001060025586,
+        "pred_rank": 8
+      },
+      {
+        "horse_id": "HK_2023_J299",
+        "horse_name": "凝聚美麗",
+        "jockey": "巴度",
+        "trainer": "巫偉傑",
+        "draw": 0.8181818181818182,
+        "pred_score": -2.960053828179145,
+        "win_prob": 0.006807875347297664,
+        "pred_rank": 9
+      },
+      {
+        "horse_id": "HK_2024_K231",
+        "horse_name": "久久為軍",
+        "jockey": "鍾易禮 (-2)",
+        "trainer": "告東尼",
+        "draw": 0.7272727272727273,
+        "pred_score": -3.0723257789686724,
+        "win_prob": 0.006084886845216891,
+        "pred_rank": 10
+      },
+      {
+        "horse_id": "HK_2025_L021",
+        "horse_name": "文采風流",
+        "jockey": "奧爾民",
+        "trainer": "蘇偉賢",
+        "draw": 0.0909090909090909,
+        "pred_score": -3.271577944078202,
+        "win_prob": 0.00498561100927025,
+        "pred_rank": 11
+      },
+      {
+        "horse_id": "HK_2024_K558",
+        "horse_name": "帶贏來",
+        "jockey": "黃智弘 (-3)",
+        "trainer": "大衛希斯",
+        "draw": 0.5454545454545454,
+        "pred_score": -4.204987921744853,
+        "win_prob": 0.0019603950083292264,
+        "pred_rank": 12
+      }
+    ],
+    "betting_recommendations": [
+      {
+        "rank": 1,
+        "horse_name": "過關勇士",
+        "win_prob": 0.7125001323773948,
+        "implied_odds": 1.4035085111679995,
+        "recommendation": "BET"
+      },
+      {
+        "rank": 2,
+        "horse_name": "大才",
+        "win_prob": 0.1523076100472088,
+        "implied_odds": 6.565660111730747,
+        "recommendation": "WATCH"
+      },
+      {
+        "rank": 3,
+        "horse_name": "葳莉非凡",
+        "win_prob": 0.05293907803341688,
+        "implied_odds": 18.889637620223898,
+        "recommendation": "WATCH"
+      }
+    ]
+  },
+  {
+    "race_id": 863,
+    "race_date": "15/07/2026",
+    "race_no": 6,
+    "course": "跑馬地",
+    "predictions": [
+      {
+        "horse_id": "HK_2024_K550",
+        "horse_name": "時時開心",
+        "jockey": "金誠剛",
+        "trainer": "游達榮",
+        "draw": 0.1818181818181818,
+        "pred_score": 1.7873753177586096,
+        "win_prob": 0.7508006572133372,
+        "pred_rank": 1
+      },
+      {
+        "horse_id": "HK_2025_L034",
+        "horse_name": "領袖勁力",
+        "jockey": "田泰安",
+        "trainer": "徐雨石",
+        "draw": 0.9090909090909092,
+        "pred_score": -0.17388881094052822,
+        "win_prob": 0.1056229895197429,
+        "pred_rank": 2
+      },
+      {
+        "horse_id": "HK_2025_L275",
+        "horse_name": "精彩勇將",
+        "jockey": "莫雷拉",
+        "trainer": "方嘉柏",
+        "draw": 0.8181818181818182,
+        "pred_score": -1.3892893134987383,
+        "win_prob": 0.031326849733938796,
+        "pred_rank": 3
+      },
+      {
+        "horse_id": "HK_2024_K109",
+        "horse_name": "神異金剛",
+        "jockey": "鍾易禮 (-2)",
+        "trainer": "葉楚航",
+        "draw": 0.7272727272727273,
+        "pred_score": -1.5549602801940126,
+        "win_prob": 0.026544022526893744,
+        "pred_rank": 4
+      },
+      {
+        "horse_id": "HK_2024_K342",
+        "horse_name": "合夥飛馳",
+        "jockey": "何澤堯",
+        "trainer": "呂健威",
+        "draw": 0.0,
+        "pred_score": -1.705831384851243,
+        "win_prob": 0.02282675875618804,
+        "pred_rank": 5
+      },
+      {
+        "horse_id": "HK_2024_K534",
+        "horse_name": "君子",
+        "jockey": "巫顯東 (-2)",
+        "trainer": "文家良",
+        "draw": 0.2727272727272727,
+        "pred_score": -2.089679746560751,
+        "win_prob": 0.015550380623844867,
+        "pred_rank": 6
+      },
+      {
+        "horse_id": "HK_2024_K391",
+        "horse_name": "小魔怪",
+        "jockey": "梁家俊",
+        "trainer": "巫偉傑",
+        "draw": 0.3636363636363636,
+        "pred_score": -2.3306171389779182,
+        "win_prob": 0.01222090149755217,
+        "pred_rank": 7
+      },
+      {
+        "horse_id": "HK_2025_L062",
+        "horse_name": "閃電武士",
+        "jockey": "楊明綸",
+        "trainer": "大衛希斯",
+        "draw": 1.0,
+        "pred_score": -2.4308343510796653,
+        "win_prob": 0.011055527301970873,
+        "pred_rank": 8
+      },
+      {
+        "horse_id": "HK_2025_L291",
+        "horse_name": "升升雙息",
+        "jockey": "布文",
+        "trainer": "沈集成",
+        "draw": 0.0909090909090909,
+        "pred_score": -2.760672916623229,
+        "win_prob": 0.007949364160694845,
+        "pred_rank": 9
+      },
+      {
+        "horse_id": "HK_2023_J143",
+        "horse_name": "日馳千里",
+        "jockey": "潘明輝",
+        "trainer": "姚本輝",
+        "draw": 0.6363636363636364,
+        "pred_score": -2.8252906846360513,
+        "win_prob": 0.007451938334423887,
+        "pred_rank": 10
+      },
+      {
+        "horse_id": "HK_2023_J039",
+        "horse_name": "穿甲戰鷹",
+        "jockey": "艾兆禮",
+        "trainer": "廖康銘",
+        "draw": 0.4545454545454545,
+        "pred_score": -3.2107849941542135,
+        "win_prob": 0.005068170316503759,
+        "pred_rank": 11
+      },
+      {
+        "horse_id": "HK_2022_H203",
+        "horse_name": "添開心",
+        "jockey": "希威森",
+        "trainer": "伍鵬志",
+        "draw": 0.5454545454545454,
+        "pred_score": -3.5577207256434784,
+        "win_prob": 0.0035824400149088065,
+        "pred_rank": 12
+      }
+    ],
+    "betting_recommendations": [
+      {
+        "rank": 1,
+        "horse_name": "時時開心",
+        "win_prob": 0.7508006572133372,
+        "implied_odds": 1.331911460642014,
+        "recommendation": "BET"
+      },
+      {
+        "rank": 2,
+        "horse_name": "領袖勁力",
+        "win_prob": 0.1056229895197429,
+        "implied_odds": 9.467635829537672,
+        "recommendation": "WATCH"
+      },
+      {
+        "rank": 3,
+        "horse_name": "精彩勇將",
+        "win_prob": 0.031326849733938796,
+        "implied_odds": 31.921498921630246,
+        "recommendation": "WATCH"
+      }
+    ]
+  },
+  {
+    "race_id": 864,
+    "race_date": "15/07/2026",
+    "race_no": 7,
+    "course": "跑馬地",
+    "predictions": [
+      {
+        "horse_id": "HK_2023_J396",
+        "horse_name": "富國兄弟",
+        "jockey": "田泰安",
+        "trainer": "葉楚航",
+        "draw": 0.6363636363636364,
+        "pred_score": 1.811895241125651,
+        "win_prob": 0.8014853898548785,
+        "pred_rank": 1
+      },
+      {
+        "horse_id": "HK_2024_K357",
+        "horse_name": "傲視同群",
+        "jockey": "奧爾民",
+        "trainer": "文家良",
+        "draw": 0.8181818181818182,
+        "pred_score": -0.4096344637669945,
+        "win_prob": 0.08691555703257646,
+        "pred_rank": 2
+      },
+      {
+        "horse_id": "HK_2022_H481",
+        "horse_name": "勁好運",
+        "jockey": "蔡明紹",
+        "trainer": "廖康銘",
+        "draw": 0.9090909090909092,
+        "pred_score": -1.3308786173284783,
+        "win_prob": 0.03459443686632938,
+        "pred_rank": 3
+      },
+      {
+        "horse_id": "HK_2020_E461",
+        "horse_name": "又龍串鳳",
+        "jockey": "巴度",
+        "trainer": "告東尼",
+        "draw": 0.4545454545454545,
+        "pred_score": -1.6317952255039316,
+        "win_prob": 0.02560470891982584,
+        "pred_rank": 4
+      },
+      {
+        "horse_id": "HK_2023_J503",
+        "horse_name": "棒棒糖",
+        "jockey": "莫雷拉",
+        "trainer": "方嘉柏",
+        "draw": 0.0,
+        "pred_score": -2.455799724077372,
+        "win_prob": 0.011232055383938283,
+        "pred_rank": 5
+      },
+      {
+        "horse_id": "HK_2022_H037",
+        "horse_name": "有財有勢",
+        "jockey": "艾兆禮",
+        "trainer": "蔡約翰",
+        "draw": 1.0,
+        "pred_score": -2.640288354698497,
+        "win_prob": 0.009339784204740733,
+        "pred_rank": 6
+      },
+      {
+        "horse_id": "HK_2025_L092",
+        "horse_name": "摯友勝",
+        "jockey": "楊明綸",
+        "trainer": "丁冠豪",
+        "draw": 0.1818181818181818,
+        "pred_score": -2.7518559585383606,
+        "win_prob": 0.00835379180121161,
+        "pred_rank": 7
+      },
+      {
+        "horse_id": "HK_2025_L185",
+        "horse_name": "喜豐年",
+        "jockey": "希威森",
+        "trainer": "韋達",
+        "draw": 0.7272727272727273,
+        "pred_score": -3.035881588258614,
+        "win_prob": 0.00628829465547395,
+        "pred_rank": 8
+      },
+      {
+        "horse_id": "HK_2025_L384",
+        "horse_name": "傲聖",
+        "jockey": "潘明輝",
+        "trainer": "賀賢",
+        "draw": 0.5454545454545454,
+        "pred_score": -3.223288319665421,
+        "win_prob": 0.00521366562166779,
+        "pred_rank": 9
+      },
+      {
+        "horse_id": "HK_2022_H381",
+        "horse_name": "我做到",
+        "jockey": "梁家俊",
+        "trainer": "伍鵬志",
+        "draw": 0.2727272727272727,
+        "pred_score": -3.2238914962605603,
+        "win_prob": 0.005210521808822397,
+        "pred_rank": 10
+      },
+      {
+        "horse_id": "HK_2025_L134",
+        "horse_name": "大文豪",
+        "jockey": "黃智弘 (-3)",
+        "trainer": "姚本輝",
+        "draw": 0.0909090909090909,
+        "pred_score": -3.8097651397037064,
+        "win_prob": 0.0029002773273798742,
+        "pred_rank": 11
+      },
+      {
+        "horse_id": "HK_2025_L381",
+        "horse_name": "勝兄弟",
+        "jockey": "黃寶妮 (-7)",
+        "trainer": "徐雨石",
+        "draw": 0.3636363636363636,
+        "pred_score": -3.8232197651060575,
+        "win_prob": 0.0028615165231550164,
+        "pred_rank": 12
+      }
+    ],
+    "betting_recommendations": [
+      {
+        "rank": 1,
+        "horse_name": "富國兄弟",
+        "win_prob": 0.8014853898548785,
+        "implied_odds": 1.2476833797071032,
+        "recommendation": "BET"
+      },
+      {
+        "rank": 2,
+        "horse_name": "傲視同群",
+        "win_prob": 0.08691555703257646,
+        "implied_odds": 11.505420135835914,
+        "recommendation": "WATCH"
+      },
+      {
+        "rank": 3,
+        "horse_name": "勁好運",
+        "win_prob": 0.03459443686632938,
+        "implied_odds": 28.906381793810777,
+        "recommendation": "WATCH"
+      }
+    ]
+  },
+  {
+    "race_id": 865,
+    "race_date": "15/07/2026",
+    "race_no": 8,
+    "course": "跑馬地",
+    "predictions": [
+      {
+        "horse_id": "HK_2024_K173",
+        "horse_name": "翠紅",
+        "jockey": "艾兆禮",
+        "trainer": "廖康銘",
+        "draw": 0.2,
+        "pred_score": 1.6792910946271906,
+        "win_prob": 0.6919803098361437,
+        "pred_rank": 1
+      },
+      {
+        "horse_id": "HK_2020_E356",
+        "horse_name": "幸運有您",
+        "jockey": "霍宏聲",
+        "trainer": "羅富全",
+        "draw": 0.5,
+        "pred_score": 0.06339962076132727,
+        "win_prob": 0.13750579028078674,
+        "pred_rank": 2
+      },
+      {
+        "horse_id": "HK_2021_G404",
+        "horse_name": "維港智能",
+        "jockey": "潘頓",
+        "trainer": "伍鵬志",
+        "draw": 0.6,
+        "pred_score": -1.0736282719113046,
+        "win_prob": 0.044107866034676056,
+        "pred_rank": 3
+      },
+      {
+        "horse_id": "HK_2024_K533",
+        "horse_name": "興馳千里",
+        "jockey": "田泰安",
+        "trainer": "呂健威",
+        "draw": 0.9,
+        "pred_score": -1.192966870962169,
+        "win_prob": 0.0391460504807233,
+        "pred_rank": 4
+      },
+      {
+        "horse_id": "HK_2023_J316",
+        "horse_name": "天天同樂",
+        "jockey": "莫雷拉",
+        "trainer": "羅富全",
+        "draw": 0.0,
+        "pred_score": -1.979859143811195,
+        "win_prob": 0.01782152974760374,
+        "pred_rank": 5
+      },
+      {
+        "horse_id": "HK_2023_J537",
+        "horse_name": "友愛心得",
+        "jockey": "楊明綸",
+        "trainer": "大衛希斯",
+        "draw": 0.4,
+        "pred_score": -2.0147625161106912,
+        "win_prob": 0.017210228554749293,
+        "pred_rank": 6
+      },
+      {
+        "horse_id": "HK_2023_J333",
+        "horse_name": "魔術控制",
+        "jockey": "梁家俊",
+        "trainer": "巫偉傑",
+        "draw": 0.8,
+        "pred_score": -2.0333640810952005,
+        "win_prob": 0.016893050519535564,
+        "pred_rank": 7
+      },
+      {
+        "horse_id": "HK_2021_G268",
+        "horse_name": "勇敢巨星",
+        "jockey": "何澤堯",
+        "trainer": "呂健威",
+        "draw": 0.7,
+        "pred_score": -2.3857715618309094,
+        "win_prob": 0.011875706522242367,
+        "pred_rank": 8
+      },
+      {
+        "horse_id": "HK_2023_J195",
+        "horse_name": "競駿輝煌",
+        "jockey": "布文",
+        "trainer": "蔡約翰",
+        "draw": 0.3,
+        "pred_score": -2.501421308350746,
+        "win_prob": 0.010578727004347846,
+        "pred_rank": 9
+      },
+      {
+        "horse_id": "HK_2023_J141",
+        "horse_name": "昇瀧駒",
+        "jockey": "巴度",
+        "trainer": "蘇偉賢",
+        "draw": 0.1,
+        "pred_score": -2.7220398020618926,
+        "win_prob": 0.008484378121872917,
+        "pred_rank": 10
+      },
+      {
+        "horse_id": "HK_2021_G265",
+        "horse_name": "小霸王",
+        "jockey": "黃寶妮 (-7)",
+        "trainer": "告東尼",
+        "draw": 1.0,
+        "pred_score": -3.3794888217472003,
+        "win_prob": 0.004396362897318365,
+        "pred_rank": 11
+      }
+    ],
+    "betting_recommendations": [
+      {
+        "rank": 1,
+        "horse_name": "翠紅",
+        "win_prob": 0.6919803098361437,
+        "implied_odds": 1.4451278248607873,
+        "recommendation": "BET"
+      },
+      {
+        "rank": 2,
+        "horse_name": "幸運有您",
+        "win_prob": 0.13750579028078674,
+        "implied_odds": 7.272421022838388,
+        "recommendation": "WATCH"
+      },
+      {
+        "rank": 3,
+        "horse_name": "維港智能",
+        "win_prob": 0.044107866034676056,
+        "implied_odds": 22.671693053883747,
+        "recommendation": "WATCH"
+      }
+    ]
+  },
+  {
+    "race_id": 866,
+    "race_date": "15/07/2026",
+    "race_no": 9,
+    "course": "跑馬地",
+    "predictions": [
+      {
+        "horse_id": "HK_2020_E061",
+        "horse_name": "人和家興",
+        "jockey": "布文",
+        "trainer": "大衛希斯",
+        "draw": 0.5454545454545454,
+        "pred_score": 1.7250439090942224,
+        "win_prob": 0.6198429425974119,
+        "pred_rank": 1
+      },
+      {
+        "horse_id": "HK_2025_L096",
+        "horse_name": "繼往開來",
+        "jockey": "艾兆禮",
+        "trainer": "文家良",
+        "draw": 0.4545454545454545,
+        "pred_score": 0.459820202076752,
+        "win_prob": 0.17490490400507894,
+        "pred_rank": 2
+      },
+      {
+        "horse_id": "HK_2025_L121",
+        "horse_name": "傑出雷霆",
+        "jockey": "何澤堯",
+        "trainer": "呂健威",
+        "draw": 0.0,
+        "pred_score": -0.40165919003307937,
+        "win_prob": 0.0739037099082867,
+        "pred_rank": 3
+      },
+      {
+        "horse_id": "HK_2024_K370",
+        "horse_name": "逍遙騎士",
+        "jockey": "梁家俊",
+        "trainer": "巫偉傑",
+        "draw": 0.8181818181818182,
+        "pred_score": -0.9639955375598723,
+        "win_prob": 0.04211595640611885,
+        "pred_rank": 4
+      },
+      {
+        "horse_id": "HK_2025_L155",
+        "horse_name": "國千金",
+        "jockey": "奧爾民",
+        "trainer": "黎昭昇",
+        "draw": 0.6363636363636364,
+        "pred_score": -1.5855110664035639,
+        "win_prob": 0.02262173459913006,
+        "pred_rank": 5
+      },
+      {
+        "horse_id": "HK_2022_H177",
+        "horse_name": "勇冠群英",
+        "jockey": "楊明綸",
+        "trainer": "蘇偉賢",
+        "draw": 0.1818181818181818,
+        "pred_score": -1.7762020560968734,
+        "win_prob": 0.018694328000433334,
+        "pred_rank": 6
+      },
+      {
+        "horse_id": "HK_2023_J290",
+        "horse_name": "東來欣賞",
+        "jockey": "鍾易禮 (-2)",
+        "trainer": "告東尼",
+        "draw": 0.7272727272727273,
+        "pred_score": -2.0806895012053404,
+        "win_prob": 0.013787090967867593,
+        "pred_rank": 7
+      },
+      {
+        "horse_id": "HK_2025_L397",
+        "horse_name": "駿毅快車",
+        "jockey": "潘明輝",
+        "trainer": "姚本輝",
+        "draw": 0.2727272727272727,
+        "pred_score": -2.527948169382452,
+        "win_prob": 0.008815169542560227,
+        "pred_rank": 8
+      },
+      {
+        "horse_id": "HK_2024_K011",
+        "horse_name": "競駿皇者",
+        "jockey": "霍宏聲",
+        "trainer": "游達榮",
+        "draw": 0.3636363636363636,
+        "pred_score": -2.656671053661207,
+        "win_prob": 0.007750452004314739,
+        "pred_rank": 9
+      },
+      {
+        "horse_id": "HK_2025_L168",
+        "horse_name": "丞匡掠影",
+        "jockey": "巴度",
+        "trainer": "徐雨石",
+        "draw": 1.0,
+        "pred_score": -2.678482921354006,
+        "win_prob": 0.007583230506914151,
+        "pred_rank": 10
+      },
+      {
+        "horse_id": "HK_2024_K174",
+        "horse_name": "佛亮老撾",
+        "jockey": "田泰安",
+        "trainer": "桂福特",
+        "draw": 0.9090909090909092,
+        "pred_score": -2.8193070293836553,
+        "win_prob": 0.00658711316181755,
+        "pred_rank": 11
+      },
+      {
+        "horse_id": "HK_2024_K203",
+        "horse_name": "龍城精將",
+        "jockey": "金誠剛",
+        "trainer": "韋達",
+        "draw": 0.0909090909090909,
+        "pred_score": -3.4825991915238257,
+        "win_prob": 0.0033933683000660175,
+        "pred_rank": 12
+      }
+    ],
+    "betting_recommendations": [
+      {
+        "rank": 1,
+        "horse_name": "人和家興",
+        "win_prob": 0.6198429425974119,
+        "implied_odds": 1.6133119073834485,
+        "recommendation": "BET"
+      },
+      {
+        "rank": 2,
+        "horse_name": "繼往開來",
+        "win_prob": 0.17490490400507894,
+        "implied_odds": 5.717392577917436,
+        "recommendation": "WATCH"
+      },
+      {
+        "rank": 3,
+        "horse_name": "傑出雷霆",
+        "win_prob": 0.0739037099082867,
+        "implied_odds": 13.531120443628389,
+        "recommendation": "WATCH"
+      }
+    ]
+  }
+]
