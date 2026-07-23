@@ -339,27 +339,6 @@ def extract_exceptional(exceptionals, row):
 
 def extract_career(careers, race_date, cur_distance, cur_course, row):
     """Section 2.5 career historical-form features (leakage-safe)."""
-    # --- basic_info aggregates (from the most recent career entry) ---
-    basic = None
-    for c in careers:
-        bi = c.get("basic_info", {})
-        if bi:
-            basic = bi
-            break
-
-    total_runs = 0
-    win_rate = 0.0
-    top3_rate = 0.0
-    if basic:
-        m = re.match(r"(\d+)-(\d+)-(\d+)-(\d+)",
-                     str(basic.get("冠-亞-季-總出賽次數*", "")))
-        if m:
-            wins, place, show, total = (int(m.group(i)) for i in range(1, 5))
-            total_runs = total
-            if total > 0:
-                win_rate = wins / total
-                top3_rate = (wins + place + show) / total
-
     # --- career_records: filter to strictly before race_date ---
     records = []
     for c in careers:
@@ -372,6 +351,13 @@ def extract_career(careers, race_date, cur_distance, cur_course, row):
 
     def rank_of(rec):
         return to_int(rec.get("名次"))
+
+    # Compute career aggregates from filtered records (leakage-safe).
+    total_runs = len(records)
+    wins = sum(1 for r in records if rank_of(r) == 1)
+    top3 = sum(1 for r in records if rank_of(r) is not None and 1 <= rank_of(r) <= 3)
+    win_rate = wins / total_runs if total_runs > 0 else 0.0
+    top3_rate = top3 / total_runs if total_runs > 0 else 0.0
 
     avg_rank3 = avg_rank5 = 14.0
     avg_margin3 = 20.0
