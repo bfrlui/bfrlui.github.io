@@ -37,17 +37,17 @@
     "f_best_time_sec_pct"
   ],
   "best_params": {
-    "n_estimators": 386,
-    "learning_rate": 0.008359566229214835,
-    "num_leaves": 4,
-    "max_depth": 3,
-    "min_child_samples": 29,
-    "subsample": 0.9990108093352523,
-    "colsample_bytree": 0.6954888777519316,
-    "reg_alpha": 0.3136950071660084,
-    "reg_lambda": 0.3226783053101548,
-    "min_split_gain": 0.44765694791599314,
-    "min_child_weight": 0.006398606480420762,
+    "n_estimators": 460,
+    "learning_rate": 0.006691971872744539,
+    "num_leaves": 13,
+    "max_depth": 2,
+    "min_child_samples": 30,
+    "subsample": 0.5256064759792315,
+    "colsample_bytree": 0.5855144703491416,
+    "reg_alpha": 0.010162938627193249,
+    "reg_lambda": 0.026450446733624962,
+    "min_split_gain": 0.417308225557793,
+    "min_child_weight": 0.0027990172754361756,
     "objective": "lambdarank",
     "metric": "ndcg",
     "random_state": 42,
@@ -57,5 +57,12 @@
       3,
       5
     ]
+  },
+  "dual_ensemble": {
+    "use_classifier": true,
+    "classifier_type": "lgbm",
+    "fusion_method": "rank_then_prob",
+    "bet_threshold_rank": 1,
+    "bet_threshold_prob": 0.2
   }
 }
