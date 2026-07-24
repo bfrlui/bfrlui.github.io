@@ -1054,6 +1054,9 @@ def make_fusion_betting_decisions(df_eval: pd.DataFrame,
         'bankroll_history': [],
     }
     
+    # Ensure chronological order (race_date + race_no) for dynamic bankroll
+    df_eval = df_eval.sort_values(['race_date', 'race_no']).reset_index(drop=True)
+    
     for race_id, group in df_eval.groupby('race_id'):
         results['total_races'] += 1
         
@@ -1386,6 +1389,9 @@ def simulate_betting(df_eval: pd.DataFrame, kelly_fraction: float = 0.25,
         'max_drawdown': 0.0,
         'bankroll_history': [],
     }
+    
+    # Ensure chronological order (race_date + race_no) for dynamic bankroll
+    df_eval = df_eval.sort_values(['race_date', 'race_no']).reset_index(drop=True)
     
     for race_id, group in df_eval.groupby('race_id'):
         results['total_races'] += 1
@@ -1871,6 +1877,25 @@ def train_pipeline(config: ModelConfig, data_path: str = 'hkjc_features_selected
     if len(final_features) == 0:
         final_features = feature_cols
     
+    # ── Classifier-specific feature selection (full dataset) ──
+    print("\n=== Classifier Feature Selection (on full dataset) ===")
+    quick_clf = lgb.LGBMClassifier(
+        objective='binary', metric='binary_logloss', random_state=42, verbose=-1,
+        n_estimators=100, learning_rate=0.05, num_leaves=16, max_depth=5,
+        min_child_samples=10, class_weight='balanced'
+    )
+    quick_clf.fit(df_sorted[feature_cols], df_sorted['target_won'])
+    clf_final_features = _select_clf_features(
+        quick_clf, feature_cols, config.feature_selection_threshold
+    )
+    if len(clf_final_features) == 0:
+        clf_final_features = feature_cols
+    
+    # Combined feature set: union of Ranker and Classifier selections
+    # Both models need their respective features accessible at prediction time.
+    union_features = list(dict.fromkeys(final_features + clf_final_features))
+    print(f"  Ranker features: {len(final_features)} | Clf features: {len(clf_final_features)} | Union: {len(union_features)}")
+    
     X_all = df_sorted[final_features]
     y_all = df_sorted['relevance']
     groups_all = df_sorted.groupby('race_id', sort=False).size().values
@@ -1949,19 +1974,20 @@ def train_pipeline(config: ModelConfig, data_path: str = 'hkjc_features_selected
     
     # Train final classifier on full dataset
     print("\n--- Training Final Classifier ---")
+    print(f"  Using classifier-specific features ({len(clf_final_features)} features)")
     clf_model, clf_calibrator = train_binary_classifier(
-        df, final_features, clf_best_params, dual_config, config
+        df, clf_final_features, clf_best_params, dual_config, config
     )
     
     # Evaluate classifier
-    clf_metrics = evaluate_classifier(clf_model, clf_calibrator, df, final_features)
+    clf_metrics = evaluate_classifier(clf_model, clf_calibrator, df, clf_final_features)
     
-    # Create dual ensemble predictor
+    # Create dual ensemble predictor (uses union of Ranker + Classifier features)
     dual_predictor = DualEnsemblePredictor(
         ranker_models=models,
         classifier_model=clf_model,
         classifier_calibrator=clf_calibrator,
-        feature_cols=final_features,
+        feature_cols=union_features,
         ranker_weights=weights,
         dual_config=dual_config,
     )
@@ -1999,7 +2025,7 @@ def train_pipeline(config: ModelConfig, data_path: str = 'hkjc_features_selected
     clf_save_data = {
         'model': clf_model,
         'calibrator': clf_calibrator,
-        'feature_cols': final_features,
+        'feature_cols': clf_final_features,
         'params': clf_best_params,
         'metrics': clf_metrics,
         'dual_config': asdict(dual_config),
