@@ -2,265 +2,317 @@
   {
     "name": "f_horse_age",
     "dtype": "int",
-    "imputation": 0
+    "imputation": 0,
+    "f_spec": "Directly extracted from starters.馬齡 (e.g., 3, 6, 8)."
   },
   {
     "name": "f_draw",
     "dtype": "int",
-    "imputation": 0
+    "imputation": 0,
+    "f_spec": "Directly extracted from starters.檔位 (barrier number, 1-14)."
   },
   {
     "name": "f_declared_weight",
     "dtype": "int",
-    "imputation": 0.0
+    "imputation": 0.0,
+    "f_spec": "Directly extracted from starters.負磅 (declared carrying weight in lbs)."
   },
   {
     "name": "f_horse_weight",
     "dtype": "int",
-    "imputation": 0.0
+    "imputation": 0.0,
+    "f_spec": "Directly extracted from starters.排位體重 (horse body weight in lbs at declaration)."
   },
   {
     "name": "f_weight_change",
     "dtype": "int",
-    "imputation": 0.0
+    "imputation": 0.0,
+    "f_spec": "Directly extracted from starters.排位體重+/- (weight change in lbs since last run)."
   },
   {
     "name": "f_weight_change_pct",
     "dtype": "float",
-    "imputation": 0.0
+    "imputation": 0.0,
+    "f_spec": "Computed as 排位體重+/- ÷ 排位體重 (weight change as a fraction of declared weight)."
   },
   {
     "name": "f_current_rating",
     "dtype": "int",
-    "imputation": 40
+    "imputation": 40,
+    "f_spec": "Directly extracted from starters.評分 (current HKJC official rating)."
   },
   {
     "name": "f_rating_change",
     "dtype": "int",
-    "imputation": 0
+    "imputation": 0,
+    "f_spec": "Directly extracted from starters.評分+/- (rating adjustment since last run)."
   },
   {
     "name": "f_days_since_last_run",
     "dtype": "int",
-    "imputation": 60
+    "imputation": 60,
+    "f_spec": "Directly extracted from starters.上賽距今日數 (days since the horse's most recent race)."
   },
   {
     "name": "f_gallop_count_7d",
     "dtype": "int",
-    "imputation": 0
+    "imputation": 0,
+    "f_spec": "Count of 'gallop' (快操) workout entries in trackwork data within the 7 days before race_date."
   },
   {
     "name": "f_gallop_count_14d",
     "dtype": "int",
-    "imputation": 0
+    "imputation": 0,
+    "f_spec": "Count of 'gallop' (快操) workout entries in trackwork data within the 14 days before race_date."
   },
   {
     "name": "f_gallop_count_28d",
     "dtype": "int",
-    "imputation": 0
+    "imputation": 0,
+    "f_spec": "Count of 'gallop' (快操) workout entries in trackwork data within the 28 days before race_date."
   },
   {
     "name": "f_gallop_last_time_sec",
     "dtype": "float",
-    "imputation": 30.0
+    "imputation": 30.0,
+    "f_spec": "Parsed from the most recent gallop's time string — extracts the final sectional time (seconds) from the last gallop entry in trackwork."
   },
   {
     "name": "f_swim_count_14d",
     "dtype": "int",
-    "imputation": 0
+    "imputation": 0,
+    "f_spec": "Count of 'swim' (游泳) entries in trackwork data within the 14 days before race_date."
   },
   {
     "name": "f_trot_count_14d",
     "dtype": "int",
-    "imputation": 0
+    "imputation": 0,
+    "f_spec": "Count of 'trot' (踱步) entries in trackwork data within the 14 days before race_date."
   },
   {
     "name": "f_intensity_score_14d",
     "dtype": "float",
-    "imputation": 0.0
+    "imputation": 0.0,
+    "f_spec": "Weighted composite: 3.0×gallop_14d + 2.5×trial_14d + 1.0×swim_14d + 0.5×trot_14d. Measures overall training exertion."
   },
   {
     "name": "f_has_partner_gallop",
     "dtype": "int",
-    "imputation": 0
+    "imputation": 0,
+    "f_spec": "Binary (0/1). Set to 1 if any gallop record's text contains the keyword '伴跳馬' (companion horse)."
   },
   {
     "name": "f_gallop_jockey_match_flag",
     "dtype": "int",
-    "imputation": 0
+    "imputation": 0,
+    "f_spec": "Binary (0/1). Set to 1 if the race jockey's name appears in any gallop workout record."
   },
   {
     "name": "f_vet_days_since_injury",
     "dtype": "int",
-    "imputation": 9999
+    "imputation": 9999,
+    "f_spec": "Minimum value of vet[].特徵_傷患距今日數 (days since each vet-recorded injury). Defaults to 9999 if no vet records exist."
   },
   {
     "name": "f_vet_recovery_days",
     "dtype": "int",
-    "imputation": 0
+    "imputation": 0,
+    "f_spec": "Minimum value of vet[].特徵_康復期耗時天數 (recovery duration of the most recent injury). Defaults to 0 if no data."
   },
   {
     "name": "f_vet_tendon_issue",
     "dtype": "int",
-    "imputation": 0
+    "imputation": 0,
+    "f_spec": "Binary (0/1). Set to 1 if any vet record's 傷患詳情 matches regex: 肌腱|腿患|韌帶|骨折 (tendon/ligament/fracture)."
   },
   {
     "name": "f_vet_total_incidents_count",
     "dtype": "int",
-    "imputation": 0
+    "imputation": 0,
+    "f_spec": "Total count of vet records for this horse (regardless of date)."
   },
   {
     "name": "f_vet_recent_90d_flag",
     "dtype": "int",
-    "imputation": 0
+    "imputation": 0,
+    "f_spec": "Binary (0/1). Set to 1 if any vet record has 特徵_傷患距今日數 ≤ 90 days."
   },
   {
     "name": "f_incident_last_days",
     "dtype": "int",
-    "imputation": 9999
+    "imputation": 9999,
+    "f_spec": "Minimum days since any racing incident (computed from incidents[].上次事件日期 vs race_date). Defaults to 9999 if no incidents."
   },
   {
     "name": "f_incident_slow_out_flag",
     "dtype": "int",
-    "imputation": 0
+    "imputation": 0,
+    "f_spec": "Binary (0/1). Set to 1 if any incident's 競賽事件摘要 matches: 慢閘|失去平衡|向內斜跑|向外斜跑 (slow start / imbalance)."
   },
   {
     "name": "f_incident_gear_lost_flag",
     "dtype": "int",
-    "imputation": 0
+    "imputation": 0,
+    "f_spec": "Binary (0/1). Set to 1 if any incident's 競賽事件摘要 matches: 失去蹄鐵|配備脫落 (lost shoe / gear脱落)."
   },
   {
     "name": "f_incident_blocked_flag",
     "dtype": "int",
-    "imputation": 0
+    "imputation": 0,
+    "f_spec": "Binary (0/1). Set to 1 if any incident's 競賽事件摘要 matches: 受阻|受擠壓|無通路 (blocked / crowded / no clear run)."
   },
   {
     "name": "f_incident_count_last_5",
     "dtype": "int",
-    "imputation": 0
+    "imputation": 0,
+    "f_spec": "Count of incident records where days_since_last ≤ 9999 (effectively counts all dated incidents, proxy for recent event frequency)."
   },
   {
     "name": "f_exp_distance_delta",
     "dtype": "int",
-    "imputation": 0
+    "imputation": 0,
+    "f_spec": "Extracted from exceptional[].途程 (distance change in meters vs last run, e.g., +450)."
   },
   {
     "name": "f_exp_gear_first_time",
     "dtype": "int",
-    "imputation": 0
+    "imputation": 0,
+    "f_spec": "Binary (0/1). Set to 1 if exceptional[].配備 contains '1' or '+' (indicating first-time gear, e.g., CP1)."
   },
   {
     "name": "f_exp_gear_removed",
     "dtype": "int",
-    "imputation": 0
+    "imputation": 0,
+    "f_spec": "Binary (0/1). Set to 1 if exceptional[].配備 contains '-' (indicating gear removed, e.g., B-)."
   },
   {
     "name": "f_exp_rating_drop",
     "dtype": "int",
-    "imputation": 0
+    "imputation": 0,
+    "f_spec": "Extracted from exceptional[].評分 (cumulative rating drop, e.g., -18 indicates a heavily dropped horse)."
   },
   {
     "name": "f_career_total_runs",
     "dtype": "int",
-    "imputation": 0
+    "imputation": 0,
+    "f_spec": "Count of career_records entries with a race_date strictly before the current race_date (leakage-safe)."
   },
   {
     "name": "f_career_win_rate",
     "dtype": "float",
-    "imputation": 0.0
+    "imputation": 0.0,
+    "f_spec": "Historical win rate = Wins ÷ Total runs (computed from leakage-filtered career_records)."
   },
   {
     "name": "f_career_top3_rate",
     "dtype": "float",
-    "imputation": 0.0
+    "imputation": 0.0,
+    "f_spec": "Historical top-3 rate = (Wins + 2nd + 3rd) ÷ Total runs (computed from leakage-filtered career_records)."
   },
   {
     "name": "f_career_avg_rank_last3",
     "dtype": "float",
-    "imputation": 14.0
+    "imputation": 14.0,
+    "f_spec": "Average finishing position (名次) of the 3 most recent career_records before race_date. Imputed to 14.0 if insufficient history."
   },
   {
     "name": "f_career_avg_rank_last5",
     "dtype": "float",
-    "imputation": 14.0
+    "imputation": 14.0,
+    "f_spec": "Average finishing position (名次) of the 5 most recent career_records before race_date. Imputed to 14.0 if insufficient history."
   },
   {
     "name": "f_career_avg_margin_last3",
     "dtype": "float",
-    "imputation": 20.0
+    "imputation": 20.0,
+    "f_spec": "Average beaten margin (in lengths) behind the winner from the 3 most recent career_records. Parsed via parse_margin_to_lengths()."
   },
   {
     "name": "f_course_cd_win_rate",
     "dtype": "float",
-    "imputation": 0.0
+    "imputation": 0.0,
+    "f_spec": "Win rate filtered to career_records matching the same course (馬場) AND same distance (途程) as the current race."
   },
   {
     "name": "f_best_time_sec",
     "dtype": "float",
-    "imputation": 999.0
+    "imputation": 999.0,
+    "f_spec": "Minimum finishing time (parsed via parse_time_to_sec) among career_records with the same distance (途程) as the current race. Default 999.0 if no matching record."
   },
   {
     "name": "f_pace_style_code",
     "dtype": "int",
-    "imputation": 3
+    "imputation": 3,
+    "f_spec": "Pace style coded from most recent race's 沿途走位: 1=Front-runner (avg pos ≤3), 2=Pace-tracker (avg pos 4-7), 3=Closer (avg pos >7). Position averaged from first two bends."
   },
   {
     "name": "f_import_ISG",
     "dtype": "int (0/1)",
     "imputation": 0,
-    "note": "one-hot of f_is_imported_type=ISG"
+    "note": "one-hot of f_is_imported_type=ISG",
+    "f_spec": "One-hot encoding: 1 if f_is_imported_type == 'ISG' (International Sale Griffin)."
   },
   {
     "name": "f_import_PP",
     "dtype": "int (0/1)",
     "imputation": 0,
-    "note": "one-hot of f_is_imported_type=PP"
+    "note": "one-hot of f_is_imported_type=PP",
+    "f_spec": "One-hot encoding: 1 if f_is_imported_type == 'PP' (Private Purchase)."
   },
   {
     "name": "f_import_PPG",
     "dtype": "int (0/1)",
     "imputation": 0,
-    "note": "one-hot of f_is_imported_type=PPG"
+    "note": "one-hot of f_is_imported_type=PPG",
+    "f_spec": "One-hot encoding: 1 if f_is_imported_type == 'PPG' (Private Purchase Griffin)."
   },
   {
     "name": "f_declared_weight_z",
     "dtype": "float",
-    "note": "in-race Z-score (grouped by race_id)"
+    "note": "in-race Z-score (grouped by race_id)",
+    "f_spec": "In-race Z-score of f_declared_weight: (value - race_mean) / race_stdev. Standardizes declared weight relative to the same race's field."
   },
   {
     "name": "f_horse_weight_z",
     "dtype": "float",
-    "note": "in-race Z-score (grouped by race_id)"
+    "note": "in-race Z-score (grouped by race_id)",
+    "f_spec": "In-race Z-score of f_horse_weight: (value - race_mean) / race_stdev. Standardizes horse weight relative to the same race's field."
   },
   {
     "name": "f_current_rating_z",
     "dtype": "float",
-    "note": "in-race Z-score (grouped by race_id)"
+    "note": "in-race Z-score (grouped by race_id)",
+    "f_spec": "In-race Z-score of f_current_rating: (value - race_mean) / race_stdev. Standardizes rating relative to the same race's field."
   },
   {
     "name": "f_intensity_score_14d_z",
     "dtype": "float",
-    "note": "in-race Z-score (grouped by race_id)"
+    "note": "in-race Z-score (grouped by race_id)",
+    "f_spec": "In-race Z-score of f_intensity_score_14d: (value - race_mean) / race_stdev. Standardizes training intensity relative to the same race's field."
   },
   {
     "name": "f_career_avg_rank_last3_z",
     "dtype": "float",
-    "note": "in-race Z-score (grouped by race_id)"
+    "note": "in-race Z-score (grouped by race_id)",
+    "f_spec": "In-race Z-score of f_career_avg_rank_last3: (value - race_mean) / race_stdev. Standardizes recent form rank relative to the same race's field."
   },
   {
     "name": "f_draw_pct",
     "dtype": "float",
-    "note": "in-race percentile rank (grouped by race_id)"
+    "note": "in-race percentile rank (grouped by race_id)",
+    "f_spec": "In-race percentile rank of f_draw: (rank(barrier) - 1) / (N - 1). Lower draw → lower percentile (more favorable)."
   },
   {
     "name": "f_rating_change_pct",
     "dtype": "float",
-    "note": "in-race percentile rank (grouped by race_id)"
+    "note": "in-race percentile rank (grouped by race_id)",
+    "f_spec": "In-race percentile rank of f_rating_change: (rank(rating_change) - 1) / (N - 1). More negative change → lower percentile."
   },
   {
     "name": "f_best_time_sec_pct",
     "dtype": "float",
-    "note": "in-race percentile rank (grouped by race_id)"
+    "note": "in-race percentile rank (grouped by race_id)",
+    "f_spec": "In-race percentile rank of f_best_time_sec: (rank(best_time) - 1) / (N - 1). Faster time → lower percentile (more favorable)."
   },
   {
     "name": "target_finish_position",
