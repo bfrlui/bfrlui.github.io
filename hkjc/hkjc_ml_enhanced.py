@@ -428,11 +428,13 @@ class TimeSeriesGroupKFold:
     """
     
     def __init__(self, n_splits: int = 5, date_col: str = 'race_date', 
-                 group_col: str = 'race_id', date_format: str = '%d/%m/%Y'):
+                 group_col: str = 'race_id', date_format: str = '%d/%m/%Y',
+                 min_train_dates: Optional[int] = None):
         self.n_splits = n_splits
         self.date_col = date_col
         self.group_col = group_col
         self.date_format = date_format
+        self.min_train_dates = min_train_dates
     
     def split(self, X, y=None, groups=None):
         """
@@ -477,6 +479,10 @@ class TimeSeriesGroupKFold:
             # Validation: dates from split_point to next split_point (or end)
             train_dates = unique_dates[:split_point]
             
+            # Skip fold if training set has too few dates (prevents unstable early folds)
+            if self.min_train_dates is not None and len(train_dates) < self.min_train_dates:
+                continue
+            
             if i < len(split_points) - 1:
                 val_dates = unique_dates[split_point:split_points[i + 1]]
             else:
@@ -504,9 +510,32 @@ class TimeSeriesGroupKFold:
 def create_objective(df: pd.DataFrame, feature_cols: List[str], config: ModelConfig):
     """Create Optuna objective function with time-aware cross-validation
     
-    Feature selection is performed INSIDE each CV fold using only training data
-    to prevent data leakage.
+    Feature selection is pre-computed ONCE per CV fold before the Optuna
+    study begins, then reused across all trials — eliminating redundant
+    quick_model training (n_trials × cv_folds -> cv_folds).
     """
+    tscv = TimeSeriesGroupKFold(n_splits=config.cv_folds)
+    
+    # Pre-compute fold-wise feature sets (one quick_model per fold, not per trial)
+    print("  Pre-computing fold-wise feature sets...")
+    fold_features_list = []
+    for fold_idx, (train_idx, _) in enumerate(tscv.split(df)):
+        train_df = df.iloc[train_idx].sort_values('race_id').reset_index(drop=True)
+        quick_model = lgb.LGBMRanker(
+            objective='lambdarank', metric='ndcg', random_state=42, verbose=-1,
+            n_estimators=50, learning_rate=0.05, num_leaves=16, max_depth=5, min_child_samples=10
+        )
+        train_groups = train_df.groupby('race_id', sort=False).size().values
+        quick_model.fit(
+            train_df[feature_cols], train_df['relevance'],
+            group=train_groups
+        )
+        fold_features = select_features_by_importance(quick_model, feature_cols,
+                                                      config.feature_selection_threshold)
+        if len(fold_features) == 0:
+            fold_features = feature_cols
+        fold_features_list.append(fold_features)
+        print(f"    Fold {fold_idx+1}: {len(feature_cols)} -> {len(fold_features)} features")
     
     def objective(trial: optuna.Trial) -> float:
         params = {
@@ -530,34 +559,17 @@ def create_objective(df: pd.DataFrame, feature_cols: List[str], config: ModelCon
         
         cv_scores = []
         
-        # Use TimeSeriesGroupKFold for proper time-aware CV (prevents data leakage)
-        tscv = TimeSeriesGroupKFold(n_splits=config.cv_folds)
-        
         for fold_idx, (train_idx, val_idx) in enumerate(tscv.split(df)):
             train_df = df.iloc[train_idx].sort_values('race_id').reset_index(drop=True)
             val_df = df.iloc[val_idx].sort_values('race_id').reset_index(drop=True)
             
-            # ===== FEATURE SELECTION INSIDE CV FOLD (NO LEAKAGE) =====
-            # Train a quick model on training fold only to get feature importance
-            quick_model = lgb.LGBMRanker(
-                objective='lambdarank', metric='ndcg', random_state=42, verbose=-1,
-                n_estimators=100, learning_rate=0.05, num_leaves=16, max_depth=5, min_child_samples=10
-            )
-            train_groups = train_df.groupby('race_id', sort=False).size().values
-            quick_model.fit(
-                train_df[feature_cols], train_df['relevance'],
-                group=train_groups
-            )
-            # Select features based on training fold importance only
-            fold_features = select_features_by_importance(quick_model, feature_cols, 
-                                                          config.feature_selection_threshold)
-            
-            if len(fold_features) == 0:
-                fold_features = feature_cols  # fallback
+            # Use pre-computed fold features (no quick_model inside trial)
+            fold_features = fold_features_list[fold_idx]
             
             X_train, y_train = train_df[fold_features], train_df['relevance']
             X_val, y_val = val_df[fold_features], val_df['relevance']
             
+            train_groups = train_df.groupby('race_id', sort=False).size().values
             val_groups = val_df.groupby('race_id', sort=False).size().values
             
             model = lgb.LGBMRanker(**params, eval_at=[1, 3, 5])
@@ -646,10 +658,29 @@ def optimize_classifier_optuna(df: pd.DataFrame, feature_cols: List[str],
                                 model_config: ModelConfig) -> Dict:
     """Optuna hyper-parameter search for the binary classifier (Model B)
     
-    ⚠️ Feature selection is performed INSIDE each CV fold using ONLY the
-    training fold to prevent data leakage — identical to the ranker's approach.
+    Feature selection is pre-computed ONCE per CV fold before the Optuna
+    study begins, then reused across all trials.
     """
     feat_threshold = model_config.feature_selection_threshold
+    tscv = TimeSeriesGroupKFold(n_splits=model_config.cv_folds)
+    
+    # Pre-compute fold-wise feature sets (one quick_clf per fold, not per trial)
+    print("  Pre-computing classifier fold-wise feature sets...")
+    fold_features_list = []
+    for fold_idx, (train_idx, _) in enumerate(tscv.split(df)):
+        train_df = df.iloc[train_idx].reset_index(drop=True)
+        quick_clf = lgb.LGBMClassifier(
+            objective='binary', metric='binary_logloss',
+            random_state=model_config.random_state, verbose=-1,
+            n_estimators=50, learning_rate=0.05, num_leaves=12,
+            max_depth=4, min_child_samples=10
+        )
+        quick_clf.fit(train_df[feature_cols], train_df['target_won'])
+        fold_features = _select_clf_features(quick_clf, feature_cols, feat_threshold)
+        if len(fold_features) == 0:
+            fold_features = feature_cols
+        fold_features_list.append(fold_features)
+        print(f"    Fold {fold_idx+1}: {len(feature_cols)} -> {len(fold_features)} features")
     
     def objective(trial: optuna.Trial) -> float:
         params = {
@@ -666,26 +697,13 @@ def optimize_classifier_optuna(df: pd.DataFrame, feature_cols: List[str],
         }
         
         cv_scores = []
-        tscv = TimeSeriesGroupKFold(n_splits=model_config.cv_folds)
         
         for fold_idx, (train_idx, val_idx) in enumerate(tscv.split(df)):
             train_df = df.iloc[train_idx].reset_index(drop=True)
             val_df = df.iloc[val_idx].reset_index(drop=True)
             
-            # ===== IN-FOLD FEATURE SELECTION (NO LEAKAGE) =====
-            # Train a quick classifier on training fold only to get feature importance
-            quick_clf = lgb.LGBMClassifier(
-                objective='binary', metric='binary_logloss',
-                random_state=model_config.random_state, verbose=-1,
-                n_estimators=100, learning_rate=0.05, num_leaves=12,
-                max_depth=4, min_child_samples=10
-            )
-            quick_clf.fit(train_df[feature_cols], train_df['target_won'])
-            
-            # Select features based on training-fold importance only
-            fold_features = _select_clf_features(quick_clf, feature_cols, feat_threshold)
-            if len(fold_features) == 0:
-                fold_features = feature_cols  # fallback
+            # Use pre-computed fold features (no quick_clf inside trial)
+            fold_features = fold_features_list[fold_idx]
             
             X_tr, y_tr = train_df[fold_features], train_df['target_won']
             X_val, y_val = val_df[fold_features], val_df['target_won']
@@ -889,11 +907,16 @@ class DualEnsemblePredictor:
                  classifier_calibrator,
                  feature_cols: List[str],
                  ranker_weights: Optional[Dict[str, float]] = None,
-                 dual_config: Optional[DualEnsembleConfig] = None):
+                 dual_config: Optional[DualEnsembleConfig] = None,
+                 ranker_feature_cols: Optional[List[str]] = None,
+                 classifier_feature_cols: Optional[List[str]] = None):
         self.ranker_models = ranker_models
         self.classifier_model = classifier_model
         self.classifier_calibrator = classifier_calibrator
+        # feature_cols kept for backward compatibility; use per-model cols when provided
         self.feature_cols = feature_cols
+        self.ranker_feature_cols = ranker_feature_cols or feature_cols
+        self.classifier_feature_cols = classifier_feature_cols or feature_cols
         self.ranker_weights = ranker_weights
         self.dual_config = dual_config or DualEnsembleConfig()
     
@@ -906,22 +929,22 @@ class DualEnsemblePredictor:
             clf_probs: Win probabilities from Classifier
             fused_scores: Combined scores (depends on fusion_method)
         """
-        X_use = X[self.feature_cols].fillna(0)
-        
-        # Model A: Ranker scores
+        # Model A: Ranker scores (uses ranker-specific features)
         if self.ranker_models and self.dual_config.use_ranker:
-            ranker_scores = ensemble_predict(self.ranker_models, X_use, self.ranker_weights)
+            X_ranker = X[self.ranker_feature_cols].fillna(0)
+            ranker_scores = ensemble_predict(self.ranker_models, X_ranker, self.ranker_weights)
         else:
-            ranker_scores = np.zeros(len(X_use))
+            ranker_scores = np.zeros(len(X))
         
-        # Model B: Classifier probabilities
+        # Model B: Classifier probabilities (uses classifier-specific features)
         if self.classifier_model is not None and self.dual_config.use_classifier:
+            X_clf = X[self.classifier_feature_cols].fillna(0)
             if self.classifier_calibrator is not None:
-                clf_probs = self.classifier_calibrator.predict_proba(X_use)[:, 1]
+                clf_probs = self.classifier_calibrator.predict_proba(X_clf)[:, 1]
             else:
-                clf_probs = self.classifier_model.predict_proba(X_use)[:, 1]
+                clf_probs = self.classifier_model.predict_proba(X_clf)[:, 1]
         else:
-            clf_probs = np.ones(len(X_use)) * 0.5
+            clf_probs = np.ones(len(X)) * 0.5
         
         # Fuse
         fused_scores = self._fuse(ranker_scores, clf_probs)
@@ -1982,7 +2005,7 @@ def train_pipeline(config: ModelConfig, data_path: str = 'hkjc_features_selected
     # Evaluate classifier
     clf_metrics = evaluate_classifier(clf_model, clf_calibrator, df, clf_final_features)
     
-    # Create dual ensemble predictor (uses union of Ranker + Classifier features)
+    # Create dual ensemble predictor (separate feature sets per model)
     dual_predictor = DualEnsemblePredictor(
         ranker_models=models,
         classifier_model=clf_model,
@@ -1990,6 +2013,8 @@ def train_pipeline(config: ModelConfig, data_path: str = 'hkjc_features_selected
         feature_cols=union_features,
         ranker_weights=weights,
         dual_config=dual_config,
+        ranker_feature_cols=final_features,
+        classifier_feature_cols=clf_final_features,
     )
     
     # Evaluate dual fusion on full data
@@ -2050,7 +2075,7 @@ def train_pipeline(config: ModelConfig, data_path: str = 'hkjc_features_selected
     
     # ===== PROBABILITY CALIBRATION =====
     print("\n=== Probability Calibration ===")
-    calibrator = ProbabilityCalibrator(method='isotonic', cv_folds=3)
+    calibrator = ProbabilityCalibrator(method='platt', cv_folds=3)
     calibrator.fit(df_sorted, all_preds)
     
     # Get calibrated probabilities
@@ -2191,13 +2216,19 @@ def predict_pipeline(future_data_path: str, model_dir: str = '.',
             calibrate_classifier=saved_dual.get('calibrate_classifier', True),
         )
         
+        # Load classifier-specific feature cols (saved during training)
+        clf_feature_cols = clf_data.get('feature_cols', feature_cols)
+        # Use union of ranker + classifier features for ensemble scoring context
+        union_fc = list(dict.fromkeys(feature_cols + clf_feature_cols))
         dual_predictor = DualEnsemblePredictor(
             ranker_models=models,
             classifier_model=clf_model,
             classifier_calibrator=clf_calibrator,
-            feature_cols=feature_cols,
+            feature_cols=union_fc,
             ranker_weights=weights,
             dual_config=dual_config,
+            ranker_feature_cols=feature_cols,
+            classifier_feature_cols=clf_feature_cols,
         )
         print(f"  Dual-model active: fusion={dual_config.fusion_method}, "
               f"bet=Top-{dual_config.bet_threshold_rank} AND prob>{dual_config.bet_threshold_prob:.0%}")
